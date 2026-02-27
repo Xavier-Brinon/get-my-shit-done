@@ -17,16 +17,16 @@
 
 ** What Changed From Upstream GSD
 
-| Area | Upstream GSD | This Fork (GMSD) |
-|------+-------------+-------------------|
-| *Document format* | Markdown (~.md~) with YAML frontmatter | Org-mode (~.org~) with ~:PROPERTIES:~ drawers |
-| *Commands* | ~/gsd:*~ | ~/gmsd:*~ |
+| Area                     | Upstream GSD                                     | This Fork (GMSD)                                |
+|--------------------------+--------------------------------------------------+-------------------------------------------------|
+| *Document format*        | Markdown (~.md~) with YAML frontmatter           | Org-mode (~.org~) with ~:PROPERTIES:~ drawers   |
+| *Commands*               | ~/gsd:*~                                         | ~/gmsd:*~                                       |
 | *Architecture decisions* | Decisions captured informally in CONTEXT/SUMMARY | Full [[https://adr.github.io/madr/][MADR 4.0]] ADR workflow (~/gmsd:create-adr~) |
-| *Decisions storage* | Inline in phase files | Centralized ~.planning/decisions/NNN-slug.org~ |
-| *Package paths* | ~get-shit-done/~, ~commands/gsd/~ | ~get-my-shit-done/~, ~commands/gmsd/~ |
-| *Agent names* | ~gsd-planner~, ~gsd-executor~, etc. | ~gmsd-planner~, ~gmsd-executor~, etc. |
-| *Branch templates* | ~gsd/phase-{N}-{slug}~ | ~gmsd/phase-{N}-{slug}~ |
-| *Settings directory* | =~/.gsd/= | =~/.gmsd/= |
+| *Decisions storage*      | Inline in phase files                            | Centralized ~.planning/decisions/NNN-slug.org~  |
+| *Package paths*          | ~get-shit-done/~, ~commands/gsd/~                | ~get-my-shit-done/~, ~commands/gmsd/~           |
+| *Agent names*            | ~gsd-planner~, ~gsd-executor~, etc.              | ~gmsd-planner~, ~gmsd-executor~, etc.           |
+| *Branch templates*       | ~gsd/phase-{N}-{slug}~                           | ~gmsd/phase-{N}-{slug}~                         |
+| *Settings directory*     | =~/.gsd/=                                        | =~/.gmsd/=                                      |
 
 *** Why Org-mode?
 
@@ -118,7 +118,7 @@ Use ~--claude~, ~--opencode~, ~--gemini~, ~--codex~, or ~--all~ to skip the runt
 Clone the repository and run the installer locally:
 
 #+begin_src bash
-git clone https://github.com/glittercowboy/get-my-shit-done.git
+git clone https://github.com/Xavier-Brinon/get-my-shit-done.git
 cd get-my-shit-done
 node bin/install.js --claude --local
 #+end_src
@@ -665,11 +665,11 @@ These community ports pioneered multi-runtime support:
 ** Star History
 
 #+begin_html
-<a href="https://star-history.com/#glittercowboy/get-my-shit-done&Date">
+<a href="https://star-history.com/#Xavier-Brinon/get-my-shit-done&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=glittercowboy/get-my-shit-done&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=glittercowboy/get-my-shit-done&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=glittercowboy/get-my-shit-done&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Xavier-Brinon/get-my-shit-done&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Xavier-Brinon/get-my-shit-done&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Xavier-Brinon/get-my-shit-done&type=Date" />
  </picture>
 </a>
 #+end_html

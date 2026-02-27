@@ -186,7 +186,7 @@ Format completion message (changelog was already shown in confirmation step):
 
 ⚠️  Restart Claude Code to pick up the new commands.
 
-[View full changelog](https://github.com/glittercowboy/get-my-shit-done/blob/main/CHANGELOG.org)
+[View full changelog](https://github.com/Xavier-Brinon/get-my-shit-done/blob/main/CHANGELOG.org)
 ```
 </step>
 
