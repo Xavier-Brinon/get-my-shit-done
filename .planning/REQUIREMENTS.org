@@ -1,0 +1,75 @@
+* Requirements: GMSD Diataxis Integration
+
+*Defined:* 2026-02-27
+*Core Value:* Every document GMSD produces follows a principled documentation framework so users always find the right type of doc for their need.
+
+** v1.0 Requirements
+
+Requirements for Diataxis documentation framework integration.
+
+*** Classification
+
+- [ ] *CLASS-01*: Diataxis condensed reference document exists in =references/= with quadrant definitions, writing rules, and anti-patterns for each quadrant
+- [ ] *CLASS-02*: Every deliverable template (40+) has a Diataxis quadrant classification in its metadata or documentation header
+- [ ] *CLASS-03*: Every org-generating agent (7) has a =<diataxis_style>= tag with quadrant-specific writing guidance matching its output templates
+
+*** Gap Analysis
+
+- [ ] *GAPS-01*: Formal audit document maps every existing template to a Diataxis quadrant and identifies underserved quadrants
+- [ ] *GAPS-02*: New tutorial template(s) exist for learning-oriented deliverables (guided experiences for project onboarding)
+- [ ] *GAPS-03*: New how-to template(s) exist for task-oriented deliverables (step-by-step guides for common GMSD workflows)
+
+*** Internal Docs
+
+- [ ] *DOCS-01*: USER-GUIDE.org is split into separate Diataxis-aligned documents (tutorial, how-to, reference, explanation)
+- [ ] *DOCS-02*: Files in =references/= directory are classified by Diataxis quadrant and reorganized accordingly
+- [ ] *DOCS-03*: README.org sections are aligned with Diataxis (tutorial-like content separated from reference-like content)
+
+** Future Requirements
+
+Deferred to future milestone. Tracked but not in current roadmap.
+
+*** Tooling
+
+- *TOOL-01*: Automated Diataxis compliance linting for generated documents
+- *TOOL-02*: =/gmsd:diataxis-audit= command for on-demand quadrant coverage reporting
+
+*** Ecosystem
+
+- *ECO-01*: Non-org-generating agents (plan-checker, integration-checker, debugger) aware of Diataxis when reviewing docs
+- *ECO-02*: Diataxis quadrant visible in =/gmsd:progress= output
+
+** Out of Scope
+
+Explicitly excluded. Documented to prevent scope creep.
+
+| Feature | Reason |
+|---------+--------|
+| Restructure =.planning/= dirs by quadrant | Adds user-facing complexity, low ROI vs classification |
+| Upstream GSD integration | GMSD-only enhancement, fork divergence is intentional |
+| Diataxis for non-doc artifacts (code comments, commit messages) | Over-application of framework |
+
+** Traceability
+
+Which phases cover which requirements. Updated during roadmap creation.
+
+| Requirement | Phase | Status |
+|-------------+-------+--------|
+| CLASS-01 | — | Pending |
+| CLASS-02 | — | Pending |
+| CLASS-03 | — | Pending |
+| GAPS-01 | — | Pending |
+| GAPS-02 | — | Pending |
+| GAPS-03 | — | Pending |
+| DOCS-01 | — | Pending |
+| DOCS-02 | — | Pending |
+| DOCS-03 | — | Pending |
+
+*Coverage:*
+- v1.0 requirements: 9 total
+- Mapped to phases: 0
+- Unmapped: 9 ⚠️
+
+-----
+/Requirements defined: 2026-02-27/
+/Last updated: 2026-02-27 after initial definition/
