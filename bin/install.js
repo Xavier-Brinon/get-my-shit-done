@@ -898,6 +898,9 @@ function cleanupOrphanedFiles(configDir) {
   const orphanedFiles = [
     'hooks/gmsd-notify.sh',  // Removed in v1.6.x
     'hooks/statusline.js',  // Renamed to gmsd-statusline.js in v1.9.0
+    'hooks/gsd-statusline.js',  // Pre-fork GSD hook
+    'hooks/gsd-check-update.js',  // Pre-fork GSD hook
+    'hooks/gsd-context-monitor.js',  // Pre-fork GSD hook
   ];
 
   for (const relPath of orphanedFiles) {
@@ -919,6 +922,9 @@ function cleanupOrphanedHooks(settings) {
     'gmsd-intel-index.js',  // Removed in v1.9.2
     'gmsd-intel-session.js',  // Removed in v1.9.2
     'gmsd-intel-prune.js',  // Removed in v1.9.2
+    'gsd-statusline.js',  // Pre-fork GSD hook
+    'gsd-check-update.js',  // Pre-fork GSD hook
+    'gsd-context-monitor.js',  // Pre-fork GSD hook
   ];
 
   let cleanedHooks = false;
@@ -951,16 +957,16 @@ function cleanupOrphanedHooks(settings) {
     console.log(`  ${green}✓${reset} Removed orphaned hook registrations`);
   }
 
-  // Fix #330: Update statusLine if it points to old statusline.js path
+  // Fix #330: Update statusLine if it points to old statusline.js or gsd-statusline.js path
   if (settings.statusLine && settings.statusLine.command &&
       settings.statusLine.command.includes('statusline.js') &&
       !settings.statusLine.command.includes('gmsd-statusline.js')) {
-    // Replace old path with new path
+    // Replace old path with new path (handles both statusline.js and gsd-statusline.js)
     settings.statusLine.command = settings.statusLine.command.replace(
-      /statusline\.js/,
+      /(?:gsd-)?statusline\.js/,
       'gmsd-statusline.js'
     );
-    console.log(`  ${green}✓${reset} Updated statusline path (statusline.js → gmsd-statusline.js)`);
+    console.log(`  ${green}✓${reset} Updated statusline path → gmsd-statusline.js`);
   }
 
   return settings;
