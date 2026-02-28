@@ -70,12 +70,12 @@ material.
      the appropriate quadrant guidance from the Phase 1 reference document
   3. =references/diataxis-audit.org= exists, maps every template to a quadrant,
      and names which quadrants have zero or one template (the gaps)
-*Plans*: TBD
+*Plans*: 3 plans (2 waves)
 
 Plans:
-- [ ] 02-01: Classify all deliverable templates (add quadrant metadata)
-- [ ] 02-02: Add =<diataxis_style>= tags to 7 org-generating agents
-- [ ] 02-03: Write formal audit document with gap analysis
+- [ ] 02-01-PLAN.org --- Classify all 36 deliverable templates with Diataxis quadrant metadata (Wave 1)
+- [ ] 02-02-PLAN.org --- Add =<diataxis_style>= tags to 7 org-generating agents (Wave 1)
+- [ ] 02-03-PLAN.org --- Write formal audit document with gap analysis (Wave 2, depends on 02-01 + 02-02)
 
 *** Phase 3: Gap Filling
 *Goal*: New templates exist for the underserved quadrants identified in the
