@@ -1,0 +1,88 @@
+#+title: Phase 2: Classification and Audit - Context
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 2: Classification and Audit - Context
+
+*Gathered:* 2026-02-28
+*Status:* Ready for planning
+
+<domain>
+** Phase Boundary
+
+Classify all 40+ existing deliverable templates with Diataxis quadrant metadata,
+add =<diataxis_style>= tags to the 7 org-generating agents, and produce a formal
+audit document (=references/diataxis-audit.org=) recording the quadrant
+distribution and identifying gaps. This phase does NOT restructure templates or
+create new ones --- it labels, tags, and audits what exists.
+
+</domain>
+
+<decisions>
+** Implementation Decisions
+
+*** Classification granularity
+- Primary + secondary quadrant per template (primary required, secondary optional)
+- Tiebreaker when 50/50 split: user-facing purpose wins (what the reader is trying
+  to DO --- learn, accomplish, look up, understand)
+- Classification is descriptive + flags: label what exists AND flag templates whose
+  content does not match their classified purpose well
+- Classify all templates including internal/meta ones, but tag meta templates
+  separately so the audit can filter them from deliverable coverage stats
+
+*** Metadata placement
+- Quadrant label goes in the org property drawer (=:diataxis_primary:= and
+  =:diataxis_secondary:=) --- two separate properties for primary and secondary
+- Label + brief rationale: include a one-line =:diataxis_rationale:= property
+  explaining the classification for future contributors
+- Misalignment flags appear in both audit document AND template
+  (=:diataxis_misaligned: true=) for visibility during future edits
+
+*** Agent tag content
+- Quadrant-specific excerpts: each agent gets ONLY the rules for the quadrant(s)
+  its templates produce, not the full reference
+- Multi-quadrant agents get sub-sections for each relevant quadrant within the tag
+- Rules + output mapping: tag explicitly lists which templates/outputs map to which
+  quadrant (e.g., "When generating SUMMARY.org, apply reference rules")
+- Include anti-patterns alongside writing rules --- helps agents avoid common
+  mistakes like putting step-by-step instructions in reference docs
+
+*** Audit document scope
+- Full analysis: mapping + gap analysis + recommendations for Phase 3
+- Tables + MermaidJS chart (ob-mermaid syntax) for quadrant distribution
+  visualisation
+- Covers both templates AND agents: template quadrant mapping plus
+  agent-to-quadrant output mapping
+- Count + quality notes: beyond counting, flag templates that technically classify
+  as a quadrant but do not serve it well (connects to misalignment flags)
+
+*** Claude's Discretion
+- Exact property drawer ordering (where diataxis properties sit relative to
+  existing properties)
+- MermaidJS chart type (pie vs bar) for the audit document
+- How to handle templates with no clear quadrant fit (likely meta/process)
+
+</decisions>
+
+<specifics>
+** Specific Ideas
+
+- Dual-document pattern established in Phase 1 (authoritative .org + condensed
+  .md) should inform how the audit references the diataxis framework
+- The 7 org-generating agents already have =<org_style>= tags --- =<diataxis_style>=
+  tags follow the same placement pattern (alongside, not replacing)
+- Misalignment flags create a natural input for Phase 3 gap-filling work
+
+</specifics>
+
+<deferred>
+** Deferred Ideas
+
+None --- discussion stayed within phase scope.
+
+</deferred>
+
+-----
+
+/Phase: 02-classification-and-audit/
+/Context gathered: 2026-02-28/
