@@ -73,8 +73,8 @@ material.
 *Plans*: 3 plans (2 waves)
 
 Plans:
-- [ ] 02-01-PLAN.org --- Classify all 36 deliverable templates with Diataxis quadrant metadata (Wave 1)
-- [ ] 02-02-PLAN.org --- Add =<diataxis_style>= tags to 7 org-generating agents (Wave 1)
+- [X] 02-01-PLAN.org --- Classify all 36 deliverable templates with Diataxis quadrant metadata (Wave 1)
+- [X] 02-02-PLAN.org --- Add =<diataxis_style>= tags to 7 org-generating agents (Wave 1)
 - [ ] 02-03-PLAN.org --- Write formal audit document with gap analysis (Wave 2, depends on 02-01 + 02-02)
 
 *** Phase 3: Gap Filling
@@ -160,6 +160,6 @@ Dashed arrows = soft dependency (informs but does not block).
 | Phase                        | Plans Complete | Status      | Completed |
 |------------------------------+----------------+-------------+-----------|
 | 1. Framework Foundation      |            1/1 | Complete    | 2026-02-28 |
-| 2. Classification and Audit  |            0/3 | Not started | -         |
+| 2. Classification and Audit  |            2/3 | In progress | -         |
 | 3. Gap Filling               |            0/2 | Not started | -         |
 | 4. Internal Docs             |            0/3 | Not started | -         |

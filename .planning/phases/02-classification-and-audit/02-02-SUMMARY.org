@@ -1,0 +1,91 @@
+:PROPERTIES:
+:phase: 02-classification-and-audit
+:plan: 02
+:subsystem: documentation
+:tags: diataxis, org-mode, agents, reference, how-to, explanation
+:requires: [{phase: 02-01, provides: diataxis-condensed.md reference document}]
+:provides: [diataxis_style tags in all 7 org-generating agents, quadrant-specific writing rules per agent output type]
+:affects: [all future org-generating agent outputs, gmsd-executor, gmsd-planner, gmsd-roadmapper, gmsd-project-researcher, gmsd-phase-researcher, gmsd-codebase-mapper, gmsd-verifier]
+:tech-stack.added: []
+:tech-stack.patterns: ["<diataxis_style> tag pattern adjacent to <org_style> tag in agent files", "Per-output-type sub-sections for multi-quadrant agents", "Source reference link to diataxis-condensed.md in every tag"]
+:key-files.created: []
+:key-files.modified: [agents/gmsd-roadmapper.md, agents/gmsd-phase-researcher.md, agents/gmsd-codebase-mapper.md, agents/gmsd-verifier.md, agents/gmsd-executor.md, agents/gmsd-planner.md, agents/gmsd-project-researcher.md]
+:key-decisions: ["Four single-quadrant agents all use Reference rules (no exceptions)", "Multi-quadrant agents use per-output-type sub-sections rather than a single blended rule set", "Anti-patterns included in every tag to make boundary between quadrants explicit"]
+:patterns-established: ["<diataxis_style> tag pattern: place immediately after </org_style>, reference diataxis-condensed.md, include anti-patterns, stay under 30 lines"]
+:requirements-completed: [CLASS-03]
+:duration: 15min
+:completed: 2026-02-28
+:END:
+
+* Phase 02 Plan 02: Add Diataxis Style Tags to Org-Generating Agents Summary
+
+*Diataxis quadrant-specific writing rules added to all 7 org-generating agents via =<diataxis_style>= tags, mapping each agent's output templates to Reference, How-to, or Explanation rules with anti-patterns and a source reference*
+
+** Performance
+
+- *Duration:* 15 min
+- *Started:* 2026-02-28T00:00:00Z
+- *Completed:* 2026-02-28T00:15:00Z
+- *Tasks:* 2
+- *Files modified:* 7
+
+** Accomplishments
+
+- Added =<diataxis_style>= Reference quadrant tags to 4 single-quadrant agents (roadmapper, phase-researcher, codebase-mapper, verifier)
+- Added =<diataxis_style>= multi-quadrant tags to 3 multi-quadrant agents (executor, planner, project-researcher) with per-output-type sub-sections
+- All 7 tags reference =diataxis-condensed.md=, include anti-patterns, and stay within the 30-line limit
+- npm test passes with 138/138 tests after both tasks
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Add diataxis_style tags to single-quadrant agents (4 agents)* - ~23fb1af~ (feat)
+2. *Task 2: Add diataxis_style tags to multi-quadrant agents (3 agents)* - ~7ee8b52~ (feat)
+
+*Plan metadata:* (docs commit to follow)
+
+** Files Created/Modified
+
+- ~agents/gmsd-roadmapper.md~ - Added =<diataxis_style>= Reference tag (15 lines)
+- ~agents/gmsd-phase-researcher.md~ - Added =<diataxis_style>= Reference tag (15 lines)
+- ~agents/gmsd-codebase-mapper.md~ - Added =<diataxis_style>= Reference tag (15 lines)
+- ~agents/gmsd-verifier.md~ - Added =<diataxis_style>= Reference tag (15 lines)
+- ~agents/gmsd-executor.md~ - Added =<diataxis_style>= multi-quadrant tag (22 lines)
+- ~agents/gmsd-planner.md~ - Added =<diataxis_style>= multi-quadrant tag (16 lines)
+- ~agents/gmsd-project-researcher.md~ - Added =<diataxis_style>= multi-quadrant tag (16 lines)
+
+** Decisions Made
+
+- All 4 single-quadrant agents map to Reference: roadmapper (ROADMAP.org), phase-researcher (RESEARCH.org), codebase-mapper (all codebase docs), verifier (VERIFICATION.org). No exceptions --- the consulted-not-read pattern holds for all of them.
+- Multi-quadrant agents use per-output-type sub-sections rather than a single blended rule set, making the quadrant boundary explicit for each document type.
+- Anti-patterns included in every tag alongside writing rules, making the quadrant distinction concrete rather than abstract.
+
+** Deviations from Plan
+
+None --- plan executed exactly as written.
+
+** Issues Encountered
+
+None.
+
+** Architectural Observations
+
+- *Emergent patterns:* The =<diataxis_style>= tag pattern exactly mirrors the established =<org_style>= tag pattern --- a lightweight, purpose-built tag adjacent to an existing tag, referencing a condensed document rather than embedding the full source. This is a consistent pattern for injecting contextual rules into agent prompts without consuming full reference context (Separation of Concerns at the agent instruction level).
+- *Coupling discovered:* The mapping from agent to quadrant reveals an architectural regularity: agents that produce consulted reference material (roadmapper, researcher, mapper, verifier) all land in Reference; agents that produce documents users act upon (planner task actions, executor USER-SETUP) land in How-to; only the project-researcher produces Explanation content (PROJECT.org). The quadrant boundary follows the agent's relationship to its reader.
+- *Boundary assessment:* The per-output-type sub-section structure for multi-quadrant agents is the right boundary --- it keeps the quadrant rules co-located with the output type they apply to, rather than scattered or merged.
+- *ADR candidates:* None --- the =<diataxis_style>= tag pattern is a direct extension of the established =<org_style>= pattern and requires no new architectural decision.
+
+** User Setup Required
+
+None --- no external service configuration required.
+
+** Next Phase Readiness
+
+- All 7 org-generating agents now carry quadrant-specific writing rules and anti-patterns
+- Plan 02-03 (audit of existing org documents) can proceed against agents that now have explicit style expectations
+- No blockers
+
+-----
+/Phase: 02-classification-and-audit/
+/Completed: 2026-02-28/

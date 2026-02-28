@@ -4,10 +4,10 @@
 :milestone_name: milestone
 :status: unknown
 :last_updated: "2026-02-28T09:28:14.738Z"
-:progress.total_phases: 1
+:progress.total_phases: 4
 :progress.completed_phases: 1
-:progress.total_plans: 1
-:progress.completed_plans: 1
+:progress.total_plans: 3
+:progress.completed_plans: 3
 :END:
 
 #+title: GMSD Project State
@@ -24,16 +24,16 @@ See: =.planning/PROJECT.org= (updated 2026-02-27)
 
 *Core value:* Every document GMSD produces follows a principled documentation
 framework so users always find the right type of doc for their need.
-*Current focus:* Phase 1 — Framework Foundation
+*Current focus:* Phase 2 — Classification and Audit
 
 ** Current Position
 
-Phase: 1 of 4 (Framework Foundation)
-Plan: 1 of 1 completed (01-01: Write Diataxis condensed reference document)
-Status: Phase 1 complete — all plans executed
-Last activity: 2026-02-28 — Phase 1 plan 01-01 executed via execute-phase
+Phase: 2 of 4 (Classification and Audit)
+Plan: 3 of 3 completed (02-01: Classify all deliverable templates)
+Status: Phase 2 complete — all 3 plans executed
+Last activity: 2026-02-28 — Phase 2 plan 02-01 executed via execute-phase
 
-Progress: [██████████] 25% (Phase 1 of 4 complete)
+Progress: [████████████████████████░░░░░░░░░░░░] 50% (Phase 1 + Phase 2 complete)
 
 ** Performance Metrics
 
@@ -44,11 +44,12 @@ Progress: [██████████] 25% (Phase 1 of 4 complete)
 
 *By Phase:*
 
-| Phase                    | Plans | Total  | Avg/Plan |
-|--------------------------+-------+--------+----------|
-| 01-framework-foundation  |     1 | 10min  | 10min    |
+| Phase                          | Plans | Total  | Avg/Plan |
+|--------------------------------+-------+--------+----------|
+| 01-framework-foundation        |     1 | 10min  | 10min    |
+| 02-classification-and-audit    |   3/3 | 50min  | 17min    |
 
-*Recent Trend:* 1 plan completed in Phase 1
+*Recent Trend:* 3 plans completed in Phase 2 (02-01: template classification, 02-02: agent diataxis tags, 02-03: audit)
 
 /Updated after each plan completion/
 
@@ -66,6 +67,13 @@ Recent decisions affecting current work:
 - Flat four-heading structure for =diataxis.org= (per-quadrant lookup, not axis grouping)
 - Markdown for =diataxis-condensed.md= (matches org-styleguide.md pattern for agent tags)
 - Dual-document reference pattern established: authoritative .org + condensed .md
+- =<diataxis_style>= tag pattern established: place after =</org_style>=, 15-22 lines, include anti-patterns, reference diataxis-condensed.md
+- Single-quadrant agents (roadmapper, phase-researcher, codebase-mapper, verifier) all map to Reference quadrant
+- Multi-quadrant agents (executor, planner, project-researcher) use per-output-type sub-sections
+- Anti-patterns included alongside writing rules to make quadrant boundaries explicit
+- All 36 templates classified as Diataxis quadrants (34 reference, 1 explanation, 1 how-to)
+- 7 meta templates tagged :diataxis_meta: true for audit filtering
+- project.org = explanation; user-setup.org = how-to; all codebase/research templates = reference
 
 *** Pending Todos
 
@@ -78,5 +86,5 @@ None yet.
 ** Session Continuity
 
 Last session: 2026-02-28
-Stopped at: Phase 2 context gathered — classification granularity, metadata, agent tags, audit scope decisions captured
-Resume file: .planning/phases/02-classification-and-audit/02-CONTEXT.org
+Stopped at: Completed Phase 2 plan 02-01 — diataxis properties added to all 36 template files
+Resume file: None — Phase 2 complete
