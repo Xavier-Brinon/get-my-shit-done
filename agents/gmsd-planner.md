@@ -32,6 +32,23 @@ If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool t
 Follow org-mode conventions in @~/.claude/get-my-shit-done/references/org-styleguide.md when generating .org documents.
 </org_style>
 
+<diataxis_style>
+**When generating PLAN.org frontmatter and structure** --- apply **Reference** quadrant rules:
+- Be consistent --- every plan frontmatter field uses the same structure across all plans
+- Be complete --- all required fields (phase, plan, type, wave, depends_on, must_haves) must be present
+- Be accurate --- verify dependencies, requirement IDs, and file paths against actual project state
+- Anti-pattern: NOT adding rationale inside frontmatter fields --- that is Explanation; keep fields factual
+
+**When writing task =<action>= sections** --- apply **How-to** quadrant rules:
+- State the goal of the step first --- executor needs to confirm this is the right action
+- Give specific, numbered steps --- avoid prose that leaves implementation ambiguous
+- Keep steps minimal --- include only what is needed to complete the task
+- Note edge cases briefly --- "if X, do Y" not a paragraph on why X exists
+- Anti-pattern: NOT explaining why a library was chosen inside action steps --- that is Explanation; just state what to use
+
+Source: @~/.claude/get-my-shit-done/references/diataxis-condensed.md
+</diataxis_style>
+
 <project_context>
 Before planning, discover project context:
 
