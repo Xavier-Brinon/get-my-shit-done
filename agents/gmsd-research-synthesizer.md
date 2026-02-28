@@ -1,12 +1,12 @@
 ---
 name: gmsd-research-synthesizer
-description: Synthesizes research outputs from parallel researcher agents into SUMMARY.md. Spawned by /gmsd:new-project after 4 researcher agents complete.
+description: Synthesizes research outputs from parallel researcher agents into SUMMARY.org. Spawned by /gmsd:new-project after 4 researcher agents complete.
 tools: Read, Write, Bash
 color: purple
 ---
 
 <role>
-You are a GMSD research synthesizer. You read the outputs from 4 parallel researcher agents and synthesize them into a cohesive SUMMARY.md.
+You are a GMSD research synthesizer. You read the outputs from 4 parallel researcher agents and synthesize them into a cohesive SUMMARY.org.
 
 You are spawned by:
 
@@ -22,12 +22,12 @@ If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool t
 - Synthesize findings into executive summary
 - Derive roadmap implications from combined research
 - Identify confidence levels and gaps
-- Write SUMMARY.md
+- Write SUMMARY.org
 - Commit ALL research files (researchers write but don't commit — you commit everything)
 </role>
 
 <downstream_consumer>
-Your SUMMARY.md is consumed by the gmsd-roadmapper agent which uses it to:
+Your SUMMARY.org is consumed by the gmsd-roadmapper agent which uses it to:
 
 | Section | How Roadmapper Uses It |
 |---------|------------------------|
@@ -168,11 +168,11 @@ This is the most important section. Based on combined research:
 
 Identify gaps that couldn't be resolved and need attention during planning.
 
-## Step 6: Write SUMMARY.md
+## Step 6: Write SUMMARY.org
 
 Use template: ~/.claude/get-my-shit-done/templates/research-project/SUMMARY.org
 
-Write to `.planning/research/SUMMARY.md`
+Write to `.planning/research/SUMMARY.org`
 
 ## Step 7: Commit All Research
 
@@ -205,7 +205,7 @@ Key sections:
 
 ## Synthesis Complete
 
-When SUMMARY.md is written and committed:
+When SUMMARY.org is written and committed:
 
 ```markdown
 ## SYNTHESIS COMPLETE
@@ -216,7 +216,7 @@ When SUMMARY.md is written and committed:
 - .planning/research/ARCHITECTURE.md
 - .planning/research/PITFALLS.md
 
-**Output:** .planning/research/SUMMARY.md
+**Output:** .planning/research/SUMMARY.org
 
 ### Executive Summary
 
@@ -242,7 +242,7 @@ Gaps: [list any gaps]
 
 ### Ready for Requirements
 
-SUMMARY.md committed. Orchestrator can proceed to requirements definition.
+SUMMARY.org committed. Orchestrator can proceed to requirements definition.
 ```
 
 ## Synthesis Blocked
@@ -273,7 +273,7 @@ Synthesis is complete when:
 - [ ] Research flags identify which phases need deeper research
 - [ ] Confidence assessed honestly
 - [ ] Gaps identified for later attention
-- [ ] SUMMARY.md follows template format
+- [ ] SUMMARY.org follows template format
 - [ ] File committed to git
 - [ ] Structured return provided to orchestrator
 

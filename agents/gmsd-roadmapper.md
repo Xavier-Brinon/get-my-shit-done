@@ -22,7 +22,7 @@ If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool t
 - Validate 100% requirement coverage (no orphans)
 - Apply goal-backward thinking at phase level
 - Create success criteria (2-5 observable behaviors per phase)
-- Initialize STATE.md (project memory)
+- Initialize STATE.org (project memory)
 - Return structured draft for user approval
 </role>
 
@@ -31,7 +31,7 @@ Follow org-mode conventions in @~/.claude/get-my-shit-done/references/org-styleg
 </org_style>
 
 <downstream_consumer>
-Your ROADMAP.md is consumed by `/gmsd:plan-phase` which uses it to:
+Your ROADMAP.org is consumed by `/gmsd:plan-phase` which uses it to:
 
 | Output | How Plan-Phase Uses It |
 |--------|------------------------|
@@ -179,7 +179,7 @@ For each requirement mapped to this phase:
 
 **Step 4: Resolve Gaps**
 Success criterion with no supporting requirement:
-- Add requirement to REQUIREMENTS.md, OR
+- Add requirement to REQUIREMENTS.org, OR
 - Mark criterion as out of scope for this phase
 
 Requirement that supports no criterion:
@@ -324,14 +324,14 @@ Mapped: 12/12 ✓
 Options:
 1. Create Phase 6: Notifications
 2. Add to existing Phase 5
-3. Defer to v2 (update REQUIREMENTS.md)
+3. Defer to v2 (update REQUIREMENTS.org)
 ```
 
 **Do not proceed until coverage = 100%.**
 
 ## Traceability Update
 
-After roadmap creation, REQUIREMENTS.md gets updated with phase mappings:
+After roadmap creation, REQUIREMENTS.org gets updated with phase mappings:
 
 ```markdown
 ## Traceability
@@ -348,9 +348,9 @@ After roadmap creation, REQUIREMENTS.md gets updated with phase mappings:
 
 <output_formats>
 
-## ROADMAP.md Structure
+## ROADMAP.org Structure
 
-**CRITICAL: ROADMAP.md requires TWO phase representations. Both are mandatory.**
+**CRITICAL: ROADMAP.org requires TWO phase representations. Both are mandatory.**
 
 ### 1. Summary Checklist (under `## Phases`)
 
@@ -391,7 +391,7 @@ After roadmap creation, REQUIREMENTS.md gets updated with phase mappings:
 
 Reference full template: `~/.claude/get-my-shit-done/templates/roadmap.org`
 
-## STATE.md Structure
+## STATE.org Structure
 
 Use template from `~/.claude/get-my-shit-done/templates/state.org`.
 
@@ -451,16 +451,16 @@ Approve roadmap or provide feedback for revision.
 ## Step 1: Receive Context
 
 Orchestrator provides:
-- PROJECT.md content (core value, constraints)
-- REQUIREMENTS.md content (v1 requirements with REQ-IDs)
-- research/SUMMARY.md content (if exists - phase suggestions)
+- PROJECT.org content (core value, constraints)
+- REQUIREMENTS.org content (v1 requirements with REQ-IDs)
+- research/SUMMARY.org content (if exists - phase suggestions)
 - config.json (depth setting)
 
 Parse and confirm understanding before proceeding.
 
 ## Step 2: Extract Requirements
 
-Parse REQUIREMENTS.md:
+Parse REQUIREMENTS.org:
 - Count total v1 requirements
 - Extract categories (AUTH, CONTENT, etc.)
 - Build requirement list with IDs
@@ -477,7 +477,7 @@ Total v1: 11 requirements
 
 ## Step 3: Load Research Context (if exists)
 
-If research/SUMMARY.md provided:
+If research/SUMMARY.org provided:
 - Extract suggested phase structure from "Implications for Roadmap"
 - Note research flags (which phases need deeper research)
 - Use as input, not mandate
@@ -512,11 +512,11 @@ If gaps found, include in draft for user decision.
 
 **Write files first, then return.** This ensures artifacts persist even if context is lost.
 
-1. **Write ROADMAP.md** using output format
+1. **Write ROADMAP.org** using output format
 
-2. **Write STATE.md** using output format
+2. **Write STATE.org** using output format
 
-3. **Update REQUIREMENTS.md traceability section**
+3. **Update REQUIREMENTS.org traceability section**
 
 Files on disk = context preserved. User can review actual files.
 
@@ -544,11 +544,11 @@ When files are written and returning to orchestrator:
 ## ROADMAP CREATED
 
 **Files written:**
-- .planning/ROADMAP.md
-- .planning/STATE.md
+- .planning/ROADMAP.org
+- .planning/STATE.org
 
 **Updated:**
-- .planning/REQUIREMENTS.md (traceability section)
+- .planning/REQUIREMENTS.org (traceability section)
 
 ### Summary
 
@@ -574,8 +574,8 @@ When files are written and returning to orchestrator:
 ### Files Ready for Review
 
 User can review actual files:
-- `cat .planning/ROADMAP.md`
-- `cat .planning/STATE.md`
+- `cat .planning/ROADMAP.org`
+- `cat .planning/STATE.org`
 
 {If gaps found during creation:}
 
@@ -598,9 +598,9 @@ After incorporating user feedback and updating files:
 - {change 2}
 
 **Files updated:**
-- .planning/ROADMAP.md
-- .planning/STATE.md (if needed)
-- .planning/REQUIREMENTS.md (if traceability changed)
+- .planning/ROADMAP.org
+- .planning/STATE.org (if needed)
+- .planning/REQUIREMENTS.org (if traceability changed)
 
 ### Updated Summary
 
@@ -675,7 +675,7 @@ When unable to proceed:
 
 Roadmap is complete when:
 
-- [ ] PROJECT.md core value understood
+- [ ] PROJECT.org core value understood
 - [ ] All v1 requirements extracted with IDs
 - [ ] Research context loaded (if exists)
 - [ ] Phases derived from requirements (not imposed)
@@ -684,9 +684,9 @@ Roadmap is complete when:
 - [ ] Success criteria derived for each phase (2-5 observable behaviors)
 - [ ] Success criteria cross-checked against requirements (gaps resolved)
 - [ ] 100% requirement coverage validated (no orphans)
-- [ ] ROADMAP.md structure complete
-- [ ] STATE.md structure complete
-- [ ] REQUIREMENTS.md traceability update prepared
+- [ ] ROADMAP.org structure complete
+- [ ] STATE.org structure complete
+- [ ] REQUIREMENTS.org traceability update prepared
 - [ ] Draft presented for user approval
 - [ ] User feedback incorporated (if any)
 - [ ] Files written (after approval)

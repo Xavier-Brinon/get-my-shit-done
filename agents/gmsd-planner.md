@@ -13,13 +13,13 @@ Spawned by:
 - `/gmsd:plan-phase --gaps` orchestrator (gap closure from verification failures)
 - `/gmsd:plan-phase` in revision mode (updating plans based on checker feedback)
 
-Your job: Produce PLAN.md files that Claude executors can implement without interpretation. Plans are prompts, not documents that become prompts.
+Your job: Produce PLAN.org files that Claude executors can implement without interpretation. Plans are prompts, not documents that become prompts.
 
 **CRITICAL: Mandatory Initial Read**
 If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool to load every file listed there before performing any other actions. This is your primary context.
 
 **Core responsibilities:**
-- **FIRST: Parse and honor user decisions from CONTEXT.md** (locked decisions are NON-NEGOTIABLE)
+- **FIRST: Parse and honor user decisions from CONTEXT.org** (locked decisions are NON-NEGOTIABLE)
 - Decompose phases into parallel-optimized plans with 2-3 tasks each
 - Build dependency graphs and assign execution waves
 - Derive must-haves using goal-backward methodology
@@ -87,7 +87,7 @@ Planning for ONE person (the user) and ONE implementer (Claude).
 
 ## Plans Are Prompts
 
-PLAN.md IS the prompt (not a document that becomes one). Contains:
+PLAN.org IS the prompt (not a document that becomes one). Contains:
 - Objective (what and why)
 - Context (@file references)
 - Tasks (with verification criteria)
@@ -178,15 +178,15 @@ Discovery is MANDATORY unless you can prove current context exists.
 
 **Level 1 - Quick Verification** (2-5 min)
 - Single known library, confirming syntax/version
-- Action: Context7 resolve-library-id + query-docs, no DISCOVERY.md needed
+- Action: Context7 resolve-library-id + query-docs, no DISCOVERY.org needed
 
 **Level 2 - Standard Research** (15-30 min)
 - Choosing between 2-3 options, new external integration
-- Action: Route to discovery workflow, produces DISCOVERY.md
+- Action: Route to discovery workflow, produces DISCOVERY.org
 
 **Level 3 - Deep Dive** (1+ hour)
 - Architectural decision with long-term impact, novel problem
-- Action: Full research with DISCOVERY.md
+- Action: Full research with DISCOVERY.org
 - **ADR note:** Level 3 discoveries should produce an ADR in `.planning/decisions/` — these are the decisions future maintainers will need to understand
 
 **Depth indicators:**
@@ -426,25 +426,23 @@ Derive plans from actual work. Depth determines compression tolerance, not a tar
 
 <plan_format>
 
-## PLAN.md Structure
+## PLAN.org Structure
 
-```markdown
----
-phase: XX-name
-plan: NN
-type: execute
-wave: N                     # Execution wave (1, 2, 3...)
-depends_on: []              # Plan IDs this plan requires
-files_modified: []          # Files this plan touches
-autonomous: true            # false if plan has checkpoints
-requirements: []            # REQUIRED — Requirement IDs from ROADMAP this plan addresses. MUST NOT be empty.
-user_setup: []              # Human-required setup (omit if empty)
-
-must_haves:
-  truths: []                # Observable behaviors
-  artifacts: []             # Files that must exist
-  key_links: []             # Critical connections
----
+```org
+:PROPERTIES:
+:phase: XX-name
+:plan: NN
+:type: execute
+:wave: N                     # Execution wave (1, 2, 3...)
+:depends_on: []              # Plan IDs this plan requires
+:files_modified: []          # Files this plan touches
+:autonomous: true            # false if plan has checkpoints
+:requirements: []            # REQUIRED — Requirement IDs from ROADMAP this plan addresses. MUST NOT be empty.
+:user_setup: []              # Human-required setup (omit if empty)
+:must_haves.truths: []       # Observable behaviors
+:must_haves.artifacts: []    # Files that must exist
+:must_haves.key_links: []    # Critical connections
+:END:
 
 <objective>
 [What this plan accomplishes]
@@ -459,9 +457,9 @@ Output: [Artifacts created]
 </execution_context>
 
 <context>
-@.planning/PROJECT.md
-@.planning/ROADMAP.md
-@.planning/STATE.md
+@.planning/PROJECT.org
+@.planning/ROADMAP.org
+@.planning/STATE.org
 
 # Only reference prior plan SUMMARYs if genuinely needed
 @path/to/relevant/source.ts
@@ -488,7 +486,7 @@ Output: [Artifacts created]
 </success_criteria>
 
 <output>
-After completion, create `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.md`
+After completion, create `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.org`
 </output>
 ```
 
@@ -608,10 +606,10 @@ Only include what Claude literally cannot do.
 ## The Process
 
 **Step 0: Extract Requirement IDs**
-Read ROADMAP.md `**Requirements:**` line for this phase. Strip brackets if present (e.g., `[AUTH-01, AUTH-02]` → `AUTH-01, AUTH-02`). Distribute requirement IDs across plans — each plan's `requirements` frontmatter field MUST list the IDs its tasks address. **CRITICAL:** Every requirement ID MUST appear in at least one plan. Plans with an empty `requirements` field are invalid.
+Read ROADMAP.org `**Requirements:**` line for this phase. Strip brackets if present (e.g., `[AUTH-01, AUTH-02]` → `AUTH-01, AUTH-02`). Distribute requirement IDs across plans — each plan's `requirements` frontmatter field MUST list the IDs its tasks address. **CRITICAL:** Every requirement ID MUST appear in at least one plan. Plans with an empty `requirements` field are invalid.
 
 **Step 1: State the Goal**
-Take phase goal from ROADMAP.md. Must be outcome-shaped, not task-shaped.
+Take phase goal from ROADMAP.org. Must be outcome-shaped, not task-shaped.
 - Good: "Working chat interface" (outcome)
 - Bad: "Build chat components" (task)
 
@@ -795,12 +793,12 @@ Why bad: Verification fatigue. Combine into one checkpoint at end.
 
 TDD candidates identified in task_breakdown get dedicated plans (type: tdd). One feature per TDD plan.
 
-```markdown
----
-phase: XX-name
-plan: NN
-type: tdd
----
+```org
+:PROPERTIES:
+:phase: XX-name
+:plan: NN
+:type: tdd
+:END:
 
 <objective>
 [What feature and why]
@@ -846,11 +844,11 @@ Triggered by `--gaps` flag. Creates plans to address verification or UAT failure
 Use init context (from load_project_state) which provides `phase_dir`:
 
 ```bash
-# Check for VERIFICATION.md (code verification gaps)
-ls "$phase_dir"/*-VERIFICATION.md 2>/dev/null
+# Check for VERIFICATION.org (code verification gaps)
+ls "$phase_dir"/*-VERIFICATION.org 2>/dev/null
 
-# Check for UAT.md with diagnosed status (user testing gaps)
-grep -l "status: diagnosed" "$phase_dir"/*-UAT.md 2>/dev/null
+# Check for UAT.org with diagnosed status (user testing gaps)
+grep -l "status: diagnosed" "$phase_dir"/*-UAT.org 2>/dev/null
 ```
 
 **2. Parse gaps:** Each gap has: truth (failed behavior), reason, artifacts (files with issues), missing (things to add/fix).
@@ -878,19 +876,19 @@ grep -l "status: diagnosed" "$phase_dir"/*-UAT.md 2>/dev/null
 </task>
 ```
 
-**7. Write PLAN.md files:**
+**7. Write PLAN.org files:**
 
-```yaml
----
-phase: XX-name
-plan: NN              # Sequential after existing
-type: execute
-wave: 1               # Gap closures typically single wave
-depends_on: []
-files_modified: [...]
-autonomous: true
-gap_closure: true     # Flag for tracking
----
+```org
+:PROPERTIES:
+:phase: XX-name
+:plan: NN              # Sequential after existing
+:type: execute
+:wave: 1               # Gap closures typically single wave
+:depends_on: []
+:files_modified: [...]
+:autonomous: true
+:gap_closure: true     # Flag for tracking
+:END:
 ```
 
 </gap_closure_mode>
@@ -906,7 +904,7 @@ Triggered when orchestrator provides `<revision_context>` with checker issues. N
 ### Step 1: Load Existing Plans
 
 ```bash
-cat .planning/phases/$PHASE-*/$PHASE-*-PLAN.md
+cat .planning/phases/$PHASE-*/$PHASE-*-PLAN.org
 ```
 
 Build mental model of current plan structure, existing tasks, must_haves.
@@ -954,7 +952,7 @@ Group by plan, dimension, severity.
 ### Step 6: Commit
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "fix($PHASE): revise plans based on checker feedback" --files .planning/phases/$PHASE-*/$PHASE-*-PLAN.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "fix($PHASE): revise plans based on checker feedback" --files .planning/phases/$PHASE-*/$PHASE-*-PLAN.org
 ```
 
 ### Step 7: Return Revision Summary
@@ -973,8 +971,8 @@ node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "fix($PHASE): revise p
 
 ### Files Updated
 
-- .planning/phases/16-xxx/16-01-PLAN.md
-- .planning/phases/16-xxx/16-02-PLAN.md
+- .planning/phases/16-xxx/16-01-PLAN.org
+- .planning/phases/16-xxx/16-02-PLAN.org
 
 {If any issues NOT addressed:}
 
@@ -998,12 +996,12 @@ INIT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs init plan-phase "${PHA
 
 Extract from init JSON: `planner_model`, `researcher_model`, `checker_model`, `commit_docs`, `research_enabled`, `phase_dir`, `phase_number`, `has_research`, `has_context`.
 
-Also read STATE.md for position, decisions, blockers:
+Also read STATE.org for position, decisions, blockers:
 ```bash
-cat .planning/STATE.md 2>/dev/null
+cat .planning/STATE.org 2>/dev/null
 ```
 
-If STATE.md missing but .planning/ exists, offer to reconstruct or continue without.
+If STATE.org missing but .planning/ exists, offer to reconstruct or continue without.
 </step>
 
 <step name="load_codebase_context">
@@ -1029,13 +1027,13 @@ If exists, load relevant documents by phase type:
 
 <step name="identify_phase">
 ```bash
-cat .planning/ROADMAP.md
+cat .planning/ROADMAP.org
 ls .planning/phases/
 ```
 
 If multiple phases available, ask which to plan. If obvious (first incomplete), proceed.
 
-Read existing PLAN.md or DISCOVERY.md in phase directory.
+Read existing PLAN.org or DISCOVERY.org in phase directory.
 
 **If `--gaps` flag:** Switch to gap_closure_mode.
 </step>
@@ -1064,7 +1062,7 @@ Select top 2-4 phases. Skip phases with no relevance signal.
 
 **Step 3 — Read full SUMMARYs for selected phases:**
 ```bash
-cat .planning/phases/{selected-phase}/*-SUMMARY.md
+cat .planning/phases/{selected-phase}/*-SUMMARY.org
 ```
 
 From full SUMMARYs extract:
@@ -1080,7 +1078,7 @@ For phases not selected, retain from digest:
 - `decisions`: Constraints on approach
 - `patterns`: Conventions to follow
 
-**From STATE.md:** Decisions → constrain approach. Pending todos → candidates.
+**From STATE.org:** Decisions → constrain approach. Pending todos → candidates.
 
 **From RETROSPECTIVE.md (if exists):**
 ```bash
@@ -1097,14 +1095,14 @@ Read the most recent milestone retrospective and cross-milestone trends. Extract
 Use `phase_dir` from init context (already loaded in load_project_state).
 
 ```bash
-cat "$phase_dir"/*-CONTEXT.md 2>/dev/null   # From /gmsd:discuss-phase
-cat "$phase_dir"/*-RESEARCH.md 2>/dev/null   # From /gmsd:research-phase
-cat "$phase_dir"/*-DISCOVERY.md 2>/dev/null  # From mandatory discovery
+cat "$phase_dir"/*-CONTEXT.org 2>/dev/null   # From /gmsd:discuss-phase
+cat "$phase_dir"/*-RESEARCH.org 2>/dev/null   # From /gmsd:research-phase
+cat "$phase_dir"/*-DISCOVERY.org 2>/dev/null  # From mandatory discovery
 ```
 
-**If CONTEXT.md exists (has_context=true from init):** Honor user's vision, prioritize essential features, respect boundaries. Locked decisions — do not revisit.
+**If CONTEXT.org exists (has_context=true from init):** Honor user's vision, prioritize essential features, respect boundaries. Locked decisions — do not revisit.
 
-**If RESEARCH.md exists (has_research=true from init):** Use standard_stack, architecture_patterns, dont_hand_roll, common_pitfalls.
+**If RESEARCH.org exists (has_research=true from init):** Use standard_stack, architecture_patterns, dont_hand_roll, common_pitfalls.
 </step>
 
 <step name="break_into_tasks">
@@ -1164,17 +1162,17 @@ Present breakdown with wave structure. Wait for confirmation in interactive mode
 </step>
 
 <step name="write_phase_prompt">
-Use template structure for each PLAN.md.
+Use template structure for each PLAN.org.
 
 **ALWAYS use the Write tool to create files** — never use `Bash(cat << 'EOF')` or heredoc commands for file creation.
 
-Write to `.planning/phases/XX-name/{phase}-{NN}-PLAN.md`
+Write to `.planning/phases/XX-name/{phase}-{NN}-PLAN.org`
 
 Include all frontmatter fields.
 </step>
 
 <step name="validate_plan">
-Validate each created PLAN.md using gmsd-tools:
+Validate each created PLAN.org using gmsd-tools:
 
 ```bash
 VALID=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs frontmatter validate "$PLAN_PATH" --schema plan)
@@ -1202,14 +1200,14 @@ Returns JSON: `{ valid, errors, warnings, task_count, tasks }`
 </step>
 
 <step name="update_roadmap">
-Update ROADMAP.md to finalize phase placeholders:
+Update ROADMAP.org to finalize phase placeholders:
 
-1. Read `.planning/ROADMAP.md`
+1. Read `.planning/ROADMAP.org`
 2. Find phase entry (`### Phase {N}:`)
 3. Update placeholders:
 
 **Goal** (only if placeholder):
-- `[To be planned]` → derive from CONTEXT.md > RESEARCH.md > phase description
+- `[To be planned]` → derive from CONTEXT.org > RESEARCH.org > phase description
 - If Goal already has real content → leave it
 
 **Plans** (always update):
@@ -1218,16 +1216,16 @@ Update ROADMAP.md to finalize phase placeholders:
 **Plan list** (always update):
 ```
 Plans:
-- [ ] {phase}-01-PLAN.md — {brief objective}
-- [ ] {phase}-02-PLAN.md — {brief objective}
+- [ ] {phase}-01-PLAN.org — {brief objective}
+- [ ] {phase}-02-PLAN.org — {brief objective}
 ```
 
-4. Write updated ROADMAP.md
+4. Write updated ROADMAP.org
 </step>
 
 <step name="git_commit">
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs($PHASE): create phase plan" --files .planning/phases/$PHASE-*/$PHASE-*-PLAN.md .planning/ROADMAP.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs($PHASE): create phase plan" --files .planning/phases/$PHASE-*/$PHASE-*-PLAN.org .planning/ROADMAP.org
 ```
 </step>
 
@@ -1298,7 +1296,7 @@ Follow templates in checkpoints and revision_mode sections respectively.
 ## Standard Mode
 
 Phase planning complete when:
-- [ ] STATE.md read, project history absorbed
+- [ ] STATE.org read, project history absorbed
 - [ ] Mandatory discovery completed (Level 0-3)
 - [ ] Prior decisions, issues, concerns synthesized
 - [ ] Dependency graph built (needs/creates for each task)
@@ -1317,7 +1315,7 @@ Phase planning complete when:
 ## Gap Closure Mode
 
 Planning complete when:
-- [ ] VERIFICATION.md or UAT.md loaded and gaps parsed
+- [ ] VERIFICATION.org or UAT.org loaded and gaps parsed
 - [ ] Existing SUMMARYs read for context
 - [ ] Gaps clustered into focused plans
 - [ ] Plan numbers sequential after existing

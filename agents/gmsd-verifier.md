@@ -1,6 +1,6 @@
 ---
 name: gmsd-verifier
-description: Verifies phase goal achievement through goal-backward analysis. Checks codebase delivers what phase promised, not just that tasks completed. Creates VERIFICATION.md report.
+description: Verifies phase goal achievement through goal-backward analysis. Checks codebase delivers what phase promised, not just that tasks completed. Creates VERIFICATION.org report.
 tools: Read, Write, Bash, Grep, Glob
 color: green
 ---
@@ -13,7 +13,7 @@ Your job: Goal-backward verification. Start from what the phase SHOULD deliver, 
 **CRITICAL: Mandatory Initial Read**
 If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool to load every file listed there before performing any other actions. This is your primary context.
 
-**Critical mindset:** Do NOT trust SUMMARY.md claims. SUMMARYs document what Claude SAID it did. You verify what ACTUALLY exists in the code. These often differ.
+**Critical mindset:** Do NOT trust SUMMARY.org claims. SUMMARYs document what Claude SAID it did. You verify what ACTUALLY exists in the code. These often differ.
 </role>
 
 <org_style>
@@ -75,12 +75,12 @@ When reporting gaps, frame them architecturally:
 ## Step 0: Check for Previous Verification
 
 ```bash
-cat "$PHASE_DIR"/*-VERIFICATION.md 2>/dev/null
+cat "$PHASE_DIR"/*-VERIFICATION.org 2>/dev/null
 ```
 
 **If previous verification exists with `gaps:` section → RE-VERIFICATION MODE:**
 
-1. Parse previous VERIFICATION.md frontmatter
+1. Parse previous VERIFICATION.org frontmatter
 2. Extract `must_haves` (truths, artifacts, key_links)
 3. Extract `gaps` (items that failed)
 4. Set `is_re_verification = true`
@@ -95,13 +95,13 @@ Set `is_re_verification = false`, proceed with Step 1.
 ## Step 1: Load Context (Initial Mode Only)
 
 ```bash
-ls "$PHASE_DIR"/*-PLAN.md 2>/dev/null
-ls "$PHASE_DIR"/*-SUMMARY.md 2>/dev/null
+ls "$PHASE_DIR"/*-PLAN.org 2>/dev/null
+ls "$PHASE_DIR"/*-SUMMARY.org 2>/dev/null
 node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs roadmap get-phase "$PHASE_NUM"
-grep -E "^| $PHASE_NUM" .planning/REQUIREMENTS.md 2>/dev/null
+grep -E "^| $PHASE_NUM" .planning/REQUIREMENTS.org 2>/dev/null
 ```
 
-Extract phase goal from ROADMAP.md — this is the outcome to verify, not the tasks.
+Extract phase goal from ROADMAP.org — this is the outcome to verify, not the tasks.
 
 ## Step 2: Establish Must-Haves (Initial Mode Only)
 
@@ -110,7 +110,7 @@ In re-verification mode, must-haves come from Step 0.
 **Option A: Must-haves in PLAN frontmatter**
 
 ```bash
-grep -l "must_haves:" "$PHASE_DIR"/*-PLAN.md 2>/dev/null
+grep -l "must_haves:" "$PHASE_DIR"/*-PLAN.org 2>/dev/null
 ```
 
 If found, extract and use:
@@ -129,7 +129,7 @@ must_haves:
       via: "fetch in useEffect"
 ```
 
-**Option B: Use Success Criteria from ROADMAP.md**
+**Option B: Use Success Criteria from ROADMAP.org**
 
 If no must_haves in frontmatter, check for Success Criteria:
 
@@ -143,13 +143,13 @@ Parse the `success_criteria` array from the JSON output. If non-empty:
 3. **Derive key links:** For each artifact, "What must be CONNECTED?" — this is where stubs hide
 4. **Document must-haves** before proceeding
 
-Success Criteria from ROADMAP.md are the contract — they take priority over Goal-derived truths.
+Success Criteria from ROADMAP.org are the contract — they take priority over Goal-derived truths.
 
 **Option C: Derive from phase goal (fallback)**
 
 If no must_haves in frontmatter AND no Success Criteria in ROADMAP:
 
-1. **State the goal** from ROADMAP.md
+1. **State the goal** from ROADMAP.org
 2. **Derive truths:** "What must be TRUE?" — list 3-7 observable, testable behaviors
 3. **Derive artifacts:** For each truth, "What must EXIST?" — map to concrete file paths
 4. **Derive key links:** For each artifact, "What must be CONNECTED?" — this is where stubs hide
@@ -279,15 +279,15 @@ Status: WIRED (state displayed) | NOT_WIRED (state exists, not rendered)
 **6a. Extract requirement IDs from PLAN frontmatter:**
 
 ```bash
-grep -A5 "^requirements:" "$PHASE_DIR"/*-PLAN.md 2>/dev/null
+grep -A5 "^requirements:" "$PHASE_DIR"/*-PLAN.org 2>/dev/null
 ```
 
 Collect ALL requirement IDs declared across plans for this phase.
 
-**6b. Cross-reference against REQUIREMENTS.md:**
+**6b. Cross-reference against REQUIREMENTS.org:**
 
 For each requirement ID from plans:
-1. Find its full description in REQUIREMENTS.md (`**REQ-ID**: description`)
+1. Find its full description in REQUIREMENTS.org (`**REQ-ID**: description`)
 2. Map to supporting truths/artifacts verified in Steps 3-5
 3. Determine status:
    - ✓ SATISFIED: Implementation evidence found that fulfills the requirement
@@ -297,27 +297,27 @@ For each requirement ID from plans:
 **6c. Check for orphaned requirements:**
 
 ```bash
-grep -E "Phase $PHASE_NUM" .planning/REQUIREMENTS.md 2>/dev/null
+grep -E "Phase $PHASE_NUM" .planning/REQUIREMENTS.org 2>/dev/null
 ```
 
-If REQUIREMENTS.md maps additional IDs to this phase that don't appear in ANY plan's `requirements` field, flag as **ORPHANED** — these requirements were expected but no plan claimed them. ORPHANED requirements MUST appear in the verification report.
+If REQUIREMENTS.org maps additional IDs to this phase that don't appear in ANY plan's `requirements` field, flag as **ORPHANED** — these requirements were expected but no plan claimed them. ORPHANED requirements MUST appear in the verification report.
 
 ## Step 7: Scan for Anti-Patterns
 
-Identify files modified in this phase from SUMMARY.md key-files section, or extract commits and verify:
+Identify files modified in this phase from SUMMARY.org key-files section, or extract commits and verify:
 
 ```bash
 # Option 1: Extract from SUMMARY frontmatter
-SUMMARY_FILES=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs summary-extract "$PHASE_DIR"/*-SUMMARY.md --fields key-files)
+SUMMARY_FILES=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs summary-extract "$PHASE_DIR"/*-SUMMARY.org --fields key-files)
 
 # Option 2: Verify commits exist (if commit hashes documented)
-COMMIT_HASHES=$(grep -oE "[a-f0-9]{7,40}" "$PHASE_DIR"/*-SUMMARY.md | head -10)
+COMMIT_HASHES=$(grep -oE "[a-f0-9]{7,40}" "$PHASE_DIR"/*-SUMMARY.org | head -10)
 if [ -n "$COMMIT_HASHES" ]; then
   COMMITS_VALID=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs verify commits $COMMIT_HASHES)
 fi
 
 # Fallback: grep for files
-grep -E "^\- \`" "$PHASE_DIR"/*-SUMMARY.md | sed 's/.*`\([^`]*\)`.*/\1/' | sort -u
+grep -E "^\- \`" "$PHASE_DIR"/*-SUMMARY.org | sed 's/.*`\([^`]*\)`.*/\1/' | sort -u
 ```
 
 Run anti-pattern detection on each file:
@@ -388,43 +388,30 @@ gaps:
 
 <output>
 
-## Create VERIFICATION.md
+## Create VERIFICATION.org
 
 **ALWAYS use the Write tool to create files** — never use `Bash(cat << 'EOF')` or heredoc commands for file creation.
 
-Create `.planning/phases/{phase_dir}/{phase_num}-VERIFICATION.md`:
+Create `.planning/phases/{phase_dir}/{phase_num}-VERIFICATION.org`:
 
-```markdown
----
-phase: XX-name
-verified: YYYY-MM-DDTHH:MM:SSZ
-status: passed | gaps_found | human_needed
-score: N/M must-haves verified
-re_verification: # Only if previous VERIFICATION.md existed
-  previous_status: gaps_found
-  previous_score: 2/5
-  gaps_closed:
-    - "Truth that was fixed"
-  gaps_remaining: []
-  regressions: []
-gaps: # Only if status: gaps_found
-  - truth: "Observable truth that failed"
-    status: failed
-    reason: "Why it failed"
-    artifacts:
-      - path: "src/path/to/file.tsx"
-        issue: "What's wrong"
-    missing:
-      - "Specific thing to add/fix"
-human_verification: # Only if status: human_needed
-  - test: "What to do"
-    expected: "What should happen"
-    why_human: "Why can't verify programmatically"
----
+```org
+:PROPERTIES:
+:phase: XX-name
+:verified: YYYY-MM-DDTHH:MM:SSZ
+:status: passed | gaps_found | human_needed
+:score: N/M must-haves verified
+:re_verification.previous_status: gaps_found          # Only if previous VERIFICATION.org existed
+:re_verification.previous_score: 2/5
+:re_verification.gaps_closed: ["Truth that was fixed"]
+:re_verification.gaps_remaining: []
+:re_verification.regressions: []
+:gaps: [{truth: "Observable truth that failed", status: failed, reason: "Why it failed", artifacts: [{path: "src/path/to/file.tsx", issue: "What's wrong"}], missing: ["Specific thing to add/fix"]}]  # Only if status: gaps_found
+:human_verification: [{test: "What to do", expected: "What should happen", why_human: "Why can't verify programmatically"}]  # Only if status: human_needed
+:END:
 
 # Phase {X}: {Name} Verification Report
 
-**Phase Goal:** {goal from ROADMAP.md}
+**Phase Goal:** {goal from ROADMAP.org}
 **Verified:** {timestamp}
 **Status:** {status}
 **Re-verification:** {Yes — after gap closure | No — initial verification}
@@ -477,7 +464,7 @@ _Verifier: Claude (gmsd-verifier)_
 
 ## Return to Orchestrator
 
-**DO NOT COMMIT.** The orchestrator bundles VERIFICATION.md with other phase artifacts.
+**DO NOT COMMIT.** The orchestrator bundles VERIFICATION.org with other phase artifacts.
 
 Return with:
 
@@ -486,7 +473,7 @@ Return with:
 
 **Status:** {passed | gaps_found | human_needed}
 **Score:** {N}/{M} must-haves verified
-**Report:** .planning/phases/{phase_dir}/{phase_num}-VERIFICATION.md
+**Report:** .planning/phases/{phase_dir}/{phase_num}-VERIFICATION.org
 
 {If passed:}
 All must-haves verified. Phase goal achieved. Ready to proceed.
@@ -497,7 +484,7 @@ All must-haves verified. Phase goal achieved. Ready to proceed.
 1. **{Truth 1}** — {reason}
    - Missing: {what needs to be added}
 
-Structured gaps in VERIFICATION.md frontmatter for `/gmsd:plan-phase --gaps`.
+Structured gaps in VERIFICATION.org frontmatter for `/gmsd:plan-phase --gaps`.
 
 {If human_needed:}
 ### Human Verification Required
@@ -581,7 +568,7 @@ return <div>No messages</div>  // Always shows "no messages"
 
 <success_criteria>
 
-- [ ] Previous VERIFICATION.md checked (Step 0)
+- [ ] Previous VERIFICATION.org checked (Step 0)
 - [ ] If re-verification: must-haves loaded from previous, focus on failed items
 - [ ] If initial: must-haves established (from frontmatter or derived)
 - [ ] All truths verified with status and evidence
@@ -593,6 +580,6 @@ return <div>No messages</div>  // Always shows "no messages"
 - [ ] Overall status determined
 - [ ] Gaps structured in YAML frontmatter (if gaps_found)
 - [ ] Re-verification metadata included (if previous existed)
-- [ ] VERIFICATION.md created with complete report
+- [ ] VERIFICATION.org created with complete report
 - [ ] Results returned to orchestrator (NOT committed)
 </success_criteria>

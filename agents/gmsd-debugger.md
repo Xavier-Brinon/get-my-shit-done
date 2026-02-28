@@ -753,13 +753,13 @@ DEBUG_RESOLVED_DIR=.planning/debug/resolved
 
 ## File Structure
 
-```markdown
----
-status: gathering | investigating | fixing | verifying | awaiting_human_verify | resolved
-trigger: "[verbatim user input]"
-created: [ISO timestamp]
-updated: [ISO timestamp]
----
+```org
+:PROPERTIES:
+:status: gathering | investigating | fixing | verifying | awaiting_human_verify | resolved
+:trigger: "[verbatim user input]"
+:created: [ISO timestamp]
+:updated: [ISO timestamp]
+:END:
 
 ## Current Focus
 <!-- OVERWRITE on each update - reflects NOW -->
