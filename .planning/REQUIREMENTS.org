@@ -25,7 +25,7 @@ Requirements for Diataxis documentation framework integration.
 
 *** Gap Analysis
 
-- [ ] *GAPS-01*: Formal audit document maps every existing template to a Diataxis
+- [X] *GAPS-01*: Formal audit document maps every existing template to a Diataxis
   quadrant and identifies underserved quadrants
 - [ ] *GAPS-02*: New tutorial template(s) exist for learning-oriented deliverables
   (guided experiences for project onboarding)
@@ -78,7 +78,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CLASS-01    |     1 | Complete |
 | CLASS-02    |     2 | Complete |
 | CLASS-03    |     2 | Complete |
-| GAPS-01     |     2 | Pending |
+| GAPS-01     |     2 | Complete |
 | GAPS-02     |     3 | Pending |
 | GAPS-03     |     3 | Pending |
 | DOCS-01     |     4 | Pending |
