@@ -1,0 +1,182 @@
+#+title: Progress Report and Next Steps
+#+author: GMSD
+#+date: [2026-02-28]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Progress Report: Diataxis Integration
+
+** Milestone Overview
+
+The /GMSD Diataxis Integration/ milestone embeds the Diataxis documentation
+framework into GMSD so that every generated document carries a quadrant
+classification (tutorial, how-to, reference, or explanation).
+
+The milestone has 4 phases. Phases 1 and 2 are complete; Phases 3 and 4 remain.
+
+| Phase | Name                    | Status     | Plans |
+|-------+-------------------------+------------+-------|
+|     1 | Framework Foundation    | ✓ Complete | 1/1   |
+|     2 | Classification & Audit  | ✓ Complete | 3/3   |
+|     3 | Gap Filling             | ○ Pending  | TBD   |
+|     4 | Internal Docs           | ○ Pending  | TBD   |
+
+Progress: ████████████████████░░░░░░░░░░░░░░░░░░░░ 50%
+
+** Phase 1: Framework Foundation (Complete)
+
+Delivered =references/diataxis.org= --- the authoritative Diataxis reference
+document with quadrant definitions, writing rules, and anti-patterns for each
+quadrant. Also created =references/diataxis-condensed.md= --- a lightweight
+version that agents embed via =<diataxis_style>= tags.
+
+- Requirement satisfied: =CLASS-01=
+- Commits: 1 plan, ~10 min execution
+
+** Phase 2: Classification and Audit (Complete)
+
+Executed in 2 waves, 3 plans, ~50 min total.
+
+*** Plan 02-01: Classify All Deliverable Templates
+
+Added =:diataxis_primary:=, =:diataxis_secondary:=, and =:diataxis_rationale:=
+properties to all 36 template =.org= files. Classification breakdown:
+
+| Quadrant    | Count | Templates                             |
+|-------------+-------+---------------------------------------|
+| Reference   |    34 | All codebase, research-project, most root |
+| Explanation |     1 | =project.org=                         |
+| How-to      |     1 | =user-setup.org=                      |
+| Tutorial    |     0 | /none/                                |
+
+7 meta templates tagged =:diataxis_meta: true= (internal machinery like
+=continue-here.org=, =DEBUG.org=, =UAT.org=, etc.). No misaligned templates
+found.
+
+- Requirement satisfied: =CLASS-02=
+
+*** Plan 02-02: Add Diataxis Style Tags to Agents
+
+Inserted =<diataxis_style>= tags into all 7 org-generating agents:
+
+| Agent                    | Output Quadrant(s)                       |
+|--------------------------+------------------------------------------|
+| =gmsd-roadmapper=       | Reference                                |
+| =gmsd-phase-researcher= | Reference                                |
+| =gmsd-codebase-mapper=  | Reference                                |
+| =gmsd-verifier=         | Reference                                |
+| =gmsd-executor=         | Reference (SUMMARY, DEBUG) + How-to (USER-SETUP) |
+| =gmsd-planner=          | Reference (frontmatter) + How-to (tasks) |
+| =gmsd-project-researcher= | Explanation (PROJECT) + Reference (research docs) |
+
+Each tag: adjacent to =</org_style>=, under 30 lines, includes anti-patterns,
+references =diataxis-condensed.md=.
+
+- Requirement satisfied: =CLASS-03=
+
+*** Plan 02-03: Formal Diataxis Audit
+
+Created =references/diataxis-audit.org= --- the formal record of classification
+work. Contains:
+
+1. Template quadrant mapping tables (36 templates)
+2. Agent output mapping table (7 agents)
+3. MermaidJS pie chart of quadrant distribution
+4. Gap analysis identifying underserved quadrants
+5. Misalignment summary (none found)
+6. Recommendations for Phase 3
+
+- Requirement satisfied: =GAPS-01=
+
+** Verification Result
+
+Phase 2 verification: *PASSED* (3/3 must-haves verified)
+
+Verifier confirmed:
+- All 36 templates carry =:diataxis_primary:= (grepped actual files)
+- All 7 agents carry =<diataxis_style>= tags (grepped actual files)
+- Audit document exists with correct counts and requirement references
+- 138/138 tests pass --- zero regressions
+
+* Gap Analysis Summary
+
+The audit revealed a heavily reference-skewed distribution:
+
+#+begin_src mermaid :file diataxis-distribution.png :exports results
+pie title Deliverable Template Quadrant Distribution
+    "Reference" : 27
+    "Explanation" : 1
+    "How-to" : 1
+    "Tutorial" : 0
+#+end_src
+
+| Quadrant    | Deliverable Count | Severity     | Requirement |
+|-------------+-------------------+--------------+-------------|
+| Tutorial    |                 0 | CRITICAL gap | =GAPS-02=   |
+| How-to      |                 1 | Low coverage | =GAPS-03=   |
+| Explanation |                 1 | Low coverage | /deferred/  |
+| Reference   |                27 | Well served  | /none/      |
+
+The reference dominance is intentional --- GMSD templates generate documents
+that agents and developers consult for specific facts. But the complete absence
+of Tutorial templates means new users have no guided onboarding path.
+
+* Next Steps
+
+** Phase 3: Gap Filling (Next)
+
+Phase 3 addresses the gaps identified in the audit. Two requirements drive the
+work:
+
+*** Priority 1: Tutorial Template (=GAPS-02= --- Critical)
+
+Create =templates/tutorial.org= --- a structured, success-guaranteed walkthrough
+for new GMSD users.
+
+- *What it should deliver:* A guided exercise that takes a beginner through one
+  complete GMSD workflow cycle (discuss → plan → execute)
+- *Suggested scope:* "Your First GMSD Phase"
+- *Key constraint:* Tutorial is for /learning/, not for /getting things done/ ---
+  steps are chosen to build understanding, not for efficiency
+- *Structural model:* =user-setup.org= (step-by-step, goal-oriented) but adapted
+  for a learning context
+
+*** Priority 2: How-to Template (=GAPS-03= --- Low Coverage)
+
+Create =templates/howto.org= --- a general-purpose template for documenting
+repeatable multi-step procedures.
+
+- *What it should deliver:* A reusable template for any operational procedure
+  (workflow steps, runbook entries, deployment guides)
+- *Current gap:* =user-setup.org= is the only how-to template and is scoped
+  exclusively to external service configuration
+- *Structural model:* =user-setup.org= with the "external service" framing
+  removed and the goal/steps/verification structure made generic
+
+*** Priority 3: Explanation Assessment (Deferred)
+
+Evaluate whether the single explanation template (=project.org=) is sufficient.
+The gap is real but lower urgency because explanatory content can be embedded in
+ADRs (=adr.org= secondary: explanation) and research docs (=research.org=
+secondary: explanation). Consider as Phase 4 scope.
+
+** Phase 4: Internal Docs (Future)
+
+Reorganise GMSD's own documentation to align with Diataxis quadrants. Scope and
+plans to be defined after Phase 3.
+
+** How to Continue
+
+Start Phase 3 planning in a fresh context window:
+
+#+begin_example
+/gmsd:plan-phase 3
+#+end_example
+
+This will read the audit's gap analysis, the GAPS-02 and GAPS-03 requirements,
+and produce a detailed plan for creating the tutorial and how-to templates.
+
+-----
+/Generated: 2026-02-28/
+/Phase 2 completed: 2026-02-28/
+/All data sourced from: ROADMAP.org, STATE.org, diataxis-audit.org, VERIFICATION.org/
