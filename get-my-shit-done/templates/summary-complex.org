@@ -3,6 +3,9 @@
 #+options: toc:2 num:nil ^:{}
 
 :PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader (future agents and developers) consults the generated SUMMARY.org to look up what was accomplished, which commits were made, and what decisions and deviations occurred in the plan.
 :phase: XX-name
 :plan: YY
 :subsystem: [primary category]

@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated TESTING.org to look up the test framework, file conventions, mocking patterns, and commands needed to add matching tests.
+:END:
+
 #+title: Testing
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

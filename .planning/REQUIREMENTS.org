@@ -18,14 +18,14 @@ Requirements for Diataxis documentation framework integration.
 
 - [X] *CLASS-01*: Diataxis condensed reference document exists in =references/=
   with quadrant definitions, writing rules, and anti-patterns for each quadrant
-- [ ] *CLASS-02*: Every deliverable template (40+) has a Diataxis quadrant
+- [X] *CLASS-02*: Every deliverable template (40+) has a Diataxis quadrant
   classification in its metadata or documentation header
-- [ ] *CLASS-03*: Every org-generating agent (7) has a =<diataxis_style>= tag
+- [X] *CLASS-03*: Every org-generating agent (7) has a =<diataxis_style>= tag
   with quadrant-specific writing guidance matching its output templates
 
 *** Gap Analysis
 
-- [ ] *GAPS-01*: Formal audit document maps every existing template to a Diataxis
+- [X] *GAPS-01*: Formal audit document maps every existing template to a Diataxis
   quadrant and identifies underserved quadrants
 - [ ] *GAPS-02*: New tutorial template(s) exist for learning-oriented deliverables
   (guided experiences for project onboarding)
@@ -76,9 +76,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status  |
 |-------------+-------+---------|
 | CLASS-01    |     1 | Complete |
-| CLASS-02    |     2 | Pending |
-| CLASS-03    |     2 | Pending |
-| GAPS-01     |     2 | Pending |
+| CLASS-02    |     2 | Complete |
+| CLASS-03    |     2 | Complete |
+| GAPS-01     |     2 | Complete |
 | GAPS-02     |     3 | Pending |
 | GAPS-03     |     3 | Pending |
 | DOCS-01     |     4 | Pending |
@@ -92,4 +92,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 -----
 /Requirements defined: 2026-02-27/
-/Last updated: 2026-02-28 — CLASS-01 marked complete after Phase 1 execution/
+/Last updated: 2026-02-28 — CLASS-03 marked complete after Phase 2 plan 02-02 execution/

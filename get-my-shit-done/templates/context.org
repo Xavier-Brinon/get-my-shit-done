@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader (downstream agent) consults the generated CONTEXT.org to look up locked implementation decisions, user constraints, and deferred items before planning or researching.
+:END:
+
 #+title: Context
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

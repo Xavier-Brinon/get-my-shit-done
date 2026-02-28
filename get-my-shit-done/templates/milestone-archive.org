@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated milestone archive to look up what was delivered, which phases were completed, and key decisions made during a shipped milestone.
+:END:
+
 #+title: Milestone Archive
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

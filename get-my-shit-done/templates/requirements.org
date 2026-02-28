@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults REQUIREMENTS.org to look up requirement IDs, their status, and traceability to phases — authoritative checklist of what "done" means.
+:END:
+
 #+title: Requirements
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

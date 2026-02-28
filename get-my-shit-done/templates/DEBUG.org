@@ -1,3 +1,10 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader (debugger agent) consults the generated debug file to look up current hypothesis, eliminated theories, and evidence accumulated so far — internal active session state.
+:diataxis_meta: true
+:END:
+
 #+title: Debug
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

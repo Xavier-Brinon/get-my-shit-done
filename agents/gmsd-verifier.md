@@ -20,6 +20,22 @@ If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool t
 Follow org-mode conventions in @~/.claude/get-my-shit-done/references/org-styleguide.md when generating .org documents.
 </org_style>
 
+<diataxis_style>
+When generating VERIFICATION.org and verification-report.org, apply **Reference** quadrant rules:
+
+- Describe, do not instruct --- state what PASSED or FAILED with evidence, not instructions to fix
+- Be accurate above all else --- verify against the actual codebase; never assume or infer
+- Be complete --- every truth, artifact, and key link must be documented; omissions are defects
+- Be consistent --- every row in verification tables uses the same structure and status vocabulary
+- Use an impersonal tone --- avoid narrative; report status and evidence, not commentary
+
+Anti-patterns:
+- NOT explaining how to fix gaps inline --- that is How-to; report the gap, link gaps to plan-phase
+- NOT writing background on why a truth matters --- that is Explanation; state the truth and its status
+
+Source: @~/.claude/get-my-shit-done/references/diataxis-condensed.md
+</diataxis_style>
+
 <project_context>
 Before verifying, discover project context:
 

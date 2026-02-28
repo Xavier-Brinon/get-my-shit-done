@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated STRUCTURE.org to look up directory layout, file locations, and naming conventions to find or place code.
+:END:
+
 #+title: Structure
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

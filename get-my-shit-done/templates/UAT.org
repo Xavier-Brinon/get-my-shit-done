@@ -1,3 +1,10 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader (UAT agent) consults the generated UAT.org to look up current test status, which test is active, and which gaps have been found — internal active testing session state.
+:diataxis_meta: true
+:END:
+
 #+title: Uat
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

@@ -1,0 +1,170 @@
+#+title: Phase 02 Plan 01: Classify All Deliverable Templates Summary
+#+author: GMSD
+#+date: [2026-02-28]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+:PROPERTIES:
+:phase: 02-classification-and-audit
+:plan: 01
+:subsystem: documentation
+:tags: [diataxis, org-mode, templates, classification, metadata]
+:requires: [{phase: 01-framework-foundation, provides: diataxis.org reference and diataxis-condensed.md}]
+:provides: [36 template files with :diataxis_primary:, :diataxis_secondary:, :diataxis_rationale: properties; 7 meta templates with :diataxis_meta: true]
+:affects: [02-classification-and-audit, audit-tooling, plan-checker, future-phases]
+:tech-stack.added: []
+:tech-stack.patterns: [Metadata Augmentation Pattern — add structured classification to existing artefacts without modifying content]
+:key-files.created: [.planning/phases/02-classification-and-audit/02-01-SUMMARY.org]
+:key-files.modified: [get-my-shit-done/templates/codebase/architecture.org, get-my-shit-done/templates/codebase/concerns.org, get-my-shit-done/templates/codebase/conventions.org, get-my-shit-done/templates/codebase/integrations.org, get-my-shit-done/templates/codebase/stack.org, get-my-shit-done/templates/codebase/structure.org, get-my-shit-done/templates/codebase/testing.org, get-my-shit-done/templates/research-project/ARCHITECTURE.org, get-my-shit-done/templates/research-project/FEATURES.org, get-my-shit-done/templates/research-project/PITFALLS.org, get-my-shit-done/templates/research-project/STACK.org, get-my-shit-done/templates/research-project/SUMMARY.org, get-my-shit-done/templates/adr.org, get-my-shit-done/templates/context.org, get-my-shit-done/templates/continue-here.org, get-my-shit-done/templates/debug-subagent-prompt.org, get-my-shit-done/templates/DEBUG.org, get-my-shit-done/templates/discovery.org, get-my-shit-done/templates/milestone-archive.org, get-my-shit-done/templates/milestone.org, get-my-shit-done/templates/phase-prompt.org, get-my-shit-done/templates/planner-subagent-prompt.org, get-my-shit-done/templates/project.org, get-my-shit-done/templates/requirements.org, get-my-shit-done/templates/research.org, get-my-shit-done/templates/retrospective.org, get-my-shit-done/templates/roadmap.org, get-my-shit-done/templates/state.org, get-my-shit-done/templates/summary-complex.org, get-my-shit-done/templates/summary-minimal.org, get-my-shit-done/templates/summary-standard.org, get-my-shit-done/templates/summary.org, get-my-shit-done/templates/UAT.org, get-my-shit-done/templates/user-setup.org, get-my-shit-done/templates/VALIDATION.org, get-my-shit-done/templates/verification-report.org]
+:key-decisions: ["All 7 codebase/ templates classified as reference — generated docs are looked up, not read", "All 5 research-project/ templates classified as reference — research findings are consulted", "project.org classified as explanation — reader builds mental model of project vision", "user-setup.org classified as how-to — reader follows steps to accomplish a specific goal", "adr.org classified as reference primary / explanation secondary — decision is a fact; pros/cons are explanatory", "7 meta templates tagged :diataxis_meta: true for audit filtering", "No :diataxis_misaligned: templates — all 36 primaries well-supported by content"]
+:requirements-completed: [CLASS-02]
+:duration: 25min
+:completed: 2026-02-28
+:END:
+
+* Phase 02 Plan 01: Classify All Deliverable Templates Summary
+
+*Diataxis quadrant metadata added to all 36 template files using
+Metadata Augmentation Pattern — reference dominates (34/36), with
+project.org as explanation and user-setup.org as how-to*
+
+** Performance
+
+- *Duration:* 25 min
+- *Started:* 2026-02-28T00:00:00Z
+- *Completed:* 2026-02-28T00:25:00Z
+- *Tasks:* 2
+- *Files modified:* 36
+
+** Accomplishments
+
+- Added =:diataxis_primary:=, =:diataxis_secondary:=, and
+  =:diataxis_rationale:= to all 36 template =.org= files
+- Added =:diataxis_meta: true= to 7 internal/meta templates for
+  audit filtering
+- Maintained consistent property drawer placement (above =#+title:=
+  for new drawers, or at the start of existing drawers)
+- Confirmed no diataxis properties appear inside =#+begin_src= blocks
+- All 138 existing tests pass — no regressions
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Classify codebase and research-project templates (12 files)* - ~0985da8~ (feat)
+2. *Task 2: Classify planning-workflow and reference templates (24 files)* - ~1af20c1~ (feat)
+
+*Plan metadata:* (docs commit follows)
+
+** Files Created/Modified
+
+All 36 template files in =get-my-shit-done/templates/= modified:
+
+- =codebase/architecture.org= — reference: reader looks up conceptual code structure
+- =codebase/concerns.org= — reference: reader looks up known issues and risks
+- =codebase/conventions.org= — reference: reader looks up naming and style rules
+- =codebase/integrations.org= — reference: reader looks up external service facts
+- =codebase/stack.org= — reference: reader looks up technology choices
+- =codebase/structure.org= — reference: reader looks up file locations
+- =codebase/testing.org= — reference: reader looks up test framework and patterns
+- =research-project/ARCHITECTURE.org= — reference: reader looks up domain architecture patterns
+- =research-project/FEATURES.org= — reference: reader looks up feature landscape
+- =research-project/PITFALLS.org= — reference: reader looks up domain failure modes
+- =research-project/STACK.org= — reference: reader looks up recommended technologies
+- =research-project/SUMMARY.org= — reference: reader looks up consolidated research
+- =adr.org= — reference/explanation: ADR is a decision fact; pros/cons are explanatory
+- =context.org= — reference: downstream agents look up locked decisions
+- =continue-here.org= — reference/meta: resuming agent looks up execution position
+- =debug-subagent-prompt.org= — reference/meta: orchestrator looks up spawn template
+- =DEBUG.org= — reference/meta: debugger agent looks up session state
+- =discovery.org= — reference: reader looks up technology recommendation
+- =milestone-archive.org= — reference: reader looks up shipped milestone history
+- =milestone.org= — reference: reader looks up milestone entries
+- =phase-prompt.org= — reference/meta: planner looks up PLAN.org format
+- =planner-subagent-prompt.org= — reference/meta: orchestrator looks up spawn template
+- =project.org= — explanation: reader builds mental model of project purpose
+- =requirements.org= — reference: reader looks up requirement IDs and status
+- =research.org= — reference/explanation: findings are looked up; rationale is explanatory
+- =retrospective.org= — reference: reader looks up lessons and velocity metrics
+- =roadmap.org= — reference: reader looks up phases, plans, and progress
+- =state.org= — reference: agent looks up current execution position
+- =summary-complex.org= — reference: reader looks up plan accomplishments
+- =summary-minimal.org= — reference: reader looks up plan accomplishments
+- =summary-standard.org= — reference: reader looks up plan accomplishments
+- =summary.org= — reference: reader looks up plan accomplishments and decisions
+- =UAT.org= — reference/meta: UAT agent looks up test session state
+- =user-setup.org= — how-to: reader follows steps to configure external services
+- =VALIDATION.org= — reference/meta: plan-checker looks up validation contract
+- =verification-report.org= — reference: reader looks up verification results
+
+** Decisions Made
+
+- *reference dominance:* 34 of 36 templates classified as reference
+  primary. GMSD templates generate documents that agents and developers
+  consult for specific facts — the classic reference use case.
+- *project.org as explanation:* The generated PROJECT.org is not a
+  lookup document — it answers "what is this project and why?" for
+  readers building a mental model before engaging with plans.
+- *user-setup.org as how-to:* The generated USER-SETUP.org is a
+  task-completion guide — the reader has a specific goal (configure
+  Stripe) and follows numbered steps. This is the canonical how-to
+  pattern.
+- *adr.org as reference/explanation:* The ADR itself is a reference
+  fact (what was decided), but the Pros and Cons sections provide
+  explanatory discussion. Secondary: explanation.
+- *research.org as reference/explanation:* Research documents are
+  primarily consulted for stack recommendations and pitfalls
+  (reference), but the "why standard" rationale columns and pitfall
+  explanations are explanatory. Secondary: explanation.
+- *7 meta templates:* continue-here, debug-subagent-prompt, DEBUG,
+  UAT, phase-prompt, planner-subagent-prompt, VALIDATION are tagged
+  =:diataxis_meta: true= — internal machinery, not user-facing output.
+
+** Deviations from Plan
+
+None — plan executed exactly as written. The pre-assessment in the
+plan (all codebase and research-project templates as reference) was
+confirmed correct by applying the Diataxis decision tree to each file.
+
+** Issues Encountered
+
+None.
+
+** Architectural Observations
+
+- *Emergent patterns:* Reference dominates overwhelmingly (34/36).
+  GMSD's template architecture reflects the Diataxis principle that
+  reference material is the backbone of a technical system's
+  documentation — every codebase map, research finding, and execution
+  state document is consulted, not read linearly.
+- *Coupling discovered:* The three summary variant files
+  (summary-complex, summary-standard, summary-minimal) share identical
+  diataxis classification — they are structural variants of the same
+  document type. This is intentional coupling (same purpose, different
+  depth), but worth noting: if the classification ever needs to change,
+  it must change in all three.
+- *Boundary assessment:* The how-to/reference boundary was cleanest at
+  =user-setup.org= — it is the only template whose generated output
+  directs a human to accomplish a task step-by-step. All other
+  templates generate lookup/consultation documents.
+- *ADR candidates:* The =project.org= classification as =explanation=
+  rather than =reference= is a subtle but important boundary decision.
+  The distinction: PROJECT.org answers "what is this and why?" (builds
+  mental model), while ROADMAP.org answers "what phases are planned?"
+  (looks up specifics). This aligns with Diataxis's explanation vs
+  reference separation and may warrant an ADR if the classification is
+  ever challenged.
+
+** Next Phase Readiness
+
+- All 36 template files carry machine-readable Diataxis quadrant
+  metadata
+- Plan 02-03 (audit) can now read =:diataxis_primary:= directly from
+  property drawers without any additional classification step
+- Meta template filter is ready: query =:diataxis_meta: true= to
+  exclude internal templates from audit scope
+- 138/138 tests pass — regression-free
+
+-----
+/Phase: 02-classification-and-audit/
+/Completed: 2026-02-28/

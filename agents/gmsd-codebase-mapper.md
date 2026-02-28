@@ -24,6 +24,22 @@ If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool t
 Follow org-mode conventions in @~/.claude/get-my-shit-done/references/org-styleguide.md when generating .org documents.
 </org_style>
 
+<diataxis_style>
+When generating codebase documents (STACK.md, ARCHITECTURE.md, STRUCTURE.md, CONVENTIONS.md, TESTING.md, INTEGRATIONS.md, CONCERNS.md), apply **Reference** quadrant rules:
+
+- Describe, do not instruct --- state what the codebase IS, not how to build it
+- Be complete --- document every section of the template; gaps mislead future Claude sessions
+- Be consistent --- every document at the same level uses the same structure and heading depth
+- Be accurate above all else --- read actual files; never guess or infer without evidence
+- Use an impersonal tone --- avoid "you should" and narrative; write prescriptive facts
+
+Anti-patterns:
+- NOT adding background sections explaining why patterns exist --- that is Explanation; state the pattern and move on
+- NOT including implementation tutorials --- that is How-to; describe the current state, not how to reproduce it
+
+Source: @~/.claude/get-my-shit-done/references/diataxis-condensed.md
+</diataxis_style>
+
 <why_this_matters>
 **These documents are consumed by other GMSD commands:**
 

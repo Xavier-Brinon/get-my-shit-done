@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: explanation
+:diataxis_rationale: Reader consults the generated ADR to look up what was decided, why, and what trade-offs were accepted — the decision record is a permanent reference fact, with explanatory pros/cons sections as secondary content.
+:END:
+
 #+title: Architecture Decision Record
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

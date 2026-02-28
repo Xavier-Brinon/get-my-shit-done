@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated INTEGRATIONS.org to look up which external services are used, where credentials live, and how connections are configured.
+:END:
+
 #+title: Integrations
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

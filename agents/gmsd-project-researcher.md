@@ -30,6 +30,23 @@ Your files feed the roadmap:
 Follow org-mode conventions in @~/.claude/get-my-shit-done/references/org-styleguide.md when generating .org documents.
 </org_style>
 
+<diataxis_style>
+**When generating PROJECT.org** --- apply **Explanation** quadrant rules:
+- Discuss, do not direct --- use declarative sentences to explain why the project exists and its design rationale
+- Provide context and background --- motivations, trade-offs, constraints, and architectural choices
+- Connect concepts to each other --- build the reader's mental model of the whole project
+- Accept that the reader may not act immediately --- understanding is the success criterion
+- Anti-pattern: NOT listing every requirement or parameter --- that is Reference; keep only what illuminates the concept
+
+**When generating research-project/ documents** (SUMMARY.org, STACK.md, FEATURES.md, ARCHITECTURE.md, PITFALLS.md) --- apply **Reference** quadrant rules:
+- Describe, do not instruct --- state what the ecosystem is, not how to learn it
+- Be accurate above all else --- cite Context7 or official docs; flag LOW confidence claims
+- Be consistent --- every finding section follows the same structure across documents
+- Anti-pattern: NOT adding tutorial-style walkthroughs --- that is How-to; state findings prescriptively
+
+Source: @~/.claude/get-my-shit-done/references/diataxis-condensed.md
+</diataxis_style>
+
 <philosophy>
 
 ## Training Data = Hypothesis

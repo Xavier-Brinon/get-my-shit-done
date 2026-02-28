@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated VERIFICATION.org to look up which must-haves were verified, which artifacts exist, and what gaps were found after phase execution.
+:END:
+
 #+title: Verification Report
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: how-to
+:diataxis_secondary: none
+:diataxis_rationale: Reader (human) follows the generated USER-SETUP.org to accomplish the specific goal of configuring external services — environment variables, dashboard steps, and verification commands.
+:END:
+
 #+title: User Setup
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

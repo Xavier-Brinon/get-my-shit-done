@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated ARCHITECTURE.org to look up how the codebase is structured at a conceptual level — layers, data flow, and abstractions.
+:END:
+
 #+title: Architecture
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

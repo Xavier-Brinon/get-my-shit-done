@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults ROADMAP.org to look up phase goals, plans, dependencies, success criteria, and current progress status.
+:END:
+
 #+title: Roadmap
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

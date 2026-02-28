@@ -1,0 +1,144 @@
+:PROPERTIES:
+:phase: 02-classification-and-audit
+:plan: 03
+:subsystem: documentation
+:tags: diataxis, org-mode, audit, gap-analysis, reference, how-to, tutorial, explanation
+:requires: [{phase: 02-01, provides: diataxis properties on 36 templates}, {phase: 02-02, provides: diataxis_style tags on 7 agents}]
+:provides: [references/diataxis-audit.org with full template and agent quadrant mapping, distribution chart, gap analysis, and Phase 3 recommendations]
+:affects: [Phase 3 gap-filling work, GAPS-02 tutorial template, GAPS-03 how-to template, requirements traceability]
+:tech-stack.added: []
+:tech-stack.patterns: [MermaidJS ob-mermaid pie chart in org-mode document, formal audit document pattern synthesising prior classification work]
+:key-files.created: [get-my-shit-done/references/diataxis-audit.org, .planning/phases/02-classification-and-audit/02-03-SUMMARY.org]
+:key-files.modified: []
+:key-decisions: ["Tutorial quadrant has zero deliverable templates — classified as critical gap (GAPS-02)", "How-to quadrant has one template (user-setup.org only) — classified as low coverage gap (GAPS-03)", "Explanation quadrant has one template (project.org) — low coverage but lower urgency than Tutorial and How-to", "Reference dominance is intentional and correct for GMSD outputs — 27/29 deliverable templates", "No misaligned templates found — all 36 primaries well-supported by content"]
+:requirements-completed: [GAPS-01]
+:duration: 15min
+:completed: 2026-02-28
+:END:
+
+#+title: Phase 02 Plan 03: Write Formal Diataxis Audit Document Summary
+#+author: GMSD
+#+date: [2026-02-28]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 02 Plan 03: Write Formal Diataxis Audit Document Summary
+
+*Formal Diataxis audit document written, mapping 36 templates and 7 agents
+to quadrants, identifying Tutorial as a critical zero-coverage gap and
+How-to as low coverage, with specific Phase 3 recommendations for GAPS-02
+and GAPS-03*
+
+** Performance
+
+- *Duration:* 15 min
+- *Started:* 2026-02-28T23:18:32Z
+- *Completed:* 2026-02-28T23:33:00Z
+- *Tasks:* 1
+- *Files created:* 2
+
+** Accomplishments
+
+- Created =references/diataxis-audit.org= with all required sections:
+  property drawer, template quadrant mapping table (grouped by subdirectory),
+  agent output mapping table, MermaidJS pie chart, gap analysis, misalignment
+  summary, and Phase 3 recommendations
+- Synthesised classification data from Plans 02-01 (36 templates) and 02-02
+  (7 agents) into a single audit document without reclassifying
+- Identified Tutorial as a critical gap (0 deliverable templates) and
+  How-to and Explanation as low-coverage gaps (1 template each)
+- Confirmed no misaligned templates — all 36 primaries well-supported by content
+- Provided specific, actionable recommendations connecting to GAPS-02 and GAPS-03
+- 138/138 tests pass — no regressions
+
+** Task Commits
+
+1. *Task 1: Gather classification data and write audit document* - ~54fee69~ (feat)
+
+** Files Created/Modified
+
+- =get-my-shit-done/references/diataxis-audit.org= — complete audit document
+  with 7 sections, org tables for all 36 templates and 7 agents, MermaidJS
+  distribution chart, gap analysis, and Phase 3 recommendations
+
+** Decisions Made
+
+- *Tutorial gap is critical:* 0 deliverable templates in Tutorial quadrant.
+  A new GMSD user has no guided, learning-oriented entry point. GMSD currently
+  assumes prior knowledge and relies entirely on reference documents for
+  onboarding.
+- *How-to gap is low severity:* 1 deliverable template (=user-setup.org=)
+  scoped exclusively to external service configuration. No general-purpose
+  how-to template exists for operational procedures or workflow documentation.
+- *Explanation gap deferred:* 1 deliverable template (=project.org=). ADRs
+  provide secondary explanation coverage, reducing urgency. Recommended for
+  Phase 4 evaluation rather than Phase 3.
+- *No misalignment corrections needed:* All 36 templates confirmed correct
+  against the Diataxis decision tree. The pre-assessment in 02-01-PLAN.org
+  was accurate.
+- *Reference dominance is intentional:* 27/29 deliverable templates classify
+  as reference. This is correct — GMSD templates generate documents that
+  agents and developers consult for specific facts, not documents read linearly.
+
+** Deviations from Plan
+
+None — plan executed exactly as written.
+
+** Issues Encountered
+
+None.
+
+** Architectural Observations
+
+- *Emergent patterns:* The audit reveals that GMSD is structurally a
+  reference-first system — every phase of documentation output is optimised
+  for fact lookup. This is architecturally sound for an AI workflow tool where
+  agents need to retrieve specific state, not read narrative. The Diataxis
+  framework makes this explicit: GMSD's documentation architecture is a
+  reference warehouse with one explanation gateway (=project.org=), one
+  how-to onramp (=user-setup.org=), and no tutorial entry point.
+- *Coupling discovered:* The three summary variant templates
+  (=summary-complex=, =summary-standard=, =summary-minimal=) all classify
+  identically (reference, no secondary, no meta). This shared classification
+  is intentional — they are structural variants of the same document type.
+  If the classification changes, it must change in all three simultaneously.
+- *Boundary assessment:* The Tutorial/How-to boundary is the most critical
+  architectural gap. The existing =user-setup.org= (How-to) gets closest to
+  tutorial territory but is scoped to external service configuration, not
+  learning. A Tutorial template must explicitly foreground learning as its
+  success criterion, not task completion.
+- *ADR candidates:* The decision to classify GMSD's reference dominance as
+  intentional rather than a structural problem may warrant an ADR. The
+  principle at stake: "GMSD templates should optimise for agent fact-retrieval
+  (reference) rather than human learning (tutorial/explanation)." If this
+  principle is ever challenged (e.g., for a user-facing documentation
+  system), the ADR would record why reference dominance was chosen.
+
+** Audit Summary
+
+| Quadrant    | Deliverable Templates | Meta Templates | Agent Outputs (types) |
+|-------------+-----------------------+----------------+-----------------------|
+| Reference   |                    27 |              7 |                    11 |
+| Explanation |                     1 |              0 |                     1 |
+| How-to      |                     1 |              0 |                     2 |
+| Tutorial    |                     0 |              0 |                     0 |
+| *Total*     |                    29 |              7 |                    14 |
+
+** Next Phase Readiness
+
+- =references/diataxis-audit.org= is the specification input for Phase 3
+- Gap analysis maps directly to requirements GAPS-02 and GAPS-03
+- Tutorial quadrant (GAPS-02) is Priority 1: zero coverage, critical gap
+- How-to quadrant (GAPS-03) is Priority 2: single scoped template, low coverage
+- Explanation quadrant: deferred to Phase 4 assessment
+- Phase 2 complete — all classification and audit work done
+
+** Self-Check: PASSED
+
+- =get-my-shit-done/references/diataxis-audit.org= — FOUND
+- =.planning/phases/02-classification-and-audit/02-03-SUMMARY.org= — FOUND
+- Commit ~54fee69~ (feat(02-03)) — FOUND
+
+-----
+/Phase: 02-classification-and-audit/
+/Completed: 2026-02-28/

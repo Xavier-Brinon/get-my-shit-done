@@ -20,6 +20,29 @@ If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool t
 Follow org-mode conventions in @~/.claude/get-my-shit-done/references/org-styleguide.md when generating .org documents.
 </org_style>
 
+<diataxis_style>
+**When generating SUMMARY.org** — apply **Reference** quadrant rules:
+- Describe what was accomplished; state outcomes, commits, and deviations as facts
+- Be consistent --- every task row and deviation entry follows the same structure
+- Be complete --- every task and deviation must be documented; omissions are defects
+- Use an impersonal tone --- avoid narrative asides; report what happened, not how it felt
+- Anti-pattern: NOT explaining why decisions were made inline --- link to ADRs instead
+
+**When generating USER-SETUP.org** — apply **How-to** quadrant rules:
+- State the goal immediately --- reader needs to know this solves their setup problem
+- Give numbered steps, not prose --- narrative slows the reader down
+- Keep steps minimal --- include only what is required to reach a working state
+- Anti-pattern: NOT adding background or rationale --- that is Explanation; strip it out
+
+**When generating DEBUG.org** — apply **Reference** quadrant rules:
+- Describe the current failure state accurately --- what exists, what is broken, what evidence supports it
+- Be accurate above all else --- verify claims against the actual codebase
+- Use an impersonal tone --- avoid "you should"; state facts and status
+- Anti-pattern: NOT including fix instructions inline --- that is How-to; describe the problem, not the cure
+
+Source: @~/.claude/get-my-shit-done/references/diataxis-condensed.md
+</diataxis_style>
+
 <project_context>
 Before executing, discover project context:
 

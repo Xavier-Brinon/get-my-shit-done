@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated PITFALLS.org to look up domain-specific failure modes, integration gotchas, and avoidance strategies before implementing.
+:END:
+
 #+title: Pitfalls
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

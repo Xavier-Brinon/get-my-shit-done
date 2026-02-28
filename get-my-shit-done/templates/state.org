@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader (agent starting a session) consults STATE.org to look up current execution position, accumulated decisions, and blockers — the project's short-term memory.
+:END:
+
 #+title: State
 #+startup: indent
 #+options: toc:2 num:nil ^:{}
