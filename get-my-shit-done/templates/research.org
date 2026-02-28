@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: explanation
+:diataxis_rationale: Reader consults the generated RESEARCH.org to look up standard stack, architecture patterns, and pitfalls for a domain; explanation sections cover rationale for why patterns are recommended.
+:END:
+
 #+title: Research
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

@@ -1,3 +1,10 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader (plan-checker agent) consults the generated VALIDATION.org to look up the per-task verification map, sampling rates, and wave-0 requirements — internal validation contract for a phase.
+:diataxis_meta: true
+:END:
+
 #+title: Validation
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

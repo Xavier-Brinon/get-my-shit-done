@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults MILESTONES.org to look up what was shipped, stats, and git ranges for completed milestones.
+:END:
+
 #+title: Milestone
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

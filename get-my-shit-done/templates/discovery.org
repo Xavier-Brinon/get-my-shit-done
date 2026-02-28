@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated DISCOVERY.org to look up the primary recommendation, alternatives considered, and key findings for a specific library or technology choice.
+:END:
+
 #+title: Discovery
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

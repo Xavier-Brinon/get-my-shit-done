@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: explanation
+:diataxis_secondary: reference
+:diataxis_rationale: Reader builds a mental model of what the project is, its core value, and constraints — understanding-oriented; the requirements and decisions sections serve as secondary reference.
+:END:
+
 #+title: Project
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

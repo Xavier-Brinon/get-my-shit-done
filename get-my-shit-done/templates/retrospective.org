@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the retrospective to look up lessons, velocity trends, and what worked or was inefficient across shipped milestones.
+:END:
+
 #+title: Retrospective
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

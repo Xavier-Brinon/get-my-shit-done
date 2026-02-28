@@ -1,3 +1,10 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader (resuming agent) consults the generated .continue-here.org to look up the exact execution position, completed work, and next action — internal session handoff state.
+:diataxis_meta: true
+:END:
+
 #+title: Continue Here
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

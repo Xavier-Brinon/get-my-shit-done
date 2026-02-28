@@ -1,3 +1,10 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader (planner agent) consults this template to look up the required PLAN.org output format, frontmatter fields, and task structure to produce correct executable plans.
+:diataxis_meta: true
+:END:
+
 #+title: Phase Prompt
 #+startup: indent
 #+options: toc:2 num:nil ^:{}
