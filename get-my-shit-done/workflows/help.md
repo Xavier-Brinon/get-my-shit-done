@@ -435,7 +435,7 @@ Configure how planning artifacts are managed in `.planning/config.json`:
 - `false`: Planning artifacts kept local-only, not committed
 
 When `commit_docs: false`:
-- Add `.planning/` to your `.gitignore`
+- `.planning/` is automatically added to `.gitignore`
 - Useful for OSS contributions, client projects, or keeping planning private
 - All planning files still work normally, just not tracked in git
 

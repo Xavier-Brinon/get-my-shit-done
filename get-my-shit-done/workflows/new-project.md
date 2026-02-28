@@ -182,7 +182,11 @@ Create `.planning/config.json` with mode set to "yolo":
 }
 ```
 
-**If commit_docs = No:** Add `.planning/` to `.gitignore`.
+**Sync commit_docs setting (reconciles .gitignore):**
+
+```bash
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs config-set commit_docs true|false
+```
 
 **Commit config.json:**
 
@@ -480,12 +484,11 @@ Create `.planning/config.json` with all settings:
 }
 ```
 
-**If commit_docs = No:**
-- Set `commit_docs: false` in config.json
-- Add `.planning/` to `.gitignore` (create if needed)
+**Sync commit_docs setting (reconciles .gitignore):**
 
-**If commit_docs = Yes:**
-- No additional gitignore entries needed
+```bash
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs config-set commit_docs true|false
+```
 
 **Commit config.json:**
 
