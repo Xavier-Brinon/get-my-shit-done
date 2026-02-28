@@ -8,6 +8,10 @@ const { output, error } = require('./core.cjs');
 
 const GITIGNORE_ENTRY = '.planning/';
 
+function normalizeGitignoreEntry(value) {
+  return value.trim().replace(/\/+$/, '');
+}
+
 function ensureGitignoreEntry(cwd, entry) {
   const gitignorePath = path.join(cwd, '.gitignore');
   let content = '';
@@ -17,8 +21,9 @@ function ensureGitignoreEntry(cwd, entry) {
     }
   } catch { /* proceed with empty */ }
 
+  const normalizedEntry = normalizeGitignoreEntry(entry);
   const lines = content.split('\n');
-  if (lines.some((line) => line.trim() === entry)) {
+  if (lines.some((line) => normalizeGitignoreEntry(line) === normalizedEntry)) {
     return false;
   }
 
@@ -40,8 +45,9 @@ function removeGitignoreEntry(cwd, entry) {
     return false;
   }
 
+  const normalizedEntry = normalizeGitignoreEntry(entry);
   const lines = content.split('\n');
-  const filtered = lines.filter((line) => line.trim() !== entry);
+  const filtered = lines.filter((line) => normalizeGitignoreEntry(line) !== normalizedEntry);
 
   if (filtered.length === lines.length) {
     return false;
@@ -120,14 +126,20 @@ function cmdConfigEnsureSection(cwd, raw) {
 
   try {
     fs.writeFileSync(configPath, JSON.stringify(defaults, null, 2), 'utf-8');
-    if (!defaults.commit_docs) {
-      syncGitignore(cwd, false);
-    }
-    const result = { created: true, path: '.planning/config.json' };
-    output(result, raw, 'created');
   } catch (err) {
     error('Failed to create config.json: ' + err.message);
   }
+
+  try {
+    if (!defaults.commit_docs) {
+      syncGitignore(cwd, false);
+    }
+  } catch (err) {
+    error('.gitignore sync failed: ' + err.message);
+  }
+
+  const result = { created: true, path: '.planning/config.json' };
+  output(result, raw, 'created');
 }
 
 function cmdConfigSet(cwd, keyPath, value, raw) {
@@ -168,20 +180,24 @@ function cmdConfigSet(cwd, keyPath, value, raw) {
   // Write back
   try {
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
-
-    // Sync .gitignore when commit_docs changes
-    const isCommitDocs =
-      keyPath === 'commit_docs' || keyPath === 'planning.commit_docs';
-    let gitignoreSynced = false;
-    if (isCommitDocs && typeof parsedValue === 'boolean') {
-      gitignoreSynced = syncGitignore(cwd, parsedValue);
-    }
-
-    const result = { updated: true, key: keyPath, value: parsedValue, gitignore_synced: gitignoreSynced };
-    output(result, raw, `${keyPath}=${parsedValue}`);
   } catch (err) {
     error('Failed to write config.json: ' + err.message);
   }
+
+  // Sync .gitignore when commit_docs changes
+  const isCommitDocs =
+    keyPath === 'commit_docs' || keyPath === 'planning.commit_docs';
+  let gitignoreSynced = false;
+  if (isCommitDocs && typeof parsedValue === 'boolean') {
+    try {
+      gitignoreSynced = syncGitignore(cwd, parsedValue);
+    } catch (err) {
+      error('.gitignore sync failed: ' + err.message);
+    }
+  }
+
+  const result = { updated: true, key: keyPath, value: parsedValue, gitignore_synced: gitignoreSynced };
+  output(result, raw, `${keyPath}=${parsedValue}`);
 }
 
 function cmdConfigGet(cwd, keyPath, raw) {

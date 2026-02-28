@@ -104,6 +104,35 @@ describe('config-set commit_docs gitignore sync', () => {
     assert.ok(content.includes('.planning/'), 'should add .planning/');
   });
 
+  test('treats .planning and .planning/ as equivalent in .gitignore', () => {
+    // Existing entry without trailing slash
+    fs.writeFileSync(
+      path.join(tmpDir, '.gitignore'),
+      '.planning\n',
+      'utf-8'
+    );
+
+    runGsdTools('config-set commit_docs false', tmpDir);
+
+    const content = fs.readFileSync(path.join(tmpDir, '.gitignore'), 'utf-8');
+    const matches = content.split('\n').filter((line) => line.trim().replace(/\/+$/, '') === '.planning');
+    assert.strictEqual(matches.length, 1, 'should not duplicate when trailing slash differs');
+  });
+
+  test('removes .planning without trailing slash when setting true', () => {
+    fs.writeFileSync(
+      path.join(tmpDir, '.gitignore'),
+      'node_modules/\n.planning\n',
+      'utf-8'
+    );
+
+    runGsdTools('config-set commit_docs true', tmpDir);
+
+    const content = fs.readFileSync(path.join(tmpDir, '.gitignore'), 'utf-8');
+    assert.ok(!content.includes('.planning'), '.planning should be removed');
+    assert.ok(content.includes('node_modules/'), 'other entries preserved');
+  });
+
   test('returns gitignore_synced in JSON output', () => {
     const result = runGsdTools('config-set commit_docs false', tmpDir);
     assert.ok(result.success, `Command failed: ${result.error}`);
@@ -131,18 +160,15 @@ describe('config-ensure-section gitignore sync', () => {
   });
 
   test('creates .gitignore entry when user defaults set commit_docs false', () => {
-    // Write user defaults with commit_docs: false
-    const homedir = require('os').homedir();
-    const gmsdDir = path.join(homedir, '.gmsd');
-    const defaultsPath = path.join(gmsdDir, 'defaults.json');
-
-    // Save original defaults if they exist
-    let originalDefaults = null;
-    if (fs.existsSync(defaultsPath)) {
-      originalDefaults = fs.readFileSync(defaultsPath, 'utf-8');
-    }
+    // Isolate from real ~/.gmsd by overriding HOME
+    const originalHome = process.env.HOME;
+    const fakeHome = fs.mkdtempSync(path.join(require('os').tmpdir(), 'gmsd-home-'));
 
     try {
+      process.env.HOME = fakeHome;
+      const gmsdDir = path.join(fakeHome, '.gmsd');
+      const defaultsPath = path.join(gmsdDir, 'defaults.json');
+
       fs.mkdirSync(gmsdDir, { recursive: true });
       fs.writeFileSync(
         defaultsPath,
@@ -161,12 +187,8 @@ describe('config-ensure-section gitignore sync', () => {
       const content = fs.readFileSync(gitignorePath, 'utf-8');
       assert.ok(content.includes('.planning/'), '.gitignore should contain .planning/');
     } finally {
-      // Restore original defaults
-      if (originalDefaults !== null) {
-        fs.writeFileSync(defaultsPath, originalDefaults, 'utf-8');
-      } else if (fs.existsSync(defaultsPath)) {
-        fs.unlinkSync(defaultsPath);
-      }
+      process.env.HOME = originalHome;
+      fs.rmSync(fakeHome, { recursive: true, force: true });
     }
   });
 });
