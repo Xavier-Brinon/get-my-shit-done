@@ -54,7 +54,7 @@ Errors: N | Warnings: N | Info: N
 ## Repairs Performed
 
 - ✓ config.json: Created with defaults
-- ✓ STATE.md: Regenerated from roadmap
+- ✓ STATE.org: Regenerated from roadmap
 ```
 
 **If errors exist:**
@@ -64,7 +64,7 @@ Errors: N | Warnings: N | Info: N
 - [E001] config.json: JSON parse error at line 5
   Fix: Run /gmsd:health --repair to reset to defaults
 
-- [E002] PROJECT.md not found
+- [E002] PROJECT.org not found
   Fix: Run /gmsd:new-project to create
 ```
 
@@ -72,7 +72,7 @@ Errors: N | Warnings: N | Info: N
 ```
 ## Warnings
 
-- [W001] STATE.md references phase 5, but only phases 1-3 exist
+- [W001] STATE.org references phase 5, but only phases 1-3 exist
   Fix: Run /gmsd:health --repair to regenerate
 
 - [W005] Phase directory "1-setup" doesn't follow NN-name format
@@ -83,7 +83,7 @@ Errors: N | Warnings: N | Info: N
 ```
 ## Info
 
-- [I001] 02-implementation/02-01-PLAN.md has no SUMMARY.md
+- [I001] 02-implementation/02-01-PLAN.org has no SUMMARY.org
   Note: May be in progress
 ```
 
@@ -125,12 +125,12 @@ Report final status.
 | Code | Severity | Description | Repairable |
 |------|----------|-------------|------------|
 | E001 | error | .planning/ directory not found | No |
-| E002 | error | PROJECT.md not found | No |
-| E003 | error | ROADMAP.md not found | No |
-| E004 | error | STATE.md not found | Yes |
+| E002 | error | PROJECT.org not found | No |
+| E003 | error | ROADMAP.org not found | No |
+| E004 | error | STATE.org not found | Yes |
 | E005 | error | config.json parse error | Yes |
-| W001 | warning | PROJECT.md missing required section | No |
-| W002 | warning | STATE.md references invalid phase | Yes |
+| W001 | warning | PROJECT.org missing required section | No |
+| W002 | warning | STATE.org references invalid phase | Yes |
 | W003 | warning | config.json not found | Yes |
 | W004 | warning | config.json invalid field value | No |
 | W005 | warning | Phase directory naming mismatch | No |
@@ -146,10 +146,10 @@ Report final status.
 |--------|--------|------|
 | createConfig | Create config.json with defaults | None |
 | resetConfig | Delete + recreate config.json | Loses custom settings |
-| regenerateState | Create STATE.md from ROADMAP structure | Loses session history |
+| regenerateState | Create STATE.org from ROADMAP structure | Loses session history |
 
 **Not repairable (too risky):**
-- PROJECT.md, ROADMAP.md content
+- PROJECT.org, ROADMAP.org content
 - Phase directory renaming
 - Orphaned plan cleanup
 

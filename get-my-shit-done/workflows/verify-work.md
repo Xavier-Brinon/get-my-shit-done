@@ -1,5 +1,5 @@
 <purpose>
-Validate built features through conversational testing with persistent state. Creates UAT.md that tracks test progress, survives /clear, and feeds gaps into /gmsd:plan-phase --gaps.
+Validate built features through conversational testing with persistent state. Creates UAT.org that tracks test progress, survives /clear, and feeds gaps into /gmsd:plan-phase --gaps.
 
 User tests, Claude records. One test at a time. Plain text responses.
 </purpose>
@@ -34,7 +34,7 @@ Parse JSON for: `planner_model`, `checker_model`, `commit_docs`, `phase_found`, 
 **First: Check for active UAT sessions**
 
 ```bash
-find .planning/phases -name "*-UAT.md" -type f 2>/dev/null | head -5
+find .planning/phases -name "*-UAT.org" -type f 2>/dev/null | head -5
 ```
 
 **If active sessions exist AND no $ARGUMENTS provided:**
@@ -83,14 +83,14 @@ Continue to `create_uat_file`.
 Use `phase_dir` from init (or run init if not already done).
 
 ```bash
-ls "$phase_dir"/*-SUMMARY.md 2>/dev/null
+ls "$phase_dir"/*-SUMMARY.org 2>/dev/null
 ```
 
-Read each SUMMARY.md to extract testable deliverables.
+Read each SUMMARY.org to extract testable deliverables.
 </step>
 
 <step name="extract_tests">
-**Extract testable deliverables from SUMMARY.md:**
+**Extract testable deliverables from SUMMARY.org:**
 
 Parse for:
 1. **Accomplishments** - Features/functionality added
@@ -125,7 +125,7 @@ Create file:
 ---
 status: testing
 phase: XX-name
-source: [list of SUMMARY.md files]
+source: [list of SUMMARY.org files]
 started: [ISO timestamp]
 updated: [ISO timestamp]
 ---
@@ -164,7 +164,7 @@ skipped: 0
 [none yet]
 ```
 
-Write to `.planning/phases/XX-name/{phase_num}-UAT.md`
+Write to `.planning/phases/XX-name/{phase_num}-UAT.org`
 
 Proceed to `present_test`.
 </step>
@@ -292,7 +292,7 @@ Clear Current Test section:
 
 Commit the UAT file:
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "test({phase_num}): complete UAT - {passed} passed, {issues} issues" --files ".planning/phases/XX-name/{phase_num}-UAT.md"
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "test({phase_num}): complete UAT - {passed} passed, {issues} issues" --files ".planning/phases/XX-name/{phase_num}-UAT.org"
 ```
 
 Present summary:
@@ -337,7 +337,7 @@ Spawning parallel debug agents to investigate each issue.
 - Follow @~/.claude/get-my-shit-done/workflows/diagnose-issues.md
 - Spawn parallel debug agents for each issue
 - Collect root causes
-- Update UAT.md with root causes
+- Update UAT.org with root causes
 - Proceed to `plan_gap_closure`
 
 Diagnosis runs automatically - no user prompt. Parallel agents investigate simultaneously, so overhead is minimal and fixes are more accurate.
@@ -366,9 +366,9 @@ Task(
 **Mode:** gap_closure
 
 <files_to_read>
-- {phase_dir}/{phase_num}-UAT.md (UAT with diagnoses)
-- .planning/STATE.md (Project State)
-- .planning/ROADMAP.md (Roadmap)
+- {phase_dir}/{phase_num}-UAT.org (UAT with diagnoses)
+- .planning/STATE.org (Project State)
+- .planning/ROADMAP.org (Roadmap)
 </files_to_read>
 
 </planning_context>
@@ -414,7 +414,7 @@ Task(
 **Phase Goal:** Close diagnosed gaps from UAT
 
 <files_to_read>
-- {phase_dir}/*-PLAN.md (Plans to verify)
+- {phase_dir}/*-PLAN.org (Plans to verify)
 </files_to_read>
 
 </verification_context>
@@ -454,7 +454,7 @@ Task(
 **Mode:** revision
 
 <files_to_read>
-- {phase_dir}/*-PLAN.md (Existing plans)
+- {phase_dir}/*-PLAN.org (Existing plans)
 </files_to_read>
 
 **Checker issues:**
@@ -463,7 +463,7 @@ Task(
 </revision_context>
 
 <instructions>
-Read existing PLAN.md files. Make targeted updates to address checker issues.
+Read existing PLAN.org files. Make targeted updates to address checker issues.
 Do NOT replan from scratch unless issues are fundamental.
 </instructions>
 """,
@@ -555,7 +555,7 @@ Default to **major** if unclear. User can correct if needed.
 </severity_inference>
 
 <success_criteria>
-- [ ] UAT file created with all tests from SUMMARY.md
+- [ ] UAT file created with all tests from SUMMARY.org
 - [ ] Tests presented one at a time with expected behavior
 - [ ] User responses processed as pass/issue/skip
 - [ ] Severity inferred from description (never asked)

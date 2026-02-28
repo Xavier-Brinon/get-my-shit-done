@@ -15,7 +15,7 @@ Routes to the add-phase workflow which handles:
 - Phase number calculation (next sequential integer)
 - Directory creation with slug generation
 - Roadmap structure updates
-- STATE.md roadmap evolution tracking
+- STATE.org roadmap evolution tracking
 </objective>
 
 <execution_context>
@@ -39,5 +39,5 @@ The workflow handles all logic including:
 5. Slug generation from description
 6. Phase directory creation
 7. Roadmap entry insertion
-8. STATE.md updates
+8. STATE.org updates
 </process>

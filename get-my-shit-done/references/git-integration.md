@@ -14,8 +14,8 @@ The git log should read like a changelog of what shipped, not a diary of plannin
 | Event                   | Commit? | Why                                              |
 | ----------------------- | ------- | ------------------------------------------------ |
 | BRIEF + ROADMAP created | YES     | Project initialization                           |
-| PLAN.md created         | NO      | Intermediate - commit with plan completion       |
-| RESEARCH.md created     | NO      | Intermediate                                     |
+| PLAN.org created         | NO      | Intermediate - commit with plan completion       |
+| RESEARCH.org created     | NO      | Intermediate                                     |
 | DISCOVERY.md created    | NO      | Intermediate                                     |
 | **Task completed**      | YES     | Atomic unit of work (1 commit per task)         |
 | **Plan completed**      | YES     | Metadata commit (SUMMARY + STATE + ROADMAP)     |
@@ -40,7 +40,7 @@ If NO_GIT: Run `git init` silently. GMSD projects always get their own repo.
 ```
 docs: initialize [project-name] ([N] phases)
 
-[One-liner from PROJECT.md]
+[One-liner from PROJECT.org]
 
 Phases:
 1. [phase-name]: [goal]
@@ -123,13 +123,13 @@ Tasks completed: [N]/[N]
 - [Task 2 name]
 - [Task 3 name]
 
-SUMMARY: .planning/phases/XX-name/{phase}-{plan}-SUMMARY.md
+SUMMARY: .planning/phases/XX-name/{phase}-{plan}-SUMMARY.org
 ```
 
 What to commit:
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs({phase}-{plan}): complete [plan-name] plan" --files .planning/phases/XX-name/{phase}-{plan}-PLAN.md .planning/phases/XX-name/{phase}-{plan}-SUMMARY.md .planning/STATE.md .planning/ROADMAP.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs({phase}-{plan}): complete [plan-name] plan" --files .planning/phases/XX-name/{phase}-{plan}-PLAN.org .planning/phases/XX-name/{phase}-{plan}-SUMMARY.org .planning/STATE.org .planning/ROADMAP.org
 ```
 
 **Note:** Code files NOT included - already committed per-task.
@@ -205,8 +205,8 @@ Each plan produces 2-4 commits (tasks + metadata). Clear, granular, bisectable.
 <anti_patterns>
 
 **Still don't commit (intermediate artifacts):**
-- PLAN.md creation (commit with plan completion)
-- RESEARCH.md (intermediate)
+- PLAN.org creation (commit with plan completion)
+- RESEARCH.org (intermediate)
 - DISCOVERY.md (intermediate)
 - Minor planning tweaks
 - "Fixed typo in roadmap"
@@ -228,7 +228,7 @@ Each plan produces 2-4 commits (tasks + metadata). Clear, granular, bisectable.
 - Git history becomes primary context source for future Claude sessions
 - `git log --grep="{phase}-{plan}"` shows all work for a plan
 - `git diff <hash>^..<hash>` shows exact changes per task
-- Less reliance on parsing SUMMARY.md = more context for actual work
+- Less reliance on parsing SUMMARY.org = more context for actual work
 
 **Failure recovery:**
 - Task 1 committed ✅, Task 2 failed ❌

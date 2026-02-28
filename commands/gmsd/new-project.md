@@ -1,6 +1,6 @@
 ---
 name: gmsd:new-project
-description: Initialize a new project with deep context gathering and PROJECT.md
+description: Initialize a new project with deep context gathering and PROJECT.org
 argument-hint: "[--auto]"
 allowed-tools:
   - Read
@@ -18,12 +18,12 @@ allowed-tools:
 Initialize a new project through unified flow: questioning → research (optional) → requirements → roadmap.
 
 **Creates:**
-- `.planning/PROJECT.md` — project context
+- `.planning/PROJECT.org` — project context
 - `.planning/config.json` — workflow preferences
 - `.planning/research/` — domain research (optional)
-- `.planning/REQUIREMENTS.md` — scoped requirements
-- `.planning/ROADMAP.md` — phase structure
-- `.planning/STATE.md` — project memory
+- `.planning/REQUIREMENTS.org` — scoped requirements
+- `.planning/ROADMAP.org` — phase structure
+- `.planning/STATE.org` — project memory
 
 **After this command:** Run `/gmsd:plan-phase 1` to start execution.
 </objective>

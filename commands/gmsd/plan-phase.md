@@ -1,6 +1,6 @@
 ---
 name: gmsd:plan-phase
-description: Create detailed phase plan (PLAN.md) with verification loop
+description: Create detailed phase plan (PLAN.org) with verification loop
 argument-hint: "[phase] [--auto] [--research] [--skip-research] [--gaps] [--skip-verify] [--prd <file>]"
 agent: gmsd-planner
 allowed-tools:
@@ -14,7 +14,7 @@ allowed-tools:
   - mcp__context7__*
 ---
 <objective>
-Create executable phase prompts (PLAN.md files) for a roadmap phase with integrated research and verification.
+Create executable phase prompts (PLAN.org files) for a roadmap phase with integrated research and verification.
 
 **Default flow:** Research (if needed) → Plan → Verify → Done
 
@@ -30,11 +30,11 @@ Create executable phase prompts (PLAN.md files) for a roadmap phase with integra
 Phase number: $ARGUMENTS (optional — auto-detects next unplanned phase if omitted)
 
 **Flags:**
-- `--research` — Force re-research even if RESEARCH.md exists
+- `--research` — Force re-research even if RESEARCH.org exists
 - `--skip-research` — Skip research, go straight to planning
-- `--gaps` — Gap closure mode (reads VERIFICATION.md, skips research)
+- `--gaps` — Gap closure mode (reads VERIFICATION.org, skips research)
 - `--skip-verify` — Skip verification loop
-- `--prd <file>` — Use a PRD/acceptance criteria file instead of discuss-phase. Parses requirements into CONTEXT.md automatically. Skips discuss-phase entirely.
+- `--prd <file>` — Use a PRD/acceptance criteria file instead of discuss-phase. Parses requirements into CONTEXT.org automatically. Skips discuss-phase entirely.
 
 Normalize phase input in step 2 before any directory lookups.
 </context>

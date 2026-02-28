@@ -13,12 +13,12 @@ allowed-tools:
   - AskUserQuestion
 ---
 <objective>
-Execute small, ad-hoc tasks with GMSD guarantees (atomic commits, STATE.md tracking).
+Execute small, ad-hoc tasks with GMSD guarantees (atomic commits, STATE.org tracking).
 
 Quick mode is the same system with a shorter path:
 - Spawns gmsd-planner (quick mode) + gmsd-executor(s)
 - Quick tasks live in `.planning/quick/` separate from planned phases
-- Updates STATE.md "Quick Tasks Completed" table (NOT ROADMAP.md)
+- Updates STATE.org "Quick Tasks Completed" table (NOT ROADMAP.org)
 
 **Default:** Skips research, plan-checker, verifier. Use when you know exactly what to do.
 

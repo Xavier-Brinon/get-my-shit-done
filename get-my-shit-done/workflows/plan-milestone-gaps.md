@@ -1,5 +1,5 @@
 <purpose>
-Create all phases necessary to close gaps identified by `/gmsd:audit-milestone`. Reads MILESTONE-AUDIT.md, groups gaps into logical phases, creates phase entries in ROADMAP.md, and offers to plan each phase. One command creates all fix phases — no manual `/gmsd:add-phase` per gap.
+Create all phases necessary to close gaps identified by `/gmsd:audit-milestone`. Reads MILESTONE-AUDIT.org, groups gaps into logical phases, creates phase entries in ROADMAP.org, and offers to plan each phase. One command creates all fix phases — no manual `/gmsd:add-phase` per gap.
 </purpose>
 
 <required_reading>
@@ -12,7 +12,7 @@ Read all files referenced by the invoking prompt's execution_context before star
 
 ```bash
 # Find the most recent audit file
-ls -t .planning/v*-MILESTONE-AUDIT.md 2>/dev/null | head -1
+ls -t .planning/v*-MILESTONE-AUDIT.org 2>/dev/null | head -1
 ```
 
 Parse YAML frontmatter to extract structured gaps:
@@ -27,7 +27,7 @@ No audit gaps found. Run `/gmsd:audit-milestone` first.
 
 ## 2. Prioritize Gaps
 
-Group gaps by priority from REQUIREMENTS.md:
+Group gaps by priority from REQUIREMENTS.org:
 
 | Priority | Action |
 |----------|--------|
@@ -109,7 +109,7 @@ Create these {X} phases? (yes / adjust / defer all optional)
 
 Wait for user confirmation.
 
-## 6. Update ROADMAP.md
+## 6. Update ROADMAP.org
 
 Add new phases to current milestone:
 
@@ -123,7 +123,7 @@ Add new phases to current milestone:
 ...
 ```
 
-## 7. Update REQUIREMENTS.md Traceability Table (REQUIRED)
+## 7. Update REQUIREMENTS.org Traceability Table (REQUIRED)
 
 For each REQ-ID assigned to a gap closure phase:
 - Update the Phase column to reflect the new gap closure phase
@@ -131,11 +131,11 @@ For each REQ-ID assigned to a gap closure phase:
 
 Reset checked-off requirements the audit found unsatisfied:
 - Change `[x]` → `[ ]` for any requirement marked unsatisfied in the audit
-- Update coverage count at top of REQUIREMENTS.md
+- Update coverage count at top of REQUIREMENTS.org
 
 ```bash
 # Verify traceability table reflects gap closure assignments
-grep -c "Pending" .planning/REQUIREMENTS.md
+grep -c "Pending" .planning/REQUIREMENTS.org
 ```
 
 ## 8. Create Phase Directories
@@ -147,7 +147,7 @@ mkdir -p ".planning/phases/{NN}-{name}"
 ## 9. Commit Roadmap and Requirements Update
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(roadmap): add gap closure phases {N}-{M}" --files .planning/ROADMAP.md .planning/REQUIREMENTS.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(roadmap): add gap closure phases {N}-{M}" --files .planning/ROADMAP.org .planning/REQUIREMENTS.org
 ```
 
 ## 10. Offer Next Steps
@@ -172,7 +172,7 @@ node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(roadmap): add ga
 
 **Also available:**
 - `/gmsd:execute-phase {N}` — if plans already exist
-- `cat .planning/ROADMAP.md` — see updated roadmap
+- `cat .planning/ROADMAP.org` — see updated roadmap
 
 ---
 
@@ -260,15 +260,15 @@ becomes:
 </gap_to_phase_mapping>
 
 <success_criteria>
-- [ ] MILESTONE-AUDIT.md loaded and gaps parsed
+- [ ] MILESTONE-AUDIT.org loaded and gaps parsed
 - [ ] Gaps prioritized (must/should/nice)
 - [ ] Gaps grouped into logical phases
 - [ ] User confirmed phase plan
-- [ ] ROADMAP.md updated with new phases
-- [ ] REQUIREMENTS.md traceability table updated with gap closure phase assignments
+- [ ] ROADMAP.org updated with new phases
+- [ ] REQUIREMENTS.org traceability table updated with gap closure phase assignments
 - [ ] Unsatisfied requirement checkboxes reset (`[x]` → `[ ]`)
-- [ ] Coverage count updated in REQUIREMENTS.md
+- [ ] Coverage count updated in REQUIREMENTS.org
 - [ ] Phase directories created
-- [ ] Changes committed (includes REQUIREMENTS.md)
+- [ ] Changes committed (includes REQUIREMENTS.org)
 - [ ] User knows to run `/gmsd:plan-phase` next
 </success_criteria>

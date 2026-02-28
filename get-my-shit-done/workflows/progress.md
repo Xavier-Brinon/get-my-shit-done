@@ -27,13 +27,13 @@ Run /gmsd:new-project to start a new project.
 
 Exit.
 
-If missing STATE.md: suggest `/gmsd:new-project`.
+If missing STATE.org: suggest `/gmsd:new-project`.
 
-**If ROADMAP.md missing but PROJECT.md exists:**
+**If ROADMAP.org missing but PROJECT.org exists:**
 
 This means a milestone was completed and archived. Go to **Route F** (between milestones).
 
-If missing both ROADMAP.md and PROJECT.md: suggest `/gmsd:new-project`.
+If missing both ROADMAP.org and PROJECT.org: suggest `/gmsd:new-project`.
 </step>
 
 <step name="load">
@@ -60,13 +60,13 @@ This returns structured JSON with:
 - Aggregated stats: total plans, summaries, progress percent
 - Current and next phase identification
 
-Use this instead of manually reading/parsing ROADMAP.md.
+Use this instead of manually reading/parsing ROADMAP.org.
 </step>
 
 <step name="recent">
 **Gather recent work context:**
 
-- Find the 2-3 most recent SUMMARY.md files
+- Find the 2-3 most recent SUMMARY.org files
 - Use `summary-extract` for efficient parsing:
   ```bash
   node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs summary-extract <path> --fields one_liner
@@ -137,24 +137,24 @@ CONTEXT: [✓ if has_context | - if not]
 List files in the current phase directory:
 
 ```bash
-ls -1 .planning/phases/[current-phase-dir]/*-PLAN.md 2>/dev/null | wc -l
-ls -1 .planning/phases/[current-phase-dir]/*-SUMMARY.md 2>/dev/null | wc -l
-ls -1 .planning/phases/[current-phase-dir]/*-UAT.md 2>/dev/null | wc -l
+ls -1 .planning/phases/[current-phase-dir]/*-PLAN.org 2>/dev/null | wc -l
+ls -1 .planning/phases/[current-phase-dir]/*-SUMMARY.org 2>/dev/null | wc -l
+ls -1 .planning/phases/[current-phase-dir]/*-UAT.org 2>/dev/null | wc -l
 ```
 
 State: "This phase has {X} plans, {Y} summaries."
 
 **Step 1.5: Check for unaddressed UAT gaps**
 
-Check for UAT.md files with status "diagnosed" (has gaps needing fixes).
+Check for UAT.org files with status "diagnosed" (has gaps needing fixes).
 
 ```bash
 # Check for diagnosed UAT with gaps
-grep -l "status: diagnosed" .planning/phases/[current-phase-dir]/*-UAT.md 2>/dev/null
+grep -l "status: diagnosed" .planning/phases/[current-phase-dir]/*-UAT.org 2>/dev/null
 ```
 
 Track:
-- `uat_with_gaps`: UAT.md files with status "diagnosed" (gaps need fixing)
+- `uat_with_gaps`: UAT.org files with status "diagnosed" (gaps need fixing)
 
 **Step 2: Route based on counts**
 
@@ -169,7 +169,7 @@ Track:
 
 **Route A: Unexecuted plan exists**
 
-Find the first PLAN.md without matching SUMMARY.md.
+Find the first PLAN.org without matching SUMMARY.org.
 Read its `<objective>` section.
 
 ```
@@ -177,7 +177,7 @@ Read its `<objective>` section.
 
 ## ▶ Next Up
 
-**{phase}-{plan}: [Plan Name]** — [objective summary from PLAN.md]
+**{phase}-{plan}: [Plan Name]** — [objective summary from PLAN.org]
 
 `/gmsd:execute-phase {phase}`
 
@@ -190,16 +190,16 @@ Read its `<objective>` section.
 
 **Route B: Phase needs planning**
 
-Check if `{phase_num}-CONTEXT.md` exists in phase directory.
+Check if `{phase_num}-CONTEXT.org` exists in phase directory.
 
-**If CONTEXT.md exists:**
+**If CONTEXT.org exists:**
 
 ```
 ---
 
 ## ▶ Next Up
 
-**Phase {N}: {Name}** — {Goal from ROADMAP.md}
+**Phase {N}: {Name}** — {Goal from ROADMAP.org}
 <sub>✓ Context gathered, ready to plan</sub>
 
 `/gmsd:plan-phase {phase-number}`
@@ -209,14 +209,14 @@ Check if `{phase_num}-CONTEXT.md` exists in phase directory.
 ---
 ```
 
-**If CONTEXT.md does NOT exist:**
+**If CONTEXT.org does NOT exist:**
 
 ```
 ---
 
 ## ▶ Next Up
 
-**Phase {N}: {Name}** — {Goal from ROADMAP.md}
+**Phase {N}: {Name}** — {Goal from ROADMAP.org}
 
 `/gmsd:discuss-phase {phase}` — gather context and clarify approach
 
@@ -235,14 +235,14 @@ Check if `{phase_num}-CONTEXT.md` exists in phase directory.
 
 **Route E: UAT gaps need fix plans**
 
-UAT.md exists with gaps (diagnosed issues). User needs to plan fixes.
+UAT.org exists with gaps (diagnosed issues). User needs to plan fixes.
 
 ```
 ---
 
 ## ⚠ UAT Gaps Found
 
-**{phase_num}-UAT.md** has {N} gaps requiring fixes.
+**{phase_num}-UAT.org** has {N} gaps requiring fixes.
 
 `/gmsd:plan-phase {phase} --gaps`
 
@@ -261,7 +261,7 @@ UAT.md exists with gaps (diagnosed issues). User needs to plan fixes.
 
 **Step 3: Check milestone status (only when phase complete)**
 
-Read ROADMAP.md and identify:
+Read ROADMAP.org and identify:
 1. Current phase number
 2. All phase numbers in the current milestone section
 
@@ -280,7 +280,7 @@ State: "Current phase is {X}. Milestone has {N} phases (highest: {Y})."
 
 **Route C: Phase complete, more phases remain**
 
-Read ROADMAP.md to get the next phase's name and goal.
+Read ROADMAP.org to get the next phase's name and goal.
 
 ```
 ---
@@ -289,7 +289,7 @@ Read ROADMAP.md to get the next phase's name and goal.
 
 ## ▶ Next Up
 
-**Phase {Z+1}: {Name}** — {Goal from ROADMAP.md}
+**Phase {Z+1}: {Name}** — {Goal from ROADMAP.org}
 
 `/gmsd:discuss-phase {Z+1}` — gather context and clarify approach
 
@@ -333,11 +333,11 @@ All {N} phases finished!
 
 ---
 
-**Route F: Between milestones (ROADMAP.md missing, PROJECT.md exists)**
+**Route F: Between milestones (ROADMAP.org missing, PROJECT.org exists)**
 
 A milestone was completed and archived. Ready to start the next milestone cycle.
 
-Read MILESTONES.md to find the last completed milestone version.
+Read MILESTONES.org to find the last completed milestone version.
 
 ```
 ---

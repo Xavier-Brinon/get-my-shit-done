@@ -36,11 +36,11 @@ Extract from init JSON: `phase_dir`, `phase_number`, `phase_name`, `has_plans`, 
 Then load phase details and list plans/summaries:
 ```bash
 node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs roadmap get-phase "${phase_number}"
-grep -E "^| ${phase_number}" .planning/REQUIREMENTS.md 2>/dev/null
-ls "$phase_dir"/*-SUMMARY.md "$phase_dir"/*-PLAN.md 2>/dev/null
+grep -E "^| ${phase_number}" .planning/REQUIREMENTS.org 2>/dev/null
+ls "$phase_dir"/*-SUMMARY.org "$phase_dir"/*-PLAN.org 2>/dev/null
 ```
 
-Extract **phase goal** from ROADMAP.md (the outcome to verify, not tasks) and **requirements** from REQUIREMENTS.md if it exists.
+Extract **phase goal** from ROADMAP.org (the outcome to verify, not tasks) and **requirements** from REQUIREMENTS.org if it exists.
 </step>
 
 <step name="establish_must_haves">
@@ -49,7 +49,7 @@ Extract **phase goal** from ROADMAP.md (the outcome to verify, not tasks) and **
 Use gmsd-tools to extract must_haves from each PLAN:
 
 ```bash
-for plan in "$PHASE_DIR"/*-PLAN.md; do
+for plan in "$PHASE_DIR"/*-PLAN.org; do
   MUST_HAVES=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs frontmatter get "$plan" --field must_haves)
   echo "=== $plan ===" && echo "$MUST_HAVES"
 done
@@ -59,7 +59,7 @@ Returns JSON: `{ truths: [...], artifacts: [...], key_links: [...] }`
 
 Aggregate all must_haves across plans for phase-level verification.
 
-**Option B: Use Success Criteria from ROADMAP.md**
+**Option B: Use Success Criteria from ROADMAP.org**
 
 If no must_haves in frontmatter (MUST_HAVES returns error or empty), check for Success Criteria:
 
@@ -73,12 +73,12 @@ Parse the `success_criteria` array from the JSON output. If non-empty:
 3. Derive **key links** (critical wiring where stubs hide)
 4. Document the must-haves before proceeding
 
-Success Criteria from ROADMAP.md are the contract — they override PLAN-level must_haves when both exist.
+Success Criteria from ROADMAP.org are the contract — they override PLAN-level must_haves when both exist.
 
 **Option C: Derive from phase goal (fallback)**
 
 If no must_haves in frontmatter AND no Success Criteria in ROADMAP:
-1. State the goal from ROADMAP.md
+1. State the goal from ROADMAP.org
 2. Derive **truths** (3-7 observable behaviors, each testable)
 3. Derive **artifacts** (concrete file paths for each truth)
 4. Derive **key links** (critical wiring where stubs hide)
@@ -99,7 +99,7 @@ For each truth: identify supporting artifacts → check artifact status → chec
 Use gmsd-tools for artifact verification against must_haves in each PLAN:
 
 ```bash
-for plan in "$PHASE_DIR"/*-PLAN.md; do
+for plan in "$PHASE_DIR"/*-PLAN.org; do
   ARTIFACT_RESULT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs verify artifacts "$plan")
   echo "=== $plan ===" && echo "$ARTIFACT_RESULT"
 done
@@ -131,7 +131,7 @@ WIRED = imported AND used. ORPHANED = exists but not imported/used.
 Use gmsd-tools for key link verification against must_haves in each PLAN:
 
 ```bash
-for plan in "$PHASE_DIR"/*-PLAN.md; do
+for plan in "$PHASE_DIR"/*-PLAN.org; do
   LINKS_RESULT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs verify key-links "$plan")
   echo "=== $plan ===" && echo "$LINKS_RESULT"
 done
@@ -157,16 +157,16 @@ Record status and evidence for each key link.
 </step>
 
 <step name="verify_requirements">
-If REQUIREMENTS.md exists:
+If REQUIREMENTS.org exists:
 ```bash
-grep -E "Phase ${PHASE_NUM}" .planning/REQUIREMENTS.md 2>/dev/null
+grep -E "Phase ${PHASE_NUM}" .planning/REQUIREMENTS.org 2>/dev/null
 ```
 
 For each requirement: parse description → identify supporting truths/artifacts → status: ✓ SATISFIED / ✗ BLOCKED / ? NEEDS HUMAN.
 </step>
 
 <step name="scan_antipatterns">
-Extract files modified in this phase from SUMMARY.md, scan each:
+Extract files modified in this phase from SUMMARY.org, scan each:
 
 | Pattern | Search | Severity |
 |---------|--------|----------|
@@ -208,7 +208,7 @@ If gaps_found:
 
 <step name="create_report">
 ```bash
-REPORT_PATH="$PHASE_DIR/${PHASE_NUM}-VERIFICATION.md"
+REPORT_PATH="$PHASE_DIR/${PHASE_NUM}-VERIFICATION.org"
 ```
 
 Fill template sections: frontmatter (phase/timestamp/status/score), goal achievement, artifact table, wiring table, requirements coverage, anti-patterns, human verification, gaps summary, fix plans (if gaps_found), metadata.
@@ -237,6 +237,6 @@ Orchestrator routes: `passed` → update_roadmap | `gaps_found` → create/execu
 - [ ] Human verification items identified
 - [ ] Overall status determined
 - [ ] Fix plans generated (if gaps_found)
-- [ ] VERIFICATION.md created with complete report
+- [ ] VERIFICATION.org created with complete report
 - [ ] Results returned to orchestrator
 </success_criteria>

@@ -1080,9 +1080,9 @@ For phases not selected, retain from digest:
 
 **From STATE.org:** Decisions → constrain approach. Pending todos → candidates.
 
-**From RETROSPECTIVE.md (if exists):**
+**From RETROSPECTIVE.org (if exists):**
 ```bash
-cat .planning/RETROSPECTIVE.md 2>/dev/null | tail -100
+cat .planning/RETROSPECTIVE.org 2>/dev/null | tail -100
 ```
 
 Read the most recent milestone retrospective and cross-milestone trends. Extract:

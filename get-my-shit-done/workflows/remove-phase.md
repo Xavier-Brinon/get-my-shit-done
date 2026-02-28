@@ -34,13 +34,13 @@ INIT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs init phase-op "${targe
 
 Extract: `phase_found`, `phase_dir`, `phase_number`, `commit_docs`, `roadmap_exists`.
 
-Also read STATE.md and ROADMAP.md content for parsing current position.
+Also read STATE.org and ROADMAP.org content for parsing current position.
 </step>
 
 <step name="validate_future_phase">
 Verify the phase is a future phase (not started):
 
-1. Compare target phase to current phase from STATE.md
+1. Compare target phase to current phase from STATE.org
 2. Target must be > current phase number
 
 If target <= current phase:
@@ -67,7 +67,7 @@ Removing Phase {target}: {Name}
 This will:
 - Delete: .planning/phases/{target}-{slug}/
 - Renumber all subsequent phases
-- Update: ROADMAP.md, STATE.md
+- Update: ROADMAP.org, STATE.org
 
 Proceed? (y/n)
 ```
@@ -82,7 +82,7 @@ Wait for confirmation.
 RESULT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs phase remove "${target}")
 ```
 
-If the phase has executed plans (SUMMARY.md files), gmsd-tools will error. Use `--force` only if the user confirms:
+If the phase has executed plans (SUMMARY.org files), gmsd-tools will error. Use `--force` only if the user confirms:
 
 ```bash
 RESULT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs phase remove "${target}" --force)
@@ -91,9 +91,9 @@ RESULT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs phase remove "${targ
 The CLI handles:
 - Deleting the phase directory
 - Renumbering all subsequent directories (in reverse order to avoid conflicts)
-- Renaming all files inside renumbered directories (PLAN.md, SUMMARY.md, etc.)
-- Updating ROADMAP.md (removing section, renumbering all phase references, updating dependencies)
-- Updating STATE.md (decrementing phase count)
+- Renaming all files inside renumbered directories (PLAN.org, SUMMARY.org, etc.)
+- Updating ROADMAP.org (removing section, renumbering all phase references, updating dependencies)
+- Updating STATE.org (decrementing phase count)
 
 Extract from result: `removed`, `directory_deleted`, `renamed_directories`, `renamed_files`, `roadmap_updated`, `state_updated`.
 </step>
@@ -117,7 +117,7 @@ Phase {target} ({original-name}) removed.
 Changes:
 - Deleted: .planning/phases/{target}-{slug}/
 - Renumbered: {N} directories and {M} files
-- Updated: ROADMAP.md, STATE.md
+- Updated: ROADMAP.org, STATE.org
 - Committed: chore: remove phase {target} ({original-name})
 
 ---
@@ -137,10 +137,10 @@ Would you like to:
 
 <anti_patterns>
 
-- Don't remove completed phases (have SUMMARY.md files) without --force
+- Don't remove completed phases (have SUMMARY.org files) without --force
 - Don't remove current or past phases
 - Don't manually renumber — use `gmsd-tools phase remove` which handles all renumbering
-- Don't add "removed phase" notes to STATE.md — git commit is the record
+- Don't add "removed phase" notes to STATE.org — git commit is the record
 - Don't modify completed phase directories
 </anti_patterns>
 

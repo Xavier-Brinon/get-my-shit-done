@@ -34,7 +34,7 @@ INIT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs init phase-op "0")
 
 Check `roadmap_exists` from init JSON. If false:
 ```
-ERROR: No roadmap found (.planning/ROADMAP.md)
+ERROR: No roadmap found (.planning/ROADMAP.org)
 Run /gmsd:new-project to initialize.
 ```
 Exit.
@@ -52,15 +52,15 @@ The CLI handles:
 - Calculating next phase number (max + 1)
 - Generating slug from description
 - Creating the phase directory (`.planning/phases/{NN}-{slug}/`)
-- Inserting the phase entry into ROADMAP.md with Goal, Depends on, and Plans sections
+- Inserting the phase entry into ROADMAP.org with Goal, Depends on, and Plans sections
 
 Extract from result: `phase_number`, `padded`, `name`, `slug`, `directory`.
 </step>
 
 <step name="update_project_state">
-Update STATE.md to reflect the new phase:
+Update STATE.org to reflect the new phase:
 
-1. Read `.planning/STATE.md`
+1. Read `.planning/STATE.org`
 2. Under "## Accumulated Context" → "### Roadmap Evolution" add entry:
    ```
    - Phase {N} added: {description}
@@ -78,7 +78,7 @@ Phase {N} added to current milestone:
 - Directory: .planning/phases/{phase-num}-{slug}/
 - Status: Not planned yet
 
-Roadmap updated: .planning/ROADMAP.md
+Roadmap updated: .planning/ROADMAP.org
 
 ---
 
@@ -106,6 +106,6 @@ Roadmap updated: .planning/ROADMAP.md
 - [ ] `gmsd-tools phase add` executed successfully
 - [ ] Phase directory created
 - [ ] Roadmap updated with new phase entry
-- [ ] STATE.md updated with roadmap evolution note
+- [ ] STATE.org updated with roadmap evolution note
 - [ ] User informed of next steps
 </success_criteria>

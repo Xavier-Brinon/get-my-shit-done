@@ -12,7 +12,7 @@ allowed-tools:
 <objective>
 Create all phases necessary to close gaps identified by `/gmsd:audit-milestone`.
 
-Reads MILESTONE-AUDIT.md, groups gaps into logical phases, creates phase entries in ROADMAP.md, and offers to plan each phase.
+Reads MILESTONE-AUDIT.org, groups gaps into logical phases, creates phase entries in ROADMAP.org, and offers to plan each phase.
 
 One command creates all fix phases — no manual `/gmsd:add-phase` per gap.
 </objective>
@@ -23,7 +23,7 @@ One command creates all fix phases — no manual `/gmsd:add-phase` per gap.
 
 <context>
 **Audit results:**
-Glob: .planning/v*-MILESTONE-AUDIT.md (use most recent)
+Glob: .planning/v*-MILESTONE-AUDIT.org (use most recent)
 
 Original intent and current planning state are loaded on demand inside the workflow.
 </context>

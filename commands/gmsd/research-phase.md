@@ -55,7 +55,7 @@ PHASE_INFO=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs roadmap get-phas
 ## 2. Check Existing Research
 
 ```bash
-ls .planning/phases/${PHASE}-*/RESEARCH.md 2>/dev/null
+ls .planning/phases/${PHASE}-*/RESEARCH.org 2>/dev/null
 ```
 
 **If exists:** Offer: 1) Update research, 2) View existing, 3) Skip. Wait for response.
@@ -109,7 +109,7 @@ Mode: ecosystem
 </additional_context>
 
 <downstream_consumer>
-Your RESEARCH.md will be loaded by `/gmsd:plan-phase` which uses specific sections:
+Your RESEARCH.org will be loaded by `/gmsd:plan-phase` which uses specific sections:
 - `## Standard Stack` → Plans use these libraries
 - `## Architecture Patterns` → Task structure follows these
 - `## Don't Hand-Roll` → Tasks NEVER build custom solutions for listed problems
@@ -129,7 +129,7 @@ Before declaring complete, verify:
 </quality_gate>
 
 <output>
-Write to: .planning/phases/${PHASE}-{slug}/${PHASE}-RESEARCH.md
+Write to: .planning/phases/${PHASE}-{slug}/${PHASE}-RESEARCH.org
 </output>
 ```
 
@@ -159,7 +159,7 @@ Continue research for Phase {phase_number}: {phase_name}
 
 <prior_state>
 <files_to_read>
-- .planning/phases/${PHASE}-{slug}/${PHASE}-RESEARCH.md (Existing research)
+- .planning/phases/${PHASE}-{slug}/${PHASE}-RESEARCH.org (Existing research)
 </files_to_read>
 </prior_state>
 

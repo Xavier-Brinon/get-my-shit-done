@@ -10,10 +10,10 @@ allowed-tools:
 ---
 
 <objective>
-Mark milestone {{version}} complete, archive to milestones/, and update ROADMAP.md and REQUIREMENTS.md.
+Mark milestone {{version}} complete, archive to milestones/, and update ROADMAP.org and REQUIREMENTS.org.
 
 Purpose: Create historical record of shipped version, archive milestone artifacts (roadmap + requirements), and prepare for next milestone.
-Output: Milestone archived (roadmap + requirements), PROJECT.md evolved, git tagged.
+Output: Milestone archived (roadmap + requirements), PROJECT.org evolved, git tagged.
 </objective>
 
 <execution_context>
@@ -25,10 +25,10 @@ Output: Milestone archived (roadmap + requirements), PROJECT.md evolved, git tag
 
 <context>
 **Project files:**
-- `.planning/ROADMAP.md`
-- `.planning/REQUIREMENTS.md`
-- `.planning/STATE.md`
-- `.planning/PROJECT.md`
+- `.planning/ROADMAP.org`
+- `.planning/REQUIREMENTS.org`
+- `.planning/STATE.org`
+- `.planning/PROJECT.org`
 
 **User input:**
 
@@ -41,7 +41,7 @@ Output: Milestone archived (roadmap + requirements), PROJECT.md evolved, git tag
 
 0. **Check for audit:**
 
-   - Look for `.planning/v{{version}}-MILESTONE-AUDIT.md`
+   - Look for `.planning/v{{version}}-MILESTONE-AUDIT.org`
    - If missing or stale: recommend `/gmsd:audit-milestone` first
    - If audit status is `gaps_found`: recommend `/gmsd:plan-milestone-gaps` first
    - If audit status is `passed`: proceed to step 1
@@ -49,7 +49,7 @@ Output: Milestone archived (roadmap + requirements), PROJECT.md evolved, git tag
    ```markdown
    ## Pre-flight Check
 
-   {If no v{{version}}-MILESTONE-AUDIT.md:}
+   {If no v{{version}}-MILESTONE-AUDIT.org:}
    ⚠ No milestone audit found. Run `/gmsd:audit-milestone` first to verify
    requirements coverage, cross-phase integration, and E2E flows.
 
@@ -63,7 +63,7 @@ Output: Milestone archived (roadmap + requirements), PROJECT.md evolved, git tag
 
 1. **Verify readiness:**
 
-   - Check all phases in milestone have completed plans (SUMMARY.md exists)
+   - Check all phases in milestone have completed plans (SUMMARY.org exists)
    - Present milestone scope and stats
    - Wait for confirmation
 
@@ -76,25 +76,25 @@ Output: Milestone archived (roadmap + requirements), PROJECT.md evolved, git tag
 
 3. **Extract accomplishments:**
 
-   - Read all phase SUMMARY.md files in milestone range
+   - Read all phase SUMMARY.org files in milestone range
    - Extract 4-6 key accomplishments
    - Present for approval
 
 4. **Archive milestone:**
 
-   - Create `.planning/milestones/v{{version}}-ROADMAP.md`
-   - Extract full phase details from ROADMAP.md
+   - Create `.planning/milestones/v{{version}}-ROADMAP.org`
+   - Extract full phase details from ROADMAP.org
    - Fill milestone-archive.md template
-   - Update ROADMAP.md to one-line summary with link
+   - Update ROADMAP.org to one-line summary with link
 
 5. **Archive requirements:**
 
-   - Create `.planning/milestones/v{{version}}-REQUIREMENTS.md`
+   - Create `.planning/milestones/v{{version}}-REQUIREMENTS.org`
    - Mark all v1 requirements as complete (checkboxes checked)
    - Note requirement outcomes (validated, adjusted, dropped)
-   - Delete `.planning/REQUIREMENTS.md` (fresh one created for next milestone)
+   - Delete `.planning/REQUIREMENTS.org` (fresh one created for next milestone)
 
-6. **Update PROJECT.md:**
+6. **Update PROJECT.org:**
 
    - Add "Current State" section with shipped version
    - Add "Next Milestone Goals" section
@@ -102,7 +102,7 @@ Output: Milestone archived (roadmap + requirements), PROJECT.md evolved, git tag
 
 7. **Commit and tag:**
 
-   - Stage: MILESTONES.md, PROJECT.md, ROADMAP.md, STATE.md, archive files
+   - Stage: MILESTONES.org, PROJECT.org, ROADMAP.org, STATE.org, archive files
    - Commit: `chore: archive v{{version}} milestone`
    - Tag: `git tag -a v{{version}} -m "[milestone summary]"`
    - Ask about pushing tag
@@ -114,11 +114,11 @@ Output: Milestone archived (roadmap + requirements), PROJECT.md evolved, git tag
 
 <success_criteria>
 
-- Milestone archived to `.planning/milestones/v{{version}}-ROADMAP.md`
-- Requirements archived to `.planning/milestones/v{{version}}-REQUIREMENTS.md`
-- `.planning/REQUIREMENTS.md` deleted (fresh for next milestone)
-- ROADMAP.md collapsed to one-line entry
-- PROJECT.md updated with current state
+- Milestone archived to `.planning/milestones/v{{version}}-ROADMAP.org`
+- Requirements archived to `.planning/milestones/v{{version}}-REQUIREMENTS.org`
+- `.planning/REQUIREMENTS.org` deleted (fresh for next milestone)
+- ROADMAP.org collapsed to one-line entry
+- PROJECT.org updated with current state
 - Git tag v{{version}} created
 - Commit successful
 - User knows next steps (including need for fresh requirements)
@@ -127,10 +127,10 @@ Output: Milestone archived (roadmap + requirements), PROJECT.md evolved, git tag
 <critical_rules>
 
 - **Load workflow first:** Read complete-milestone.md before executing
-- **Verify completion:** All phases must have SUMMARY.md files
+- **Verify completion:** All phases must have SUMMARY.org files
 - **User confirmation:** Wait for approval at verification gates
 - **Archive before deleting:** Always create archive files before updating/deleting originals
-- **One-line summary:** Collapsed milestone in ROADMAP.md should be single line with link
-- **Context efficiency:** Archive keeps ROADMAP.md and REQUIREMENTS.md constant size per milestone
+- **One-line summary:** Collapsed milestone in ROADMAP.org should be single line with link
+- **Context efficiency:** Archive keeps ROADMAP.org and REQUIREMENTS.org constant size per milestone
 - **Fresh requirements:** Next milestone starts with `/gmsd:new-milestone` which includes requirements definition
   </critical_rules>
