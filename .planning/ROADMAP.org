@@ -24,7 +24,7 @@ documentation.
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [X] *Phase 1: Framework Foundation* - Define the Diataxis reference document that all classification work depends on
-- [ ] *Phase 2: Classification and Audit* - Classify all existing templates and agents; produce formal gap audit
+- [X] *Phase 2: Classification and Audit* - Classify all existing templates and agents; produce formal gap audit
 - [ ] *Phase 3: Gap Filling* - Create new templates for underserved quadrants identified in the audit
 - [ ] *Phase 4: Internal Docs* - Reorganise GMSD's own documentation to Diataxis quadrants
 
@@ -160,6 +160,6 @@ Dashed arrows = soft dependency (informs but does not block).
 | Phase                        | Plans Complete | Status      | Completed |
 |------------------------------+----------------+-------------+-----------|
 | 1. Framework Foundation      |            1/1 | Complete    | 2026-02-28 |
-| 2. Classification and Audit  |            2/3 | In progress | -         |
+| 2. Classification and Audit  |            3/3 | Complete    | 2026-02-28 |
 | 3. Gap Filling               |            0/2 | Not started | -         |
 | 4. Internal Docs             |            0/3 | Not started | -         |
