@@ -448,7 +448,7 @@ Switch to budget profile: ~/gmsd:set-profile budget~. Disable research and plan-
 
 *** Working on a Sensitive/Private Project
 
-Set ~commit_docs: false~ during ~/gmsd:new-project~ or via ~/gmsd:settings~. Add ~.planning/~ to your ~.gitignore~. Planning artifacts stay local and never touch git.
+Set ~commit_docs: false~ during ~/gmsd:new-project~ or via ~/gmsd:settings~. This automatically adds ~.planning/~ to your ~.gitignore~. Planning artifacts stay local and never touch git.
 
 *** GMSD Update Overwrote My Local Changes
 

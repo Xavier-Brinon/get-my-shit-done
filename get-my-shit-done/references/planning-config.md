@@ -33,7 +33,7 @@ Configuration options for `.planning/` directory behavior.
 
 **When `commit_docs: false`:**
 - Skip all `git add`/`git commit` for `.planning/` files
-- User must add `.planning/` to `.gitignore`
+- `.planning/` is automatically added to `.gitignore` when set via `config-set`
 - Useful for: OSS contributions, client projects, keeping planning private
 
 **Using gmsd-tools.cjs (preferred):**
@@ -82,26 +82,22 @@ The CLI checks `commit_docs` config and gitignore status internally — no manua
 
 To use uncommitted mode:
 
-1. **Set config:**
-   ```json
-   "planning": {
-     "commit_docs": false,
-     "search_gitignored": true
-   }
+1. **Set config (automatically syncs .gitignore):**
+   ```bash
+   node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs config-set commit_docs false
+   ```
+   This adds `.planning/` to `.gitignore` automatically. To also search gitignored planning files:
+   ```bash
+   node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs config-set search_gitignored true
    ```
 
-2. **Add to .gitignore:**
-   ```
-   .planning/
-   ```
-
-3. **Existing tracked files:** If `.planning/` was previously tracked:
+2. **Existing tracked files:** If `.planning/` was previously tracked:
    ```bash
    git rm -r --cached .planning/
    git commit -m "chore: stop tracking planning docs"
    ```
 
-4. **Branch merges:** When using `branching_strategy: phase` or `milestone`, the `complete-milestone` workflow automatically strips `.planning/` files from staging before merge commits when `commit_docs: false`.
+3. **Branch merges:** When using `branching_strategy: phase` or `milestone`, the `complete-milestone` workflow automatically strips `.planning/` files from staging before merge commits when `commit_docs: false`.
 
 </setup_uncommitted_mode>
 
