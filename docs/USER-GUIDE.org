@@ -284,6 +284,37 @@ Disable these to speed up phases in familiar domains or when conserving tokens.
 
 *Template variables:* ~{phase}~ = zero-padded number (e.g., "03"), ~{slug}~ = lowercase hyphenated name, ~{milestone}~ = version (e.g., "v1.0").
 
+**** Worktree-Aware Branching
+
+The ~phase~ strategy integrates with Claude Code's ~--worktree~ (~-w~) flag. When
+~execute-phase~ detects it is running inside a worktree or on a non-main branch,
+it skips branch creation and commits directly to the current branch.
+
+*Recommended workflow:*
+
+#+begin_example
+# Start a worktree session for the phase
+claude -w phase-02-classification-and-audit
+
+# Inside the session — execute as normal
+/gmsd:execute-phase 2
+# → Detects worktree branch, skips branch creation, commits there
+
+# When done — create a PR from the worktree branch
+#+end_example
+
+*Branch discovery at milestone completion:*
+
+~/gmsd:complete-milestone~ discovers both naming patterns:
+
+| Source | Pattern | Example |
+|--------+---------+---------|
+| GMSD branch creation | ~gmsd/phase-{N}-{slug}~ | ~gmsd/phase-02-classification-and-audit~ |
+| Claude Code worktree | ~worktree-{name}~ | ~worktree-phase-02-classification-and-audit~ |
+
+No configuration change is needed — ~branching_strategy: "phase"~ works with
+worktrees out of the box.
+
 *** Model Profiles (Per-Agent Breakdown)
 
 | Agent | ~quality~ | ~balanced~ | ~budget~ |

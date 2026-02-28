@@ -167,6 +167,76 @@ If you prefer not to use that flag, add this to your project's ~.claude/settings
 
 -----
 
+** Recommended Workflow: Worktrees + Phase Branching
+
+GMSD is designed to work with Claude Code's ~--worktree~ (~-w~) flag. Each phase runs in an isolated worktree with its own branch — no cross-contamination between phases, clean PRs, easy rollback.
+
+*** Setup
+
+Set ~branching_strategy~ to ~phase~ in your project config:
+
+#+begin_src json :file .planning/config.json
+{
+  "git": {
+    "branching_strategy": "phase"
+  }
+}
+#+end_src
+
+Or use ~/gmsd:settings~ during project setup.
+
+*** The Loop
+
+#+begin_example
+# 1. Check where you are
+claude
+> /gmsd:progress
+
+# 2. Start a worktree for the next phase
+claude -w phase-02-classification-and-audit
+
+# 3. Inside the worktree session — plan and execute
+> /gmsd:plan-phase 2
+> /gmsd:execute-phase 2
+> /gmsd:verify-work 2
+
+# 4. Pause if you need to stop mid-phase
+> /gmsd:pause-work
+
+# 5. Resume later in the same worktree
+claude -w phase-02-classification-and-audit
+> /gmsd:resume-work
+
+# 6. When the phase is done — create a PR from the worktree branch
+> create a PR for this phase
+
+# 7. After merging, start the next phase in a new worktree
+claude -w phase-03-gap-filling
+> /gmsd:plan-phase 3
+#+end_example
+
+*** Why Worktrees
+
+| Benefit | How |
+|---------+-----|
+| *Isolation* | Each phase has its own copy of the codebase — no half-finished work leaking between phases |
+| *Clean PRs* | One branch per phase = one PR per phase, easy to review |
+| *Parallel work* | Run multiple ~claude -w~ sessions side-by-side for independent phases |
+| *Safe rollback* | Phase went wrong? Delete the worktree and branch, main is untouched |
+| *Session continuity* | ~/gmsd:pause-work~ + ~/gmsd:resume-work~ persist context across sessions |
+
+*** How It Works Under the Hood
+
+When you run ~claude -w phase-02-classification-and-audit~, Claude Code creates:
+- A worktree at ~.claude/worktrees/phase-02-classification-and-audit/~
+- A branch named ~worktree-phase-02-classification-and-audit~
+
+When ~/gmsd:execute-phase 2~ runs inside that worktree, it detects it's already on a non-main branch and skips its own branch creation. All commits go to the worktree branch.
+
+When you're ready to complete the milestone, ~/gmsd:complete-milestone~ discovers both ~gmsd/phase-*~ and ~worktree-phase-*~ branches and offers merge options (squash merge recommended).
+
+-----
+
 ** How It Works
 
 #+begin_quote

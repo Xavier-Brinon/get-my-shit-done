@@ -9,6 +9,9 @@ Format follows [[https://keepachangelog.com/en/1.1.0/][Keep a Changelog]].
 * [Unreleased] - GMSD Fork
 
 ** Added
+- Worktree-aware branching: ~execute-phase~ detects worktrees and non-main branches, skips branch creation
+- ~complete-milestone~ discovers both ~gmsd/phase-*~ and ~worktree-phase-*~ branches
+- Recommended workflow section in README: worktrees + phase branching loop
 - Org-mode (~.org~) as document format replacing Markdown (~.md~) with YAML frontmatter
 - Org property drawer (~:PROPERTIES:~ / ~:END:~) parser replacing YAML ~---~ frontmatter
 - Dot-notation for nested objects in property drawers (e.g., ~:tech-stack.added: [val]~)
