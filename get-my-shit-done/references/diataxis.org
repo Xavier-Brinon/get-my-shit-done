@@ -1,0 +1,389 @@
+#+title: Diataxis Documentation Framework — Full Reference
+#+author: GMSD
+#+date: [2026-02-28]
+#+startup: indent
+#+options: toc:3 num:nil ^:{}
+
+:PROPERTIES:
+:purpose: Single source of truth for Diataxis quadrant definitions, writing rules, anti-patterns, and classification guidance
+:condensed-version: references/diataxis-condensed.md
+:source: https://diataxis.fr
+:END:
+
+* Introduction
+
+This document is the GMSD single source of truth for the Diataxis
+documentation framework. All downstream phases — classification (Phase
+2), gap filling (Phase 3), and internal doc reorganisation (Phase 4) —
+draw their quadrant definitions, writing rules, and anti-patterns from
+this reference.
+
+Diataxis organises documentation into four distinct quadrants defined
+by two axes: *practical vs theoretical* and *studying vs working*.
+
+#+CAPTION: Diataxis 2x2 quadrant map
+#+NAME: tab:diataxis-quadrants
+| Knowledge type       | Useful when studying | Useful when working |
+|----------------------+----------------------+---------------------|
+| *Practical*          | Tutorial             | How-to              |
+| *Theoretical*        | Explanation          | Reference           |
+
+Each quadrant serves a different reader need. Mixing quadrants in a
+single document almost always reduces usefulness for every audience.
+
+* Tutorial
+:PROPERTIES:
+:CUSTOM_ID: tutorial
+:END:
+
+** Definition
+
+A tutorial is *learning-oriented*. It takes the reader through a
+series of steps to complete a meaningful project. The reader learns by
+doing — their primary outcome is new capability and confidence, not a
+specific deliverable.
+
+The teacher (author) is in control. The learner follows the teacher's
+chosen path to reach a guaranteed outcome. The outcome matters less
+than the journey.
+
+** Writing rules
+
+- *Start with a concrete action* — the learner should do something
+  real in the first few minutes. Waiting builds anxiety, not
+  confidence.
+- *Let the learner do things* — hands-on experience builds capability
+  faster than reading. Every instruction should prompt an action.
+- *Provide a working result at each step* — the learner needs to see
+  that what they did worked before moving on. Visible progress
+  sustains motivation.
+- *Explain only what is necessary to proceed* — save deeper
+  explanation for Explanation documents. Interrupting the flow with
+  theory confuses learners about what matters right now.
+- *Repeat key actions where appropriate* — repetition reinforces
+  muscle memory. Doing something twice is not redundant in a tutorial.
+- *Set realistic expectations up front* — state what the learner will
+  build and what prior knowledge is assumed. Surprises mid-tutorial
+  cause abandonment.
+
+** Anti-patterns
+
+*** Misclassification: tutorial mistaken for a how-to guide
+
+*Warning:* A document that starts with "how to learn X" but assumes
+the reader already has a specific goal in mind is not a tutorial — it
+is a how-to guide wearing a tutorial's label.
+
+*Test:* Does the reader need to know what they want before they start?
+If yes, it is a how-to. A tutorial reader does not yet know what they
+want — they trust the teacher to lead them.
+
+*Fix:* If the reader needs a specific goal to use the document, recast
+it as a how-to guide. Remove the assumed context and add onboarding
+scaffolding to write it as a true tutorial.
+
+*** Writing pitfall: overloading with explanation
+
+*Warning:* A tutorial that pauses to discuss why something works,
+explore trade-offs, or define terms at length stops being a tutorial
+and becomes a lecture. Learners disengage when theory interrupts
+action.
+
+*Fix:* Move conceptual explanation into a separate Explanation
+document and link to it with "to understand why this works, see
+[Explanation doc]". Keep the tutorial moving.
+
+** Example
+
+/Generic:/ "Bake your first loaf of bread" — the reader follows every
+step in order (mix, knead, prove, bake) and ends with a real loaf.
+They learn bread-baking by making bread, not by reading about it.
+
+/GMSD mapping:/ A tutorial for GMSD would walk a first-time user
+through running =/gmsd:start= on a brand-new project from zero to
+first committed plan. The outcome (a committed plan) is real but
+secondary — the primary outcome is the user's confidence in the
+workflow.
+
+* How-to
+:PROPERTIES:
+:CUSTOM_ID: how-to
+:END:
+
+** Definition
+
+A how-to guide is *task-oriented*. It takes a reader who already has a
+goal through the steps needed to achieve it. The reader has a specific
+problem or intention; the guide shows them how to accomplish it.
+
+Unlike a tutorial, the reader is in control. The author assumes
+competence and does not explain why each step works — the reader
+trusts the sequence and wants to reach their goal efficiently.
+
+** Writing rules
+
+- *State the goal immediately* — the reader needs to confirm within
+  the first sentence that this guide solves their problem. Do not
+  bury the goal.
+- *Assume prior competence* — skip onboarding. The reader does not
+  need to know what a database is; they need to know how to add an
+  index.
+- *Give steps, not prose* — use numbered lists or clear imperative
+  sentences. Narrative slows the reader down.
+- *Keep steps minimal* — include only what is needed to achieve the
+  goal. Every extra word increases cognitive load.
+- *Note edge cases where they matter* — a brief "if X, do Y instead"
+  is acceptable. A full explanation of why X exists belongs in an
+  Explanation document.
+- *Test every step* — ensure the guide works end-to-end before
+  publishing. A broken step wastes the reader's time on a problem
+  they did not come to solve.
+
+** Anti-patterns
+
+*** Misclassification: how-to mistaken for a tutorial
+
+*Warning:* A guide that explains every concept as if the reader has
+never encountered the topic before is not a how-to — it is a tutorial
+in disguise. Adding background, motivation, and rationale turns a
+focused guide into a course.
+
+*Test:* Does the reader need to finish reading this to gain a new
+ability, or do they just need to complete a task? Task completion
+= how-to. Ability gain = tutorial.
+
+*Fix:* Strip the background material into a separate Tutorial or
+Explanation document. The how-to starts at "Step 1."
+
+*** Writing pitfall: explaining concepts instead of giving steps
+
+*Warning:* "Before you run this command, it is important to understand
+that Docker containers are isolated environments that..." — the reader
+already knows this, or they wouldn't be reading a how-to guide.
+
+*Fix:* Replace explanatory paragraphs with action steps. If the
+rationale is genuinely necessary for safe use, add it as a one-line
+note, not a paragraph.
+
+** Example
+
+/Generic:/ "How to cook rice for 100 people" — the reader knows how
+to cook rice; they need to scale it. The guide covers quantities,
+equipment, and timing at scale. No explanation of what rice is or why
+it absorbs water.
+
+/GMSD mapping:/ "How to add a new phase to an existing project" — the
+reader knows GMSD and wants to extend their project. The guide covers
+the =/gmsd:add-phase= command, naming conventions, and linking the new
+phase to existing ones.
+
+* Reference
+:PROPERTIES:
+:CUSTOM_ID: reference
+:END:
+
+** Definition
+
+Reference material is *information-oriented*. It provides accurate,
+complete, and austere technical descriptions of the system — its
+components, interfaces, options, and behaviours. Reference is not
+read from start to finish; it is consulted.
+
+The standard is consistency and completeness. Every parameter,
+return value, error code, or configuration option must be documented.
+Omitting something is a defect.
+
+** Writing rules
+
+- *Describe, do not instruct* — reference describes what exists. It
+  does not tell the reader to do things. "Returns a string" not "you
+  should use this to get a string."
+- *Be consistent* — every entry at the same level must have the same
+  structure. Readers scan reference material; inconsistency breaks
+  scanning.
+- *Be complete* — document every option, even obscure ones. A reader
+  who finds a gap cannot trust the reference.
+- *Be accurate above all else* — an incorrect reference is worse than
+  no reference. Verify against the implementation, not your memory.
+- *Link to related how-to guides* — reference answers "what does this
+  do?" and links to "how do I use this?" Mixing them pollutes both.
+- *Use a machine-like, impersonal tone* — reference is not
+  conversational. Avoid "you", hedging, and friendly asides.
+
+** Anti-patterns
+
+*** Misclassification: reference mistaken for explanation
+
+*Warning:* A reference page that adds a "Background" or "Why this
+exists" section has drifted into Explanation territory. Readers
+consulting reference know the system exists — they need to look up
+details, not understand history.
+
+*Fix:* Move motivational or conceptual content into an Explanation
+document. Link back from the reference: "For rationale, see
+[Explanation doc]."
+
+*** Writing pitfall: adding instructional steps
+
+*Warning:* "To use this function, first import it, then call it with
+your parameters..." — this is a how-to guide embedded in reference.
+Reference describes the function's signature and behaviour; it does
+not walk the reader through using it.
+
+*Fix:* Replace procedural steps with declarative descriptions. Add a
+link to a how-to guide for usage examples.
+
+** Example
+
+/Generic:/ A dictionary entry or an API specification — complete,
+accurate, consulted not read. Every entry follows the same format.
+
+/GMSD mapping:/ The =/gmsd:start= command reference: parameter names,
+types, default values, environment variables, output format, and error
+codes. No narrative, no tutorial steps.
+
+* Explanation
+:PROPERTIES:
+:CUSTOM_ID: explanation
+:END:
+
+** Definition
+
+Explanation is *understanding-oriented*. It discusses a topic to
+broaden the reader's understanding of it. The reader is not trying to
+get something done — they want to understand why things are the way
+they are, how concepts relate, or what trade-offs were made.
+
+Explanation is not called when the reader has a specific goal. It is
+read out of curiosity or to build mental models before engaging with
+tutorials and how-to guides.
+
+** Writing rules
+
+- *Discuss, do not direct* — explanation illuminates; it does not
+  instruct. Avoid imperative sentences. "The cache exists because..."
+  not "add a cache."
+- *Provide context and background* — explain history, motivation,
+  alternative approaches considered, and trade-offs. This is where
+  rationale lives.
+- *Connect concepts to each other* — good explanation shows how ideas
+  relate. A reader should finish the document with a richer mental
+  model, not just a fact.
+- *Accept that the reader may not act* — understanding is the goal.
+  If the reader reaches the end without doing anything, the document
+  succeeded.
+- *Link to tutorials and how-to guides* — explanation is the place to
+  link outward. "To put this into practice, see [Tutorial]."
+- *Avoid jargon without definition* — explanation readers may not yet
+  have the vocabulary. Define terms when they first appear.
+
+** Anti-patterns
+
+*** Misclassification: explanation mistaken for reference
+
+*Warning:* An explanation document that lists every configuration
+option, function signature, or parameter has become a reference page.
+Reference catalogues; explanation discusses.
+
+*Test:* Is the reader looking things up, or building understanding?
+Look-up = reference. Understanding = explanation.
+
+*Fix:* Move the catalogue into a Reference document. Keep in the
+Explanation document only what illustrates the concept, not what
+enumerates the system.
+
+*** Writing pitfall: drifting into instruction
+
+*Warning:* "To understand caching, first run this command..." —
+explanation has become a tutorial. Explanation discusses; it does not
+lead the reader through steps.
+
+*Fix:* Remove imperative actions. If practice is valuable, link to a
+tutorial or how-to guide: "To see this in action, try [Tutorial]."
+
+** Example
+
+/Generic:/ "About database normalisation" — the reader wants to
+understand why relational databases are structured the way they are,
+what normal forms exist, and what trade-offs the designer makes. They
+are not creating a database right now.
+
+/GMSD mapping:/ "Why GMSD uses the Diataxis framework" — discusses the
+problem with undifferentiated documentation, how Diataxis solves it,
+and what trade-offs were considered. A new contributor reads this
+before touching any documentation.
+
+* Tutorial vs How-to Disambiguation
+:PROPERTIES:
+:CUSTOM_ID: tutorial-vs-howto
+:END:
+
+These two quadrants are the most frequently confused. Both are
+practical and involve steps. The difference is the *reader's starting
+point* and *who controls the path*.
+
+#+CAPTION: Tutorial vs How-to contrast
+#+NAME: tab:tutorial-vs-howto
+| Dimension          | Tutorial                          | How-to                            |
+|--------------------+-----------------------------------+-----------------------------------|
+| Reader's goal      | None yet — trusts the teacher     | Specific — reader knows what they want |
+| Reader's competence | None assumed — beginner           | Competence assumed                |
+| Who controls path  | Author (teacher) controls         | Reader controls (author just guides) |
+| Primary outcome    | New ability or confidence         | Task accomplished                 |
+| Explanation allowed | Minimal — keep moving            | None — just the steps             |
+
+*The key test:* "Does the reader know what they want to achieve?"
+
+- *Yes* → write a how-to guide
+- *No* → write a tutorial
+
+A tutorial reader says "teach me how to do X." A how-to reader says
+"I need to do X right now, show me how."
+
+If readers arrive with a mix of prior knowledge, write both: a
+tutorial for newcomers, a how-to for returning users solving a
+specific problem.
+
+* Classification Decision Tree
+:PROPERTIES:
+:CUSTOM_ID: decision-tree
+:END:
+
+Use this decision tree to classify any document or determine which
+quadrant a new document should belong to.
+
+#+name: diataxis-classification-tree
+#+description: Classification decision tree for Diataxis quadrant assignment
+#+begin_src mermaid :file diataxis-tree.png :exports results
+flowchart TD
+    A[What is the reader's need?] --> B{Practical or theoretical?}
+    B -->|Practical — wants to do something| C{Studying or working?}
+    B -->|Theoretical — wants to understand something| D{Studying or working?}
+    C -->|Studying — learning a new skill| E[Tutorial\nLearning-oriented\nReader follows teacher's path]
+    C -->|Working — has a specific goal| F[How-to\nTask-oriented\nReader achieves their goal]
+    D -->|Studying — building mental models| G[Explanation\nUnderstanding-oriented\nReader broadens comprehension]
+    D -->|Working — needs accurate details| H[Reference\nInformation-oriented\nReader looks up specifics]
+#+end_src
+
+If the flowchart is unavailable, use this text equivalent:
+
+1. *Is the reader trying to do something or understand something?*
+   - Do something → go to 2
+   - Understand something → go to 3
+2. *Is the reader learning a new skill or achieving a specific goal?*
+   - Learning → *Tutorial*
+   - Achieving a goal → *How-to*
+3. *Is the reader building a mental model or looking up specifics?*
+   - Building a mental model → *Explanation*
+   - Looking up specifics → *Reference*
+
+*Confirming your classification:*
+
+- *Tutorial:* "After reading this, the reader will be able to [new
+  skill]." Reader could not do this before.
+- *How-to:* "After following these steps, the reader will have
+  [accomplished goal]." Reader knew what they wanted.
+- *Reference:* "The reader will find the exact [parameter/value/type]
+  they were looking for." Reader was consulting, not learning.
+- *Explanation:* "The reader will understand why [concept] works the
+  way it does." Reader was curious, not goal-driven.
