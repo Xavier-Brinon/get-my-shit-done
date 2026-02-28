@@ -78,5 +78,5 @@ None yet.
 ** Session Continuity
 
 Last session: 2026-02-28
-Stopped at: Phase 1 plan 01-01 complete — Diataxis dual-document reference created
-Resume file: .planning/phases/01-framework-foundation/01-01-SUMMARY.org
+Stopped at: Phase 2 context gathered — classification granularity, metadata, agent tags, audit scope decisions captured
+Resume file: .planning/phases/02-classification-and-audit/02-CONTEXT.org
