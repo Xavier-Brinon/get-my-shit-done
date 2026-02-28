@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated CONCERNS.org to look up known bugs, tech debt, and risks before making changes to the codebase.
+:END:
+
 #+title: Concerns
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated STACK.org to look up recommended technologies, supporting libraries, and alternatives considered for the researched project domain.
+:END:
+
 #+title: Stack
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

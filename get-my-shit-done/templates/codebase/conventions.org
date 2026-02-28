@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated CONVENTIONS.org to look up naming patterns, formatting rules, and code style to match when writing new code.
+:END:
+
 #+title: Conventions
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

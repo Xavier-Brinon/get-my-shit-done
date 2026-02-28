@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated ARCHITECTURE.org to look up standard architectural patterns, component structure, and data flow for the researched project domain.
+:END:
+
 #+title: Architecture
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated SUMMARY.org to look up consolidated research findings and roadmap implications for the project domain before planning phases.
+:END:
+
 #+title: Summary
 #+startup: indent
 #+options: toc:2 num:nil ^:{}

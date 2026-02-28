@@ -1,3 +1,9 @@
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader consults the generated FEATURES.org to look up the feature landscape — table stakes, differentiators, anti-features, and MVP scope — for the researched project domain.
+:END:
+
 #+title: Features
 #+startup: indent
 #+options: toc:2 num:nil ^:{}
