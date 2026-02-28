@@ -1,7 +1,7 @@
 <purpose>
 Orchestrate parallel debug agents to investigate UAT gaps and find root causes.
 
-After UAT finds gaps, spawn one debug agent per gap. Each agent investigates autonomously with symptoms pre-filled from UAT. Collect root causes, update UAT.md gaps with diagnosis, then hand off to plan-phase --gaps with actual diagnoses.
+After UAT finds gaps, spawn one debug agent per gap. Each agent investigates autonomously with symptoms pre-filled from UAT. Collect root causes, update UAT.org gaps with diagnosis, then hand off to plan-phase --gaps with actual diagnoses.
 
 Orchestrator stays lean: parse gaps, spawn agents, collect results, update UAT.
 </purpose>
@@ -24,7 +24,7 @@ With diagnosis: "Comment doesn't refresh" → "useEffect missing dependency" →
 <process>
 
 <step name="parse_gaps">
-**Extract gaps from UAT.md:**
+**Extract gaps from UAT.org:**
 
 Read the "Gaps" section (YAML format):
 ```yaml
@@ -79,7 +79,7 @@ For each gap, fill the debug-subagent-prompt template and spawn:
 
 ```
 Task(
-  prompt=filled_debug_subagent_prompt + "\n\n<files_to_read>\n- {phase_dir}/{phase_num}-UAT.md\n- .planning/STATE.md\n</files_to_read>",
+  prompt=filled_debug_subagent_prompt + "\n\n<files_to_read>\n- {phase_dir}/{phase_num}-UAT.org\n- .planning/STATE.org\n</files_to_read>",
   subagent_type="general-purpose",
   description="Debug: {truth_short}"
 )
@@ -134,7 +134,7 @@ If agent returns `## INVESTIGATION INCONCLUSIVE`:
 </step>
 
 <step name="update_uat">
-**Update UAT.md gaps with diagnosis:**
+**Update UAT.org gaps with diagnosis:**
 
 For each gap in the Gaps section, add artifacts and missing fields:
 
@@ -156,9 +156,9 @@ For each gap in the Gaps section, add artifacts and missing fields:
 
 Update status in frontmatter to "diagnosed".
 
-Commit the updated UAT.md:
+Commit the updated UAT.org:
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs({phase_num}): add root causes from diagnosis" --files ".planning/phases/XX-name/{phase_num}-UAT.md"
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs({phase_num}): add root causes from diagnosis" --files ".planning/phases/XX-name/{phase_num}-UAT.org"
 ```
 </step>
 
@@ -210,10 +210,10 @@ Agents only diagnose—plan-phase --gaps handles fixes (no fix application).
 </failure_handling>
 
 <success_criteria>
-- [ ] Gaps parsed from UAT.md
+- [ ] Gaps parsed from UAT.org
 - [ ] Debug agents spawned in parallel
 - [ ] Root causes collected from all agents
-- [ ] UAT.md gaps updated with artifacts and missing
+- [ ] UAT.org gaps updated with artifacts and missing
 - [ ] Debug sessions saved to ${DEBUG_DIR}/
 - [ ] Hand off to verify-work for automatic planning
 </success_criteria>

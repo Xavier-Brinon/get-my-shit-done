@@ -80,7 +80,7 @@ Per-project default: Set in `.planning/config.json`:
 Planning involves architecture decisions, goal decomposition, and task design. This is where model quality has the highest impact.
 
 **Why Sonnet for gmsd-executor?**
-Executors follow explicit PLAN.md instructions. The plan already contains the reasoning; execution is implementation.
+Executors follow explicit PLAN.org instructions. The plan already contains the reasoning; execution is implementation.
 
 **Why Sonnet (not Haiku) for verifiers in balanced?**
 Verification requires goal-backward reasoning - checking if code *delivers* what the phase promised, not just pattern matching. Sonnet handles this well; Haiku may miss subtle gaps.

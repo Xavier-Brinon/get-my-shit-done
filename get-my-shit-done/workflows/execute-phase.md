@@ -7,7 +7,7 @@ Orchestrator coordinates, not executes. Each subagent loads the full execute-pla
 </core_principle>
 
 <required_reading>
-Read STATE.md before any operation to load project context.
+Read STATE.org before any operation to load project context.
 </required_reading>
 
 <process>
@@ -106,7 +106,7 @@ Execute each wave in sequence. Within a wave: parallel if `PARALLELIZATION=true`
      prompt="
        <objective>
        Execute plan {plan_number} of phase {phase_number}-{phase_name}.
-       Commit each task atomically. Create SUMMARY.md. Update STATE.md and ROADMAP.md.
+       Commit each task atomically. Create SUMMARY.org. Update STATE.org and ROADMAP.org.
        </objective>
 
        <execution_context>
@@ -119,7 +119,7 @@ Execute each wave in sequence. Within a wave: parallel if `PARALLELIZATION=true`
        <files_to_read>
        Read these files at execution start using the Read tool:
        - {phase_dir}/{plan_file} (Plan)
-       - .planning/STATE.md (State)
+       - .planning/STATE.org (State)
        - .planning/config.json (Config, if exists)
        - ./CLAUDE.md (Project instructions, if exists — follow project-specific guidelines and coding conventions)
        - .agents/skills/ (Project skills, if exists — list skills, read SKILL.md for each, follow relevant rules during implementation)
@@ -128,9 +128,9 @@ Execute each wave in sequence. Within a wave: parallel if `PARALLELIZATION=true`
        <success_criteria>
        - [ ] All tasks executed
        - [ ] Each task committed individually
-       - [ ] SUMMARY.md created in plan directory
-       - [ ] STATE.md updated with position and decisions
-       - [ ] ROADMAP.md updated with plan progress (via `roadmap update-plan-progress`)
+       - [ ] SUMMARY.org created in plan directory
+       - [ ] STATE.org updated with position and decisions
+       - [ ] ROADMAP.org updated with plan progress (via `roadmap update-plan-progress`)
        </success_criteria>
      "
    )
@@ -140,7 +140,7 @@ Execute each wave in sequence. Within a wave: parallel if `PARALLELIZATION=true`
 
 4. **Report completion — spot-check claims first:**
 
-   For each SUMMARY.md:
+   For each SUMMARY.org:
    - Verify first 2 files from `key-files.created` exist on disk
    - Check `git log --oneline --all --grep="{phase}-{plan}"` returns ≥1 commit
    - Check for `## Self-Check: FAILED` marker
@@ -153,7 +153,7 @@ Execute each wave in sequence. Within a wave: parallel if `PARALLELIZATION=true`
    ## Wave {N} Complete
 
    **{Plan ID}: {Plan Name}**
-   {What was built — from SUMMARY.md}
+   {What was built — from SUMMARY.org}
    {Notable deviations, if any}
 
    {If more waves: what this enables for next wave}
@@ -165,7 +165,7 @@ Execute each wave in sequence. Within a wave: parallel if `PARALLELIZATION=true`
 
 5. **Handle failures:**
 
-   **Known Claude Code bug (classifyHandoffIfNeeded):** If an agent reports "failed" with error containing `classifyHandoffIfNeeded is not defined`, this is a Claude Code runtime bug — not a GMSD or agent issue. The error fires in the completion handler AFTER all tool calls finish. In this case: run the same spot-checks as step 4 (SUMMARY.md exists, git commits present, no Self-Check: FAILED). If spot-checks PASS → treat as **successful**. If spot-checks FAIL → treat as real failure below.
+   **Known Claude Code bug (classifyHandoffIfNeeded):** If an agent reports "failed" with error containing `classifyHandoffIfNeeded is not defined`, this is a Claude Code runtime bug — not a GMSD or agent issue. The error fires in the completion handler AFTER all tool calls finish. In this case: run the same spot-checks as step 4 (SUMMARY.org exists, git commits present, no Self-Check: FAILED). If spot-checks PASS → treat as **successful**. If spot-checks FAIL → treat as real failure below.
 
    For real failures: report which plan failed → ask "Continue?" or "Stop?" → if continue, dependent plans may also fail. If stop, partial completion report.
 
@@ -233,8 +233,8 @@ After all waves:
 | 2 | plan-04 | ✓ Complete |
 
 ### Plan Details
-1. **03-01**: [one-liner from SUMMARY.md]
-2. **03-02**: [one-liner from SUMMARY.md]
+1. **03-01**: [one-liner from SUMMARY.org]
+2. **03-02**: [one-liner from SUMMARY.org]
 
 ### Issues Encountered
 [Aggregate from SUMMARYs, or "None"]
@@ -260,7 +260,7 @@ PARENT_INFO=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs find-phase "${P
 # Extract directory from PARENT_INFO JSON, then find UAT file in that directory
 ```
 
-**If no parent UAT found:** Skip this step (gap-closure may have been triggered by VERIFICATION.md instead).
+**If no parent UAT found:** Skip this step (gap-closure may have been triggered by VERIFICATION.org instead).
 
 **3. Update UAT gap statuses:**
 
@@ -287,7 +287,7 @@ mv .planning/debug/{slug}.md .planning/debug/resolved/
 
 **6. Commit updated artifacts:**
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(phase-${PARENT_PHASE}): resolve UAT gaps and debug sessions after ${PHASE_NUMBER} gap closure" --files .planning/phases/*${PARENT_PHASE}*/*-UAT.md .planning/debug/resolved/*.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(phase-${PARENT_PHASE}): resolve UAT gaps and debug sessions after ${PHASE_NUMBER} gap closure" --files .planning/phases/*${PARENT_PHASE}*/*-UAT.org .planning/debug/resolved/*.md
 ```
 </step>
 
@@ -298,12 +298,12 @@ Verify phase achieved its GOAL, not just completed tasks.
 Task(
   prompt="Verify phase {phase_number} goal achievement.
 Phase directory: {phase_dir}
-Phase goal: {goal from ROADMAP.md}
+Phase goal: {goal from ROADMAP.org}
 Phase requirement IDs: {phase_req_ids}
 Check must_haves against actual codebase.
-Cross-reference requirement IDs from PLAN frontmatter against REQUIREMENTS.md — every ID MUST be accounted for.
+Cross-reference requirement IDs from PLAN frontmatter against REQUIREMENTS.org — every ID MUST be accounted for.
 If .planning/decisions/ exists, check that any ADRs linked to this phase (`:phase: {phase_number}`) are consistent with the implementation.
-Create VERIFICATION.md.",
+Create VERIFICATION.org.",
   subagent_type="gmsd-verifier",
   model="{verifier_model}"
 )
@@ -311,7 +311,7 @@ Create VERIFICATION.md.",
 
 Read status:
 ```bash
-grep "^status:" "$PHASE_DIR"/*-VERIFICATION.md | cut -d: -f2 | tr -d ' '
+grep "^status:" "$PHASE_DIR"/*-VERIFICATION.org | cut -d: -f2 | tr -d ' '
 ```
 
 | Status | Action |
@@ -326,7 +326,7 @@ grep "^status:" "$PHASE_DIR"/*-VERIFICATION.md | cut -d: -f2 | tr -d ' '
 
 All automated checks passed. {N} items need human testing:
 
-{From VERIFICATION.md human_verification section}
+{From VERIFICATION.org human_verification section}
 
 "approved" → continue | Report issues → gap closure
 ```
@@ -336,10 +336,10 @@ All automated checks passed. {N} items need human testing:
 ## ⚠ Phase {X}: {Name} — Gaps Found
 
 **Score:** {N}/{M} must-haves verified
-**Report:** {phase_dir}/{phase_num}-VERIFICATION.md
+**Report:** {phase_dir}/{phase_num}-VERIFICATION.org
 
 ### What's Missing
-{Gap summaries from VERIFICATION.md}
+{Gap summaries from VERIFICATION.org}
 
 ---
 ## ▶ Next Up
@@ -348,11 +348,11 @@ All automated checks passed. {N} items need human testing:
 
 <sub>`/clear` first → fresh context window</sub>
 
-Also: `cat {phase_dir}/{phase_num}-VERIFICATION.md` — full report
+Also: `cat {phase_dir}/{phase_num}-VERIFICATION.org` — full report
 Also: `/gmsd:verify-work {X}` — manual testing first
 ```
 
-Gap closure cycle: `/gmsd:plan-phase {X} --gaps` reads VERIFICATION.md → creates gap plans with `gap_closure: true` → user runs `/gmsd:execute-phase {X} --gaps-only` → verifier re-runs.
+Gap closure cycle: `/gmsd:plan-phase {X} --gaps` reads VERIFICATION.org → creates gap plans with `gap_closure: true` → user runs `/gmsd:execute-phase {X} --gaps-only` → verifier re-runs.
 </step>
 
 <step name="update_roadmap">
@@ -366,13 +366,13 @@ The CLI handles:
 - Marking phase checkbox `[x]` with completion date
 - Updating Progress table (Status → Complete, date)
 - Updating plan count to final
-- Advancing STATE.md to next phase
-- Updating REQUIREMENTS.md traceability
+- Advancing STATE.org to next phase
+- Updating REQUIREMENTS.org traceability
 
 Extract from result: `next_phase`, `next_phase_name`, `is_last_phase`.
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(phase-{X}): complete phase execution" --files .planning/ROADMAP.md .planning/STATE.md .planning/REQUIREMENTS.md {phase_dir}/*-VERIFICATION.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(phase-{X}): complete phase execution" --files .planning/ROADMAP.org .planning/STATE.org .planning/REQUIREMENTS.org {phase_dir}/*-VERIFICATION.org
 ```
 </step>
 
@@ -437,14 +437,14 @@ Orchestrator: ~10-15% context. Subagents: fresh 200k each. No polling (Task bloc
 
 <failure_handling>
 - **classifyHandoffIfNeeded false failure:** Agent reports "failed" but error is `classifyHandoffIfNeeded is not defined` → Claude Code bug, not GMSD. Spot-check (SUMMARY exists, commits present) → if pass, treat as success
-- **Agent fails mid-plan:** Missing SUMMARY.md → report, ask user how to proceed
+- **Agent fails mid-plan:** Missing SUMMARY.org → report, ask user how to proceed
 - **Dependency chain breaks:** Wave 1 fails → Wave 2 dependents likely fail → user chooses attempt or skip
 - **All agents in wave fail:** Systemic issue → stop, report for investigation
-- **Checkpoint unresolvable:** "Skip this plan?" or "Abort phase execution?" → record partial progress in STATE.md
+- **Checkpoint unresolvable:** "Skip this plan?" or "Abort phase execution?" → record partial progress in STATE.org
 </failure_handling>
 
 <resumption>
 Re-run `/gmsd:execute-phase {phase}` → discover_plans finds completed SUMMARYs → skips them → resumes from first incomplete plan → continues wave execution.
 
-STATE.md tracks: last completed plan, current wave, pending checkpoints.
+STATE.org tracks: last completed plan, current wave, pending checkpoints.
 </resumption>

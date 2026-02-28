@@ -28,7 +28,7 @@ Configuration options for `.planning/` directory behavior.
 
 **When `commit_docs: true` (default):**
 - Planning files committed normally
-- SUMMARY.md, STATE.md, ROADMAP.md tracked in git
+- SUMMARY.org, STATE.org, ROADMAP.org tracked in git
 - Full history of planning decisions preserved
 
 **When `commit_docs: false`:**
@@ -40,7 +40,7 @@ Configuration options for `.planning/` directory behavior.
 
 ```bash
 # Commit with automatic commit_docs + gitignore checks:
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: update state" --files .planning/STATE.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: update state" --files .planning/STATE.org
 
 # Load config via state load (returns JSON):
 INIT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs state load)
@@ -56,7 +56,7 @@ INIT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs init execute-phase "1"
 **Commit via CLI (handles checks automatically):**
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: update state" --files .planning/STATE.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: update state" --files .planning/STATE.org
 ```
 
 The CLI checks `commit_docs` config and gitignore status internally — no manual conditionals needed.

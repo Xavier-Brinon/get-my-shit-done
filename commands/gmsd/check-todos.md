@@ -17,7 +17,7 @@ Routes to the check-todos workflow which handles:
 - Interactive selection with full context loading
 - Roadmap correlation checking
 - Action routing (work now, add to phase, brainstorm, create phase)
-- STATE.md updates and git commits
+- STATE.org updates and git commits
 </objective>
 
 <execution_context>
@@ -40,6 +40,6 @@ The workflow handles all logic including:
 4. Full context loading with file summaries
 5. Roadmap correlation checking
 6. Action offering and execution
-7. STATE.md updates
+7. STATE.org updates
 8. Git commits
 </process>

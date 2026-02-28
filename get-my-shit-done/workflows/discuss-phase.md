@@ -5,13 +5,13 @@ You are a thinking partner, not an interviewer. The user is the visionary — yo
 </purpose>
 
 <downstream_awareness>
-**CONTEXT.md feeds into:**
+**CONTEXT.org feeds into:**
 
-1. **gmsd-phase-researcher** — Reads CONTEXT.md to know WHAT to research
+1. **gmsd-phase-researcher** — Reads CONTEXT.org to know WHAT to research
    - "User wants card-based layout" → researcher investigates card component patterns
    - "Infinite scroll decided" → researcher looks into virtualization libraries
 
-2. **gmsd-planner** — Reads CONTEXT.md to know WHAT decisions are locked
+2. **gmsd-planner** — Reads CONTEXT.org to know WHAT decisions are locked
    - "Pull-to-refresh on mobile" → planner includes that in task specs
    - "Claude's Discretion: loading skeleton" → planner can decide approach
 
@@ -41,7 +41,7 @@ Ask about vision and implementation choices. Capture decisions for downstream ag
 <scope_guardrail>
 **CRITICAL: No scope creep.**
 
-The phase boundary comes from ROADMAP.md and is FIXED. Discussion clarifies HOW to implement what's scoped, never WHETHER to add new capabilities.
+The phase boundary comes from ROADMAP.org and is FIXED. Discussion clarifies HOW to implement what's scoped, never WHETHER to add new capabilities.
 
 **Allowed (clarifying ambiguity):**
 - "How should posts be displayed?" (layout, density, info shown)
@@ -71,7 +71,7 @@ Gray areas are **implementation decisions the user cares about** — things that
 
 **How to identify gray areas:**
 
-1. **Read the phase goal** from ROADMAP.md
+1. **Read the phase goal** from ROADMAP.org
 2. **Understand the domain** — What kind of thing is being built?
    - Something users SEE → visual presentation, interactions, states matter
    - Something users CALL → interface contracts, responses, errors matter
@@ -130,10 +130,10 @@ Exit workflow.
 </step>
 
 <step name="check_existing">
-Check if CONTEXT.md already exists using `has_context` from init.
+Check if CONTEXT.org already exists using `has_context` from init.
 
 ```bash
-ls ${phase_dir}/*-CONTEXT.md 2>/dev/null
+ls ${phase_dir}/*-CONTEXT.org 2>/dev/null
 ```
 
 **If exists:**
@@ -146,7 +146,7 @@ Use AskUserQuestion:
   - "Skip" — Use existing context as-is
 
 If "Update": Load existing, continue to analyze_phase
-If "View": Display CONTEXT.md, then offer update/skip
+If "View": Display CONTEXT.org, then offer update/skip
 If "Skip": Exit workflow
 
 **If doesn't exist:**
@@ -171,7 +171,7 @@ If "Cancel": Exit workflow.
 <step name="analyze_phase">
 Analyze the phase to identify gray areas worth discussing.
 
-**Read the phase description from ROADMAP.md and determine:**
+**Read the phase description from ROADMAP.org and determine:**
 
 1. **Domain boundary** — What capability is this phase delivering? State it clearly.
 
@@ -303,7 +303,7 @@ Track deferred ideas internally.
 </step>
 
 <step name="write_context">
-Create CONTEXT.md capturing decisions made.
+Create CONTEXT.org capturing decisions made.
 
 **Find or create phase directory:**
 
@@ -314,7 +314,7 @@ If `phase_dir` is null (phase exists in roadmap but no directory):
 mkdir -p ".planning/phases/${padded_phase}-${phase_slug}"
 ```
 
-**File location:** `${phase_dir}/${padded_phase}-CONTEXT.md`
+**File location:** `${phase_dir}/${padded_phase}-CONTEXT.org`
 
 **Structure the content by what was discussed:**
 
@@ -377,7 +377,7 @@ Write file.
 Present summary and next steps:
 
 ```
-Created: .planning/phases/${PADDED_PHASE}-${SLUG}/${PADDED_PHASE}-CONTEXT.md
+Created: .planning/phases/${PADDED_PHASE}-${SLUG}/${PADDED_PHASE}-CONTEXT.org
 
 ## Decisions Captured
 
@@ -395,7 +395,7 @@ Created: .planning/phases/${PADDED_PHASE}-${SLUG}/${PADDED_PHASE}-CONTEXT.md
 
 ## ▶ Next Up
 
-**Phase ${PHASE}: [Name]** — [Goal from ROADMAP.md]
+**Phase ${PHASE}: [Name]** — [Goal from ROADMAP.org]
 
 `/gmsd:plan-phase ${PHASE}`
 
@@ -406,7 +406,7 @@ Created: .planning/phases/${PADDED_PHASE}-${SLUG}/${PADDED_PHASE}-CONTEXT.md
 **Also available:**
 - `/gmsd:plan-phase ${PHASE} --skip-research` — plan without research
 - `/gmsd:create-adr "<decision title>" --phase ${PHASE}` — document a key architectural decision as an ADR
-- Review/edit CONTEXT.md before continuing
+- Review/edit CONTEXT.org before continuing
 
 ---
 ```
@@ -425,25 +425,25 @@ Only suggest if there are genuine architectural choices (not implementation deta
 Commit phase context (uses `commit_docs` from init internally):
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(${padded_phase}): capture phase context" --files "${phase_dir}/${padded_phase}-CONTEXT.md"
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(${padded_phase}): capture phase context" --files "${phase_dir}/${padded_phase}-CONTEXT.org"
 ```
 
 Confirm: "Committed: docs(${padded_phase}): capture phase context"
 </step>
 
 <step name="update_state">
-Update STATE.md with session info:
+Update STATE.org with session info:
 
 ```bash
 node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs state record-session \
   --stopped-at "Phase ${PHASE} context gathered" \
-  --resume-file "${phase_dir}/${padded_phase}-CONTEXT.md"
+  --resume-file "${phase_dir}/${padded_phase}-CONTEXT.org"
 ```
 
-Commit STATE.md:
+Commit STATE.org:
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(state): record phase ${PHASE} context session" --files .planning/STATE.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(state): record phase ${PHASE} context session" --files .planning/STATE.org
 ```
 </step>
 
@@ -545,8 +545,8 @@ Route to `confirm_creation` step (existing behavior — show manual next steps).
 - User selected which areas to discuss
 - Each selected area explored until user satisfied
 - Scope creep redirected to deferred ideas
-- CONTEXT.md captures actual decisions, not vague vision
+- CONTEXT.org captures actual decisions, not vague vision
 - Deferred ideas preserved for future phases
-- STATE.md updated with session info
+- STATE.org updated with session info
 - User knows next steps
 </success_criteria>

@@ -2,17 +2,17 @@
 
 **Read these files NOW:**
 
-1. `.planning/STATE.md`
-2. `.planning/PROJECT.md`
-3. `.planning/ROADMAP.md`
-4. Current phase's plan files (`*-PLAN.md`)
-5. Current phase's summary files (`*-SUMMARY.md`)
+1. `.planning/STATE.org`
+2. `.planning/PROJECT.org`
+3. `.planning/ROADMAP.org`
+4. Current phase's plan files (`*-PLAN.org`)
+5. Current phase's summary files (`*-SUMMARY.org`)
 
 </required_reading>
 
 <purpose>
 
-Mark current phase complete and advance to next. This is the natural point where progress tracking and PROJECT.md evolution happen.
+Mark current phase complete and advance to next. This is the natural point where progress tracking and PROJECT.org evolution happen.
 
 "Planning next phase" = "current phase is done"
 
@@ -25,8 +25,8 @@ Mark current phase complete and advance to next. This is the natural point where
 Before transition, read project state:
 
 ```bash
-cat .planning/STATE.md 2>/dev/null
-cat .planning/PROJECT.md 2>/dev/null
+cat .planning/STATE.org 2>/dev/null
+cat .planning/PROJECT.org 2>/dev/null
 ```
 
 Parse current position to verify we're transitioning the right phase.
@@ -39,8 +39,8 @@ Note accumulated context that may need updating after transition.
 Check current phase has all plan summaries:
 
 ```bash
-ls .planning/phases/XX-current/*-PLAN.md 2>/dev/null | sort
-ls .planning/phases/XX-current/*-SUMMARY.md 2>/dev/null | sort
+ls .planning/phases/XX-current/*-PLAN.org 2>/dev/null | sort
+ls .planning/phases/XX-current/*-SUMMARY.org 2>/dev/null | sort
 ```
 
 **Verification logic:**
@@ -90,9 +90,9 @@ Present:
 
 ```
 Phase [X] has incomplete plans:
-- {phase}-01-SUMMARY.md ✓ Complete
-- {phase}-02-SUMMARY.md ✗ Missing
-- {phase}-03-SUMMARY.md ✗ Missing
+- {phase}-01-SUMMARY.org ✓ Complete
+- {phase}-02-SUMMARY.org ✗ Missing
+- {phase}-03-SUMMARY.org ✗ Missing
 
 ⚠️ Safety rail: Skipping plans requires confirmation (destructive action)
 
@@ -120,7 +120,7 @@ If found, delete them — phase is complete, handoffs are stale.
 
 <step name="update_roadmap_and_state">
 
-**Delegate ROADMAP.md and STATE.md updates to gmsd-tools:**
+**Delegate ROADMAP.org and STATE.org updates to gmsd-tools:**
 
 ```bash
 TRANSITION=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs phase complete "${current_phase}")
@@ -130,7 +130,7 @@ The CLI handles:
 - Marking the phase checkbox as `[x]` complete with today's date
 - Updating plan count to final (e.g., "3/3 plans complete")
 - Updating the Progress table (Status → Complete, adding date)
-- Advancing STATE.md to next phase (Current Phase, Status → Ready to plan, Current Plan → Not started)
+- Advancing STATE.org to next phase (Current Phase, Status → Ready to plan, Current Plan → Not started)
 - Detecting if this is the last phase in the milestone
 
 Extract from result: `completed_phase`, `plans_executed`, `next_phase`, `next_phase_name`, `is_last_phase`.
@@ -146,12 +146,12 @@ The `completed/` subfolder pattern from create-meta-prompts handles archival.
 
 <step name="evolve_project">
 
-Evolve PROJECT.md to reflect learnings from completed phase.
+Evolve PROJECT.org to reflect learnings from completed phase.
 
 **Read phase summaries:**
 
 ```bash
-cat .planning/phases/XX-current/*-SUMMARY.md
+cat .planning/phases/XX-current/*-SUMMARY.org
 ```
 
 **Assess requirement changes:**
@@ -169,14 +169,14 @@ cat .planning/phases/XX-current/*-SUMMARY.md
    - Add to Active: `- [ ] [New requirement]`
 
 4. **Decisions to log?**
-   - Extract decisions from SUMMARY.md files
+   - Extract decisions from SUMMARY.org files
    - Add to Key Decisions table with outcome if known
 
 5. **"What This Is" still accurate?**
    - If the product has meaningfully changed, update the description
    - Keep it current and accurate
 
-**Update PROJECT.md:**
+**Update PROJECT.org:**
 
 Make the edits inline. Update "Last updated" footer:
 
@@ -235,13 +235,13 @@ After (Phase 2 shipped JWT auth, discovered rate limiting needed):
 
 **Note:** Basic position updates (Current Phase, Status, Current Plan, Last Activity) were already handled by `gmsd-tools phase complete` in the update_roadmap_and_state step.
 
-Verify the updates are correct by reading STATE.md. If the progress bar needs updating, use:
+Verify the updates are correct by reading STATE.org. If the progress bar needs updating, use:
 
 ```bash
 PROGRESS=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs progress bar --raw)
 ```
 
-Update the progress bar line in STATE.md with the result.
+Update the progress bar line in STATE.org with the result.
 
 **Step complete when:**
 
@@ -254,14 +254,14 @@ Update the progress bar line in STATE.md with the result.
 
 <step name="update_project_reference">
 
-Update Project Reference section in STATE.md.
+Update Project Reference section in STATE.org.
 
 ```markdown
 ## Project Reference
 
-See: .planning/PROJECT.md (updated [today])
+See: .planning/PROJECT.org (updated [today])
 
-**Core value:** [Current core value from PROJECT.md]
+**Core value:** [Current core value from PROJECT.org]
 **Current focus:** [Next phase name]
 ```
 
@@ -271,12 +271,12 @@ Update the date and current focus to reflect the transition.
 
 <step name="review_accumulated_context">
 
-Review and update Accumulated Context section in STATE.md.
+Review and update Accumulated Context section in STATE.org.
 
 **Decisions:**
 
 - Note recent decisions from this phase (3-5 max)
-- Full log lives in PROJECT.md Key Decisions table
+- Full log lives in PROJECT.org Key Decisions table
 
 **Blockers/Concerns:**
 
@@ -306,7 +306,7 @@ After (if database indexing was addressed in Phase 2):
 
 **Step complete when:**
 
-- [ ] Recent decisions noted (full log in PROJECT.md)
+- [ ] Recent decisions noted (full log in PROJECT.org)
 - [ ] Resolved blockers removed from list
 - [ ] Unresolved blockers kept with phase prefix
 - [ ] New concerns from completed phase added
@@ -315,7 +315,7 @@ After (if database indexing was addressed in Phase 2):
 
 <step name="update_session_continuity_after_transition">
 
-Update Session Continuity section in STATE.md to reflect transition completion.
+Update Session Continuity section in STATE.org to reflect transition completion.
 
 **Format:**
 
@@ -356,19 +356,19 @@ This returns all phases with goals, disk status, and completion info.
 
 **Route A: More phases remain in milestone**
 
-Read ROADMAP.md to get the next phase's name and goal.
+Read ROADMAP.org to get the next phase's name and goal.
 
-**Check if next phase has CONTEXT.md:**
+**Check if next phase has CONTEXT.org:**
 
 ```bash
-ls .planning/phases/*[X+1]*/*-CONTEXT.md 2>/dev/null
+ls .planning/phases/*[X+1]*/*-CONTEXT.org 2>/dev/null
 ```
 
 **If next phase exists:**
 
 <if mode="yolo">
 
-**If CONTEXT.md exists:**
+**If CONTEXT.org exists:**
 
 ```
 Phase [X] marked complete.
@@ -380,7 +380,7 @@ Next: Phase [X+1] — [Name]
 
 Exit skill and invoke SlashCommand("/gmsd:plan-phase [X+1] --auto")
 
-**If CONTEXT.md does NOT exist:**
+**If CONTEXT.org does NOT exist:**
 
 ```
 Phase [X] marked complete.
@@ -396,7 +396,7 @@ Exit skill and invoke SlashCommand("/gmsd:discuss-phase [X+1] --auto")
 
 <if mode="interactive" OR="custom with gates.confirm_transition true">
 
-**If CONTEXT.md does NOT exist:**
+**If CONTEXT.org does NOT exist:**
 
 ```
 ## ✓ Phase [X] Complete
@@ -405,7 +405,7 @@ Exit skill and invoke SlashCommand("/gmsd:discuss-phase [X+1] --auto")
 
 ## ▶ Next Up
 
-**Phase [X+1]: [Name]** — [Goal from ROADMAP.md]
+**Phase [X+1]: [Name]** — [Goal from ROADMAP.org]
 
 `/gmsd:discuss-phase [X+1]` — gather context and clarify approach
 
@@ -420,7 +420,7 @@ Exit skill and invoke SlashCommand("/gmsd:discuss-phase [X+1] --auto")
 ---
 ```
 
-**If CONTEXT.md exists:**
+**If CONTEXT.org exists:**
 
 ```
 ## ✓ Phase [X] Complete
@@ -429,7 +429,7 @@ Exit skill and invoke SlashCommand("/gmsd:discuss-phase [X+1] --auto")
 
 ## ▶ Next Up
 
-**Phase [X+1]: [Name]** — [Goal from ROADMAP.md]
+**Phase [X+1]: [Name]** — [Goal from ROADMAP.org]
 <sub>✓ Context gathered, ready to plan</sub>
 
 `/gmsd:plan-phase [X+1]`
@@ -511,8 +511,8 @@ If user wants to move on but phase isn't fully complete:
 
 ```
 Phase [X] has incomplete plans:
-- {phase}-02-PLAN.md (not executed)
-- {phase}-03-PLAN.md (not executed)
+- {phase}-02-PLAN.org (not executed)
+- {phase}-03-PLAN.org (not executed)
 
 Options:
 1. Mark complete anyway (plans weren't needed)
@@ -535,9 +535,9 @@ Transition is complete when:
 
 - [ ] Current phase plan summaries verified (all exist or user chose to skip)
 - [ ] Any stale handoffs deleted
-- [ ] ROADMAP.md updated with completion status and plan count
-- [ ] PROJECT.md evolved (requirements, decisions, description if needed)
-- [ ] STATE.md updated (position, project reference, context, session)
+- [ ] ROADMAP.org updated with completion status and plan count
+- [ ] PROJECT.org evolved (requirements, decisions, description if needed)
+- [ ] STATE.org updated (position, project reference, context, session)
 - [ ] Progress table updated
 - [ ] User knows next steps
 

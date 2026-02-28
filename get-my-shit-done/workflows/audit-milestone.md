@@ -1,5 +1,5 @@
 <purpose>
-Verify milestone achieved its definition of done by aggregating phase verifications, checking cross-phase integration, and assessing requirements coverage. Reads existing VERIFICATION.md files (phases already verified during execute-phase), aggregates tech debt and deferred gaps, then spawns integration checker for cross-phase wiring.
+Verify milestone achieved its definition of done by aggregating phase verifications, checking cross-phase integration, and assessing requirements coverage. Reads existing VERIFICATION.org files (phases already verified during execute-phase), aggregates tech debt and deferred gaps, then spawns integration checker for cross-phase wiring.
 </purpose>
 
 <required_reading>
@@ -28,36 +28,36 @@ CHECKER_MODEL=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs resolve-model
 node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs phases list
 ```
 
-- Parse version from arguments or detect current from ROADMAP.md
+- Parse version from arguments or detect current from ROADMAP.org
 - Identify all phase directories in scope
-- Extract milestone definition of done from ROADMAP.md
-- Extract requirements mapped to this milestone from REQUIREMENTS.md
+- Extract milestone definition of done from ROADMAP.org
+- Extract requirements mapped to this milestone from REQUIREMENTS.org
 
 ## 2. Read All Phase Verifications
 
-For each phase directory, read the VERIFICATION.md:
+For each phase directory, read the VERIFICATION.org:
 
 ```bash
 # For each phase, use find-phase to resolve the directory (handles archived phases)
 PHASE_INFO=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs find-phase 01 --raw)
-# Extract directory from JSON, then read VERIFICATION.md from that directory
-# Repeat for each phase number from ROADMAP.md
+# Extract directory from JSON, then read VERIFICATION.org from that directory
+# Repeat for each phase number from ROADMAP.org
 ```
 
-From each VERIFICATION.md, extract:
+From each VERIFICATION.org, extract:
 - **Status:** passed | gaps_found
 - **Critical gaps:** (if any — these are blockers)
 - **Non-critical gaps:** tech debt, deferred items, warnings
 - **Anti-patterns found:** TODOs, stubs, placeholders
 - **Requirements coverage:** which requirements satisfied/blocked
 
-If a phase is missing VERIFICATION.md, flag it as "unverified phase" — this is a blocker.
+If a phase is missing VERIFICATION.org, flag it as "unverified phase" — this is a blocker.
 
 ## 3. Spawn Integration Checker
 
 With phase context collected:
 
-Extract `MILESTONE_REQ_IDS` from REQUIREMENTS.md traceability table — all REQ-IDs assigned to phases in this milestone.
+Extract `MILESTONE_REQ_IDS` from REQUIREMENTS.org traceability table — all REQ-IDs assigned to phases in this milestone.
 
 ```
 Task(
@@ -88,22 +88,22 @@ Combine:
 
 MUST cross-reference three independent sources for each requirement:
 
-### 5a. Parse REQUIREMENTS.md Traceability Table
+### 5a. Parse REQUIREMENTS.org Traceability Table
 
 Extract all REQ-IDs mapped to milestone phases from the traceability table:
 - Requirement ID, description, assigned phase, current status, checked-off state (`[x]` vs `[ ]`)
 
-### 5b. Parse Phase VERIFICATION.md Requirements Tables
+### 5b. Parse Phase VERIFICATION.org Requirements Tables
 
-For each phase's VERIFICATION.md, extract the expanded requirements table:
+For each phase's VERIFICATION.org, extract the expanded requirements table:
 - Requirement | Source Plan | Description | Status | Evidence
 - Map each entry back to its REQ-ID
 
-### 5c. Extract SUMMARY.md Frontmatter Cross-Check
+### 5c. Extract SUMMARY.org Frontmatter Cross-Check
 
-For each phase's SUMMARY.md, extract `requirements-completed` from YAML frontmatter:
+For each phase's SUMMARY.org, extract `requirements-completed` from YAML frontmatter:
 ```bash
-for summary in .planning/phases/*-*/*-SUMMARY.md; do
+for summary in .planning/phases/*-*/*-SUMMARY.org; do
   node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs summary-extract "$summary" --fields requirements_completed | jq -r '.requirements_completed'
 done
 ```
@@ -112,7 +112,7 @@ done
 
 For each REQ-ID, determine status using all three sources:
 
-| VERIFICATION.md Status | SUMMARY Frontmatter | REQUIREMENTS.md | → Final Status |
+| VERIFICATION.org Status | SUMMARY Frontmatter | REQUIREMENTS.org | → Final Status |
 |------------------------|---------------------|-----------------|----------------|
 | passed                 | listed              | `[x]`           | **satisfied**  |
 | passed                 | listed              | `[ ]`           | **satisfied** (update checkbox) |
@@ -125,11 +125,11 @@ For each REQ-ID, determine status using all three sources:
 
 **REQUIRED:** Any `unsatisfied` requirement MUST force `gaps_found` status on the milestone audit.
 
-**Orphan detection:** Requirements present in REQUIREMENTS.md traceability table but absent from ALL phase VERIFICATION.md files MUST be flagged as orphaned. Orphaned requirements are treated as `unsatisfied` — they were assigned but never verified by any phase.
+**Orphan detection:** Requirements present in REQUIREMENTS.org traceability table but absent from ALL phase VERIFICATION.org files MUST be flagged as orphaned. Orphaned requirements are treated as `unsatisfied` — they were assigned but never verified by any phase.
 
-## 6. Aggregate into v{version}-MILESTONE-AUDIT.md
+## 6. Aggregate into v{version}-MILESTONE-AUDIT.org
 
-Create `.planning/v{version}-v{version}-MILESTONE-AUDIT.md` with:
+Create `.planning/v{version}-v{version}-MILESTONE-AUDIT.org` with:
 
 ```yaml
 ---
@@ -196,7 +196,7 @@ For each unsatisfied or partial requirement, diagnose the architectural root cau
 
 ### In the Audit Report
 
-When writing the MILESTONE-AUDIT.md, add an "Architectural Assessment" section:
+When writing the MILESTONE-AUDIT.org, add an "Architectural Assessment" section:
 
 ```markdown
 ## Architectural Assessment
@@ -223,7 +223,7 @@ Output this markdown directly (not as a code block). Route based on status:
 ## ✓ Milestone {version} — Audit Passed
 
 **Score:** {N}/{M} requirements satisfied
-**Report:** .planning/v{version}-MILESTONE-AUDIT.md
+**Report:** .planning/v{version}-MILESTONE-AUDIT.org
 
 All requirements covered. Cross-phase integration verified. E2E flows complete.
 
@@ -246,7 +246,7 @@ All requirements covered. Cross-phase integration verified. E2E flows complete.
 ## ⚠ Milestone {version} — Gaps Found
 
 **Score:** {N}/{M} requirements satisfied
-**Report:** .planning/v{version}-MILESTONE-AUDIT.md
+**Report:** .planning/v{version}-MILESTONE-AUDIT.org
 
 ### Unsatisfied Requirements
 
@@ -277,7 +277,7 @@ All requirements covered. Cross-phase integration verified. E2E flows complete.
 ───────────────────────────────────────────────────────────────
 
 **Also available:**
-- cat .planning/v{version}-MILESTONE-AUDIT.md — see full report
+- cat .planning/v{version}-MILESTONE-AUDIT.org — see full report
 - /gmsd:complete-milestone {version} — proceed anyway (accept tech debt)
 
 ───────────────────────────────────────────────────────────────
@@ -289,7 +289,7 @@ All requirements covered. Cross-phase integration verified. E2E flows complete.
 ## ⚡ Milestone {version} — Tech Debt Review
 
 **Score:** {N}/{M} requirements satisfied
-**Report:** .planning/v{version}-MILESTONE-AUDIT.md
+**Report:** .planning/v{version}-MILESTONE-AUDIT.org
 
 All requirements met. No critical blockers. Accumulated tech debt needs review.
 
@@ -321,14 +321,14 @@ All requirements met. No critical blockers. Accumulated tech debt needs review.
 
 <success_criteria>
 - [ ] Milestone scope identified
-- [ ] All phase VERIFICATION.md files read
-- [ ] SUMMARY.md `requirements-completed` frontmatter extracted for each phase
-- [ ] REQUIREMENTS.md traceability table parsed for all milestone REQ-IDs
+- [ ] All phase VERIFICATION.org files read
+- [ ] SUMMARY.org `requirements-completed` frontmatter extracted for each phase
+- [ ] REQUIREMENTS.org traceability table parsed for all milestone REQ-IDs
 - [ ] 3-source cross-reference completed (VERIFICATION + SUMMARY + traceability)
 - [ ] Orphaned requirements detected (in traceability but absent from all VERIFICATIONs)
 - [ ] Tech debt and deferred gaps aggregated
 - [ ] Integration checker spawned with milestone requirement IDs
-- [ ] v{version}-MILESTONE-AUDIT.md created with structured requirement gap objects
+- [ ] v{version}-MILESTONE-AUDIT.org created with structured requirement gap objects
 - [ ] FAIL gate enforced — any unsatisfied requirement forces gaps_found status
 - [ ] Results presented with actionable next steps
 </success_criteria>

@@ -17,7 +17,7 @@ argument-instructions: |
   Example: /gmsd:add-tests 12 focus on edge cases in the pricing module
 ---
 <objective>
-Generate unit and E2E tests for a completed phase, using its SUMMARY.md, CONTEXT.md, and VERIFICATION.md as specifications.
+Generate unit and E2E tests for a completed phase, using its SUMMARY.org, CONTEXT.org, and VERIFICATION.org as specifications.
 
 Analyzes implementation files, classifies them into TDD (unit), E2E (browser), or Skip categories, presents a test plan for user approval, then generates tests following RED-GREEN conventions.
 
@@ -31,8 +31,8 @@ Output: Test files committed with message `test(phase-{N}): add unit and E2E tes
 <context>
 Phase: $ARGUMENTS
 
-@.planning/STATE.md
-@.planning/ROADMAP.md
+@.planning/STATE.org
+@.planning/ROADMAP.org
 </context>
 
 <process>

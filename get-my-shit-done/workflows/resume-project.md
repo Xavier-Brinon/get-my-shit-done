@@ -26,20 +26,20 @@ INIT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs init resume)
 Parse JSON for: `state_exists`, `roadmap_exists`, `project_exists`, `planning_exists`, `has_interrupted_agent`, `interrupted_agent_id`, `commit_docs`.
 
 **If `state_exists` is true:** Proceed to load_state
-**If `state_exists` is false but `roadmap_exists` or `project_exists` is true:** Offer to reconstruct STATE.md
+**If `state_exists` is false but `roadmap_exists` or `project_exists` is true:** Offer to reconstruct STATE.org
 **If `planning_exists` is false:** This is a new project - route to /gmsd:new-project
 </step>
 
 <step name="load_state">
 
-Read and parse STATE.md, then PROJECT.md:
+Read and parse STATE.org, then PROJECT.org:
 
 ```bash
-cat .planning/STATE.md
-cat .planning/PROJECT.md
+cat .planning/STATE.org
+cat .planning/PROJECT.org
 ```
 
-**From STATE.md extract:**
+**From STATE.org extract:**
 
 - **Project Reference**: Core value and current focus
 - **Current Position**: Phase X of Y, Plan A of B, Status
@@ -49,7 +49,7 @@ cat .planning/PROJECT.md
 - **Blockers/Concerns**: Issues carried forward
 - **Session Continuity**: Where we left off, any resume files
 
-**From PROJECT.md extract:**
+**From PROJECT.org extract:**
 
 - **What This Is**: Current accurate description
 - **Requirements**: Validated, Active, Out of Scope
@@ -66,7 +66,7 @@ Look for incomplete work that needs attention:
 ls .planning/phases/*/.continue-here*.md 2>/dev/null
 
 # Check for plans without summaries (incomplete execution)
-for plan in .planning/phases/*/*-PLAN.md; do
+for plan in .planning/phases/*/*-PLAN.org; do
   summary="${plan/PLAN/SUMMARY}"
   [ ! -f "$summary" ] && echo "Incomplete: $plan"
 done 2>/dev/null
@@ -102,7 +102,7 @@ Present complete project status to user:
 ╔══════════════════════════════════════════════════════════════╗
 ║  PROJECT STATUS                                               ║
 ╠══════════════════════════════════════════════════════════════╣
-║  Building: [one-liner from PROJECT.md "What This Is"]         ║
+║  Building: [one-liner from PROJECT.org "What This Is"]         ║
 ║                                                               ║
 ║  Phase: [X] of [Y] - [Phase name]                            ║
 ║  Plan:  [A] of [B] - [Status]                                ║
@@ -157,12 +157,12 @@ Based on project state, determine the most logical next action:
 → Option: Review completed work
 
 **If phase ready to plan:**
-→ Check if CONTEXT.md exists for this phase:
+→ Check if CONTEXT.org exists for this phase:
 
-- If CONTEXT.md missing:
+- If CONTEXT.org missing:
   → Primary: Discuss phase vision (how user imagines it working)
   → Secondary: Plan directly (skip context gathering)
-- If CONTEXT.md exists:
+- If CONTEXT.org exists:
   → Primary: Plan the phase
   → Option: Review roadmap
 
@@ -182,9 +182,9 @@ What would you like to do?
    OR
 1. Execute phase (/gmsd:execute-phase {phase})
    OR
-1. Discuss Phase 3 context (/gmsd:discuss-phase 3) [if CONTEXT.md missing]
+1. Discuss Phase 3 context (/gmsd:discuss-phase 3) [if CONTEXT.org missing]
    OR
-1. Plan Phase 3 (/gmsd:plan-phase 3) [if CONTEXT.md exists or discuss option declined]
+1. Plan Phase 3 (/gmsd:plan-phase 3) [if CONTEXT.org exists or discuss option declined]
 
 [Secondary options:]
 2. Review current phase status
@@ -193,10 +193,10 @@ What would you like to do?
 5. Something else
 ```
 
-**Note:** When offering phase planning, check for CONTEXT.md existence first:
+**Note:** When offering phase planning, check for CONTEXT.org existence first:
 
 ```bash
-ls .planning/phases/XX-name/*-CONTEXT.md 2>/dev/null
+ls .planning/phases/XX-name/*-CONTEXT.org 2>/dev/null
 ```
 
 If missing, suggest discuss-phase before plan. If exists, offer plan directly.
@@ -213,7 +213,7 @@ Based on user selection, route to appropriate workflow:
 
   ## ▶ Next Up
 
-  **{phase}-{plan}: [Plan Name]** — [objective from PLAN.md]
+  **{phase}-{plan}: [Plan Name]** — [objective from PLAN.org]
 
   `/gmsd:execute-phase {phase}`
 
@@ -227,7 +227,7 @@ Based on user selection, route to appropriate workflow:
 
   ## ▶ Next Up
 
-  **Phase [N]: [Name]** — [Goal from ROADMAP.md]
+  **Phase [N]: [Name]** — [Goal from ROADMAP.org]
 
   `/gmsd:plan-phase [phase-number]`
 
@@ -243,14 +243,14 @@ Based on user selection, route to appropriate workflow:
   ```
 - **Transition** → ./transition.md
 - **Check todos** → Read .planning/todos/pending/, present summary
-- **Review alignment** → Read PROJECT.md, compare to current state
+- **Review alignment** → Read PROJECT.org, compare to current state
 - **Something else** → Ask what they need
 </step>
 
 <step name="update_session">
 Before proceeding to routed workflow, update session continuity:
 
-Update STATE.md:
+Update STATE.org:
 
 ```markdown
 ## Session Continuity
@@ -266,21 +266,21 @@ This ensures if session ends unexpectedly, next resume knows the state.
 </process>
 
 <reconstruction>
-If STATE.md is missing but other artifacts exist:
+If STATE.org is missing but other artifacts exist:
 
-"STATE.md missing. Reconstructing from artifacts..."
+"STATE.org missing. Reconstructing from artifacts..."
 
-1. Read PROJECT.md → Extract "What This Is" and Core Value
-2. Read ROADMAP.md → Determine phases, find current position
-3. Scan \*-SUMMARY.md files → Extract decisions, concerns
+1. Read PROJECT.org → Extract "What This Is" and Core Value
+2. Read ROADMAP.org → Determine phases, find current position
+3. Scan \*-SUMMARY.org files → Extract decisions, concerns
 4. Count pending todos in .planning/todos/pending/
 5. Check for .continue-here files → Session continuity
 
-Reconstruct and write STATE.md, then proceed normally.
+Reconstruct and write STATE.org, then proceed normally.
 
 This handles cases where:
 
-- Project predates STATE.md introduction
+- Project predates STATE.org introduction
 - File was accidentally deleted
 - Cloning repo without full .planning/ state
   </reconstruction>
@@ -297,7 +297,7 @@ If user says "continue" or "go":
 <success_criteria>
 Resume is complete when:
 
-- [ ] STATE.md loaded (or reconstructed)
+- [ ] STATE.org loaded (or reconstructed)
 - [ ] Incomplete work detected and flagged
 - [ ] Clear status presented to user
 - [ ] Contextual next actions offered

@@ -27,7 +27,7 @@ Output: .planning/codebase/ folder with 7 structured documents about the codebas
 Focus area: $ARGUMENTS (optional - if provided, tells agents to focus on specific subsystem)
 
 **Load project state if exists:**
-Check for .planning/STATE.md - loads context if project already initialized
+Check for .planning/STATE.org - loads context if project already initialized
 
 **This command can run:**
 - Before /gmsd:new-project (brownfield codebases) - creates codebase map first
@@ -41,7 +41,7 @@ Check for .planning/STATE.md - loads context if project already initialized
 - Refreshing codebase map after significant changes
 - Onboarding to an unfamiliar codebase
 - Before major refactoring (understand current state)
-- When STATE.md references outdated codebase info
+- When STATE.org references outdated codebase info
 
 **Skip map-codebase for:**
 - Greenfield projects with no code yet (nothing to map)

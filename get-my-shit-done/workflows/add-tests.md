@@ -1,5 +1,5 @@
 <purpose>
-Generate unit and E2E tests for a completed phase based on its SUMMARY.md, CONTEXT.md, and implementation. Classifies each changed file into TDD (unit), E2E (browser), or Skip categories, presents a test plan for user approval, then generates tests following RED-GREEN conventions.
+Generate unit and E2E tests for a completed phase based on its SUMMARY.org, CONTEXT.org, and implementation. Classifies each changed file into TDD (unit), E2E (browser), or Skip categories, presents a test plan for user approval, then generates tests following RED-GREEN conventions.
 
 Users currently hand-craft `/gmsd:quick` prompts for test generation after each phase. This workflow standardizes the process with proper classification, quality gates, and gap reporting.
 </purpose>
@@ -46,13 +46,13 @@ Ensure the phase exists in .planning/phases/
 Exit.
 
 Read the phase artifacts (in order of priority):
-1. `${phase_dir}/*-SUMMARY.md` — what was implemented, files changed
-2. `${phase_dir}/CONTEXT.md` — acceptance criteria, decisions
-3. `${phase_dir}/*-VERIFICATION.md` — user-verified scenarios (if UAT was done)
+1. `${phase_dir}/*-SUMMARY.org` — what was implemented, files changed
+2. `${phase_dir}/CONTEXT.org` — acceptance criteria, decisions
+3. `${phase_dir}/*-VERIFICATION.org` — user-verified scenarios (if UAT was done)
 
-If no SUMMARY.md exists:
+If no SUMMARY.org exists:
 ```
-ERROR: No SUMMARY.md found for phase ${PHASE_ARG}
+ERROR: No SUMMARY.org found for phase ${PHASE_ARG}
 This command works on completed phases. Run /gmsd:execute-phase first.
 ```
 Exit.
@@ -66,7 +66,7 @@ Present banner:
 </step>
 
 <step name="analyze_implementation">
-Extract the list of files modified by the phase from SUMMARY.md ("Files Changed" or equivalent section).
+Extract the list of files modified by the phase from SUMMARY.org ("Files Changed" or equivalent section).
 
 For each file, classify into one of three categories:
 
@@ -173,7 +173,7 @@ For each approved file, create a detailed test plan.
 3. Note: since code already exists, tests may pass immediately — that's OK, but verify they test the RIGHT behavior
 
 **For E2E files**, plan tests following RED-GREEN gates:
-1. Identify user scenarios from CONTEXT.md/VERIFICATION.md
+1. Identify user scenarios from CONTEXT.org/VERIFICATION.org
 2. For each scenario: describe the user action, expected outcome, assertions
 3. Note: RED gate means confirming the test would fail if the feature were broken
 
@@ -246,7 +246,7 @@ For each approved E2E test:
    ```
    If found, extend rather than duplicate.
 
-2. **Create test file** targeting the user scenario from CONTEXT.md/VERIFICATION.md
+2. **Create test file** targeting the user scenario from CONTEXT.org/VERIFICATION.org
 
 3. **Run the E2E test**:
    ```bash
@@ -335,7 +335,7 @@ Present next steps:
 </process>
 
 <success_criteria>
-- [ ] Phase artifacts loaded (SUMMARY.md, CONTEXT.md, optionally VERIFICATION.md)
+- [ ] Phase artifacts loaded (SUMMARY.org, CONTEXT.org, optionally VERIFICATION.org)
 - [ ] All changed files classified into TDD/E2E/Skip categories
 - [ ] Classification presented to user and approved
 - [ ] Project test structure discovered (directories, conventions, runners)

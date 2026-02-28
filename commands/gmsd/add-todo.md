@@ -18,7 +18,7 @@ Routes to the add-todo workflow which handles:
 - Area inference from file paths
 - Duplicate detection and resolution
 - Todo file creation with frontmatter
-- STATE.md updates
+- STATE.org updates
 - Git commits
 </objective>
 
@@ -42,6 +42,6 @@ The workflow handles all logic including:
 4. Area inference
 5. Duplicate checking
 6. File creation with slug generation
-7. STATE.md updates
+7. STATE.org updates
 8. Git commits
 </process>

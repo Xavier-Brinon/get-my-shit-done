@@ -6,7 +6,7 @@ Archive accumulated phase directories from completed milestones into `.planning/
 
 <required_reading>
 
-1. `.planning/MILESTONES.md`
+1. `.planning/MILESTONES.org`
 2. `.planning/milestones/` directory listing
 3. `.planning/phases/` directory listing
 
@@ -16,10 +16,10 @@ Archive accumulated phase directories from completed milestones into `.planning/
 
 <step name="identify_completed_milestones">
 
-Read `.planning/MILESTONES.md` to identify completed milestones and their versions.
+Read `.planning/MILESTONES.org` to identify completed milestones and their versions.
 
 ```bash
-cat .planning/MILESTONES.md
+cat .planning/MILESTONES.org
 ```
 
 Extract each milestone version (e.g., v1.0, v1.1, v2.0).
@@ -47,7 +47,7 @@ Stop here.
 For each completed milestone without a `-phases` archive, read the archived ROADMAP snapshot to determine which phases belong to it:
 
 ```bash
-cat .planning/milestones/v{X.Y}-ROADMAP.md
+cat .planning/milestones/v{X.Y}-ROADMAP.org
 ```
 
 Extract phase numbers and names from the archived roadmap (e.g., Phase 1: Foundation, Phase 2: Auth).

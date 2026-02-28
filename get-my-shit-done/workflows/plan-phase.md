@@ -1,5 +1,5 @@
 <purpose>
-Create executable phase prompts (PLAN.md files) for a roadmap phase with integrated research and verification. Default flow: Research (if needed) -> Plan -> Verify -> Done. Orchestrates gmsd-phase-researcher, gmsd-planner, and gmsd-plan-checker agents with a revision loop (max 3 iterations).
+Create executable phase prompts (PLAN.org files) for a roadmap phase with integrated research and verification. Default flow: Research (if needed) -> Plan -> Verify -> Done. Orchestrates gmsd-phase-researcher, gmsd-planner, and gmsd-plan-checker agents with a revision loop (max 3 iterations).
 </purpose>
 
 <required_reading>
@@ -32,7 +32,7 @@ Extract `--prd <filepath>` from $ARGUMENTS. If present, set PRD_FILE to the file
 
 **If no phase number:** Detect next unplanned phase from roadmap.
 
-**If `phase_found` is false:** Validate phase exists in ROADMAP.md. If valid, create the directory using `phase_slug` and `padded_phase` from init:
+**If `phase_found` is false:** Validate phase exists in ROADMAP.org. If valid, create the directory using `phase_slug` and `padded_phase` from init:
 ```bash
 mkdir -p ".planning/phases/${padded_phase}-${phase_slug}"
 ```
@@ -69,16 +69,16 @@ fi
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Using PRD: {PRD_FILE}
-Generating CONTEXT.md from requirements...
+Generating CONTEXT.org from requirements...
 ```
 
-3. Parse the PRD content and generate CONTEXT.md. The orchestrator should:
+3. Parse the PRD content and generate CONTEXT.org. The orchestrator should:
    - Extract all requirements, user stories, acceptance criteria, and constraints from the PRD
    - Map each to a locked decision (everything in the PRD is treated as a locked decision)
    - Identify any areas the PRD doesn't cover and mark as "Claude's Discretion"
-   - Create CONTEXT.md in the phase directory
+   - Create CONTEXT.org in the phase directory
 
-4. Write CONTEXT.md:
+4. Write CONTEXT.org:
 ```markdown
 # Phase [X]: [Name] - Context
 
@@ -128,26 +128,26 @@ Generating CONTEXT.md from requirements...
 
 5. Commit:
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(${padded_phase}): generate context from PRD" --files "${phase_dir}/${padded_phase}-CONTEXT.md"
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(${padded_phase}): generate context from PRD" --files "${phase_dir}/${padded_phase}-CONTEXT.org"
 ```
 
-6. Set `context_content` to the generated CONTEXT.md content and continue to step 5 (Handle Research).
+6. Set `context_content` to the generated CONTEXT.org content and continue to step 5 (Handle Research).
 
-**Effect:** This completely bypasses step 4 (Load CONTEXT.md) since we just created it. The rest of the workflow (research, planning, verification) proceeds normally with the PRD-derived context.
+**Effect:** This completely bypasses step 4 (Load CONTEXT.org) since we just created it. The rest of the workflow (research, planning, verification) proceeds normally with the PRD-derived context.
 
-## 4. Load CONTEXT.md
+## 4. Load CONTEXT.org
 
-**Skip if:** PRD express path was used (CONTEXT.md already created in step 3.5).
+**Skip if:** PRD express path was used (CONTEXT.org already created in step 3.5).
 
 Check `context_path` from init JSON.
 
 If `context_path` is not null, display: `Using phase context from: ${context_path}`
 
-**If `context_path` is null (no CONTEXT.md exists):**
+**If `context_path` is null (no CONTEXT.org exists):**
 
 Use AskUserQuestion:
 - header: "No context"
-- question: "No CONTEXT.md found for Phase {X}. Plans will use research and requirements only — your design preferences won't be included. Continue or capture context first?"
+- question: "No CONTEXT.org found for Phase {X}. Plans will use research and requirements only — your design preferences won't be included. Continue or capture context first?"
 - options:
   - "Continue without context" — Plan using research + requirements only
   - "Run discuss-phase first" — Capture design decisions before planning
@@ -161,7 +161,7 @@ If "Run discuss-phase first": Display `/gmsd:discuss-phase {X}` and exit workflo
 
 **If `has_research` is true (from init) AND no `--research` flag:** Use existing, skip to step 6.
 
-**If RESEARCH.md missing OR `--research` flag:**
+**If RESEARCH.org missing OR `--research` flag:**
 
 Display banner:
 ```
@@ -201,7 +201,7 @@ Answer: "What do I need to know to PLAN this phase well?"
 </additional_context>
 
 <output>
-Write to: {phase_dir}/{phase_num}-RESEARCH.md
+Write to: {phase_dir}/{phase_num}-RESEARCH.org
 </output>
 ```
 
@@ -223,10 +223,10 @@ Task(
 
 **Skip if:** `nyquist_validation_enabled` is false from INIT JSON.
 
-After researcher completes, check if RESEARCH.md contains a Validation Architecture section:
+After researcher completes, check if RESEARCH.org contains a Validation Architecture section:
 
 ```bash
-grep -l "## Validation Architecture" "${PHASE_DIR}"/*-RESEARCH.md 2>/dev/null
+grep -l "## Validation Architecture" "${PHASE_DIR}"/*-RESEARCH.org 2>/dev/null
 ```
 
 **If found:**
@@ -247,7 +247,7 @@ node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit-docs "docs(phase-${PHA
 ## 6. Check Existing Plans
 
 ```bash
-ls "${PHASE_DIR}"/*-PLAN.md 2>/dev/null
+ls "${PHASE_DIR}"/*-PLAN.org 2>/dev/null
 ```
 
 **If exists:** Offer: 1) Add more plans, 2) View existing, 3) Replan from scratch.
@@ -309,7 +309,7 @@ Output consumed by /gmsd:execute-phase. Plans need:
 </downstream_consumer>
 
 <quality_gate>
-- [ ] PLAN.md files created in phase directory
+- [ ] PLAN.org files created in phase directory
 - [ ] Each plan has valid frontmatter
 - [ ] Tasks are specific and actionable
 - [ ] Dependencies correctly identified
@@ -352,7 +352,7 @@ Checker prompt:
 **Phase Goal:** {goal from ROADMAP}
 
 <files_to_read>
-- {PHASE_DIR}/*-PLAN.md (Plans to verify)
+- {PHASE_DIR}/*-PLAN.org (Plans to verify)
 - {roadmap_path} (Roadmap)
 - {requirements_path} (Requirements)
 - {context_path} (USER DECISIONS from /gmsd:discuss-phase)
@@ -401,7 +401,7 @@ Revision prompt:
 **Mode:** revision
 
 <files_to_read>
-- {PHASE_DIR}/*-PLAN.md (Existing plans)
+- {PHASE_DIR}/*-PLAN.org (Existing plans)
 - {context_path} (USER DECISIONS from /gmsd:discuss-phase)
 </files_to_read>
 
@@ -546,7 +546,7 @@ Verification: {Passed | Passed with override | Skipped}
 ───────────────────────────────────────────────────────────────
 
 **Also available:**
-- cat .planning/phases/{phase-dir}/*-PLAN.md — review plans
+- cat .planning/phases/{phase-dir}/*-PLAN.org — review plans
 - /gmsd:plan-phase {X} --research — re-research first
 
 ───────────────────────────────────────────────────────────────
@@ -556,13 +556,13 @@ Verification: {Passed | Passed with override | Skipped}
 - [ ] .planning/ directory validated
 - [ ] Phase validated against roadmap
 - [ ] Phase directory created if needed
-- [ ] CONTEXT.md loaded early (step 4) and passed to ALL agents
+- [ ] CONTEXT.org loaded early (step 4) and passed to ALL agents
 - [ ] Research completed (unless --skip-research or --gaps or exists)
-- [ ] gmsd-phase-researcher spawned with CONTEXT.md
+- [ ] gmsd-phase-researcher spawned with CONTEXT.org
 - [ ] Existing plans checked
-- [ ] gmsd-planner spawned with CONTEXT.md + RESEARCH.md
+- [ ] gmsd-planner spawned with CONTEXT.org + RESEARCH.org
 - [ ] Plans created (PLANNING COMPLETE or CHECKPOINT handled)
-- [ ] gmsd-plan-checker spawned with CONTEXT.md
+- [ ] gmsd-plan-checker spawned with CONTEXT.org
 - [ ] Verification passed OR user override OR max iterations with user decision
 - [ ] User sees status between agent spawns
 - [ ] User knows next steps

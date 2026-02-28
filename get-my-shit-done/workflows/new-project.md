@@ -60,7 +60,7 @@ git init
 
 ## 2. Brownfield Offer
 
-**If auto mode:** Skip to Step 4 (assume greenfield, synthesize PROJECT.md from provided document).
+**If auto mode:** Skip to Step 4 (assume greenfield, synthesize PROJECT.org from provided document).
 
 **If `needs_codebase_map` is true** (from init — existing code detected but no codebase map):
 
@@ -247,23 +247,23 @@ As you go, mentally check the context checklist from `questioning.md`. If gaps r
 
 **Decision gate:**
 
-When you could write a clear PROJECT.md, use AskUserQuestion:
+When you could write a clear PROJECT.org, use AskUserQuestion:
 
 - header: "Ready?"
-- question: "I think I understand what you're after. Ready to create PROJECT.md?"
+- question: "I think I understand what you're after. Ready to create PROJECT.org?"
 - options:
-  - "Create PROJECT.md" — Let's move forward
+  - "Create PROJECT.org" — Let's move forward
   - "Keep exploring" — I want to share more / ask me more
 
 If "Keep exploring" — ask what they want to add, or identify gaps and probe naturally.
 
-Loop until "Create PROJECT.md" selected.
+Loop until "Create PROJECT.org" selected.
 
-## 4. Write PROJECT.md
+## 4. Write PROJECT.org
 
 **If auto mode:** Synthesize from provided document. No "Ready?" gate was shown — proceed directly to commit.
 
-Synthesize all context into `.planning/PROJECT.md` using the template from `templates/project.org`.
+Synthesize all context into `.planning/PROJECT.org` using the template from `templates/project.org`.
 
 **For greenfield projects:**
 
@@ -338,11 +338,11 @@ Initialize with any decisions made during questioning:
 
 Do not compress. Capture everything gathered.
 
-**Commit PROJECT.md:**
+**Commit PROJECT.org:**
 
 ```bash
 mkdir -p .planning
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: initialize project" --files .planning/PROJECT.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: initialize project" --files .planning/PROJECT.org
 ```
 
 ## 5. Workflow Preferences
@@ -532,7 +532,7 @@ mkdir -p .planning/research
 **Determine milestone context:**
 
 Check if this is greenfield or subsequent milestone:
-- If no "Validated" requirements in PROJECT.md → Greenfield (building from scratch)
+- If no "Validated" requirements in PROJECT.org → Greenfield (building from scratch)
 - If "Validated" requirements exist → Subsequent milestone (adding to existing app)
 
 Display spawning indicator:
@@ -708,12 +708,12 @@ Use template: ~/.claude/get-my-shit-done/templates/research-project/PITFALLS.org
 ", subagent_type="general-purpose", model="{researcher_model}", description="Pitfalls research")
 ```
 
-After all 4 agents complete, spawn synthesizer to create SUMMARY.md:
+After all 4 agents complete, spawn synthesizer to create SUMMARY.org:
 
 ```
 Task(prompt="
 <task>
-Synthesize research outputs into SUMMARY.md.
+Synthesize research outputs into SUMMARY.org.
 </task>
 
 <files_to_read>
@@ -724,7 +724,7 @@ Synthesize research outputs into SUMMARY.md.
 </files_to_read>
 
 <output>
-Write to: .planning/research/SUMMARY.md
+Write to: .planning/research/SUMMARY.org
 Use template: ~/.claude/get-my-shit-done/templates/research-project/SUMMARY.org
 Commit after writing.
 </output>
@@ -739,9 +739,9 @@ Display research complete banner and key findings:
 
 ## Key Findings
 
-**Stack:** [from SUMMARY.md]
-**Table Stakes:** [from SUMMARY.md]
-**Watch Out For:** [from SUMMARY.md]
+**Stack:** [from SUMMARY.org]
+**Table Stakes:** [from SUMMARY.org]
+**Watch Out For:** [from SUMMARY.org]
 
 Files: `.planning/research/`
 ```
@@ -759,7 +759,7 @@ Display stage banner:
 
 **Load context:**
 
-Read PROJECT.md and extract:
+Read PROJECT.org and extract:
 - Core value (the ONE thing that must work)
 - Stated constraints (budget, timeline, tech limitations)
 - Any explicit scope boundaries
@@ -773,7 +773,7 @@ Read PROJECT.md and extract:
 - Skip per-category AskUserQuestion loops
 - Skip "Any additions?" question
 - Skip requirements approval gate
-- Generate REQUIREMENTS.md and commit directly
+- Generate REQUIREMENTS.org and commit directly
 
 **Present features by category (interactive mode only):**
 
@@ -838,11 +838,11 @@ Use AskUserQuestion:
 
 **Validate core value:**
 
-Cross-check requirements against Core Value from PROJECT.md. If gaps detected, surface them.
+Cross-check requirements against Core Value from PROJECT.org. If gaps detected, surface them.
 
-**Generate REQUIREMENTS.md:**
+**Generate REQUIREMENTS.org:**
 
-Create `.planning/REQUIREMENTS.md` with:
+Create `.planning/REQUIREMENTS.org` with:
 - v1 Requirements grouped by category (checkboxes, REQ-IDs)
 - v2 Requirements (deferred)
 - Out of Scope (explicit exclusions with reasoning)
@@ -890,7 +890,7 @@ If "adjust": Return to scoping.
 **Commit requirements:**
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: define v1 requirements" --files .planning/REQUIREMENTS.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: define v1 requirements" --files .planning/REQUIREMENTS.org
 ```
 
 ## 8. Create Roadmap
@@ -911,9 +911,9 @@ Task(prompt="
 <planning_context>
 
 <files_to_read>
-- .planning/PROJECT.md (Project context)
-- .planning/REQUIREMENTS.md (v1 Requirements)
-- .planning/research/SUMMARY.md (Research findings - if exists)
+- .planning/PROJECT.org (Project context)
+- .planning/REQUIREMENTS.org (v1 Requirements)
+- .planning/research/SUMMARY.org (Research findings - if exists)
 - .planning/config.json (Depth and mode settings)
 </files_to_read>
 
@@ -925,7 +925,7 @@ Create roadmap:
 2. Map every v1 requirement to exactly one phase
 3. Derive 2-5 success criteria per phase (observable user behaviors)
 4. Validate 100% coverage
-5. Write files immediately (ROADMAP.md, STATE.md, update REQUIREMENTS.md traceability)
+5. Write files immediately (ROADMAP.org, STATE.org, update REQUIREMENTS.org traceability)
 6. Return ROADMAP CREATED with summary
 
 Write files first, then return. This ensures artifacts persist even if context is lost.
@@ -942,7 +942,7 @@ Write files first, then return. This ensures artifacts persist even if context i
 
 **If `## ROADMAP CREATED`:**
 
-Read the created ROADMAP.md and present it nicely inline:
+Read the created ROADMAP.org and present it nicely inline:
 
 ```
 ---
@@ -990,7 +990,7 @@ Use AskUserQuestion:
 - options:
   - "Approve" — Commit and continue
   - "Adjust phases" — Tell me what to change
-  - "Review full file" — Show raw ROADMAP.md
+  - "Review full file" — Show raw ROADMAP.org
 
 **If "Approve":** Continue to commit.
 
@@ -1004,7 +1004,7 @@ Use AskUserQuestion:
   [user's notes]
 
   <files_to_read>
-  - .planning/ROADMAP.md (Current roadmap to revise)
+  - .planning/ROADMAP.org (Current roadmap to revise)
   </files_to_read>
 
   Update the roadmap based on feedback. Edit files in place.
@@ -1015,12 +1015,12 @@ Use AskUserQuestion:
 - Present revised roadmap
 - Loop until user approves
 
-**If "Review full file":** Display raw `cat .planning/ROADMAP.md`, then re-ask.
+**If "Review full file":** Display raw `cat .planning/ROADMAP.org`, then re-ask.
 
 **Commit roadmap (after approval or auto mode):**
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: create roadmap ([N] phases)" --files .planning/ROADMAP.md .planning/STATE.md .planning/REQUIREMENTS.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: create roadmap ([N] phases)" --files .planning/ROADMAP.org .planning/STATE.org .planning/REQUIREMENTS.org
 ```
 
 ## 9. Done
@@ -1036,11 +1036,11 @@ Present completion summary:
 
 | Artifact       | Location                    |
 |----------------|-----------------------------|
-| Project        | `.planning/PROJECT.md`      |
+| Project        | `.planning/PROJECT.org`      |
 | Config         | `.planning/config.json`     |
 | Research       | `.planning/research/`       |
-| Requirements   | `.planning/REQUIREMENTS.md` |
-| Roadmap        | `.planning/ROADMAP.md`      |
+| Requirements   | `.planning/REQUIREMENTS.org` |
+| Roadmap        | `.planning/ROADMAP.org`      |
 
 **[N] phases** | **[X] requirements** | Ready to build ✓
 ```
@@ -1062,7 +1062,7 @@ Exit skill and invoke SlashCommand("/gmsd:discuss-phase 1 --auto")
 
 ## ▶ Next Up
 
-**Phase 1: [Phase Name]** — [Goal from ROADMAP.md]
+**Phase 1: [Phase Name]** — [Goal from ROADMAP.org]
 
 /gmsd:discuss-phase 1 — gather context and clarify approach
 
@@ -1080,17 +1080,17 @@ Exit skill and invoke SlashCommand("/gmsd:discuss-phase 1 --auto")
 
 <output>
 
-- `.planning/PROJECT.md`
+- `.planning/PROJECT.org`
 - `.planning/config.json`
 - `.planning/research/` (if research selected)
   - `STACK.md`
   - `FEATURES.md`
   - `ARCHITECTURE.md`
   - `PITFALLS.md`
-  - `SUMMARY.md`
-- `.planning/REQUIREMENTS.md`
-- `.planning/ROADMAP.md`
-- `.planning/STATE.md`
+  - `SUMMARY.org`
+- `.planning/REQUIREMENTS.org`
+- `.planning/ROADMAP.org`
+- `.planning/STATE.org`
 
 </output>
 
@@ -1100,18 +1100,18 @@ Exit skill and invoke SlashCommand("/gmsd:discuss-phase 1 --auto")
 - [ ] Git repo initialized
 - [ ] Brownfield detection completed
 - [ ] Deep questioning completed (threads followed, not rushed)
-- [ ] PROJECT.md captures full context → **committed**
+- [ ] PROJECT.org captures full context → **committed**
 - [ ] config.json has workflow mode, depth, parallelization → **committed**
 - [ ] Research completed (if selected) — 4 parallel agents spawned → **committed**
 - [ ] Requirements gathered (from research or conversation)
 - [ ] User scoped each category (v1/v2/out of scope)
-- [ ] REQUIREMENTS.md created with REQ-IDs → **committed**
+- [ ] REQUIREMENTS.org created with REQ-IDs → **committed**
 - [ ] gmsd-roadmapper spawned with context
 - [ ] Roadmap files written immediately (not draft)
 - [ ] User feedback incorporated (if any)
-- [ ] ROADMAP.md created with phases, requirement mappings, success criteria
-- [ ] STATE.md initialized
-- [ ] REQUIREMENTS.md traceability updated
+- [ ] ROADMAP.org created with phases, requirement mappings, success criteria
+- [ ] STATE.org initialized
+- [ ] REQUIREMENTS.org traceability updated
 - [ ] User knows next step is `/gmsd:discuss-phase 1`
 
 **Atomic commits:** Each phase commits its artifacts immediately. If context is lost, artifacts persist.

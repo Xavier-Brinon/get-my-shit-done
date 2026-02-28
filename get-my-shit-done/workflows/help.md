@@ -39,12 +39,12 @@ One command takes you from idea to ready-for-planning:
 - Roadmap creation with phase breakdown and success criteria
 
 Creates all `.planning/` artifacts:
-- `PROJECT.md` — vision and requirements
+- `PROJECT.org` — vision and requirements
 - `config.json` — workflow mode (interactive/yolo)
 - `research/` — domain research (if selected)
-- `REQUIREMENTS.md` — scoped requirements with REQ-IDs
-- `ROADMAP.md` — phases mapped to requirements
-- `STATE.md` — project memory
+- `REQUIREMENTS.org` — scoped requirements with REQ-IDs
+- `ROADMAP.org` — phases mapped to requirements
+- `STATE.org` — project memory
 
 Usage: `/gmsd:new-project`
 
@@ -64,7 +64,7 @@ Usage: `/gmsd:map-codebase`
 Help articulate your vision for a phase before planning.
 
 - Captures how you imagine this phase working
-- Creates CONTEXT.md with your vision, essentials, and boundaries
+- Creates CONTEXT.org with your vision, essentials, and boundaries
 - Use when you have ideas about how something should look/feel
 
 Usage: `/gmsd:discuss-phase 2`
@@ -73,7 +73,7 @@ Usage: `/gmsd:discuss-phase 2`
 Comprehensive ecosystem research for niche/complex domains.
 
 - Discovers standard stack, architecture patterns, pitfalls
-- Creates RESEARCH.md with "how experts build this" knowledge
+- Creates RESEARCH.org with "how experts build this" knowledge
 - Use for 3D, games, audio, shaders, ML, and other specialized domains
 - Goes beyond "which library" to ecosystem knowledge
 
@@ -91,15 +91,15 @@ Usage: `/gmsd:list-phase-assumptions 3`
 **`/gmsd:plan-phase <number>`**
 Create detailed execution plan for a specific phase.
 
-- Generates `.planning/phases/XX-phase-name/XX-YY-PLAN.md`
+- Generates `.planning/phases/XX-phase-name/XX-YY-PLAN.org`
 - Breaks phase into concrete, actionable tasks
 - Includes verification criteria and success measures
 - Multiple plans per phase supported (XX-01, XX-02, etc.)
 
 Usage: `/gmsd:plan-phase 1`
-Result: Creates `.planning/phases/01-foundation/01-01-PLAN.md`
+Result: Creates `.planning/phases/01-foundation/01-01-PLAN.org`
 
-**PRD Express Path:** Pass `--prd path/to/requirements.md` to skip discuss-phase entirely. Your PRD becomes locked decisions in CONTEXT.md. Useful when you already have clear acceptance criteria.
+**PRD Express Path:** Pass `--prd path/to/requirements.md` to skip discuss-phase entirely. Your PRD becomes locked decisions in CONTEXT.org. Useful when you already have clear acceptance criteria.
 
 ### Architecture Decisions
 
@@ -122,7 +122,7 @@ Execute all plans in a phase.
 - Groups plans by wave (from frontmatter), executes waves sequentially
 - Plans within each wave run in parallel via Task tool
 - Verifies phase goal after all plans complete
-- Updates REQUIREMENTS.md, ROADMAP.md, STATE.md
+- Updates REQUIREMENTS.org, ROADMAP.org, STATE.org
 
 Usage: `/gmsd:execute-phase 5`
 
@@ -134,19 +134,19 @@ Execute small, ad-hoc tasks with GMSD guarantees but skip optional agents.
 Quick mode uses the same system with a shorter path:
 - Spawns planner + executor (skips researcher, checker, verifier)
 - Quick tasks live in `.planning/quick/` separate from planned phases
-- Updates STATE.md tracking (not ROADMAP.md)
+- Updates STATE.org tracking (not ROADMAP.org)
 
 Use when you know exactly what to do and the task is small enough to not need research or verification.
 
 Usage: `/gmsd:quick`
-Result: Creates `.planning/quick/NNN-slug/PLAN.md`, `.planning/quick/NNN-slug/SUMMARY.md`
+Result: Creates `.planning/quick/NNN-slug/PLAN.org`, `.planning/quick/NNN-slug/SUMMARY.org`
 
 ### Roadmap Management
 
 **`/gmsd:add-phase <description>`**
 Add new phase to end of current milestone.
 
-- Appends to ROADMAP.md
+- Appends to ROADMAP.org
 - Uses next sequential number
 - Updates phase directory structure
 
@@ -183,14 +183,14 @@ Start a new milestone through unified flow.
 - Requirements definition with scoping
 - Roadmap creation with phase breakdown
 
-Mirrors `/gmsd:new-project` flow for brownfield projects (existing PROJECT.md).
+Mirrors `/gmsd:new-project` flow for brownfield projects (existing PROJECT.org).
 
 Usage: `/gmsd:new-milestone "v2.0 Features"`
 
 **`/gmsd:complete-milestone <version>`**
 Archive completed milestone and prepare for next version.
 
-- Creates MILESTONES.md entry with stats
+- Creates MILESTONES.org entry with stats
 - Archives full details to milestones/ directory
 - Creates git tag for the release
 - Prepares workspace for next version
@@ -216,7 +216,7 @@ Usage: `/gmsd:progress`
 **`/gmsd:resume-work`**
 Resume work from previous session with full context restoration.
 
-- Reads STATE.md for project context
+- Reads STATE.org for project context
 - Shows current position and recent progress
 - Offers next actions based on project state
 
@@ -226,7 +226,7 @@ Usage: `/gmsd:resume-work`
 Create context handoff when pausing work mid-phase.
 
 - Creates .continue-here file with current state
-- Updates STATE.md session continuity section
+- Updates STATE.org session continuity section
 - Captures in-progress work context
 
 Usage: `/gmsd:pause-work`
@@ -254,7 +254,7 @@ Capture idea or task as todo from current conversation.
 - Creates structured todo file in `.planning/todos/pending/`
 - Infers area from file paths for grouping
 - Checks for duplicates before creating
-- Updates STATE.md todo count
+- Updates STATE.org todo count
 
 Usage: `/gmsd:add-todo` (infers from conversation)
 Usage: `/gmsd:add-todo Add auth token refresh`
@@ -276,7 +276,7 @@ Usage: `/gmsd:check-todos api`
 **`/gmsd:verify-work [phase]`**
 Validate built features through conversational UAT.
 
-- Extracts testable deliverables from SUMMARY.md files
+- Extracts testable deliverables from SUMMARY.org files
 - Presents tests one at a time (yes/no responses)
 - Automatically diagnoses failures and creates fix plans
 - Ready for re-execution if issues found
@@ -288,19 +288,19 @@ Usage: `/gmsd:verify-work 3`
 **`/gmsd:audit-milestone [version]`**
 Audit milestone completion against original intent.
 
-- Reads all phase VERIFICATION.md files
+- Reads all phase VERIFICATION.org files
 - Checks requirements coverage
 - Spawns integration checker for cross-phase wiring
-- Creates MILESTONE-AUDIT.md with gaps and tech debt
+- Creates MILESTONE-AUDIT.org with gaps and tech debt
 
 Usage: `/gmsd:audit-milestone`
 
 **`/gmsd:plan-milestone-gaps`**
 Create phases to close gaps identified by audit.
 
-- Reads MILESTONE-AUDIT.md and groups gaps into phases
+- Reads MILESTONE-AUDIT.org and groups gaps into phases
 - Prioritizes by requirement priority (must/should/nice)
-- Adds gap closure phases to ROADMAP.md
+- Adds gap closure phases to ROADMAP.org
 - Ready for `/gmsd:plan-phase` on new phases
 
 Usage: `/gmsd:plan-milestone-gaps`
@@ -375,10 +375,10 @@ Usage: `/gmsd:join-discord`
 
 ```
 .planning/
-├── PROJECT.md            # Project vision
-├── ROADMAP.md            # Current phase breakdown
-├── STATE.md              # Project memory & context
-├── RETROSPECTIVE.md      # Living retrospective (updated per milestone)
+├── PROJECT.org            # Project vision
+├── ROADMAP.org            # Current phase breakdown
+├── STATE.org              # Project memory & context
+├── RETROSPECTIVE.org      # Living retrospective (updated per milestone)
 ├── config.json           # Workflow mode & gates
 ├── todos/                # Captured ideas and tasks
 │   ├── pending/          # Todos waiting to be worked on
@@ -386,8 +386,8 @@ Usage: `/gmsd:join-discord`
 ├── debug/                # Active debug sessions
 │   └── resolved/         # Archived resolved issues
 ├── milestones/
-│   ├── v1.0-ROADMAP.md       # Archived roadmap snapshot
-│   ├── v1.0-REQUIREMENTS.md  # Archived requirements
+│   ├── v1.0-ROADMAP.org       # Archived roadmap snapshot
+│   ├── v1.0-REQUIREMENTS.org  # Archived requirements
 │   └── v1.0-phases/          # Archived phase dirs (via /gmsd:cleanup or --archive-phases)
 │       ├── 01-foundation/
 │       └── 02-core-features/
@@ -401,11 +401,11 @@ Usage: `/gmsd:join-discord`
 │   └── CONCERNS.md       # Tech debt, known issues
 └── phases/
     ├── 01-foundation/
-    │   ├── 01-01-PLAN.md
-    │   └── 01-01-SUMMARY.md
+    │   ├── 01-01-PLAN.org
+    │   └── 01-01-SUMMARY.org
     └── 02-core-features/
-        ├── 02-01-PLAN.md
-        └── 02-01-SUMMARY.md
+        ├── 02-01-PLAN.org
+        └── 02-01-SUMMARY.org
 ```
 
 ## Workflow Modes
@@ -507,8 +507,8 @@ Example config:
 
 ## Getting Help
 
-- Read `.planning/PROJECT.md` for project vision
-- Read `.planning/STATE.md` for current context
-- Check `.planning/ROADMAP.md` for phase status
+- Read `.planning/PROJECT.org` for project vision
+- Read `.planning/STATE.org` for current context
+- Check `.planning/ROADMAP.org` for phase status
 - Run `/gmsd:progress` to check where you're up to
 </reference>

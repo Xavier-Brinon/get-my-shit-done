@@ -1,6 +1,6 @@
 <purpose>
 
-Mark a shipped version (v1.0, v1.1, v2.0) as complete. Creates historical record in MILESTONES.md, performs full PROJECT.md evolution review, reorganizes ROADMAP.md with milestone groupings, and tags the release in git.
+Mark a shipped version (v1.0, v1.1, v2.0) as complete. Creates historical record in MILESTONES.org, performs full PROJECT.org evolution review, reorganizes ROADMAP.org with milestone groupings, and tags the release in git.
 
 </purpose>
 
@@ -8,9 +8,9 @@ Mark a shipped version (v1.0, v1.1, v2.0) as complete. Creates historical record
 
 1. templates/milestone.org
 2. templates/milestone-archive.org
-3. `.planning/ROADMAP.md`
-4. `.planning/REQUIREMENTS.md`
-5. `.planning/PROJECT.md`
+3. `.planning/ROADMAP.org`
+4. `.planning/REQUIREMENTS.org`
+5. `.planning/PROJECT.org`
 
 </required_reading>
 
@@ -18,14 +18,14 @@ Mark a shipped version (v1.0, v1.1, v2.0) as complete. Creates historical record
 
 When a milestone completes:
 
-1. Extract full milestone details to `.planning/milestones/v[X.Y]-ROADMAP.md`
-2. Archive requirements to `.planning/milestones/v[X.Y]-REQUIREMENTS.md`
-3. Update ROADMAP.md — replace milestone details with one-line summary
-4. Delete REQUIREMENTS.md (fresh one for next milestone)
-5. Perform full PROJECT.md evolution review
+1. Extract full milestone details to `.planning/milestones/v[X.Y]-ROADMAP.org`
+2. Archive requirements to `.planning/milestones/v[X.Y]-REQUIREMENTS.org`
+3. Update ROADMAP.org — replace milestone details with one-line summary
+4. Delete REQUIREMENTS.org (fresh one for next milestone)
+5. Perform full PROJECT.org evolution review
 6. Offer to create next milestone inline
 
-**Context Efficiency:** Archives keep ROADMAP.md constant-size and REQUIREMENTS.md milestone-scoped.
+**Context Efficiency:** Archives keep ROADMAP.org constant-size and REQUIREMENTS.org milestone-scoped.
 
 **ROADMAP archive** uses `templates/milestone-archive.org` — includes milestone header (status, phases, date), full phase details, milestone summary (decisions, issues, tech debt).
 
@@ -50,7 +50,7 @@ This returns all phases with plan/summary counts and disk status. Use this to ve
 
 **Requirements completion check (REQUIRED before presenting):**
 
-Parse REQUIREMENTS.md traceability table:
+Parse REQUIREMENTS.org traceability table:
 - Count total v1 requirements vs checked-off (`[x]`) requirements
 - Identify any non-Complete rows in the traceability table
 
@@ -83,7 +83,7 @@ MUST present 3 options:
 2. **Run audit first** — `/gmsd:audit-milestone` to assess gap severity
 3. **Abort** — return to development
 
-If user selects "Proceed anyway": note incomplete requirements in MILESTONES.md under `### Known Gaps` with REQ-IDs and descriptions.
+If user selects "Proceed anyway": note incomplete requirements in MILESTONES.org under `### Known Gaps` with REQ-IDs and descriptions.
 
 <config-check>
 
@@ -149,11 +149,11 @@ Milestone Stats:
 
 <step name="extract_accomplishments">
 
-Extract one-liners from SUMMARY.md files using summary-extract:
+Extract one-liners from SUMMARY.org files using summary-extract:
 
 ```bash
 # For each phase in milestone, extract one-liner
-for summary in .planning/phases/*-*/*-SUMMARY.md; do
+for summary in .planning/phases/*-*/*-SUMMARY.org; do
   node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs summary-extract "$summary" --fields one_liner | jq -r '.one_liner'
 done
 ```
@@ -173,7 +173,7 @@ Key accomplishments for this milestone:
 
 <step name="create_milestone_entry">
 
-**Note:** MILESTONES.md entry is now created automatically by `gmsd-tools milestone complete` in the archive_milestone step. The entry includes version, date, phase/plan/task counts, and accomplishments extracted from SUMMARY.md files.
+**Note:** MILESTONES.org entry is now created automatically by `gmsd-tools milestone complete` in the archive_milestone step. The entry includes version, date, phase/plan/task counts, and accomplishments extracted from SUMMARY.org files.
 
 If additional details are needed (e.g., user-provided "Delivered" summary, git range, LOC stats), add them manually after the CLI creates the base entry.
 
@@ -181,12 +181,12 @@ If additional details are needed (e.g., user-provided "Delivered" summary, git r
 
 <step name="evolve_project_full_review">
 
-Full PROJECT.md evolution review at milestone completion.
+Full PROJECT.org evolution review at milestone completion.
 
 Read all phase summaries:
 
 ```bash
-cat .planning/phases/*-*/*-SUMMARY.md
+cat .planning/phases/*-*/*-SUMMARY.org
 ```
 
 **Full review checklist:**
@@ -228,7 +228,7 @@ cat .planning/phases/*-*/*-SUMMARY.md
 6. **Constraints check:**
    - Any constraints changed during development? Update as needed
 
-Update PROJECT.md inline. Update "Last updated" footer:
+Update PROJECT.org inline. Update "Last updated" footer:
 
 ```markdown
 ---
@@ -320,7 +320,7 @@ Initial user testing showed demand for shape tools.
 
 <step name="reorganize_roadmap">
 
-Update `.planning/ROADMAP.md` — group completed milestone phases:
+Update `.planning/ROADMAP.org` — group completed milestone phases:
 
 ```markdown
 # Roadmap: [Project Name]
@@ -372,11 +372,11 @@ ARCHIVE=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs milestone complete 
 
 The CLI handles:
 - Creating `.planning/milestones/` directory
-- Archiving ROADMAP.md to `milestones/v[X.Y]-ROADMAP.md`
-- Archiving REQUIREMENTS.md to `milestones/v[X.Y]-REQUIREMENTS.md` with archive header
+- Archiving ROADMAP.org to `milestones/v[X.Y]-ROADMAP.org`
+- Archiving REQUIREMENTS.org to `milestones/v[X.Y]-REQUIREMENTS.org` with archive header
 - Moving audit file to milestones if it exists
-- Creating/appending MILESTONES.md entry with accomplishments from SUMMARY.md files
-- Updating STATE.md (status, last activity)
+- Creating/appending MILESTONES.org entry with accomplishments from SUMMARY.org files
+- Updating STATE.org (status, last activity)
 
 Extract from result: `version`, `date`, `phases`, `plans`, `tasks`, `accomplishments`, `archived`.
 
@@ -397,18 +397,18 @@ Verify: `✅ Phase directories archived to .planning/milestones/v[X.Y]-phases/`
 If "Skip": Phase directories remain in `.planning/phases/` as raw execution history. Use `/gmsd:cleanup` later to archive retroactively.
 
 After archival, the AI still handles:
-- Reorganizing ROADMAP.md with milestone grouping (requires judgment)
-- Full PROJECT.md evolution review (requires understanding)
-- Deleting original ROADMAP.md and REQUIREMENTS.md
+- Reorganizing ROADMAP.org with milestone grouping (requires judgment)
+- Full PROJECT.org evolution review (requires understanding)
+- Deleting original ROADMAP.org and REQUIREMENTS.org
 - These are NOT fully delegated because they require AI interpretation of content
 
 </step>
 
 <step name="reorganize_roadmap_and_delete_originals">
 
-After `milestone complete` has archived, reorganize ROADMAP.md with milestone groupings, then delete originals:
+After `milestone complete` has archived, reorganize ROADMAP.org with milestone groupings, then delete originals:
 
-**Reorganize ROADMAP.md** — group completed milestone phases:
+**Reorganize ROADMAP.org** — group completed milestone phases:
 
 ```markdown
 # Roadmap: [Project Name]
@@ -432,8 +432,8 @@ After `milestone complete` has archived, reorganize ROADMAP.md with milestone gr
 **Then delete originals:**
 
 ```bash
-rm .planning/ROADMAP.md
-rm .planning/REQUIREMENTS.md
+rm .planning/ROADMAP.org
+rm .planning/REQUIREMENTS.org
 ```
 
 </step>
@@ -444,7 +444,7 @@ rm .planning/REQUIREMENTS.md
 
 Check for existing retrospective:
 ```bash
-ls .planning/RETROSPECTIVE.md 2>/dev/null
+ls .planning/RETROSPECTIVE.org 2>/dev/null
 ```
 
 **If exists:** Read the file, append new milestone section before the "## Cross-Milestone Trends" section.
@@ -453,9 +453,9 @@ ls .planning/RETROSPECTIVE.md 2>/dev/null
 
 **Gather retrospective data:**
 
-1. From SUMMARY.md files: Extract key deliverables, one-liners, tech decisions
-2. From VERIFICATION.md files: Extract verification scores, gaps found
-3. From UAT.md files: Extract test results, issues found
+1. From SUMMARY.org files: Extract key deliverables, one-liners, tech decisions
+2. From VERIFICATION.org files: Extract verification scores, gaps found
+3. From UAT.org files: Extract test results, issues found
 4. From git log: Count commits, calculate timeline
 5. From the milestone work: Reflect on what worked and what didn't
 
@@ -468,7 +468,7 @@ ls .planning/RETROSPECTIVE.md 2>/dev/null
 **Phases:** {phase_count} | **Plans:** {plan_count}
 
 ### What Was Built
-{Extract from SUMMARY.md one-liners}
+{Extract from SUMMARY.org one-liners}
 
 ### What Worked
 {Patterns that led to smooth execution}
@@ -484,10 +484,10 @@ ls .planning/RETROSPECTIVE.md 2>/dev/null
 
 ### Architecture Retrospective
 
-Review all phase SUMMARYs and VERIFICATION.md files for architectural observations, then assess:
+Review all phase SUMMARYs and VERIFICATION.org files for architectural observations, then assess:
 
 **Architectural Decisions Made:**
-{Extract from SUMMARY.md deviations and decisions — list each with outcome}
+{Extract from SUMMARY.org deviations and decisions — list each with outcome}
 - **Decision:** {what was decided} | **Outcome:** {good / revisit / too early to tell} | **Principle:** {named architectural principle}
 
 **Architectural Patterns That Emerged:**
@@ -516,28 +516,28 @@ If the "## Cross-Milestone Trends" section exists, update the tables with new da
 
 **Commit:**
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: update retrospective for v${VERSION}" --files .planning/RETROSPECTIVE.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: update retrospective for v${VERSION}" --files .planning/RETROSPECTIVE.org
 ```
 
 </step>
 
 <step name="update_state">
 
-Most STATE.md updates were handled by `milestone complete`, but verify and update remaining fields:
+Most STATE.org updates were handled by `milestone complete`, but verify and update remaining fields:
 
 **Project Reference:**
 
 ```markdown
 ## Project Reference
 
-See: .planning/PROJECT.md (updated [today])
+See: .planning/PROJECT.org (updated [today])
 
-**Core value:** [Current core value from PROJECT.md]
+**Core value:** [Current core value from PROJECT.org]
 **Current focus:** [Next milestone or "Planning next milestone"]
 ```
 
 **Accumulated Context:**
-- Clear decisions summary (full log in PROJECT.md)
+- Clear decisions summary (full log in PROJECT.org)
 - Clear resolved blockers
 - Keep open blockers for next milestone
 
@@ -679,7 +679,7 @@ Key accomplishments:
 - [Item 2]
 - [Item 3]
 
-See .planning/MILESTONES.md for full details."
+See .planning/MILESTONES.org for full details."
 ```
 
 Confirm: "Tagged: v[X.Y]"
@@ -698,7 +698,7 @@ git push origin v[X.Y]
 Commit milestone completion.
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "chore: complete v[X.Y] milestone" --files .planning/milestones/v[X.Y]-ROADMAP.md .planning/milestones/v[X.Y]-REQUIREMENTS.md .planning/milestones/v[X.Y]-MILESTONE-AUDIT.md .planning/MILESTONES.md .planning/PROJECT.md .planning/STATE.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "chore: complete v[X.Y] milestone" --files .planning/milestones/v[X.Y]-ROADMAP.org .planning/milestones/v[X.Y]-REQUIREMENTS.org .planning/milestones/v[X.Y]-MILESTONE-AUDIT.org .planning/MILESTONES.org .planning/PROJECT.org .planning/STATE.org
 ```
 ```
 
@@ -716,10 +716,10 @@ Shipped:
 - [One sentence of what shipped]
 
 Archived:
-- milestones/v[X.Y]-ROADMAP.md
-- milestones/v[X.Y]-REQUIREMENTS.md
+- milestones/v[X.Y]-ROADMAP.org
+- milestones/v[X.Y]-REQUIREMENTS.org
 
-Summary: .planning/MILESTONES.md
+Summary: .planning/MILESTONES.org
 Tag: v[X.Y]
 
 ---
@@ -764,21 +764,21 @@ Heuristic: "Is this deployed/usable/shipped?" If yes → milestone. If no → ke
 
 Milestone completion is successful when:
 
-- [ ] MILESTONES.md entry created with stats and accomplishments
-- [ ] PROJECT.md full evolution review completed
-- [ ] All shipped requirements moved to Validated in PROJECT.md
+- [ ] MILESTONES.org entry created with stats and accomplishments
+- [ ] PROJECT.org full evolution review completed
+- [ ] All shipped requirements moved to Validated in PROJECT.org
 - [ ] Key Decisions updated with outcomes
-- [ ] ROADMAP.md reorganized with milestone grouping
-- [ ] Roadmap archive created (milestones/v[X.Y]-ROADMAP.md)
-- [ ] Requirements archive created (milestones/v[X.Y]-REQUIREMENTS.md)
-- [ ] REQUIREMENTS.md deleted (fresh for next milestone)
-- [ ] STATE.md updated with fresh project reference
+- [ ] ROADMAP.org reorganized with milestone grouping
+- [ ] Roadmap archive created (milestones/v[X.Y]-ROADMAP.org)
+- [ ] Requirements archive created (milestones/v[X.Y]-REQUIREMENTS.org)
+- [ ] REQUIREMENTS.org deleted (fresh for next milestone)
+- [ ] STATE.org updated with fresh project reference
 - [ ] Git tag created (v[X.Y])
 - [ ] Milestone commit made (includes archive files and deletion)
-- [ ] Requirements completion checked against REQUIREMENTS.md traceability table
+- [ ] Requirements completion checked against REQUIREMENTS.org traceability table
 - [ ] Incomplete requirements surfaced with proceed/audit/abort options
-- [ ] Known gaps recorded in MILESTONES.md if user proceeded with incomplete requirements
-- [ ] RETROSPECTIVE.md updated with milestone section
+- [ ] Known gaps recorded in MILESTONES.org if user proceeded with incomplete requirements
+- [ ] RETROSPECTIVE.org updated with milestone section
 - [ ] Cross-milestone trends updated
 - [ ] User knows next step (/gmsd:new-milestone)
 

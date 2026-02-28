@@ -552,7 +552,7 @@ check_substantive() {
 }
 ```
 
-Run these checks against each must-have artifact. Aggregate results into VERIFICATION.md.
+Run these checks against each must-have artifact. Aggregate results into VERIFICATION.org.
 
 </automated_verification_script>
 

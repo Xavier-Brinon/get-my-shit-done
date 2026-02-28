@@ -1,6 +1,6 @@
 <purpose>
 
-Start a new milestone cycle for an existing project. Loads project context, gathers milestone goals (from MILESTONE-CONTEXT.md or conversation), updates PROJECT.md and STATE.md, optionally runs parallel research, defines scoped requirements with REQ-IDs, spawns the roadmapper to create phased execution plan, and commits all artifacts. Brownfield equivalent of new-project.
+Start a new milestone cycle for an existing project. Loads project context, gathers milestone goals (from MILESTONE-CONTEXT.org or conversation), updates PROJECT.org and STATE.org, optionally runs parallel research, defines scoped requirements with REQ-IDs, spawns the roadmapper to create phased execution plan, and commits all artifacts. Brownfield equivalent of new-project.
 
 </purpose>
 
@@ -14,14 +14,14 @@ Read all files referenced by the invoking prompt's execution_context before star
 
 ## 1. Load Context
 
-- Read PROJECT.md (existing project, validated requirements, decisions)
-- Read MILESTONES.md (what shipped previously)
-- Read STATE.md (pending todos, blockers)
-- Check for MILESTONE-CONTEXT.md (from /gmsd:discuss-milestone)
+- Read PROJECT.org (existing project, validated requirements, decisions)
+- Read MILESTONES.org (what shipped previously)
+- Read STATE.org (pending todos, blockers)
+- Check for MILESTONE-CONTEXT.org (from /gmsd:discuss-milestone)
 
 ## 2. Gather Milestone Goals
 
-**If MILESTONE-CONTEXT.md exists:**
+**If MILESTONE-CONTEXT.org exists:**
 - Use features and scope from discuss-milestone
 - Present summary for confirmation
 
@@ -32,11 +32,11 @@ Read all files referenced by the invoking prompt's execution_context before star
 
 ## 3. Determine Milestone Version
 
-- Parse last version from MILESTONES.md
+- Parse last version from MILESTONES.org
 - Suggest next version (v1.0 → v1.1, or v2.0 for major)
 - Confirm with user
 
-## 4. Update PROJECT.md
+## 4. Update PROJECT.org
 
 Add/update:
 
@@ -53,7 +53,7 @@ Add/update:
 
 Update Active requirements section and "Last updated" footer.
 
-## 5. Update STATE.md
+## 5. Update STATE.org
 
 ```markdown
 ## Current Position
@@ -68,10 +68,10 @@ Keep Accumulated Context section from previous milestone.
 
 ## 6. Cleanup and Commit
 
-Delete MILESTONE-CONTEXT.md if exists (consumed).
+Delete MILESTONE-CONTEXT.org if exists (consumed).
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: start milestone v[X.Y] [Name]" --files .planning/PROJECT.md .planning/STATE.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: start milestone v[X.Y] [Name]" --files .planning/PROJECT.org .planning/STATE.org
 ```
 
 ## 7. Load Context and Resolve Models
@@ -129,7 +129,7 @@ Focus ONLY on what's needed for the NEW features.
 <question>{QUESTION}</question>
 
 <files_to_read>
-- .planning/PROJECT.md (Project context)
+- .planning/PROJECT.org (Project context)
 </files_to_read>
 
 <downstream_consumer>{CONSUMER}</downstream_consumer>
@@ -147,7 +147,7 @@ Use template: ~/.claude/get-my-shit-done/templates/research-project/{FILE}
 
 | Field | Stack | Features | Architecture | Pitfalls |
 |-------|-------|----------|-------------|----------|
-| EXISTING_CONTEXT | Existing validated capabilities (DO NOT re-research): [from PROJECT.md] | Existing features (already built): [from PROJECT.md] | Existing architecture: [from PROJECT.md or codebase map] | Focus on common mistakes when ADDING these features to existing system |
+| EXISTING_CONTEXT | Existing validated capabilities (DO NOT re-research): [from PROJECT.org] | Existing features (already built): [from PROJECT.org] | Existing architecture: [from PROJECT.org or codebase map] | Focus on common mistakes when ADDING these features to existing system |
 | QUESTION | What stack additions/changes are needed for [new features]? | How do [target features] typically work? Expected behavior? | How do [target features] integrate with existing architecture? | Common mistakes when adding [target features] to [domain]? |
 | CONSUMER | Specific libraries with versions for NEW capabilities, integration points, what NOT to add | Table stakes vs differentiators vs anti-features, complexity noted, dependencies on existing | Integration points, new components, data flow changes, suggested build order | Warning signs, prevention strategy, which phase should address it |
 | GATES | Versions current (verify with Context7), rationale explains WHY, integration considered | Categories clear, complexity noted, dependencies identified | Integration points identified, new vs modified explicit, build order considers deps | Pitfalls specific to adding these features, integration pitfalls covered, prevention actionable |
@@ -157,7 +157,7 @@ After all 4 complete, spawn synthesizer:
 
 ```
 Task(prompt="
-Synthesize research outputs into SUMMARY.md.
+Synthesize research outputs into SUMMARY.org.
 
 <files_to_read>
 - .planning/research/STACK.md
@@ -166,21 +166,21 @@ Synthesize research outputs into SUMMARY.md.
 - .planning/research/PITFALLS.md
 </files_to_read>
 
-Write to: .planning/research/SUMMARY.md
+Write to: .planning/research/SUMMARY.org
 Use template: ~/.claude/get-my-shit-done/templates/research-project/SUMMARY.org
 Commit after writing.
 ", subagent_type="gmsd-research-synthesizer", model="{synthesizer_model}", description="Synthesize research")
 ```
 
-Display key findings from SUMMARY.md:
+Display key findings from SUMMARY.org:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  GMSD ► RESEARCH COMPLETE ✓
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-**Stack additions:** [from SUMMARY.md]
-**Feature table stakes:** [from SUMMARY.md]
-**Watch Out For:** [from SUMMARY.md]
+**Stack additions:** [from SUMMARY.org]
+**Feature table stakes:** [from SUMMARY.org]
+**Watch Out For:** [from SUMMARY.org]
 ```
 
 **If "Skip research":** Continue to Step 9.
@@ -193,7 +193,7 @@ Display key findings from SUMMARY.md:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Read PROJECT.md: core value, current milestone goals, validated requirements (what exists).
+Read PROJECT.org: core value, current milestone goals, validated requirements (what exists).
 
 **If research exists:** Read FEATURES.md, extract feature categories.
 
@@ -218,7 +218,7 @@ Track: Selected → this milestone. Unselected table stakes → future. Unselect
 - "No, research covered it" — Proceed
 - "Yes, let me add some" — Capture additions
 
-**Generate REQUIREMENTS.md:**
+**Generate REQUIREMENTS.org:**
 - v1 Requirements grouped by category (checkboxes, REQ-IDs)
 - Future Requirements (deferred)
 - Out of Scope (explicit exclusions with reasoning)
@@ -253,7 +253,7 @@ If "adjust": Return to scoping.
 
 **Commit requirements:**
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: define milestone v[X.Y] requirements" --files .planning/REQUIREMENTS.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: define milestone v[X.Y] requirements" --files .planning/REQUIREMENTS.org
 ```
 
 ## 10. Create Roadmap
@@ -266,17 +266,17 @@ node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: define mileston
 ◆ Spawning roadmapper...
 ```
 
-**Starting phase number:** Read MILESTONES.md for last phase number. Continue from there (v1.0 ended at phase 5 → v1.1 starts at phase 6).
+**Starting phase number:** Read MILESTONES.org for last phase number. Continue from there (v1.0 ended at phase 5 → v1.1 starts at phase 6).
 
 ```
 Task(prompt="
 <planning_context>
 <files_to_read>
-- .planning/PROJECT.md
-- .planning/REQUIREMENTS.md
-- .planning/research/SUMMARY.md (if exists)
+- .planning/PROJECT.org
+- .planning/REQUIREMENTS.org
+- .planning/research/SUMMARY.org (if exists)
 - .planning/config.json
-- .planning/MILESTONES.md
+- .planning/MILESTONES.org
 </files_to_read>
 </planning_context>
 
@@ -287,7 +287,7 @@ Create roadmap for milestone v[X.Y]:
 3. Map every requirement to exactly one phase
 4. Derive 2-5 success criteria per phase (observable user behaviors)
 5. Validate 100% coverage
-6. Write files immediately (ROADMAP.md, STATE.md, update REQUIREMENTS.md traceability)
+6. Write files immediately (ROADMAP.org, STATE.org, update REQUIREMENTS.org traceability)
 7. Return ROADMAP CREATED with summary
 
 Write files first, then return.
@@ -299,7 +299,7 @@ Write files first, then return.
 
 **If `## ROADMAP BLOCKED`:** Present blocker, work with user, re-spawn.
 
-**If `## ROADMAP CREATED`:** Read ROADMAP.md, present inline:
+**If `## ROADMAP CREATED`:** Read ROADMAP.org, present inline:
 
 ```
 ## Proposed Roadmap
@@ -323,14 +323,14 @@ Success criteria:
 **Ask for approval** via AskUserQuestion:
 - "Approve" — Commit and continue
 - "Adjust phases" — Tell me what to change
-- "Review full file" — Show raw ROADMAP.md
+- "Review full file" — Show raw ROADMAP.org
 
 **If "Adjust":** Get notes, re-spawn roadmapper with revision context, loop until approved.
-**If "Review":** Display raw ROADMAP.md, re-ask.
+**If "Review":** Display raw ROADMAP.org, re-ask.
 
 **Commit roadmap** (after approval):
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: create milestone v[X.Y] roadmap ([N] phases)" --files .planning/ROADMAP.md .planning/STATE.md .planning/REQUIREMENTS.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: create milestone v[X.Y] roadmap ([N] phases)" --files .planning/ROADMAP.org .planning/STATE.org .planning/REQUIREMENTS.org
 ```
 
 ## 11. Done
@@ -344,10 +344,10 @@ node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: create mileston
 
 | Artifact       | Location                    |
 |----------------|-----------------------------|
-| Project        | `.planning/PROJECT.md`      |
+| Project        | `.planning/PROJECT.org`      |
 | Research       | `.planning/research/`       |
-| Requirements   | `.planning/REQUIREMENTS.md` |
-| Roadmap        | `.planning/ROADMAP.md`      |
+| Requirements   | `.planning/REQUIREMENTS.org` |
+| Roadmap        | `.planning/ROADMAP.org`      |
 
 **[N] phases** | **[X] requirements** | Ready to build ✓
 
@@ -365,16 +365,16 @@ Also: `/gmsd:plan-phase [N]` — skip discussion, plan directly
 </process>
 
 <success_criteria>
-- [ ] PROJECT.md updated with Current Milestone section
-- [ ] STATE.md reset for new milestone
-- [ ] MILESTONE-CONTEXT.md consumed and deleted (if existed)
+- [ ] PROJECT.org updated with Current Milestone section
+- [ ] STATE.org reset for new milestone
+- [ ] MILESTONE-CONTEXT.org consumed and deleted (if existed)
 - [ ] Research completed (if selected) — 4 parallel agents, milestone-aware
 - [ ] Requirements gathered and scoped per category
-- [ ] REQUIREMENTS.md created with REQ-IDs
+- [ ] REQUIREMENTS.org created with REQ-IDs
 - [ ] gmsd-roadmapper spawned with phase numbering context
 - [ ] Roadmap files written immediately (not draft)
 - [ ] User feedback incorporated (if any)
-- [ ] ROADMAP.md phases continue from previous milestone
+- [ ] ROADMAP.org phases continue from previous milestone
 - [ ] All commits made (if planning docs committed)
 - [ ] User knows next step: `/gmsd:discuss-phase [N]`
 

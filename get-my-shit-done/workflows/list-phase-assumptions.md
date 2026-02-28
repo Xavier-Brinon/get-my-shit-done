@@ -24,7 +24,7 @@ Exit workflow.
 Validate phase exists in roadmap:
 
 ```bash
-cat .planning/ROADMAP.md | grep -i "Phase ${PHASE}"
+cat .planning/ROADMAP.org | grep -i "Phase ${PHASE}"
 ```
 
 **If phase not found:**
@@ -161,7 +161,7 @@ What's next?
 
 Wait for user selection.
 
-If "Discuss context": Note that CONTEXT.md will incorporate any corrections discussed here
+If "Discuss context": Note that CONTEXT.org will incorporate any corrections discussed here
 If "Plan this phase": Proceed knowing assumptions are understood
 If "Re-examine": Return to analyze_phase with updated understanding
 </step>
