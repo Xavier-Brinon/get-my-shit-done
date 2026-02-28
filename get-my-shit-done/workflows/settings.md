@@ -31,6 +31,7 @@ Parse current values (default to `true` if not present):
 - `workflow.nyquist_validation` — validation architecture research during plan-phase
 - `model_profile` — which model each agent uses (default: `balanced`)
 - `git.branching_strategy` — branching approach (default: `"none"`)
+- `commit_docs` — whether planning docs are tracked in git (default: `true`)
 </step>
 
 <step name="present_settings">
@@ -102,6 +103,15 @@ AskUserQuestion([
       { label: "Per Phase", description: "Create branch for each phase (gmsd/phase-{N}-{name})" },
       { label: "Per Milestone", description: "Create branch for entire milestone (gmsd/{version}-{name})" }
     ]
+  },
+  {
+    question: "Track planning docs in git?",
+    header: "Git Track",
+    multiSelect: false,
+    options: [
+      { label: "Yes (Recommended)", description: "Planning docs committed to version control" },
+      { label: "No", description: "Keep .planning/ local-only (added to .gitignore)" }
+    ]
   }
 ])
 ```
@@ -114,6 +124,7 @@ Merge new settings into existing config.json:
 {
   ...existing_config,
   "model_profile": "quality" | "balanced" | "budget",
+  "commit_docs": true/false,
   "workflow": {
     "research": true/false,
     "plan_check": true/false,
@@ -128,6 +139,12 @@ Merge new settings into existing config.json:
 ```
 
 Write updated config to `.planning/config.json`.
+
+**Important:** Set `commit_docs` via `gmsd-tools.cjs config-set` to trigger automatic `.gitignore` sync:
+
+```bash
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs config-set commit_docs true/false
+```
 </step>
 
 <step name="save_as_defaults">
@@ -190,6 +207,7 @@ Display:
 | Auto-Advance         | {On/Off} |
 | Nyquist Validation   | {On/Off} |
 | Git Branching        | {None/Per Phase/Per Milestone} |
+| Git Tracking         | {Committed/Local-only} |
 | Saved as Defaults    | {Yes/No} |
 
 These settings apply to future /gmsd:plan-phase and /gmsd:execute-phase runs.
@@ -206,7 +224,7 @@ Quick commands:
 
 <success_criteria>
 - [ ] Current config read
-- [ ] User presented with 7 settings (profile + 5 workflow toggles + git branching)
+- [ ] User presented with 8 settings (profile + 5 workflow toggles + git branching + git tracking)
 - [ ] Config updated with model_profile, workflow, and git sections
 - [ ] User offered to save as global defaults (~/.gmsd/defaults.json)
 - [ ] Changes confirmed to user
