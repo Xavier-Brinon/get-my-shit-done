@@ -1,0 +1,131 @@
+#+title: Phase 01 Plan 01: Write Diataxis Reference Document Summary
+#+author: GMSD
+#+date: [2026-02-28]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+:PROPERTIES:
+:phase: 01-framework-foundation
+:plan: 01
+:subsystem: documentation
+:tags: [diataxis, documentation-framework, reference, classification]
+:requires: []
+:provides: [Diataxis quadrant definitions, writing rules per quadrant, anti-patterns per quadrant, classification decision tree, condensed agent reference]
+:affects: [02-classification, 03-gap-filling, 04-reorganisation]
+:tech-stack.added: []
+:tech-stack.patterns: ["Dual-document reference pattern: full .org + condensed .md agent excerpt"]
+:key-files.created: [get-my-shit-done/references/diataxis.org, get-my-shit-done/references/diataxis-condensed.md]
+:key-files.modified: []
+:key-decisions: ["Flat four-heading structure (not grouped by axis) — prioritises direct quadrant lookup over taxonomic browsing", "Markdown for condensed reference — matches org-styleguide.md pattern for agent <diataxis_style> tag embedding"]
+:patterns-established: ["Dual-document reference: authoritative .org (200+ lines with rationale) + condensed .md (100-130 lines, actionable rules only)", "Anti-pattern format: Warning + Test + Fix triple for full reference; NOT X — instead Y for condensed"]
+:requirements-completed: [CLASS-01]
+:duration: 10min
+:completed: 2026-02-28
+:END:
+
+* Phase 01 Plan 01: Write Diataxis Reference Document Summary
+
+*Diataxis dual-document reference: 389-line org authoritative source with
+quadrant definitions, writing rules, anti-patterns, and decision tree; plus
+122-line condensed markdown for agent consumption via =<diataxis_style>= tags*
+
+** Performance
+
+- *Duration:* 10min
+- *Started:* 2026-02-28T09:04:25Z
+- *Completed:* 2026-02-28T09:15:02Z
+- *Tasks:* 2
+- *Files modified:* 2
+
+** Accomplishments
+
+- Full Diataxis reference =diataxis.org= (389 lines): all four quadrants with
+  definitions, 4-6 writing rules each, 2 anti-patterns each (Warning + Test +
+  Fix format), and GMSD-mapped examples
+- 2x2 comparison table (practical/theoretical x studying/working) in introduction
+- Tutorial vs How-to disambiguation section with contrast table and key test
+  question ("Does the reader know what they want to achieve?")
+- Mermaid classification decision tree with text fallback for agent/offline use
+- Condensed reference =diataxis-condensed.md= (122 lines): all four quadrants
+  compressed to 1-line definitions, imperative rules (no rationale), and
+  compressed anti-patterns ("NOT X — instead Y" format)
+- Back-reference from condensed to full document established
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Write full Diataxis reference document* - =0cfff9d= (feat)
+2. *Task 2: Write condensed Diataxis agent reference* - =077a5dc= (feat)
+
+** Files Created/Modified
+
+- =get-my-shit-done/references/diataxis.org= - Full Diataxis reference (389
+  lines): single source of truth for quadrant definitions, writing rules,
+  anti-patterns, disambiguation, and classification decision tree
+- =get-my-shit-done/references/diataxis-condensed.md= - Condensed agent
+  reference (122 lines): actionable rules without rationale, for embedding in
+  agent =<diataxis_style>= tags
+
+** Decisions Made
+
+- *Flat four-heading structure:* Each quadrant is a top-level heading, not
+  grouped by axis (practical/theoretical). Prioritises direct quadrant lookup
+  (reader knows which quadrant they want) over taxonomic browsing (reader
+  browses by axis). Trade-off: loses 2x2 navigation grouping, gains simpler
+  document hierarchy. Per plan specification.
+- *Markdown for condensed reference:* Matches the proven =org-styleguide.md=
+  pattern. Condensed files are designed for agent =@=-reference tags; markdown
+  is lighter to embed and renders well in tool contexts.
+- *Anti-pattern format in full reference:* Warning + Test + Fix triple gives
+  agents enough information to detect /and/ correct misclassification, not just
+  recognise it. The test question helps distinguish boundary cases.
+- *Mermaid decision tree with text fallback:* Mermaid for Emacs =ob-mermaid=
+  rendering; text numbered list ensures the decision logic is available without
+  diagram rendering.
+
+** Deviations from Plan
+
+None — plan executed exactly as written.
+
+** Issues Encountered
+
+None.
+
+** Architectural Observations
+
+- *Emergent patterns:* The dual-document reference pattern (full .org +
+  condensed .md) is now established for the second time (after org-styleguide).
+  This pattern should be codified as a GMSD convention: any framework reference
+  that agents need to consume should produce both forms. Common Closure
+  Principle — changes to the framework are expressed in the full reference and
+  propagated to the condensed reference.
+- *Coupling discovered:* The condensed reference must stay in sync with the
+  full reference manually. No automated consistency check exists. If Diataxis
+  definitions change, both files must be updated. This is acceptable given the
+  low frequency of framework changes, but worth noting as a maintenance
+  dependency.
+- *Boundary assessment:* The decision to keep classification logic (decision
+  tree, disambiguation) in the reference document rather than a separate
+  classification guide is correct for Phase 1. Phase 2 will implement
+  classification workflows that /use/ this reference rather than embedding
+  their own definitions.
+- *ADR candidates:* "Dual-document reference as GMSD convention for consumable
+  framework references" — could warrant an ADR if a third reference document
+  follows this pattern (hat-trick = pattern, not coincidence).
+
+** User Setup Required
+
+None — no external service configuration required.
+
+** Next Phase Readiness
+
+- Phase 2 (classification) can begin: =diataxis.org= and
+  =diataxis-condensed.md= provide the quadrant definitions needed for
+  classification workflows and agent =<diataxis_style>= tag embedding
+- CLASS-01 requirement satisfied
+- No blockers
+
+-----
+/Phase: 01-framework-foundation/
+/Completed: 2026-02-28/
