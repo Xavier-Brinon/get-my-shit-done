@@ -20,7 +20,7 @@ Requirements for Diataxis documentation framework integration.
   with quadrant definitions, writing rules, and anti-patterns for each quadrant
 - [X] *CLASS-02*: Every deliverable template (40+) has a Diataxis quadrant
   classification in its metadata or documentation header
-- [ ] *CLASS-03*: Every org-generating agent (7) has a =<diataxis_style>= tag
+- [X] *CLASS-03*: Every org-generating agent (7) has a =<diataxis_style>= tag
   with quadrant-specific writing guidance matching its output templates
 
 *** Gap Analysis
@@ -77,7 +77,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------+-------+---------|
 | CLASS-01    |     1 | Complete |
 | CLASS-02    |     2 | Complete |
-| CLASS-03    |     2 | Pending |
+| CLASS-03    |     2 | Complete |
 | GAPS-01     |     2 | Pending |
 | GAPS-02     |     3 | Pending |
 | GAPS-03     |     3 | Pending |
@@ -92,4 +92,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 -----
 /Requirements defined: 2026-02-27/
-/Last updated: 2026-02-28 — CLASS-02 marked complete after Phase 2 plan 02-01 execution/
+/Last updated: 2026-02-28 — CLASS-03 marked complete after Phase 2 plan 02-02 execution/
