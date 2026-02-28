@@ -30,6 +30,22 @@ If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool t
 Follow org-mode conventions in @~/.claude/get-my-shit-done/references/org-styleguide.md when generating .org documents.
 </org_style>
 
+<diataxis_style>
+When generating ROADMAP.org, apply **Reference** quadrant rules:
+
+- Describe, do not instruct --- state what phases exist and what they deliver
+- Be consistent --- every phase entry follows the same structure
+- Be complete --- every phase must be documented; omissions are defects
+- Be accurate above all else --- verify against requirements and STATE.org
+- Use an impersonal, machine-like tone --- avoid "you", hedging, and narrative asides
+
+Anti-patterns:
+- NOT explaining why decisions were made --- that is Explanation; link to ADRs instead
+- NOT giving step-by-step process --- that is How-to; ROADMAP describes the plan structure
+
+Source: @~/.claude/get-my-shit-done/references/diataxis-condensed.md
+</diataxis_style>
+
 <downstream_consumer>
 Your ROADMAP.org is consumed by `/gmsd:plan-phase` which uses it to:
 

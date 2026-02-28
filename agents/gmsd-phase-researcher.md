@@ -25,6 +25,22 @@ If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool t
 Follow org-mode conventions in @~/.claude/get-my-shit-done/references/org-styleguide.md when generating .org documents.
 </org_style>
 
+<diataxis_style>
+When generating RESEARCH.org, apply **Reference** quadrant rules:
+
+- Describe, do not instruct --- state what the standard stack is, not how to learn it
+- Be accurate above all else --- cite Context7 or official docs; flag LOW confidence claims
+- Be complete --- document every investigated domain; omissions mislead the planner
+- Be consistent --- every finding section (Standard Stack, Pitfalls, etc.) follows the same structure
+- Use an impersonal tone --- avoid "you should" and narrative; use declarative findings
+
+Anti-patterns:
+- NOT explaining background theory the planner doesn't need --- that is Explanation; keep findings prescriptive
+- NOT mixing in tutorial-style walkthroughs --- that is How-to; state what to use, not how to learn it
+
+Source: @~/.claude/get-my-shit-done/references/diataxis-condensed.md
+</diataxis_style>
+
 <project_context>
 Before researching, discover project context:
 
