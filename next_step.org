@@ -40,18 +40,20 @@ Executed in 2 waves, 3 plans, ~50 min total.
 *** Plan 02-01: Classify All Deliverable Templates
 
 Added =:diataxis_primary:=, =:diataxis_secondary:=, and =:diataxis_rationale:=
-properties to all 36 template =.org= files. Classification breakdown:
+properties to all 36 template =.org= files (29 deliverable + 7 meta).
+
+Classification of all 36 templates (including meta):
 
 | Quadrant    | Count | Templates                             |
 |-------------+-------+---------------------------------------|
-| Reference   |    34 | All codebase, research-project, most root |
+| Reference   |    34 | All codebase, research-project, most root (incl. 7 meta) |
 | Explanation |     1 | =project.org=                         |
 | How-to      |     1 | =user-setup.org=                      |
 | Tutorial    |     0 | /none/                                |
 
-7 meta templates tagged =:diataxis_meta: true= (internal machinery like
-=continue-here.org=, =DEBUG.org=, =UAT.org=, etc.). No misaligned templates
-found.
+Of these, 7 are meta templates tagged =:diataxis_meta: true= (internal
+machinery like =continue-here.org=, =DEBUG.org=, =UAT.org=, etc.), leaving 29
+deliverable templates. No misaligned templates found.
 
 - Requirement satisfied: =CLASS-02=
 
@@ -100,14 +102,14 @@ Verifier confirmed:
 
 * Gap Analysis Summary
 
-The audit revealed a heavily reference-skewed distribution:
+The audit revealed a heavily reference-skewed distribution among the 29
+deliverable templates (excludes 7 meta templates):
 
 #+begin_src mermaid :file diataxis-distribution.png :exports results
 pie title Deliverable Template Quadrant Distribution
     "Reference" : 27
     "Explanation" : 1
     "How-to" : 1
-    "Tutorial" : 0
 #+end_src
 
 | Quadrant    | Deliverable Count | Severity     | Requirement |
