@@ -44,6 +44,21 @@ function orgActiveDate(date) {
 }
 
 /**
+ * Format a Date as an org-mode inactive timestamp with time: [YYYY-MM-DD Ddd HH:MM]
+ * Used in LOGBOOK entries and CLOSED timestamps that need time precision.
+ */
+function orgDateTime(date) {
+  const d = date instanceof Date ? date : new Date(date);
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const hh = String(d.getHours()).padStart(2, '0');
+  const min = String(d.getMinutes()).padStart(2, '0');
+  return `[${yyyy}-${mm}-${dd} ${days[d.getDay()]} ${hh}:${min}]`;
+}
+
+/**
  * Parse a single ** level todo entry from its text block.
  * Returns structured object with all fields.
  */
@@ -76,13 +91,55 @@ function parseTodoEntry(text) {
     if (closedMatch) closed = closedMatch[1];
   }
 
-  // Parse properties drawer
-  let created = null;
-  let files = null;
-  let inProperties = false;
+  // Parse LOGBOOK drawer
+  const logbook = [];
+  let inLogbook = false;
+  let currentLogLine = null;
 
   for (const line of lines) {
     const trimmed = line.trim();
+    if (trimmed === ':LOGBOOK:') { inLogbook = true; continue; }
+    if (inLogbook && trimmed === ':END:') {
+      // Flush any pending log line
+      if (currentLogLine) { logbook.push(currentLogLine); currentLogLine = null; }
+      inLogbook = false;
+      continue;
+    }
+    if (inLogbook) {
+      // State change line: - State "TO" from "FROM"    [timestamp] \\
+      const stateMatch = trimmed.match(
+        /^- State "(\w+)"\s+from "(\w+)"\s+(\[[^\]]+\])(?:\s*\\\\)?$/
+      );
+      if (stateMatch) {
+        // Flush previous
+        if (currentLogLine) logbook.push(currentLogLine);
+        currentLogLine = {
+          to: stateMatch[1],
+          from: stateMatch[2],
+          timestamp: stateMatch[3],
+          note: null,
+        };
+        continue;
+      }
+      // Continuation line (note): starts with spaces after a state line
+      if (currentLogLine && trimmed) {
+        currentLogLine.note = trimmed;
+      }
+    }
+  }
+  if (currentLogLine) logbook.push(currentLogLine);
+
+  // Parse properties drawer (skip LOGBOOK lines)
+  let created = null;
+  let files = null;
+  let inProperties = false;
+  let inLogbookForProps = false;
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed === ':LOGBOOK:') { inLogbookForProps = true; continue; }
+    if (inLogbookForProps && trimmed === ':END:') { inLogbookForProps = false; continue; }
+    if (inLogbookForProps) continue;
     if (trimmed === ':PROPERTIES:') { inProperties = true; continue; }
     if (trimmed === ':END:') { inProperties = false; continue; }
     if (inProperties) {
@@ -122,7 +179,7 @@ function parseTodoEntry(text) {
   problem = sectionContent.problem.join('\n').trim() || null;
   solution = sectionContent.solution.join('\n').trim() || null;
 
-  return { state, priority, title, area, created, files, scheduled, deadline, closed, problem, solution };
+  return { state, priority, title, area, created, files, scheduled, deadline, closed, logbook, problem, solution };
 }
 
 /**
@@ -206,7 +263,7 @@ function buildTodosHeader(date) {
 /**
  * Build a single todo entry string
  */
-function buildTodoEntry({ title, area, priority, state, created, files, problem, solution, scheduled, deadline }) {
+function buildTodoEntry({ title, area, priority, state, created, files, problem, solution, scheduled, deadline, logbook }) {
   state = state || 'TODO';
   const priorityCookie = priority ? ` [#${priority}]` : '';
   const tag = area ? `${' '.repeat(Math.max(1, 56 - title.length - state.length - priorityCookie.length))}:${area}:` : '';
@@ -217,6 +274,21 @@ function buildTodoEntry({ title, area, priority, state, created, files, problem,
   if (scheduled) planningParts.push(`SCHEDULED: ${scheduled}`);
   if (deadline) planningParts.push(`DEADLINE: ${deadline}`);
   if (planningParts.length) entry += planningParts.join(' ') + '\n';
+
+  // LOGBOOK drawer (between planning line and PROPERTIES, per org-mode spec)
+  if (logbook && logbook.length > 0) {
+    entry += ':LOGBOOK:\n';
+    for (const log of logbook) {
+      const stateChange = `- State "${log.to}" from "${log.from}"`;
+      const padding = Math.max(1, 33 - stateChange.length);
+      entry += `${stateChange}${' '.repeat(padding)}${log.timestamp}`;
+      if (log.note) {
+        entry += ' \\\\\n  ' + log.note;
+      }
+      entry += '\n';
+    }
+    entry += ':END:\n';
+  }
 
   // Properties drawer
   entry += ':PROPERTIES:\n';
@@ -236,6 +308,49 @@ function buildTodoEntry({ title, area, priority, state, created, files, problem,
 }
 
 // ─── Mutation Layer (pure, string in → string out) ───────────────────────────
+
+/**
+ * Insert a LOGBOOK entry into a todo entry's text block.
+ * If :LOGBOOK: exists, prepend the new log line (most recent first).
+ * If no :LOGBOOK:, create one at the correct position:
+ *   after headline + planning line, before :PROPERTIES:.
+ *
+ * @param {string} entryText - The full text of a ** level todo entry
+ * @param {object} opts - { from, to, timestamp, note }
+ * @returns {string} The entry text with LOGBOOK entry inserted
+ */
+function insertLogbookEntry(entryText, { from, to, timestamp, note }) {
+  // Build the log line with aligned "from" column
+  const toStr = `"${to}"`;
+  const fromStr = `"${from}"`;
+  // Pad to align timestamps (org convention: ~30 chars for state change prefix)
+  const stateChange = `- State ${toStr} from ${fromStr}`;
+  const padding = Math.max(1, 33 - stateChange.length);
+  let logLine = `${stateChange}${' '.repeat(padding)}${timestamp}`;
+  if (note) {
+    logLine += ' \\\\\n  ' + note;
+  }
+
+  const lines = entryText.split('\n');
+
+  // Check if :LOGBOOK: already exists
+  const logbookStart = lines.findIndex(l => l.trim() === ':LOGBOOK:');
+
+  if (logbookStart !== -1) {
+    // Insert after :LOGBOOK: line (most recent first)
+    lines.splice(logbookStart + 1, 0, logLine);
+    return lines.join('\n');
+  }
+
+  // No existing LOGBOOK — create one
+  // Position: after headline + planning line, before :PROPERTIES:
+  const propertiesIdx = lines.findIndex(l => l.trim() === ':PROPERTIES:');
+  const insertIdx = propertiesIdx !== -1 ? propertiesIdx : lines.length;
+
+  const logbookBlock = [':LOGBOOK:', logLine, ':END:'];
+  lines.splice(insertIdx, 0, ...logbookBlock);
+  return lines.join('\n');
+}
 
 /**
  * Append a new entry under * Active section.
@@ -262,16 +377,19 @@ function appendEntry(fileContent, entryText) {
 }
 
 /**
- * Mark an entry as DONE, add CLOSED timestamp, move to Archive.
+ * Shared implementation for completing/cancelling an entry.
+ * Changes state, adds CLOSED timestamp, inserts LOGBOOK entry, moves to Archive.
+ * @private
  */
-function completeEntry(fileContent, entryTitle, closedDate) {
-  const closed = orgDate(closedDate || new Date());
+function _finishEntry(fileContent, entryTitle, closedDate, targetState, { reason } = {}) {
+  const closed = orgDateTime(closedDate || new Date());
   const lines = fileContent.split('\n');
   const result = [];
   let entryBuffer = [];
   let foundEntry = false;
   let capturing = false;
   let movedEntry = '';
+  let oldState = null;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -280,8 +398,11 @@ function completeEntry(fileContent, entryTitle, closedDate) {
     if (!foundEntry && line.match(/^\*\*\s+(TODO|NEXT|WAITING)\s+/) && line.includes(entryTitle)) {
       capturing = true;
       foundEntry = true;
-      // Change state to DONE
-      const newLine = line.replace(/^\*\*\s+(TODO|NEXT|WAITING)/, '** DONE');
+      // Capture old state before changing
+      const stateMatch = line.match(/^\*\*\s+(TODO|NEXT|WAITING)/);
+      oldState = stateMatch[1];
+      // Change state to targetState
+      const newLine = line.replace(/^\*\*\s+(TODO|NEXT|WAITING)/, `** ${targetState}`);
       entryBuffer.push(newLine);
       continue;
     }
@@ -290,9 +411,15 @@ function completeEntry(fileContent, entryTitle, closedDate) {
       // End of entry: next ** or * heading
       if (line.match(/^\*{1,2}\s+/) && !line.match(/^\*\*\*\s+/)) {
         capturing = false;
-        // Insert CLOSED after headline (before properties or content)
-        movedEntry = insertClosedTimestamp(entryBuffer.join('\n'), closed);
-        // Don't add to result here — will be appended to Archive
+        let entryText = entryBuffer.join('\n');
+        entryText = insertClosedTimestamp(entryText, closed);
+        entryText = insertLogbookEntry(entryText, {
+          from: oldState,
+          to: targetState,
+          timestamp: closed,
+          note: reason || null,
+        });
+        movedEntry = entryText;
         result.push(line);
         continue;
       }
@@ -305,7 +432,15 @@ function completeEntry(fileContent, entryTitle, closedDate) {
 
   // If we were still capturing at EOF
   if (capturing) {
-    movedEntry = insertClosedTimestamp(entryBuffer.join('\n'), closed);
+    let entryText = entryBuffer.join('\n');
+    entryText = insertClosedTimestamp(entryText, closed);
+    entryText = insertLogbookEntry(entryText, {
+      from: oldState,
+      to: targetState,
+      timestamp: closed,
+      note: reason || null,
+    });
+    movedEntry = entryText;
   }
 
   if (!foundEntry) return fileContent; // No match found
@@ -322,6 +457,20 @@ function completeEntry(fileContent, entryTitle, closedDate) {
   }
 
   return content;
+}
+
+/**
+ * Mark an entry as DONE, add CLOSED timestamp, move to Archive.
+ */
+function completeEntry(fileContent, entryTitle, closedDate, { reason } = {}) {
+  return _finishEntry(fileContent, entryTitle, closedDate, 'DONE', { reason });
+}
+
+/**
+ * Mark an entry as CANCELLED, add CLOSED timestamp, move to Archive.
+ */
+function cancelEntry(fileContent, entryTitle, closedDate, { reason } = {}) {
+  return _finishEntry(fileContent, entryTitle, closedDate, 'CANCELLED', { reason });
 }
 
 /**
@@ -346,18 +495,51 @@ function insertClosedTimestamp(entryText, closedTimestamp) {
 
 /**
  * Change the TODO state of an entry.
+ * When opts.timestamp is provided, also inserts a LOGBOOK entry.
  */
-function updateEntryState(fileContent, entryTitle, newState) {
+function updateEntryState(fileContent, entryTitle, newState, { reason, timestamp } = {}) {
   if (!ALL_STATES.includes(newState)) return fileContent;
 
   const lines = fileContent.split('\n');
+  let matchIdx = -1;
+  let oldState = null;
+
   for (let i = 0; i < lines.length; i++) {
     if (lines[i].match(/^\*\*\s+(TODO|NEXT|WAITING|DONE|CANCELLED)\s+/) && lines[i].includes(entryTitle)) {
+      const stateMatch = lines[i].match(/^\*\*\s+(TODO|NEXT|WAITING|DONE|CANCELLED)/);
+      oldState = stateMatch[1];
       lines[i] = lines[i].replace(/^\*\*\s+(TODO|NEXT|WAITING|DONE|CANCELLED)/, `** ${newState}`);
+      matchIdx = i;
       break;
     }
   }
-  return lines.join('\n');
+
+  if (matchIdx === -1) return fileContent;
+
+  // If no timestamp, just return the state change (backward compatible)
+  if (!timestamp) return lines.join('\n');
+
+  // Find the entry boundaries and insert LOGBOOK
+  let entryEnd = lines.length;
+  for (let i = matchIdx + 1; i < lines.length; i++) {
+    if (lines[i].match(/^\*{1,2}\s+/) && !lines[i].match(/^\*\*\*\s+/)) {
+      entryEnd = i;
+      break;
+    }
+  }
+
+  const entryLines = lines.slice(matchIdx, entryEnd);
+  const entryText = entryLines.join('\n');
+  const updatedEntry = insertLogbookEntry(entryText, {
+    from: oldState,
+    to: newState,
+    timestamp,
+    note: reason || null,
+  });
+
+  const before = lines.slice(0, matchIdx);
+  const after = lines.slice(entryEnd);
+  return [...before, updatedEntry, ...after].join('\n');
 }
 
 /**
@@ -512,7 +694,7 @@ function cmdTodoAdd(cwd, params, raw) {
 /**
  * Mark a todo as DONE and move to Archive
  */
-function cmdTodoComplete(cwd, identifier, raw) {
+function cmdTodoComplete(cwd, identifier, reason, raw) {
   if (!identifier) {
     error('title identifier required for todo complete');
   }
@@ -532,15 +714,51 @@ function cmdTodoComplete(cwd, identifier, raw) {
   }
 
   const now = new Date();
-  content = completeEntry(content, match.title, now);
+  content = completeEntry(content, match.title, now, { reason: reason || null });
   fs.writeFileSync(todosPath, content, 'utf-8');
 
   output({
     completed: true,
     title: match.title,
     date: now.toISOString().split('T')[0],
+    reason: reason || null,
     file: path.join('.planning', FILES.TODOS),
   }, raw, 'completed');
+}
+
+/**
+ * Mark a todo as CANCELLED and move to Archive
+ */
+function cmdTodoCancel(cwd, identifier, reason, raw) {
+  if (!identifier) {
+    error('title identifier required for todo cancel');
+  }
+
+  const todosPath = path.join(cwd, '.planning', FILES.TODOS);
+  autoMigrateIfLegacy(cwd);
+  let content = safeReadFile(todosPath);
+
+  if (!content) {
+    error(`TODOS.org not found at ${path.join('.planning', FILES.TODOS)}`);
+  }
+
+  const before = parseTodosFile(content);
+  const match = before.active.find(t => t.title === identifier || t.title.includes(identifier));
+  if (!match) {
+    error(`No active todo matching: ${identifier}`);
+  }
+
+  const now = new Date();
+  content = cancelEntry(content, match.title, now, { reason: reason || null });
+  fs.writeFileSync(todosPath, content, 'utf-8');
+
+  output({
+    cancelled: true,
+    title: match.title,
+    date: now.toISOString().split('T')[0],
+    reason: reason || null,
+    file: path.join('.planning', FILES.TODOS),
+  }, raw, 'cancelled');
 }
 
 /**
@@ -564,8 +782,35 @@ function cmdTodoUpdate(cwd, identifier, updates, raw) {
     error(`No active todo matching: ${identifier}`);
   }
 
+  // Handle DONE_STATES: delegate to complete/cancel (adds CLOSED, moves to Archive)
+  if (updates.state && DONE_STATES.includes(updates.state)) {
+    const now = new Date();
+    if (updates.state === 'DONE') {
+      content = completeEntry(content, match.title, now, { reason: updates.reason || null });
+    } else if (updates.state === 'CANCELLED') {
+      content = cancelEntry(content, match.title, now, { reason: updates.reason || null });
+    }
+    // Apply priority change if also requested (on the archived entry)
+    if (updates.priority) {
+      content = updateEntryPriority(content, match.title, updates.priority);
+    }
+    fs.writeFileSync(todosPath, content, 'utf-8');
+    output({
+      updated: true,
+      title: match.title,
+      state: updates.state,
+      priority: updates.priority || match.priority,
+      reason: updates.reason || null,
+    }, raw, `updated: ${match.title}`);
+    return;
+  }
+
   if (updates.state) {
-    content = updateEntryState(content, match.title, updates.state);
+    const now = new Date();
+    content = updateEntryState(content, match.title, updates.state, {
+      reason: updates.reason || null,
+      timestamp: updates.reason ? orgDateTime(now) : null,
+    });
   }
   if (updates.priority) {
     content = updateEntryPriority(content, match.title, updates.priority);
@@ -578,6 +823,7 @@ function cmdTodoUpdate(cwd, identifier, updates, raw) {
     title: match.title,
     state: updates.state || match.state,
     priority: updates.priority || match.priority,
+    reason: updates.reason || null,
   }, raw, `updated: ${match.title}`);
 }
 
@@ -797,6 +1043,7 @@ module.exports = {
   // Parser layer
   orgDate,
   orgActiveDate,
+  orgDateTime,
   parseTodoEntry,
   parseTodosFile,
   buildTodosHeader,
@@ -805,6 +1052,8 @@ module.exports = {
   // Mutation layer
   appendEntry,
   completeEntry,
+  cancelEntry,
+  insertLogbookEntry,
   updateEntryState,
   updateEntryPriority,
   insertClosedTimestamp,
@@ -812,6 +1061,7 @@ module.exports = {
   // Command layer
   cmdTodoAdd,
   cmdTodoComplete,
+  cmdTodoCancel,
   cmdTodoUpdate,
   cmdTodoList,
   cmdTodoInitContext,

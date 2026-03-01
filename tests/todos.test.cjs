@@ -12,12 +12,15 @@ const { runGsdTools, createTempProject, cleanup } = require('./helpers.cjs');
 const {
   orgDate,
   orgActiveDate,
+  orgDateTime,
   parseTodoEntry,
   parseTodosFile,
   buildTodosHeader,
   buildTodoEntry,
   appendEntry,
   completeEntry,
+  cancelEntry,
+  insertLogbookEntry,
   updateEntryState,
   updateEntryPriority,
   insertClosedTimestamp,
@@ -45,6 +48,25 @@ describe('orgActiveDate', () => {
     const d = new Date('2026-03-05T12:00:00Z');
     const result = orgActiveDate(d);
     assert.match(result, /^<2026-03-05 \w{3}>$/);
+  });
+});
+
+describe('orgDateTime', () => {
+  test('formats date with time as org inactive timestamp', () => {
+    const d = new Date('2026-03-01T14:30:00');
+    const result = orgDateTime(d);
+    assert.match(result, /^\[2026-03-01 \w{3} 14:30\]$/);
+  });
+
+  test('pads hours and minutes with zeros', () => {
+    const d = new Date('2026-01-05T09:05:00');
+    const result = orgDateTime(d);
+    assert.match(result, /^\[2026-01-05 \w{3} 09:05\]$/);
+  });
+
+  test('accepts string input', () => {
+    const result = orgDateTime('2026-06-15T23:59:00');
+    assert.match(result, /^\[2026-06-15 \w{3} 23:59\]$/);
   });
 });
 
@@ -121,6 +143,83 @@ CLOSED: [2026-02-26 Wed]
   test('returns null for invalid headline', () => {
     const result = parseTodoEntry('Not a valid headline');
     assert.strictEqual(result, null);
+  });
+
+  test('returns empty logbook when no LOGBOOK drawer', () => {
+    const text = `** TODO Simple task
+:PROPERTIES:
+:created: [2026-03-01 Sun]
+:END:`;
+    const result = parseTodoEntry(text);
+    assert.deepStrictEqual(result.logbook, []);
+  });
+
+  test('parses single LOGBOOK entry', () => {
+    const text = `** DONE [#B] Fix auth token refresh                            :api:
+CLOSED: [2026-03-01 Sat 14:30]
+:LOGBOOK:
+- State "DONE" from "NEXT"       [2026-03-01 Sat 14:30] \\\\
+  Completed during check-todos workflow
+:END:
+:PROPERTIES:
+:created: [2026-02-27 Thu]
+:END:`;
+    const result = parseTodoEntry(text);
+    assert.strictEqual(result.logbook.length, 1);
+    assert.strictEqual(result.logbook[0].to, 'DONE');
+    assert.strictEqual(result.logbook[0].from, 'NEXT');
+    assert.strictEqual(result.logbook[0].timestamp, '[2026-03-01 Sat 14:30]');
+    assert.strictEqual(result.logbook[0].note, 'Completed during check-todos workflow');
+  });
+
+  test('parses multiple LOGBOOK entries', () => {
+    const text = `** DONE [#B] Fix auth token refresh                            :api:
+CLOSED: [2026-03-01 Sat 14:30]
+:LOGBOOK:
+- State "DONE" from "NEXT"       [2026-03-01 Sat 14:30] \\\\
+  Completed during check-todos workflow
+- State "NEXT" from "TODO"       [2026-02-28 Fri 10:15] \\\\
+  Starting work on this
+:END:
+:PROPERTIES:
+:created: [2026-02-27 Thu]
+:END:`;
+    const result = parseTodoEntry(text);
+    assert.strictEqual(result.logbook.length, 2);
+    assert.strictEqual(result.logbook[0].to, 'DONE');
+    assert.strictEqual(result.logbook[0].from, 'NEXT');
+    assert.strictEqual(result.logbook[1].to, 'NEXT');
+    assert.strictEqual(result.logbook[1].from, 'TODO');
+    assert.strictEqual(result.logbook[1].note, 'Starting work on this');
+  });
+
+  test('parses LOGBOOK entry without note', () => {
+    const text = `** NEXT Task in progress
+:LOGBOOK:
+- State "NEXT" from "TODO"       [2026-03-01 Sat 10:00]
+:END:
+:PROPERTIES:
+:created: [2026-03-01 Sun]
+:END:`;
+    const result = parseTodoEntry(text);
+    assert.strictEqual(result.logbook.length, 1);
+    assert.strictEqual(result.logbook[0].note, null);
+  });
+
+  test('LOGBOOK does not interfere with PROPERTIES parsing', () => {
+    const text = `** DONE Task with both drawers
+CLOSED: [2026-03-01 Sat 14:30]
+:LOGBOOK:
+- State "DONE" from "TODO"       [2026-03-01 Sat 14:30]
+:END:
+:PROPERTIES:
+:created: [2026-02-28 Fri]
+:files: src/main.ts
+:END:`;
+    const result = parseTodoEntry(text);
+    assert.strictEqual(result.created, '[2026-02-28 Fri]');
+    assert.strictEqual(result.files, 'src/main.ts');
+    assert.strictEqual(result.logbook.length, 1);
   });
 });
 
@@ -333,6 +432,235 @@ describe('updateEntryPriority', () => {
     const content = `** TODO [#B] My task\n`;
     const result = updateEntryPriority(content, 'My task', 'X');
     assert.strictEqual(result, content);
+  });
+});
+
+describe('insertLogbookEntry', () => {
+  test('creates LOGBOOK when none exists, before PROPERTIES', () => {
+    const entry = `** NEXT My task
+:PROPERTIES:
+:created: [2026-03-01 Sun]
+:END:`;
+    const result = insertLogbookEntry(entry, {
+      from: 'TODO', to: 'NEXT',
+      timestamp: '[2026-03-01 Sat 10:00]',
+      note: null,
+    });
+    assert.ok(result.includes(':LOGBOOK:'));
+    assert.ok(result.includes('- State "NEXT" from "TODO"'));
+    assert.ok(result.includes('[2026-03-01 Sat 10:00]'));
+    // LOGBOOK should be before PROPERTIES
+    const logbookIdx = result.indexOf(':LOGBOOK:');
+    const propsIdx = result.indexOf(':PROPERTIES:');
+    assert.ok(logbookIdx < propsIdx, 'LOGBOOK should come before PROPERTIES');
+  });
+
+  test('creates LOGBOOK with note', () => {
+    const entry = `** NEXT My task
+:PROPERTIES:
+:END:`;
+    const result = insertLogbookEntry(entry, {
+      from: 'TODO', to: 'NEXT',
+      timestamp: '[2026-03-01 Sat 10:00]',
+      note: 'Starting work',
+    });
+    assert.ok(result.includes('\\\\'));
+    assert.ok(result.includes('  Starting work'));
+  });
+
+  test('prepends to existing LOGBOOK', () => {
+    const entry = `** DONE My task
+CLOSED: [2026-03-02 Sun 14:00]
+:LOGBOOK:
+- State "NEXT" from "TODO"       [2026-03-01 Sat 10:00]
+:END:
+:PROPERTIES:
+:END:`;
+    const result = insertLogbookEntry(entry, {
+      from: 'NEXT', to: 'DONE',
+      timestamp: '[2026-03-02 Sun 14:00]',
+      note: 'All done',
+    });
+    // Most recent entry should be first (right after :LOGBOOK:)
+    const logbookStart = result.indexOf(':LOGBOOK:');
+    const doneEntry = result.indexOf('"DONE" from "NEXT"');
+    const nextEntry = result.indexOf('"NEXT" from "TODO"');
+    assert.ok(doneEntry < nextEntry, 'most recent entry should come first');
+  });
+
+  test('creates LOGBOOK after planning line when no PROPERTIES', () => {
+    const entry = `** NEXT My task
+SCHEDULED: <2026-03-05 Wed>`;
+    const result = insertLogbookEntry(entry, {
+      from: 'TODO', to: 'NEXT',
+      timestamp: '[2026-03-01 Sat 10:00]',
+      note: null,
+    });
+    assert.ok(result.includes(':LOGBOOK:'));
+    assert.ok(result.includes(':END:'));
+  });
+});
+
+describe('buildTodoEntry with logbook', () => {
+  test('emits LOGBOOK between planning and PROPERTIES', () => {
+    const entry = buildTodoEntry({
+      title: 'Test task',
+      state: 'NEXT',
+      created: '[2026-03-01 Sun]',
+      logbook: [
+        { to: 'NEXT', from: 'TODO', timestamp: '[2026-03-01 Sat 10:00]', note: 'Starting' },
+      ],
+    });
+    assert.ok(entry.includes(':LOGBOOK:'));
+    assert.ok(entry.includes('- State "NEXT" from "TODO"'));
+    assert.ok(entry.includes('Starting'));
+    // Verify order: LOGBOOK before PROPERTIES
+    const logbookIdx = entry.indexOf(':LOGBOOK:');
+    const propsIdx = entry.indexOf(':PROPERTIES:');
+    assert.ok(logbookIdx < propsIdx);
+  });
+
+  test('omits LOGBOOK when empty array', () => {
+    const entry = buildTodoEntry({ title: 'Test', logbook: [] });
+    assert.ok(!entry.includes(':LOGBOOK:'));
+  });
+
+  test('omits LOGBOOK when not provided', () => {
+    const entry = buildTodoEntry({ title: 'Test' });
+    assert.ok(!entry.includes(':LOGBOOK:'));
+  });
+
+  test('round-trip: build with logbook → parse → verify', () => {
+    const logbook = [
+      { to: 'DONE', from: 'NEXT', timestamp: '[2026-03-02 Sun 14:00]', note: 'Finished' },
+      { to: 'NEXT', from: 'TODO', timestamp: '[2026-03-01 Sat 10:00]', note: null },
+    ];
+    const entry = buildTodoEntry({
+      title: 'Round trip test',
+      state: 'DONE',
+      created: '[2026-02-28 Fri]',
+      logbook,
+    });
+    const parsed = parseTodoEntry(entry);
+    assert.strictEqual(parsed.logbook.length, 2);
+    assert.strictEqual(parsed.logbook[0].to, 'DONE');
+    assert.strictEqual(parsed.logbook[0].from, 'NEXT');
+    assert.strictEqual(parsed.logbook[0].note, 'Finished');
+    assert.strictEqual(parsed.logbook[1].to, 'NEXT');
+    assert.strictEqual(parsed.logbook[1].from, 'TODO');
+    assert.strictEqual(parsed.logbook[1].note, null);
+  });
+});
+
+describe('cancelEntry', () => {
+  test('changes state to CANCELLED and moves to Archive', () => {
+    const content = `* Active
+
+** TODO [#B] Obsolete feature                                :api:
+:PROPERTIES:
+:created: [2026-03-01 Sun]
+:END:
+
+* Archive
+`;
+    const result = cancelEntry(content, 'Obsolete feature', new Date('2026-03-02T14:30:00'));
+    const activeSection = result.slice(0, result.indexOf('* Archive'));
+    assert.ok(!activeSection.includes('** TODO'), 'no TODO entries in Active');
+    const archiveSection = result.slice(result.indexOf('* Archive'));
+    assert.ok(archiveSection.includes('** CANCELLED'), 'CANCELLED entry in Archive');
+    assert.ok(archiveSection.includes('CLOSED:'), 'has CLOSED timestamp');
+    assert.ok(archiveSection.includes(':LOGBOOK:'), 'has LOGBOOK');
+  });
+
+  test('includes reason in LOGBOOK', () => {
+    const content = `* Active
+
+** NEXT Some task                                             :ui:
+:PROPERTIES:
+:END:
+
+* Archive
+`;
+    const result = cancelEntry(content, 'Some task', new Date('2026-03-02'), { reason: 'No longer needed' });
+    assert.ok(result.includes('No longer needed'));
+    assert.ok(result.includes('"CANCELLED" from "NEXT"'));
+  });
+
+  test('returns unchanged content when title not found', () => {
+    const content = `* Active
+
+** TODO Some task
+:PROPERTIES:
+:END:
+
+* Archive
+`;
+    const result = cancelEntry(content, 'Nonexistent', new Date());
+    assert.strictEqual(result, content);
+  });
+});
+
+describe('completeEntry with reason', () => {
+  test('includes LOGBOOK with reason', () => {
+    const content = `* Active
+
+** NEXT [#A] Important task                                   :api:
+:PROPERTIES:
+:created: [2026-03-01 Sun]
+:END:
+
+* Archive
+`;
+    const result = completeEntry(content, 'Important task', new Date('2026-03-02'), { reason: 'All tests passing' });
+    const archiveSection = result.slice(result.indexOf('* Archive'));
+    assert.ok(archiveSection.includes(':LOGBOOK:'));
+    assert.ok(archiveSection.includes('"DONE" from "NEXT"'));
+    assert.ok(archiveSection.includes('All tests passing'));
+  });
+
+  test('works without reason (backward compatible)', () => {
+    const content = `* Active
+
+** TODO Simple task
+:PROPERTIES:
+:END:
+
+* Archive
+`;
+    const result = completeEntry(content, 'Simple task', new Date('2026-03-02'));
+    const archiveSection = result.slice(result.indexOf('* Archive'));
+    assert.ok(archiveSection.includes('** DONE'));
+    assert.ok(archiveSection.includes(':LOGBOOK:'));
+    // Should still have logbook entry even without note
+    assert.ok(archiveSection.includes('"DONE" from "TODO"'));
+  });
+});
+
+describe('updateEntryState with LOGBOOK', () => {
+  test('state change with reason produces LOGBOOK', () => {
+    const content = `** TODO [#B] My task                                        :api:
+:PROPERTIES:
+:created: [2026-03-01 Sun]
+:END:
+`;
+    const result = updateEntryState(content, 'My task', 'NEXT', {
+      reason: 'Starting work',
+      timestamp: '[2026-03-01 Sat 10:00]',
+    });
+    assert.ok(result.includes('** NEXT'));
+    assert.ok(result.includes(':LOGBOOK:'));
+    assert.ok(result.includes('"NEXT" from "TODO"'));
+    assert.ok(result.includes('Starting work'));
+  });
+
+  test('state change without extras produces no LOGBOOK (backward compat)', () => {
+    const content = `** TODO My task
+:PROPERTIES:
+:END:
+`;
+    const result = updateEntryState(content, 'My task', 'NEXT');
+    assert.ok(result.includes('** NEXT'));
+    assert.ok(!result.includes(':LOGBOOK:'));
   });
 });
 
@@ -712,5 +1040,142 @@ describe('todo migrate command', () => {
 
     const output = JSON.parse(result.output);
     assert.strictEqual(output.archived, 1);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOGBOOK Integration — CLI commands
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('todo cancel command', () => {
+  let tmpDir;
+
+  beforeEach(() => {
+    tmpDir = createTempProject();
+  });
+
+  afterEach(() => {
+    cleanup(tmpDir);
+  });
+
+  test('cancels todo with --reason', () => {
+    runGsdTools('todo add --title "Cancel me" --area testing --priority B', tmpDir);
+
+    const result = runGsdTools('todo cancel "Cancel me" --reason "No longer needed"', tmpDir);
+    assert.ok(result.success, `Command failed: ${result.error}`);
+
+    const output = JSON.parse(result.output);
+    assert.strictEqual(output.cancelled, true);
+    assert.strictEqual(output.title, 'Cancel me');
+    assert.strictEqual(output.reason, 'No longer needed');
+
+    const content = fs.readFileSync(path.join(tmpDir, '.planning', 'TODOS.org'), 'utf-8');
+    const archiveSection = content.slice(content.indexOf('* Archive'));
+    assert.ok(archiveSection.includes('** CANCELLED'), 'CANCELLED in Archive');
+    assert.ok(archiveSection.includes('CLOSED:'), 'has CLOSED');
+    assert.ok(archiveSection.includes(':LOGBOOK:'), 'has LOGBOOK');
+    assert.ok(archiveSection.includes('No longer needed'), 'has reason in LOGBOOK');
+  });
+
+  test('cancels todo without --reason', () => {
+    runGsdTools('todo add --title "Cancel no reason" --area testing', tmpDir);
+
+    const result = runGsdTools('todo cancel "Cancel no reason"', tmpDir);
+    assert.ok(result.success, `Command failed: ${result.error}`);
+
+    const output = JSON.parse(result.output);
+    assert.strictEqual(output.cancelled, true);
+
+    const content = fs.readFileSync(path.join(tmpDir, '.planning', 'TODOS.org'), 'utf-8');
+    assert.ok(content.includes('** CANCELLED'));
+    assert.ok(content.includes(':LOGBOOK:'));
+  });
+
+  test('fails for nonexistent todo', () => {
+    runGsdTools('todo add --title "Some task" --area api', tmpDir);
+
+    const result = runGsdTools('todo cancel "nonexistent"', tmpDir);
+    assert.ok(!result.success, 'should fail');
+    assert.ok(result.error.includes('No active todo'));
+  });
+});
+
+describe('todo complete command with --reason', () => {
+  let tmpDir;
+
+  beforeEach(() => {
+    tmpDir = createTempProject();
+  });
+
+  afterEach(() => {
+    cleanup(tmpDir);
+  });
+
+  test('completes todo with --reason and produces LOGBOOK', () => {
+    runGsdTools('todo add --title "Test LOGBOOK" --area testing --priority B', tmpDir);
+
+    const result = runGsdTools('todo complete "Test LOGBOOK" --reason "All done"', tmpDir);
+    assert.ok(result.success, `Command failed: ${result.error}`);
+
+    const output = JSON.parse(result.output);
+    assert.strictEqual(output.completed, true);
+    assert.strictEqual(output.reason, 'All done');
+
+    const content = fs.readFileSync(path.join(tmpDir, '.planning', 'TODOS.org'), 'utf-8');
+    const archiveSection = content.slice(content.indexOf('* Archive'));
+    assert.ok(archiveSection.includes(':LOGBOOK:'), 'has LOGBOOK');
+    assert.ok(archiveSection.includes('All done'), 'has reason');
+    assert.ok(archiveSection.includes('"DONE" from "TODO"'), 'has state transition');
+  });
+});
+
+describe('todo update command — DONE_STATES and --reason', () => {
+  let tmpDir;
+
+  beforeEach(() => {
+    tmpDir = createTempProject();
+  });
+
+  afterEach(() => {
+    cleanup(tmpDir);
+  });
+
+  test('update --state DONE moves to Archive with LOGBOOK', () => {
+    runGsdTools('todo add --title "Finish me" --area api', tmpDir);
+
+    const result = runGsdTools('todo update "Finish me" --state DONE', tmpDir);
+    assert.ok(result.success, `Command failed: ${result.error}`);
+
+    const content = fs.readFileSync(path.join(tmpDir, '.planning', 'TODOS.org'), 'utf-8');
+    const activeSection = content.slice(0, content.indexOf('* Archive'));
+    assert.ok(!activeSection.includes('Finish me'), 'should not be in Active');
+    const archiveSection = content.slice(content.indexOf('* Archive'));
+    assert.ok(archiveSection.includes('** DONE'), 'DONE in Archive');
+    assert.ok(archiveSection.includes('CLOSED:'), 'has CLOSED');
+  });
+
+  test('update --state NEXT --reason adds LOGBOOK', () => {
+    runGsdTools('todo add --title "Start me" --area api', tmpDir);
+
+    const result = runGsdTools('todo update "Start me" --state NEXT --reason "Starting work"', tmpDir);
+    assert.ok(result.success, `Command failed: ${result.error}`);
+
+    const content = fs.readFileSync(path.join(tmpDir, '.planning', 'TODOS.org'), 'utf-8');
+    assert.ok(content.includes('** NEXT'), 'state changed');
+    assert.ok(content.includes(':LOGBOOK:'), 'has LOGBOOK');
+    assert.ok(content.includes('Starting work'), 'has reason');
+    assert.ok(content.includes('"NEXT" from "TODO"'), 'has state transition');
+  });
+
+  test('update --state CANCELLED moves to Archive', () => {
+    runGsdTools('todo add --title "Drop this" --area api', tmpDir);
+
+    const result = runGsdTools('todo update "Drop this" --state CANCELLED --reason "Superseded"', tmpDir);
+    assert.ok(result.success, `Command failed: ${result.error}`);
+
+    const content = fs.readFileSync(path.join(tmpDir, '.planning', 'TODOS.org'), 'utf-8');
+    const archiveSection = content.slice(content.indexOf('* Archive'));
+    assert.ok(archiveSection.includes('** CANCELLED'));
+    assert.ok(archiveSection.includes('Superseded'));
   });
 });

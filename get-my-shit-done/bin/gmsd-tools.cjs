@@ -64,8 +64,12 @@
  *     [--problem <p>] [--solution <s>]
  *     [--files <f>] [--scheduled <d>]
  *   todo complete <title>              Mark todo DONE, move to Archive
+ *     [--reason "..."]
+ *   todo cancel <title>               Mark todo CANCELLED, move to Archive
+ *     [--reason "..."]
  *   todo update <title>                Update todo state/priority
  *     [--state <s>] [--priority A|B|C]
+ *     [--reason "..."]
  *   todo migrate                       Convert old file-per-todo to TODOS.org
  *   todo global-register               Register project in ~/TODOS.org
  *
@@ -530,9 +534,35 @@ async function main() {
           todos.cmdTodoAdd(cwd, params, raw);
           break;
         }
-        case 'complete':
-          todos.cmdTodoComplete(cwd, args.slice(2).join(' '), raw);
+        case 'complete': {
+          // Extract identifier (words before --flags) and --reason
+          const completeIdParts = [];
+          let ci = 2;
+          while (ci < args.length && !args[ci].startsWith('--')) {
+            completeIdParts.push(args[ci]);
+            ci++;
+          }
+          const completeReasonIdx = args.indexOf('--reason');
+          const completeReason = completeReasonIdx !== -1
+            ? args.slice(completeReasonIdx + 1, findNextFlag(args, completeReasonIdx + 1)).join(' ')
+            : null;
+          todos.cmdTodoComplete(cwd, completeIdParts.join(' '), completeReason, raw);
           break;
+        }
+        case 'cancel': {
+          const cancelIdParts = [];
+          let ki = 2;
+          while (ki < args.length && !args[ki].startsWith('--')) {
+            cancelIdParts.push(args[ki]);
+            ki++;
+          }
+          const cancelReasonIdx = args.indexOf('--reason');
+          const cancelReason = cancelReasonIdx !== -1
+            ? args.slice(cancelReasonIdx + 1, findNextFlag(args, cancelReasonIdx + 1)).join(' ')
+            : null;
+          todos.cmdTodoCancel(cwd, cancelIdParts.join(' '), cancelReason, raw);
+          break;
+        }
         case 'update': {
           const identifier = [];
           let j = 2;
@@ -542,9 +572,13 @@ async function main() {
           }
           const updateStateIdx = args.indexOf('--state');
           const updatePriorityIdx = args.indexOf('--priority');
+          const updateReasonIdx = args.indexOf('--reason');
           const updates = {
             state: updateStateIdx !== -1 ? args[updateStateIdx + 1] : null,
             priority: updatePriorityIdx !== -1 ? args[updatePriorityIdx + 1] : null,
+            reason: updateReasonIdx !== -1
+              ? args.slice(updateReasonIdx + 1, findNextFlag(args, updateReasonIdx + 1)).join(' ')
+              : null,
           };
           todos.cmdTodoUpdate(cwd, identifier.join(' '), updates, raw);
           break;
@@ -556,7 +590,7 @@ async function main() {
           todos.cmdTodoGlobalRegister(cwd, raw);
           break;
         default:
-          error('Unknown todo subcommand. Available: add, complete, update, migrate, global-register');
+          error('Unknown todo subcommand. Available: add, complete, cancel, update, migrate, global-register');
       }
       break;
     }

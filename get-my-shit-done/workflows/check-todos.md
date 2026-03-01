@@ -116,8 +116,8 @@ Use AskUserQuestion:
 - question: "This todo relates to Phase [N]: [name]. What would you like to do?"
 - options:
   - "Work on it now" — mark DONE, start working
+  - "Cancel it" — mark CANCELLED with reason, move to Archive
   - "Add to phase plan" — include when planning Phase [N]
-  - "Brainstorm approach" — think through before deciding
   - "Put it back" — return to list
 
 **If no roadmap match:**
@@ -127,17 +127,24 @@ Use AskUserQuestion:
 - question: "What would you like to do with this todo?"
 - options:
   - "Work on it now" — mark DONE, start working
+  - "Cancel it" — mark CANCELLED with reason, move to Archive
   - "Create a phase" — /gmsd:add-phase with this scope
-  - "Brainstorm approach" — think through before deciding
   - "Put it back" — return to list
 </step>
 
 <step name="execute_action">
 **Work on it now:**
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs todo complete "[title]"
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs todo complete "[title]" --reason "Completed during check-todos workflow"
 ```
 Update STATE.org todo count. Present problem/solution context. Begin work or ask how to proceed.
+
+**Cancel it:**
+Ask user for cancellation reason, then:
+```bash
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs todo cancel "[title]" --reason "[user's reason]"
+```
+Update STATE.org todo count. Confirm cancellation.
 
 **Add to phase plan:**
 Note todo reference in phase planning notes. Keep as active. Return to list or exit.
@@ -145,9 +152,6 @@ Note todo reference in phase planning notes. Keep as active. Return to list or e
 **Create a phase:**
 Display: `/gmsd:add-phase [description from todo]`
 Keep as active. User runs command in fresh context.
-
-**Brainstorm approach:**
-Keep as active. Start discussion about problem and approaches.
 
 **Put it back:**
 Return to list_todos step.
