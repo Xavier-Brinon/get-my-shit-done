@@ -1,5 +1,5 @@
 <purpose>
-List all pending todos, allow selection, load full context for the selected todo, and route to appropriate action.
+List all active todos, allow selection, load full context for the selected todo, and route to appropriate action.
 </purpose>
 
 <required_reading>
@@ -15,11 +15,16 @@ Load todo context:
 INIT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs init todos)
 ```
 
-Extract from init JSON: `todo_count`, `todos`, `pending_dir`.
+Extract from init JSON: `todo_count`, `todos`, `todos_file`.
+
+If `legacy_format` is true, suggest migration:
+```
+Old file-per-todo format detected. Run `gmsd-tools.cjs todo migrate` to convert to TODOS.org.
+```
 
 If `todo_count` is 0:
 ```
-No pending todos.
+No active todos.
 
 Todos are captured during work sessions with /gmsd:add-todo.
 
@@ -35,9 +40,11 @@ Exit.
 </step>
 
 <step name="parse_filter">
-Check for area filter in arguments:
+Check for filters in arguments:
 - `/gmsd:check-todos` → show all
 - `/gmsd:check-todos api` → filter to area:api only
+- `/gmsd:check-todos --state NEXT` → filter to NEXT state
+- `/gmsd:check-todos --priority A` → filter to priority A
 </step>
 
 <step name="list_todos">
@@ -46,16 +53,17 @@ Use the `todos` array from init context (already filtered by area if specified).
 Parse and display as numbered list:
 
 ```
-Pending Todos:
+Active Todos:
 
-1. Add auth token refresh (api, 2d ago)
-2. Fix modal z-index issue (ui, 1d ago)
-3. Refactor database connection pool (database, 5h ago)
+1. [#A] Add auth token refresh (api, TODO, 2d ago)
+2. [#B] Fix modal z-index issue (ui, NEXT, 1d ago)
+3. [#C] Refactor database pool (database, WAITING, 5h ago)
 
 ---
 
 Reply with a number to view details, or:
 - `/gmsd:check-todos [area]` to filter by area
+- `/gmsd:check-todos --state NEXT` to filter by state
 - `q` to exit
 ```
 
@@ -70,12 +78,14 @@ If invalid: "Invalid selection. Reply with a number (1-[N]) or `q` to exit."
 </step>
 
 <step name="load_context">
-Read the todo file completely. Display:
+The todo's full context is already available from init data (problem, solution, files).
+
+Display:
 
 ```
 ## [title]
 
-**Area:** [area]
+**State:** [state] | **Priority:** [#P] | **Area:** [area]
 **Created:** [date] ([relative time] ago)
 **Files:** [list or "None"]
 
@@ -86,7 +96,7 @@ Read the todo file completely. Display:
 [solution section content]
 ```
 
-If `files` field has entries, read and briefly summarize each.
+If `files` field has entries, read and briefly summarize each referenced file.
 </step>
 
 <step name="check_roadmap">
@@ -105,7 +115,7 @@ Use AskUserQuestion:
 - header: "Action"
 - question: "This todo relates to Phase [N]: [name]. What would you like to do?"
 - options:
-  - "Work on it now" — move to done, start working
+  - "Work on it now" — mark DONE, start working
   - "Add to phase plan" — include when planning Phase [N]
   - "Brainstorm approach" — think through before deciding
   - "Put it back" — return to list
@@ -116,7 +126,7 @@ Use AskUserQuestion:
 - header: "Action"
 - question: "What would you like to do with this todo?"
 - options:
-  - "Work on it now" — move to done, start working
+  - "Work on it now" — mark DONE, start working
   - "Create a phase" — /gmsd:add-phase with this scope
   - "Brainstorm approach" — think through before deciding
   - "Put it back" — return to list
@@ -125,19 +135,19 @@ Use AskUserQuestion:
 <step name="execute_action">
 **Work on it now:**
 ```bash
-mv ".planning/todos/pending/[filename]" ".planning/todos/done/"
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs todo complete "[title]"
 ```
 Update STATE.org todo count. Present problem/solution context. Begin work or ask how to proceed.
 
 **Add to phase plan:**
-Note todo reference in phase planning notes. Keep in pending. Return to list or exit.
+Note todo reference in phase planning notes. Keep as active. Return to list or exit.
 
 **Create a phase:**
 Display: `/gmsd:add-phase [description from todo]`
-Keep in pending. User runs command in fresh context.
+Keep as active. User runs command in fresh context.
 
 **Brainstorm approach:**
-Keep in pending. Start discussion about problem and approaches.
+Keep as active. Start discussion about problem and approaches.
 
 **Put it back:**
 Return to list_todos step.
@@ -150,27 +160,26 @@ Re-run `init todos` to get updated count, then update STATE.org "### Pending Tod
 </step>
 
 <step name="git_commit">
-If todo was moved to done/, commit the change:
+If todo was completed, commit the change:
 
 ```bash
-git rm --cached .planning/todos/pending/[filename] 2>/dev/null || true
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: start work on todo - [title]" --files .planning/todos/done/[filename] .planning/STATE.org
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: complete todo - [title]" --files .planning/TODOS.org .planning/STATE.org
 ```
 
 Tool respects `commit_docs` config and gitignore automatically.
 
-Confirm: "Committed: docs: start work on todo - [title]"
+Confirm: "Committed: docs: complete todo - [title]"
 </step>
 
 </process>
 
 <success_criteria>
-- [ ] All pending todos listed with title, area, age
-- [ ] Area filter applied if specified
-- [ ] Selected todo's full context loaded
+- [ ] All active todos listed with title, state, priority, area, age
+- [ ] Filters applied if specified (area, state, priority)
+- [ ] Selected todo's full context loaded from init data
 - [ ] Roadmap context checked for phase match
 - [ ] Appropriate actions offered
 - [ ] Selected action executed
 - [ ] STATE.org updated if todo count changed
-- [ ] Changes committed to git (if todo moved to done/)
+- [ ] Changes committed to git (if todo completed)
 </success_criteria>

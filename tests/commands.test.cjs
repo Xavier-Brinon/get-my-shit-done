@@ -501,7 +501,7 @@ describe('progress command', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// todo complete command
+// todo complete command (TODOS.org-based)
 // ─────────────────────────────────────────────────────────────────────────────
 
 
@@ -516,42 +516,31 @@ describe('todo complete command', () => {
     cleanup(tmpDir);
   });
 
-  test('moves todo from pending to completed', () => {
-    const pendingDir = path.join(tmpDir, '.planning', 'todos', 'pending');
-    fs.mkdirSync(pendingDir, { recursive: true });
-    fs.writeFileSync(
-      path.join(pendingDir, 'add-dark-mode.md'),
-      `title: Add dark mode\narea: ui\ncreated: 2025-01-01\n`
-    );
+  test('marks todo as DONE in TODOS.org', () => {
+    // Create todo first
+    runGsdTools('todo add --title "Add dark mode" --area ui --priority B', tmpDir);
 
-    const result = runGsdTools('todo complete add-dark-mode.md', tmpDir);
+    const result = runGsdTools('todo complete "Add dark mode"', tmpDir);
     assert.ok(result.success, `Command failed: ${result.error}`);
 
     const output = JSON.parse(result.output);
     assert.strictEqual(output.completed, true);
 
-    // Verify moved
-    assert.ok(
-      !fs.existsSync(path.join(tmpDir, '.planning', 'todos', 'pending', 'add-dark-mode.md')),
-      'should be removed from pending'
-    );
-    assert.ok(
-      fs.existsSync(path.join(tmpDir, '.planning', 'todos', 'completed', 'add-dark-mode.md')),
-      'should be in completed'
-    );
-
-    // Verify completion timestamp added
+    // Verify TODOS.org content
     const content = fs.readFileSync(
-      path.join(tmpDir, '.planning', 'todos', 'completed', 'add-dark-mode.md'),
+      path.join(tmpDir, '.planning', 'TODOS.org'),
       'utf-8'
     );
-    assert.ok(content.startsWith('completed:'), 'should have completed timestamp');
+    const archiveSection = content.slice(content.indexOf('* Archive'));
+    assert.ok(archiveSection.includes('** DONE'), 'should be DONE in Archive');
+    assert.ok(archiveSection.includes('CLOSED:'), 'should have CLOSED timestamp');
   });
 
   test('fails for nonexistent todo', () => {
-    const result = runGsdTools('todo complete nonexistent.md', tmpDir);
+    runGsdTools('todo add --title "Some task"', tmpDir);
+    const result = runGsdTools('todo complete "nonexistent"', tmpDir);
     assert.ok(!result.success, 'should fail');
-    assert.ok(result.error.includes('not found'), 'error mentions not found');
+    assert.ok(result.error.includes('No active todo'), 'error mentions not found');
   });
 });
 
