@@ -27,13 +27,22 @@ If `todo_count` is 0:
 No active todos.
 
 Todos are captured during work sessions with /gmsd:add-todo.
+```
 
----
-
+If `.planning/STATE.org` exists (active project):
+```
 Would you like to:
 
 1. Continue with current phase (/gmsd:progress)
 2. Add a todo now (/gmsd:add-todo)
+```
+
+If `.planning/STATE.org` does NOT exist (no project yet):
+```
+Would you like to:
+
+1. Add a todo now (/gmsd:add-todo)
+2. Start a project (/gmsd:new-project)
 ```
 
 Exit.
@@ -166,8 +175,14 @@ Re-run `init todos` to get updated count, then update STATE.org "### Pending Tod
 <step name="git_commit">
 If todo was completed, commit the change:
 
+If `.planning/STATE.org` exists:
 ```bash
 node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: complete todo - [title]" --files .planning/TODOS.org .planning/STATE.org
+```
+
+If `.planning/STATE.org` does NOT exist:
+```bash
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: complete todo - [title]" --files .planning/TODOS.org
 ```
 
 Tool respects `commit_docs` config and gitignore automatically.
