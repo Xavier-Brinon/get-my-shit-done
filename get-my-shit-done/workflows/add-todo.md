@@ -155,5 +155,5 @@ Would you like to:
 - [ ] No duplicates (checked and resolved)
 - [ ] Area consistent with existing todos
 - [ ] STATE.org updated if exists
-- [ ] TODOS.org and state committed to git
+- [ ] TODOS.org committed to git (and STATE.org if it exists)
 </success_criteria>
