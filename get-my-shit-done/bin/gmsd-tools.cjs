@@ -59,7 +59,19 @@
  *   progress [json|table|bar]          Render progress in various formats
  *
  * Todos:
- *   todo complete <filename>           Move todo from pending to completed
+ *   todo add --title <t> [--area <a>]  Add todo to TODOS.org
+ *     [--priority A|B|C] [--state s]
+ *     [--problem <p>] [--solution <s>]
+ *     [--files <f>] [--scheduled <d>]
+ *   todo complete <title>              Mark todo DONE, move to Archive
+ *     [--reason "..."]
+ *   todo cancel <title>               Mark todo CANCELLED, move to Archive
+ *     [--reason "..."]
+ *   todo update <title>                Update todo state/priority
+ *     [--state <s>] [--priority A|B|C]
+ *     [--reason "..."]
+ *   todo migrate                       Convert old file-per-todo to TODOS.org
+ *   todo global-register               Register project in ~/TODOS.org
  *
  * Scaffolding:
  *   scaffold context --phase <N>       Create CONTEXT.md template
@@ -139,6 +151,17 @@ const milestone = require('./lib/milestone.cjs');
 const commands = require('./lib/commands.cjs');
 const init = require('./lib/init.cjs');
 const frontmatter = require('./lib/frontmatter.cjs');
+const todos = require('./lib/todos.cjs');
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+/** Find the index of the next --flag after startIdx, or args.length if none */
+function findNextFlag(args, startIdx) {
+  for (let i = startIdx; i < args.length; i++) {
+    if (args[i].startsWith('--')) return i;
+  }
+  return args.length;
+}
 
 // ─── CLI Router ───────────────────────────────────────────────────────────────
 
@@ -486,10 +509,88 @@ async function main() {
 
     case 'todo': {
       const subcommand = args[1];
-      if (subcommand === 'complete') {
-        commands.cmdTodoComplete(cwd, args[2], raw);
-      } else {
-        error('Unknown todo subcommand. Available: complete');
+      switch (subcommand) {
+        case 'add': {
+          const titleIdx = args.indexOf('--title');
+          const areaIdx = args.indexOf('--area');
+          const priorityIdx = args.indexOf('--priority');
+          const stateIdx = args.indexOf('--state');
+          const problemIdx = args.indexOf('--problem');
+          const solutionIdx = args.indexOf('--solution');
+          const filesIdx = args.indexOf('--files');
+          const scheduledIdx = args.indexOf('--scheduled');
+          const deadlineIdx = args.indexOf('--deadline');
+          const params = {
+            title: titleIdx !== -1 ? args.slice(titleIdx + 1, findNextFlag(args, titleIdx + 1)).join(' ') : null,
+            area: areaIdx !== -1 ? args[areaIdx + 1] : null,
+            priority: priorityIdx !== -1 ? args[priorityIdx + 1] : null,
+            state: stateIdx !== -1 ? args[stateIdx + 1] : null,
+            problem: problemIdx !== -1 ? args.slice(problemIdx + 1, findNextFlag(args, problemIdx + 1)).join(' ') : null,
+            solution: solutionIdx !== -1 ? args.slice(solutionIdx + 1, findNextFlag(args, solutionIdx + 1)).join(' ') : null,
+            files: filesIdx !== -1 ? args[filesIdx + 1] : null,
+            scheduled: scheduledIdx !== -1 ? args[scheduledIdx + 1] : null,
+            deadline: deadlineIdx !== -1 ? args[deadlineIdx + 1] : null,
+          };
+          todos.cmdTodoAdd(cwd, params, raw);
+          break;
+        }
+        case 'complete': {
+          // Extract identifier (words before --flags) and --reason
+          const completeIdParts = [];
+          let ci = 2;
+          while (ci < args.length && !args[ci].startsWith('--')) {
+            completeIdParts.push(args[ci]);
+            ci++;
+          }
+          const completeReasonIdx = args.indexOf('--reason');
+          const completeReason = completeReasonIdx !== -1
+            ? args.slice(completeReasonIdx + 1, findNextFlag(args, completeReasonIdx + 1)).join(' ')
+            : null;
+          todos.cmdTodoComplete(cwd, completeIdParts.join(' '), completeReason, raw);
+          break;
+        }
+        case 'cancel': {
+          const cancelIdParts = [];
+          let ki = 2;
+          while (ki < args.length && !args[ki].startsWith('--')) {
+            cancelIdParts.push(args[ki]);
+            ki++;
+          }
+          const cancelReasonIdx = args.indexOf('--reason');
+          const cancelReason = cancelReasonIdx !== -1
+            ? args.slice(cancelReasonIdx + 1, findNextFlag(args, cancelReasonIdx + 1)).join(' ')
+            : null;
+          todos.cmdTodoCancel(cwd, cancelIdParts.join(' '), cancelReason, raw);
+          break;
+        }
+        case 'update': {
+          const identifier = [];
+          let j = 2;
+          while (j < args.length && !args[j].startsWith('--')) {
+            identifier.push(args[j]);
+            j++;
+          }
+          const updateStateIdx = args.indexOf('--state');
+          const updatePriorityIdx = args.indexOf('--priority');
+          const updateReasonIdx = args.indexOf('--reason');
+          const updates = {
+            state: updateStateIdx !== -1 ? args[updateStateIdx + 1] : null,
+            priority: updatePriorityIdx !== -1 ? args[updatePriorityIdx + 1] : null,
+            reason: updateReasonIdx !== -1
+              ? args.slice(updateReasonIdx + 1, findNextFlag(args, updateReasonIdx + 1)).join(' ')
+              : null,
+          };
+          todos.cmdTodoUpdate(cwd, identifier.join(' '), updates, raw);
+          break;
+        }
+        case 'migrate':
+          todos.cmdTodoMigrate(cwd, raw);
+          break;
+        case 'global-register':
+          todos.cmdTodoGlobalRegister(cwd, raw);
+          break;
+        default:
+          error('Unknown todo subcommand. Available: add, complete, cancel, update, migrate, global-register');
       }
       break;
     }

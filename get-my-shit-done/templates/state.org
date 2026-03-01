@@ -14,7 +14,7 @@ Template for ~.planning/STATE.org~ — the project's living memory.
 
 -----
 
-** File Template
+** File template
 
 #+begin_src org
 * Project State
@@ -66,7 +66,7 @@ Recent decisions affecting current work:
 
 *** Pending Todos
 
-[From .planning/todos/pending/ — ideas captured during sessions]
+[From .planning/TODOS.org * Active section — ideas captured during sessions]
 
 None yet.
 
@@ -124,7 +124,7 @@ STATE.org is the project's short-term memory spanning all phases and sessions.
 
 <sections>
 
-*** Project Reference
+*** Project reference
 Points to PROJECT.org for full context. Includes:
 - Core value (the ONE thing that matters)
 - Current focus (which phase)
@@ -132,7 +132,7 @@ Points to PROJECT.org for full context. Includes:
 
 Claude reads PROJECT.org directly for requirements, constraints, and decisions.
 
-*** Current Position
+*** Current position
 Where we are right now:
 - Phase X of Y — which phase
 - Plan A of B — which plan within phase
@@ -142,7 +142,7 @@ Where we are right now:
 
 Progress calculation: (completed plans) / (total plans across all phases) × 100%
 
-*** Performance Metrics
+*** Performance metrics
 Track velocity to understand execution patterns:
 - Total plans completed
 - Average duration per plan
@@ -151,21 +151,21 @@ Track velocity to understand execution patterns:
 
 Updated after each plan completion.
 
-*** Accumulated Context
+*** Accumulated context
 
 *Decisions:* Reference to PROJECT.org Key Decisions table, plus recent decisions summary for quick access. Full decision log lives in PROJECT.org.
 
 *Pending Todos:* Ideas captured via /gmsd:add-todo
 - Count of pending todos
-- Reference to .planning/todos/pending/
-- Brief list if few, count if many (e.g., "5 pending todos — see /gmsd:check-todos")
+- Reference to .planning/TODOS.org * Active section
+- Brief list if few, count if many (e.g., "5 active todos — see /gmsd:check-todos")
 
 *Blockers/Concerns:* From "Next Phase Readiness" sections
 - Issues that affect future work
 - Prefix with originating phase
 - Cleared when addressed
 
-*** Session Continuity
+*** Session continuity
 Enables instant resumption:
 - When was last session
 - What was last completed

@@ -9,6 +9,11 @@ Format follows [[https://keepachangelog.com/en/1.1.0/][Keep a Changelog]].
 * [Unreleased] - GMSD Fork
 
 ** Added
+- Single-file todo system: ~.planning/TODOS.org~ with ~* Active~ / ~* Archive~ sections replaces file-per-todo ~todos/pending/~ and ~todos/done/~
+- ~:LOGBOOK:~ drawer for TODO state change tracking with timestamps and optional reasons
+- ~todo cancel~ CLI command: marks todo as CANCELLED, moves to Archive with ~:LOGBOOK:~ entry
+- ~--reason~ flag on ~todo complete~, ~todo cancel~, and ~todo update~ for annotating state changes
+- ~todo migrate~ CLI command: auto-converts old file-per-todo format to ~TODOS.org~
 - Worktree-aware branching: ~execute-phase~ detects worktrees and non-main branches, skips branch creation
 - ~complete-milestone~ discovers both ~gmsd/phase-*~ and ~worktree-phase-*~ branches
 - Recommended workflow section in README: worktrees + phase branching loop
@@ -23,6 +28,8 @@ Format follows [[https://keepachangelog.com/en/1.1.0/][Keep a Changelog]].
 - Converted README, CHANGELOG, and USER-GUIDE to org-mode
 
 ** Changed
+- Todo documentation updated across help, README, USER-GUIDE, state template, and command files to reflect single-file ~TODOS.org~ system
+- ~/gmsd:check-todos~ workflow now supports ~--state~ and ~--priority~ filters, cancel action with reason
 - All 35 template files converted from ~.md~ to ~.org~ with full org syntax
 - All 7 lib files updated to use ~FILES~ / ~DOC_EXT~ constants from ~core.cjs~
 - All 7 test files updated: YAML ~---~ → ~:PROPERTIES:~ / ~:END:~, ~.md~ → ~.org~

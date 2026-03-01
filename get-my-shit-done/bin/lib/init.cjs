@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const { loadConfig, resolveModelInternal, findPhaseInternal, getRoadmapPhaseInternal, pathExistsInternal, generateSlugInternal, getMilestoneInfo, normalizePhaseName, output, error, FILES, DOC_EXT } = require('./core.cjs');
+const todos = require('./todos.cjs');
 
 function cmdInitExecutePhase(cwd, phase, raw) {
   if (!phase) {
@@ -443,62 +444,7 @@ function cmdInitPhaseOp(cwd, phase, raw) {
 }
 
 function cmdInitTodos(cwd, area, raw) {
-  const config = loadConfig(cwd);
-  const now = new Date();
-
-  // List todos (reuse existing logic)
-  const pendingDir = path.join(cwd, '.planning', 'todos', 'pending');
-  let count = 0;
-  const todos = [];
-
-  try {
-    const files = fs.readdirSync(pendingDir).filter(f => f.endsWith(DOC_EXT));
-    for (const file of files) {
-      try {
-        const content = fs.readFileSync(path.join(pendingDir, file), 'utf-8');
-        const createdMatch = content.match(/^created:\s*(.+)$/m);
-        const titleMatch = content.match(/^title:\s*(.+)$/m);
-        const areaMatch = content.match(/^area:\s*(.+)$/m);
-        const todoArea = areaMatch ? areaMatch[1].trim() : 'general';
-
-        if (area && todoArea !== area) continue;
-
-        count++;
-        todos.push({
-          file,
-          created: createdMatch ? createdMatch[1].trim() : 'unknown',
-          title: titleMatch ? titleMatch[1].trim() : 'Untitled',
-          area: todoArea,
-          path: path.join('.planning', 'todos', 'pending', file),
-        });
-      } catch {}
-    }
-  } catch {}
-
-  const result = {
-    // Config
-    commit_docs: config.commit_docs,
-
-    // Timestamps
-    date: now.toISOString().split('T')[0],
-    timestamp: now.toISOString(),
-
-    // Todo inventory
-    todo_count: count,
-    todos,
-    area_filter: area || null,
-
-    // Paths
-    pending_dir: '.planning/todos/pending',
-    completed_dir: '.planning/todos/completed',
-
-    // File existence
-    planning_exists: pathExistsInternal(cwd, '.planning'),
-    todos_dir_exists: pathExistsInternal(cwd, '.planning/todos'),
-    pending_dir_exists: pathExistsInternal(cwd, '.planning/todos/pending'),
-  };
-
-  output(result, raw);
+  todos.cmdTodoInitContext(cwd, area, raw);
 }
 
 function cmdInitMilestoneOp(cwd, raw) {

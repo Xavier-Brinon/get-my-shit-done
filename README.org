@@ -9,13 +9,13 @@
 
 -----
 
-#+begin_quote
+#+BEGIN_QUOTE
 *This is a personal fork.* The upstream project [[https://github.com/glittercowboy/get-shit-done][GSD]] by [[https://github.com/glittercowboy][@glittercowboy]] is the original — go there for the canonical version, community, and npm package. This fork reshapes GSD to fit a specific workflow: Emacs/Org-mode as the documentation format, Architecture Decision Records baked into the planning process, and a "learn software architecture" lens on top of the existing spec-driven development system.
-#+end_quote
+#+END_QUOTE
 
 -----
 
-** What Changed From Upstream GSD
+** What changed from upstream GSD
 
 | Area                     | Upstream GSD                                     | This Fork (GMSD)                                |
 |--------------------------+--------------------------------------------------+-------------------------------------------------|
@@ -58,13 +58,13 @@ Everything below is adapted from the upstream GSD project. For the original docu
 
 -----
 
-** Who This Is For
+** Who this is for
 
 People who want to describe what they want and have it built correctly — without pretending they're running a 50-person engineering org.
 
 -----
 
-** Getting Started
+** Getting started
 
 #+begin_src bash
 npx get-my-shit-done-cc@latest
@@ -81,7 +81,7 @@ Verify with:
 
 *NOTE:* Codex installation uses skills (~skills/gmsd-*/SKILL.md~) rather than custom prompts.
 
-*** Staying Updated
+*** Staying updated
 
 GMSD evolves fast. Update periodically:
 
@@ -89,7 +89,7 @@ GMSD evolves fast. Update periodically:
 npx get-my-shit-done-cc@latest
 #+end_src
 
-*** Non-interactive Install (Docker, CI, Scripts)
+*** Non-interactive install (Docker, CI, scripts)
 
 #+begin_src bash
 # Claude Code
@@ -113,7 +113,7 @@ npx get-my-shit-done-cc --all --global      # Install to all directories
 Use ~--global~ (~-g~) or ~--local~ (~-l~) to skip the location prompt.
 Use ~--claude~, ~--opencode~, ~--gemini~, ~--codex~, or ~--all~ to skip the runtime prompt.
 
-*** Development Installation
+*** Development installation
 
 Clone the repository and run the installer locally:
 
@@ -125,7 +125,7 @@ node bin/install.js --claude --local
 
 Installs to ~./.claude/~ for testing modifications before contributing.
 
-*** Recommended: Skip Permissions Mode
+*** Recommended: skip permissions mode
 
 GMSD is designed for frictionless automation. Run Claude Code with:
 
@@ -135,7 +135,7 @@ claude --dangerously-skip-permissions
 
 *TIP:* This is how GMSD is intended to be used — stopping to approve ~date~ and ~git commit~ 50 times defeats the purpose.
 
-*** Alternative: Granular Permissions
+*** Alternative: granular permissions
 
 If you prefer not to use that flag, add this to your project's ~.claude/settings.json~:
 
@@ -167,7 +167,7 @@ If you prefer not to use that flag, add this to your project's ~.claude/settings
 
 -----
 
-** Recommended Workflow: Worktrees + Phase Branching
+** Recommended workflow: worktrees + phase branching
 
 GMSD is designed to work with Claude Code's ~--worktree~ (~-w~) flag. Each phase runs in an isolated worktree with its own branch — no cross-contamination between phases, clean PRs, easy rollback.
 
@@ -185,9 +185,9 @@ Set ~branching_strategy~ to ~phase~ in your project config:
 
 Or use ~/gmsd:settings~ during project setup.
 
-*** The Loop
+*** The loop
 
-#+begin_example
+#+BEGIN_EXAMPLE
 # 1. Check where you are
 claude
 > /gmsd:progress
@@ -213,9 +213,9 @@ claude -w phase-02-classification-and-audit
 # 7. After merging, start the next phase in a new worktree
 claude -w phase-03-gap-filling
 > /gmsd:plan-phase 3
-#+end_example
+#+END_EXAMPLE
 
-*** Why Worktrees
+*** Why worktrees
 
 | Benefit | How |
 |---------+-----|
@@ -225,7 +225,7 @@ claude -w phase-03-gap-filling
 | *Safe rollback* | Phase went wrong? Delete the worktree and branch, main is untouched |
 | *Session continuity* | ~/gmsd:pause-work~ + ~/gmsd:resume-work~ persist context across sessions |
 
-*** How It Works Under the Hood
+*** How it works under the hood
 
 When you run ~claude -w phase-02-classification-and-audit~, Claude Code creates:
 - A worktree at ~.claude/worktrees/phase-02-classification-and-audit/~
@@ -237,17 +237,17 @@ When you're ready to complete the milestone, ~/gmsd:complete-milestone~ discover
 
 -----
 
-** How It Works
+** How it works
 
-#+begin_quote
+#+BEGIN_QUOTE
 *Already have code?* Run ~/gmsd:map-codebase~ first. It spawns parallel agents to analyze your stack, architecture, conventions, and concerns. Then ~/gmsd:new-project~ knows your codebase — questions focus on what you're adding, and planning automatically loads your patterns.
-#+end_quote
+#+END_QUOTE
 
-*** 1. Initialize Project
+*** 1. Initialize project
 
-#+begin_example
+#+BEGIN_EXAMPLE
 /gmsd:new-project
-#+end_example
+#+END_EXAMPLE
 
 One command, one flow. The system:
 
@@ -262,11 +262,11 @@ You approve the roadmap. Now you're ready to build.
 
 -----
 
-*** 2. Discuss Phase
+*** 2. Discuss phase
 
-#+begin_example
+#+BEGIN_EXAMPLE
 /gmsd:discuss-phase 1
-#+end_example
+#+END_EXAMPLE
 
 *This is where you shape the implementation.*
 
@@ -290,11 +290,11 @@ The deeper you go here, the more the system builds what you actually want. Skip 
 
 -----
 
-*** 3. Plan Phase
+*** 3. Plan phase
 
-#+begin_example
+#+BEGIN_EXAMPLE
 /gmsd:plan-phase 1
-#+end_example
+#+END_EXAMPLE
 
 The system:
 
@@ -308,11 +308,11 @@ Each plan is small enough to execute in a fresh context window. No degradation, 
 
 -----
 
-*** 4. Execute Phase
+*** 4. Execute phase
 
-#+begin_example
+#+BEGIN_EXAMPLE
 /gmsd:execute-phase 1
-#+end_example
+#+END_EXAMPLE
 
 The system:
 
@@ -327,7 +327,7 @@ Walk away, come back to completed work with clean git history.
 
 Plans are grouped into "waves" based on dependencies. Within each wave, plans run in parallel. Waves run sequentially.
 
-#+begin_example
+#+BEGIN_EXAMPLE
 ┌─────────────────────────────────────────────────────────────────────┐
 │  PHASE EXECUTION                                                     │
 ├─────────────────────────────────────────────────────────────────────┤
@@ -346,7 +346,7 @@ Plans are grouped into "waves" based on dependencies. Within each wave, plans ru
 │                          Plan 05 needs Plans 03 + 04        │       │
 │                                                                      │
 └─────────────────────────────────────────────────────────────────────┘
-#+end_example
+#+END_EXAMPLE
 
 *Why waves matter:*
 - Independent plans → Same wave → Run in parallel
@@ -359,11 +359,11 @@ This is why "vertical slices" (Plan 01: User feature end-to-end) parallelize bet
 
 -----
 
-*** 5. Verify Work
+*** 5. Verify work
 
-#+begin_example
+#+BEGIN_EXAMPLE
 /gmsd:verify-work 1
-#+end_example
+#+END_EXAMPLE
 
 *This is where you confirm it actually works.*
 
@@ -382,9 +382,9 @@ If everything passes, you move on. If something's broken, you don't manually deb
 
 -----
 
-*** 6. Repeat → Complete → Next Milestone
+*** 6. Repeat → complete → next milestone
 
-#+begin_example
+#+BEGIN_EXAMPLE
 /gmsd:discuss-phase 2
 /gmsd:plan-phase 2
 /gmsd:execute-phase 2
@@ -392,7 +392,7 @@ If everything passes, you move on. If something's broken, you don't manually deb
 ...
 /gmsd:complete-milestone
 /gmsd:new-milestone
-#+end_example
+#+END_EXAMPLE
 
 Loop *discuss → plan → execute → verify* until milestone complete.
 
@@ -404,11 +404,11 @@ Then ~/gmsd:new-milestone~ starts the next version — same flow as ~new-project
 
 -----
 
-*** Quick Mode
+*** Quick mode
 
-#+begin_example
+#+BEGIN_EXAMPLE
 /gmsd:quick
-#+end_example
+#+END_EXAMPLE
 
 *For ad-hoc tasks that don't need full planning.*
 
@@ -420,18 +420,18 @@ Quick mode gives you GMSD guarantees (atomic commits, state tracking) with a fas
 
 Use for: bug fixes, small features, config changes, one-off tasks.
 
-#+begin_example
+#+BEGIN_EXAMPLE
 /gmsd:quick
 > What do you want to do? "Add dark mode toggle to settings"
-#+end_example
+#+END_EXAMPLE
 
 *Creates:* ~.planning/quick/001-add-dark-mode-toggle/PLAN.org~, ~SUMMARY.org~
 
 -----
 
-** Why It Works
+** Why it works
 
-*** Context Engineering
+*** Context engineering
 
 Claude Code is incredibly powerful /if/ you give it the context it needs. Most people don't.
 
@@ -446,11 +446,11 @@ GMSD handles it for you:
 | ~STATE.org~ | Decisions, blockers, position — memory across sessions |
 | ~PLAN.org~ | Atomic task with XML structure, verification steps |
 | ~SUMMARY.org~ | What happened, what changed, committed to history |
-| ~todos/~ | Captured ideas and tasks for later work |
+| ~TODOS.org~ | Captured ideas and tasks (~* Active~ / ~* Archive~ sections) |
 
 Size limits based on where Claude's quality degrades. Stay under, get consistent excellence.
 
-*** XML Prompt Formatting
+*** XML prompt formatting
 
 Every plan is structured XML optimized for Claude:
 
@@ -470,7 +470,7 @@ Every plan is structured XML optimized for Claude:
 
 Precise instructions. No guessing. Verification built in.
 
-*** Multi-Agent Orchestration
+*** Multi-agent orchestration
 
 Every stage uses the same pattern: a thin orchestrator spawns specialized agents, collects results, and routes to the next step.
 
@@ -485,7 +485,7 @@ The orchestrator never does heavy lifting. It spawns agents, waits, integrates r
 
 *The result:* You can run an entire phase — deep research, multiple plans created and verified, thousands of lines of code written across parallel executors, automated verification against goals — and your main context window stays at 30-40%. The work happens in fresh subagent contexts. Your session stays fast and responsive.
 
-*** Atomic Git Commits
+*** Atomic git commits
 
 Each task gets its own commit immediately after completion:
 
@@ -500,7 +500,7 @@ lmn012o feat(08-02): create registration endpoint
 
 Every commit is surgical, traceable, and meaningful.
 
-*** Modular by Design
+*** Modular by design
 
 - Add phases to current milestone
 - Insert urgent work between phases
@@ -513,7 +513,7 @@ You're never locked in. The system adapts.
 
 ** Commands
 
-*** Core Workflow
+*** Core workflow
 
 | Command | What it does |
 |---------+--------------|
@@ -541,7 +541,7 @@ You're never locked in. The system adapts.
 |---------+--------------|
 | ~/gmsd:map-codebase~ | Analyze existing codebase before new-project |
 
-*** Phase Management
+*** Phase management
 
 | Command | What it does |
 |---------+--------------|
@@ -578,14 +578,14 @@ You're never locked in. The system adapts.
 
 GMSD stores project settings in ~.planning/config.json~. Configure during ~/gmsd:new-project~ or update later with ~/gmsd:settings~. For the full config schema, workflow toggles, git branching options, and per-agent model breakdown, see the [[file:docs/USER-GUIDE.org][User Guide]].
 
-*** Core Settings
+*** Core settings
 
 | Setting | Options | Default | What it controls |
 |---------+---------+---------+------------------|
 | ~mode~ | ~yolo~, ~interactive~ | ~interactive~ | Auto-approve vs confirm at each step |
 | ~depth~ | ~quick~, ~standard~, ~comprehensive~ | ~standard~ | Planning thoroughness (phases × plans) |
 
-*** Model Profiles
+*** Model profiles
 
 Control which Claude model each agent uses. Balance quality vs token spend.
 
@@ -597,13 +597,13 @@ Control which Claude model each agent uses. Balance quality vs token spend.
 
 Switch profiles:
 
-#+begin_example
+#+BEGIN_EXAMPLE
 /gmsd:set-profile budget
-#+end_example
+#+END_EXAMPLE
 
 Or configure via ~/gmsd:settings~.
 
-*** Workflow Agents
+*** Workflow agents
 
 These spawn additional agents during planning/execution. They improve quality but add tokens and time.
 
@@ -625,7 +625,7 @@ Use ~/gmsd:settings~ to toggle these, or override per-invocation:
 | ~parallelization.enabled~ | ~true~ | Run independent plans simultaneously |
 | ~planning.commit_docs~ | ~true~ | Track ~.planning/~ in git |
 
-*** Git Branching
+*** Git branching
 
 Control how GMSD handles branches during execution.
 
@@ -646,7 +646,7 @@ At milestone completion, GMSD offers squash merge (recommended) or merge with hi
 
 ** Security
 
-*** Protecting Sensitive Files
+*** Protecting sensitive files
 
 GMSD's codebase mapping and analysis commands read files to understand your project. *Protect files containing secrets* by adding them to Claude Code's deny list:
 
@@ -719,7 +719,7 @@ This removes all GMSD commands, agents, hooks, and settings while preserving you
 
 -----
 
-** Community Ports
+** Community ports
 
 OpenCode, Gemini CLI, and Codex are now natively supported via ~npx get-my-shit-done-cc~.
 
@@ -732,7 +732,7 @@ These community ports pioneered multi-runtime support:
 
 -----
 
-** Star History
+** Star history
 
 #+begin_html
 <a href="https://star-history.com/#Xavier-Brinon/get-my-shit-done&Date">

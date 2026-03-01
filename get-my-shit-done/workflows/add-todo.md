@@ -15,12 +15,7 @@ Load todo context:
 INIT=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs init todos)
 ```
 
-Extract from init JSON: `commit_docs`, `date`, `timestamp`, `todo_count`, `todos`, `pending_dir`, `todos_dir_exists`.
-
-Ensure directories exist:
-```bash
-mkdir -p .planning/todos/pending .planning/todos/done
-```
+Extract from init JSON: `date`, `timestamp`, `todo_count`, `todos`, `todos_file`, `todos_file_exists`.
 
 Note existing areas from the todos array for consistency in infer_area step.
 </step>
@@ -60,14 +55,10 @@ Use existing area from step 2 if similar match exists.
 </step>
 
 <step name="check_duplicates">
-```bash
-# Search for key words from title in existing todos
-grep -l -i "[key words from title]" .planning/todos/pending/*.md 2>/dev/null
-```
+Check init context `todos` array for matching titles (case-insensitive substring match).
 
 If potential duplicate found:
-1. Read the existing todo
-2. Compare scope
+1. Compare scope with existing todo's problem/solution
 
 If overlapping, use AskUserQuestion:
 - header: "Duplicate?"
@@ -78,47 +69,37 @@ If overlapping, use AskUserQuestion:
   - "Add anyway" — create as separate todo
 </step>
 
-<step name="create_file">
+<step name="create_todo">
 Use values from init context: `timestamp` and `date` are already available.
 
-Generate slug for the title:
 ```bash
-slug=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs generate-slug "$title" --raw)
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs todo add \
+  --title "$title" \
+  --area "$area" \
+  --priority B \
+  --problem "$problem" \
+  --solution "$solution" \
+  --files "$files"
 ```
 
-Write to `.planning/todos/pending/${date}-${slug}.md`:
-
-```markdown
----
-created: [timestamp]
-title: [title]
-area: [area]
-files:
-  - [file:lines]
----
-
-## Problem
-
-[problem description - enough context for future Claude to understand weeks later]
-
-## Solution
-
-[approach hints or "TBD"]
-```
+Priority defaults:
+- `A` — blocking current work or critical bug
+- `B` — important but not blocking (default)
+- `C` — nice-to-have or future improvement
 </step>
 
 <step name="update_state">
 If `.planning/STATE.org` exists:
 
-1. Use `todo_count` from init context (or re-run `init todos` if count changed)
+1. Re-run `init todos` to get updated count
 2. Update "### Pending Todos" under "## Accumulated Context"
 </step>
 
 <step name="git_commit">
-Commit the todo and any updated state:
+Commit the todo file and any updated state:
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: capture todo - [title]" --files .planning/todos/pending/[filename] .planning/STATE.org
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: capture todo - [title]" --files .planning/TODOS.org .planning/STATE.org
 ```
 
 Tool respects `commit_docs` config and gitignore automatically.
@@ -128,10 +109,10 @@ Confirm: "Committed: docs: capture todo - [title]"
 
 <step name="confirm">
 ```
-Todo saved: .planning/todos/pending/[filename]
+Todo saved to .planning/TODOS.org
 
   [title]
-  Area: [area]
+  Area: [area] | Priority: [#P]
   Files: [count] referenced
 
 ---
@@ -147,11 +128,12 @@ Would you like to:
 </process>
 
 <success_criteria>
-- [ ] Directory structure exists
-- [ ] Todo file created with valid frontmatter
+- [ ] TODOS.org exists with valid org structure (* Active / * Archive sections)
+- [ ] Todo entry added under * Active with correct state, priority, area tag
+- [ ] :PROPERTIES: drawer has :created: and :files: (if any)
 - [ ] Problem section has enough context for future Claude
 - [ ] No duplicates (checked and resolved)
 - [ ] Area consistent with existing todos
 - [ ] STATE.org updated if exists
-- [ ] Todo and state committed to git
+- [ ] TODOS.org and state committed to git
 </success_criteria>

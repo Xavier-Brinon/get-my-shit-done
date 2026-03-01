@@ -242,7 +242,7 @@ Based on user selection, route to appropriate workflow:
   ---
   ```
 - **Transition** → ./transition.md
-- **Check todos** → Read .planning/todos/pending/, present summary
+- **Check todos** → Read .planning/TODOS.org, present summary
 - **Review alignment** → Read PROJECT.org, compare to current state
 - **Something else** → Ask what they need
 </step>
@@ -273,7 +273,7 @@ If STATE.org is missing but other artifacts exist:
 1. Read PROJECT.org → Extract "What This Is" and Core Value
 2. Read ROADMAP.org → Determine phases, find current position
 3. Scan \*-SUMMARY.org files → Extract decisions, concerns
-4. Count pending todos in .planning/todos/pending/
+4. Count active todos in .planning/TODOS.org
 5. Check for .continue-here files → Session continuity
 
 Reconstruct and write STATE.org, then proceed normally.
