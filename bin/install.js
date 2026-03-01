@@ -1722,9 +1722,12 @@ function install(isGlobal, runtime = 'claude') {
     fs.writeFileSync(pkgJsonDest, '{"type":"commonjs"}\n');
     console.log(`  ${green}✓${reset} Wrote package.json (CommonJS mode)`);
 
-    // Copy hooks from dist/ (bundled with dependencies)
+    // Copy hooks — prefer dist/ (bundled builds for npm), fall back to hooks/ (local dev)
     // Template paths for the target runtime (replaces '.claude' with correct config dir)
-    const hooksSrc = path.join(src, 'hooks', 'dist');
+    const hooksDistSrc = path.join(src, 'hooks', 'dist');
+    const hooksFallbackSrc = path.join(src, 'hooks');
+    const hooksSrc = fs.existsSync(hooksDistSrc) ? hooksDistSrc : hooksFallbackSrc;
+    const hooksBundled = hooksSrc === hooksDistSrc;
     if (fs.existsSync(hooksSrc)) {
       const hooksDest = path.join(targetDir, 'hooks');
       fs.mkdirSync(hooksDest, { recursive: true });
@@ -1745,7 +1748,7 @@ function install(isGlobal, runtime = 'claude') {
         }
       }
       if (verifyInstalled(hooksDest, 'hooks')) {
-        console.log(`  ${green}✓${reset} Installed hooks (bundled)`);
+        console.log(`  ${green}✓${reset} Installed hooks (${hooksBundled ? 'bundled' : 'source'})`);
       } else {
         failures.push('hooks');
       }
