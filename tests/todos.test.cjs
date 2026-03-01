@@ -551,7 +551,7 @@ describe('todo list command (via list-todos)', () => {
     assert.strictEqual(output.count, 0);
   });
 
-  test('backward compat: lists from old format with warning', () => {
+  test('errors when old format exists without TODOS.org', () => {
     const pendingDir = path.join(tmpDir, '.planning', 'todos', 'pending');
     fs.mkdirSync(pendingDir, { recursive: true });
     fs.writeFileSync(
@@ -560,11 +560,8 @@ describe('todo list command (via list-todos)', () => {
     );
 
     const result = runGsdTools('list-todos', tmpDir);
-    assert.ok(result.success, `Command failed: ${result.error}`);
-
-    const output = JSON.parse(result.output);
-    assert.strictEqual(output.count, 1);
-    assert.ok(output._migration_warning, 'should include migration warning');
+    assert.ok(!result.success, 'should fail');
+    assert.ok(result.error.includes('todo migrate'), 'error tells user to migrate');
   });
 });
 
@@ -615,16 +612,13 @@ describe('init todos command', () => {
     assert.strictEqual(output.area_filter, 'api');
   });
 
-  test('detects legacy format', () => {
+  test('errors when old format exists without TODOS.org', () => {
     const pendingDir = path.join(tmpDir, '.planning', 'todos', 'pending');
     fs.mkdirSync(pendingDir, { recursive: true });
 
     const result = runGsdTools('init todos', tmpDir);
-    assert.ok(result.success, `Command failed: ${result.error}`);
-
-    const output = JSON.parse(result.output);
-    assert.strictEqual(output.legacy_format, true);
-    assert.ok(output._migration_warning, 'should include migration warning');
+    assert.ok(!result.success, 'should fail');
+    assert.ok(result.error.includes('todo migrate'), 'error tells user to migrate');
   });
 });
 

@@ -385,6 +385,21 @@ function updateEntryPriority(fileContent, entryTitle, newPriority) {
   return lines.join('\n');
 }
 
+// ─── Migration Guard ─────────────────────────────────────────────────────────
+
+/**
+ * Error out if old file-per-todo directories exist without a TODOS.org.
+ * Forces users to run `todo migrate` before using any todo command.
+ */
+function requireMigrationIfLegacy(cwd) {
+  const pendingDir = path.join(cwd, '.planning', 'todos', 'pending');
+  const completedDir = path.join(cwd, '.planning', 'todos', 'completed');
+  const doneDir = path.join(cwd, '.planning', 'todos', 'done');
+  if (fs.existsSync(pendingDir) || fs.existsSync(completedDir) || fs.existsSync(doneDir)) {
+    error(`Old file-per-todo format detected in .planning/todos/. Run 'todo migrate' to convert to TODOS.org.`);
+  }
+}
+
 // ─── Command Layer (I/O) ─────────────────────────────────────────────────────
 
 /**
@@ -446,11 +461,7 @@ function cmdTodoComplete(cwd, identifier, raw) {
   let content = safeReadFile(todosPath);
 
   if (!content) {
-    // Backward compat: check old directory structure
-    const pendingDir = path.join(cwd, '.planning', 'todos', 'pending');
-    if (fs.existsSync(pendingDir)) {
-      error(`TODOS.org not found. Old todo directory exists — run 'todo migrate' first.`);
-    }
+    requireMigrationIfLegacy(cwd);
     error(`TODOS.org not found at ${path.join('.planning', FILES.TODOS)}`);
   }
 
@@ -483,6 +494,7 @@ function cmdTodoUpdate(cwd, identifier, updates, raw) {
   const todosPath = path.join(cwd, '.planning', FILES.TODOS);
   let content = safeReadFile(todosPath);
   if (!content) {
+    requireMigrationIfLegacy(cwd);
     error(`TODOS.org not found at ${path.join('.planning', FILES.TODOS)}`);
   }
 
@@ -517,12 +529,7 @@ function cmdTodoList(cwd, filters, raw) {
   let content = safeReadFile(todosPath);
 
   if (!content) {
-    // Backward compat: check old directory
-    const pendingDir = path.join(cwd, '.planning', 'todos', 'pending');
-    if (fs.existsSync(pendingDir)) {
-      // Fall back to old-style listing with migration warning
-      return cmdTodoListLegacy(cwd, filters, raw);
-    }
+    requireMigrationIfLegacy(cwd);
     output({ count: 0, todos: [] }, raw, '0');
     return;
   }
@@ -557,46 +564,6 @@ function cmdTodoList(cwd, filters, raw) {
 }
 
 /**
- * Legacy listing for old file-per-todo format (with migration warning)
- */
-function cmdTodoListLegacy(cwd, filters, raw) {
-  const pendingDir = path.join(cwd, '.planning', 'todos', 'pending');
-  let count = 0;
-  const todos = [];
-
-  try {
-    const files = fs.readdirSync(pendingDir).filter(f => f.endsWith(DOC_EXT));
-    for (const file of files) {
-      try {
-        const content = fs.readFileSync(path.join(pendingDir, file), 'utf-8');
-        const createdMatch = content.match(/^created:\s*(.+)$/m);
-        const titleMatch = content.match(/^title:\s*(.+)$/m);
-        const areaMatch = content.match(/^area:\s*(.+)$/m);
-        const todoArea = areaMatch ? areaMatch[1].trim() : 'general';
-
-        if (filters.area && todoArea !== filters.area) continue;
-
-        count++;
-        todos.push({
-          file,
-          created: createdMatch ? createdMatch[1].trim() : 'unknown',
-          title: titleMatch ? titleMatch[1].trim() : 'Untitled',
-          area: todoArea,
-          path: path.join('.planning', 'todos', 'pending', file),
-        });
-      } catch {}
-    }
-  } catch {}
-
-  const result = {
-    count,
-    todos,
-    _migration_warning: 'Old file-per-todo format detected. Run "todo migrate" to convert to TODOS.org.',
-  };
-  output(result, raw, count.toString());
-}
-
-/**
  * Init context for todo workflows — replaces cmdInitTodos in init.cjs
  */
 function cmdTodoInitContext(cwd, area, raw) {
@@ -605,9 +572,7 @@ function cmdTodoInitContext(cwd, area, raw) {
   const content = safeReadFile(todosPath);
 
   if (!content) {
-    // Check for old format
-    const pendingDir = path.join(cwd, '.planning', 'todos', 'pending');
-    const legacyExists = fs.existsSync(pendingDir);
+    requireMigrationIfLegacy(cwd);
 
     const result = {
       date: now.toISOString().split('T')[0],
@@ -618,12 +583,7 @@ function cmdTodoInitContext(cwd, area, raw) {
       todos_file: path.join('.planning', FILES.TODOS),
       todos_file_exists: false,
       planning_exists: fs.existsSync(path.join(cwd, '.planning')),
-      legacy_format: legacyExists,
     };
-
-    if (legacyExists) {
-      result._migration_warning = 'Old file-per-todo format detected. Run "todo migrate" to convert.';
-    }
 
     output(result, raw);
     return;
