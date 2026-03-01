@@ -31,6 +31,8 @@ Todos are captured during work sessions with /gmsd:add-todo.
 
 If `.planning/STATE.org` exists (active project):
 ```
+---
+
 Would you like to:
 
 1. Continue with current phase (/gmsd:progress)
@@ -39,6 +41,8 @@ Would you like to:
 
 If `.planning/STATE.org` does NOT exist (no project yet):
 ```
+---
+
 Would you like to:
 
 1. Add a todo now (/gmsd:add-todo)

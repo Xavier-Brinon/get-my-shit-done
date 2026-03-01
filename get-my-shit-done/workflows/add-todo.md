@@ -124,6 +124,8 @@ Todo saved to .planning/TODOS.org
 
 If `.planning/STATE.org` exists (active project):
 ```
+---
+
 Would you like to:
 
 1. Continue with current work
@@ -133,6 +135,8 @@ Would you like to:
 
 If `.planning/STATE.org` does NOT exist (no project yet):
 ```
+---
+
 Would you like to:
 
 1. Add another todo
