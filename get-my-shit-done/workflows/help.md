@@ -251,7 +251,7 @@ Usage: `/gmsd:debug` (resume active session)
 Capture idea or task as todo from current conversation.
 
 - Extracts context from conversation (or uses provided description)
-- Creates structured todo file in `.planning/todos/pending/`
+- Adds structured entry to `.planning/TODOS.org` under `* Active`
 - Infers area from file paths for grouping
 - Checks for duplicates before creating
 - Updates STATE.org todo count
@@ -260,13 +260,13 @@ Usage: `/gmsd:add-todo` (infers from conversation)
 Usage: `/gmsd:add-todo Add auth token refresh`
 
 **`/gmsd:check-todos [area]`**
-List pending todos and select one to work on.
+List active todos and select one to work on.
 
-- Lists all pending todos with title, area, age
+- Lists all active todos with title, state, priority, area, age
 - Optional area filter (e.g., `/gmsd:check-todos api`)
 - Loads full context for selected todo
-- Routes to appropriate action (work now, add to phase, brainstorm)
-- Moves todo to done/ when work begins
+- Routes to action: work now, cancel, add to phase, create phase
+- State changes recorded in `:LOGBOOK:` drawer with timestamps
 
 Usage: `/gmsd:check-todos`
 Usage: `/gmsd:check-todos api`
@@ -380,9 +380,7 @@ Usage: `/gmsd:join-discord`
 ├── STATE.org              # Project memory & context
 ├── RETROSPECTIVE.org      # Living retrospective (updated per milestone)
 ├── config.json           # Workflow mode & gates
-├── todos/                # Captured ideas and tasks
-│   ├── pending/          # Todos waiting to be worked on
-│   └── done/             # Completed todos
+├── TODOS.org             # Captured ideas and tasks (* Active / * Archive)
 ├── debug/                # Active debug sessions
 │   └── resolved/         # Archived resolved issues
 ├── milestones/

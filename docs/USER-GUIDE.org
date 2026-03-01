@@ -490,9 +490,7 @@ For reference, here is what GMSD creates in your project:
   MILESTONES.org           # Completed milestone archive
   decisions/               # ADR files (NNN-slug.org, MADR 4.0 format)
   research/                # Domain research from /gmsd:new-project
-  todos/
-    pending/               # Captured ideas awaiting work
-    done/                  # Completed todos
+  TODOS.org                # Captured ideas and tasks (* Active / * Archive)
   debug/                   # Active debug sessions
     resolved/              # Archived debug sessions
   codebase/                # Brownfield codebase mapping (from /gmsd:map-codebase)

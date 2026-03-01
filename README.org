@@ -446,7 +446,7 @@ GMSD handles it for you:
 | ~STATE.org~ | Decisions, blockers, position — memory across sessions |
 | ~PLAN.org~ | Atomic task with XML structure, verification steps |
 | ~SUMMARY.org~ | What happened, what changed, committed to history |
-| ~todos/~ | Captured ideas and tasks for later work |
+| ~TODOS.org~ | Captured ideas and tasks (~* Active~ / ~* Archive~ sections) |
 
 Size limits based on where Claude's quality degrades. Stay under, get consistent excellence.
 

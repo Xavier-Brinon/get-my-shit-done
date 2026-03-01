@@ -128,8 +128,9 @@ Would you like to:
 </process>
 
 <success_criteria>
-- [ ] TODOS.org exists with valid org structure
-- [ ] Todo entry added with correct state, priority, area tag
+- [ ] TODOS.org exists with valid org structure (* Active / * Archive sections)
+- [ ] Todo entry added under * Active with correct state, priority, area tag
+- [ ] :PROPERTIES: drawer has :created: and :files: (if any)
 - [ ] Problem section has enough context for future Claude
 - [ ] No duplicates (checked and resolved)
 - [ ] Area consistent with existing todos

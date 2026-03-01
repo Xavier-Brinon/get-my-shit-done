@@ -13,11 +13,10 @@ allowed-tools:
 Capture an idea, task, or issue that surfaces during a GMSD session as a structured todo for later work.
 
 Routes to the add-todo workflow which handles:
-- Directory structure creation
 - Content extraction from arguments or conversation
 - Area inference from file paths
 - Duplicate detection and resolution
-- Todo file creation with frontmatter
+- Todo entry creation in TODOS.org under * Active
 - STATE.org updates
 - Git commits
 </objective>
@@ -36,12 +35,11 @@ State is resolved in-workflow via `init todos` and targeted reads.
 **Follow the add-todo workflow** from `@~/.claude/get-my-shit-done/workflows/add-todo.md`.
 
 The workflow handles all logic including:
-1. Directory ensuring
-2. Existing area checking
-3. Content extraction (arguments or conversation)
-4. Area inference
-5. Duplicate checking
-6. File creation with slug generation
-7. STATE.org updates
-8. Git commits
+1. Existing area checking
+2. Content extraction (arguments or conversation)
+3. Area inference
+4. Duplicate checking
+5. Todo entry creation in TODOS.org
+6. STATE.org updates
+7. Git commits
 </process>

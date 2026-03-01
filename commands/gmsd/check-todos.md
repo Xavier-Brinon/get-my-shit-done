@@ -10,13 +10,14 @@ allowed-tools:
 ---
 
 <objective>
-List all pending todos, allow selection, load full context for the selected todo, and route to appropriate action.
+List all active todos, allow selection, load full context for the selected todo, and route to appropriate action.
 
 Routes to the check-todos workflow which handles:
-- Todo counting and listing with area filtering
+- Todo counting and listing with area/state/priority filtering
 - Interactive selection with full context loading
 - Roadmap correlation checking
-- Action routing (work now, add to phase, brainstorm, create phase)
+- Action routing (work now, cancel with reason, add to phase, create phase)
+- LOGBOOK drawer entries for state changes
 - STATE.org updates and git commits
 </objective>
 
