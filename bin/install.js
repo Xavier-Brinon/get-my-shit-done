@@ -1722,10 +1722,28 @@ function install(isGlobal, runtime = 'claude') {
     fs.writeFileSync(pkgJsonDest, '{"type":"commonjs"}\n');
     console.log(`  ${green}✓${reset} Wrote package.json (CommonJS mode)`);
 
-    // Copy hooks from dist/ (bundled with dependencies)
+    // Copy hooks — prefer dist/ (bundled builds for npm), fall back to hooks/ (local dev)
     // Template paths for the target runtime (replaces '.claude' with correct config dir)
-    const hooksSrc = path.join(src, 'hooks', 'dist');
-    if (fs.existsSync(hooksSrc)) {
+    const hooksDistSrc = path.join(src, 'hooks', 'dist');
+    const hooksFallbackSrc = path.join(src, 'hooks');
+    let hooksSrc;
+    let hooksBundled;
+    if (fs.existsSync(hooksDistSrc)) {
+      hooksSrc = hooksDistSrc;
+      hooksBundled = true;
+    } else if (fs.existsSync(hooksFallbackSrc)) {
+      hooksSrc = hooksFallbackSrc;
+      hooksBundled = false;
+      if (src.includes('node_modules')) {
+        console.log(`  ${yellow}⚠${reset} hooks/dist/ not found in npm package — using source files (this may indicate a packaging issue)`);
+      } else {
+        console.log(`  ${dim}i${reset}  Using source hooks (local dev install)`);
+      }
+    } else {
+      console.error(`  ${yellow}✗${reset} Failed to install hooks: neither dist/ nor source hooks/ found`);
+      failures.push('hooks');
+    }
+    if (hooksSrc) {
       const hooksDest = path.join(targetDir, 'hooks');
       fs.mkdirSync(hooksDest, { recursive: true });
       const hookEntries = fs.readdirSync(hooksSrc);
@@ -1740,12 +1758,13 @@ function install(isGlobal, runtime = 'claude') {
             content = content.replace(/'\.claude'/g, configDirReplacement);
             fs.writeFileSync(destFile, content);
           } else {
+            console.log(`  ${yellow}⚠${reset} Copying non-JS hook file without templating: ${entry}`);
             fs.copyFileSync(srcFile, destFile);
           }
         }
       }
       if (verifyInstalled(hooksDest, 'hooks')) {
-        console.log(`  ${green}✓${reset} Installed hooks (bundled)`);
+        console.log(`  ${green}✓${reset} Installed hooks (${hooksBundled ? 'bundled' : 'source'})`);
       } else {
         failures.push('hooks');
       }
