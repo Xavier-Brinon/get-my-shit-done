@@ -7,22 +7,22 @@ A detailed reference for workflows, troubleshooting, and configuration. For quic
 
 -----
 
-** Table of Contents
+** Table of contents
 
-- [[*Workflow Diagrams][Workflow Diagrams]]
-- [[*Command Reference][Command Reference]]
-- [[*Configuration Reference][Configuration Reference]]
-- [[*Usage Examples][Usage Examples]]
+- [[*Workflow diagrams][Workflow diagrams]]
+- [[*Command reference][Command reference]]
+- [[*Configuration reference][Configuration reference]]
+- [[*Usage examples][Usage examples]]
 - [[*Troubleshooting][Troubleshooting]]
-- [[*Recovery Quick Reference][Recovery Quick Reference]]
+- [[*Recovery quick reference][Recovery quick reference]]
 
 -----
 
-** Workflow Diagrams
+** Workflow diagrams
 
-*** Full Project Lifecycle
+*** Full project lifecycle
 
-#+begin_example
+#+BEGIN_EXAMPLE
   ┌──────────────────────────────────────────────────┐
   │                   NEW PROJECT                    │
   │  /gmsd:new-project                                │
@@ -64,11 +64,11 @@ A detailed reference for workflows, troubleshooting, and configuration. For quic
                ┌───────▼──────────────┐
                │  /gmsd:new-milestone  │
                └──────────────────────┘
-#+end_example
+#+END_EXAMPLE
 
-*** Planning Agent Coordination
+*** Planning agent coordination
 
-#+begin_example
+#+BEGIN_EXAMPLE
   /gmsd:plan-phase N
          │
          ├── Phase Researcher (x4 parallel)
@@ -98,9 +98,9 @@ A detailed reference for workflows, troubleshooting, and configuration. For quic
          │                        │ PLAN files │
          │                        └────────────┘
          └── Done
-#+end_example
+#+END_EXAMPLE
 
-*** Validation Architecture (Nyquist Layer)
+*** Validation architecture (Nyquist layer)
 
 During plan-phase research, GMSD now maps automated test coverage to each phase
 requirement before any code is written. This ensures that when Claude's executor
@@ -118,9 +118,9 @@ lack automated verify commands will not be approved.
 *Disable:* Set ~workflow.nyquist_validation: false~ in ~/gmsd:settings~ for
 rapid prototyping phases where test infrastructure isn't the focus.
 
-*** Execution Wave Coordination
+*** Execution wave coordination
 
-#+begin_example
+#+BEGIN_EXAMPLE
   /gmsd:execute-phase N
          │
          ├── Analyze plan dependencies
@@ -137,11 +137,11 @@ rapid prototyping phases where test infrastructure isn't the focus.
                      │
                      ├── PASS -> VERIFICATION.md (success)
                      └── FAIL -> Issues logged for /gmsd:verify-work
-#+end_example
+#+END_EXAMPLE
 
-*** Brownfield Workflow (Existing Codebase)
+*** Brownfield workflow (existing codebase)
 
-#+begin_example
+#+BEGIN_EXAMPLE
   /gmsd:map-codebase
          │
          ├── Stack Mapper     -> codebase/STACK.md
@@ -152,13 +152,13 @@ rapid prototyping phases where test infrastructure isn't the focus.
         ┌───────▼──────────┐
         │ /gmsd:new-project │  <- Questions focus on what you're ADDING
         └──────────────────┘
-#+end_example
+#+END_EXAMPLE
 
 -----
 
-** Command Reference
+** Command reference
 
-*** Core Workflow
+*** Core workflow
 
 | Command | Purpose | When to Use |
 |---------+---------+-------------+
@@ -183,7 +183,7 @@ rapid prototyping phases where test infrastructure isn't the focus.
 | ~/gmsd:update~ | Update GMSD with changelog preview | Check for new versions |
 | ~/gmsd:join-discord~ | Open Discord community invite | Questions or community |
 
-*** Phase Management
+*** Phase management
 
 | Command | Purpose | When to Use |
 |---------+---------+-------------+
@@ -194,7 +194,7 @@ rapid prototyping phases where test infrastructure isn't the focus.
 | ~/gmsd:plan-milestone-gaps~ | Create phases for audit gaps | After audit finds missing items |
 | ~/gmsd:research-phase [N]~ | Deep ecosystem research only | Complex or unfamiliar domain |
 
-*** Brownfield & Utilities
+*** Brownfield & utilities
 
 | Command | Purpose | When to Use |
 |---------+---------+-------------+
@@ -209,11 +209,11 @@ rapid prototyping phases where test infrastructure isn't the focus.
 
 -----
 
-** Configuration Reference
+** Configuration reference
 
 GMSD stores project settings in ~.planning/config.json~. Configure during ~/gmsd:new-project~ or update later with ~/gmsd:settings~.
 
-*** Full config.json Schema
+*** Full config.json schema
 
 #+begin_src json
 {
@@ -238,7 +238,7 @@ GMSD stores project settings in ~.planning/config.json~. Configure during ~/gmsd
 }
 #+end_src
 
-*** Core Settings
+*** Core settings
 
 | Setting | Options | Default | What it Controls |
 |---------+---------+---------+------------------+
@@ -246,7 +246,7 @@ GMSD stores project settings in ~.planning/config.json~. Configure during ~/gmsd
 | ~depth~ | ~quick~, ~standard~, ~comprehensive~ | ~standard~ | Planning thoroughness: 3-5, 5-8, or 8-12 phases |
 | ~model_profile~ | ~quality~, ~balanced~, ~budget~ | ~balanced~ | Model tier for each agent (see table below) |
 
-*** Planning Settings
+*** Planning settings
 
 | Setting | Options | Default | What it Controls |
 |---------+---------+---------+------------------+
@@ -255,7 +255,7 @@ GMSD stores project settings in ~.planning/config.json~. Configure during ~/gmsd
 
 *Note:* If ~.planning/~ is in ~.gitignore~, ~commit_docs~ is automatically ~false~ regardless of the config value.
 
-*** Workflow Toggles
+*** Workflow toggles
 
 | Setting | Options | Default | What it Controls |
 |---------+---------+---------+------------------+
@@ -266,7 +266,7 @@ GMSD stores project settings in ~.planning/config.json~. Configure during ~/gmsd
 
 Disable these to speed up phases in familiar domains or when conserving tokens.
 
-*** Git Branching
+*** Git branching
 
 | Setting | Options | Default | What it Controls |
 |---------+---------+---------+------------------+
@@ -284,7 +284,7 @@ Disable these to speed up phases in familiar domains or when conserving tokens.
 
 *Template variables:* ~{phase}~ = zero-padded number (e.g., "03"), ~{slug}~ = lowercase hyphenated name, ~{milestone}~ = version (e.g., "v1.0").
 
-**** Worktree-Aware Branching
+**** Worktree-aware branching
 
 The ~phase~ strategy integrates with Claude Code's ~--worktree~ (~-w~) flag. When
 ~execute-phase~ detects it is running inside a worktree or on a non-main branch,
@@ -292,7 +292,7 @@ it skips branch creation and commits directly to the current branch.
 
 *Recommended workflow:*
 
-#+begin_example
+#+BEGIN_EXAMPLE
 # Start a worktree session for the phase
 claude -w phase-02-classification-and-audit
 
@@ -301,7 +301,7 @@ claude -w phase-02-classification-and-audit
 # → Detects worktree branch, skips branch creation, commits there
 
 # When done — create a PR from the worktree branch
-#+end_example
+#+END_EXAMPLE
 
 *Branch discovery at milestone completion:*
 
@@ -315,7 +315,7 @@ claude -w phase-02-classification-and-audit
 No configuration change is needed — ~branching_strategy: "phase"~ works with
 worktrees out of the box.
 
-*** Model Profiles (Per-Agent Breakdown)
+*** Model profiles (per-agent breakdown)
 
 | Agent | ~quality~ | ~balanced~ | ~budget~ |
 |-------+-----------+------------+----------+
@@ -338,9 +338,9 @@ worktrees out of the box.
 
 -----
 
-** Usage Examples
+** Usage examples
 
-*** New Project (Full Cycle)
+*** New project (full cycle)
 
 #+begin_src bash
 claude --dangerously-skip-permissions
@@ -357,7 +357,7 @@ claude --dangerously-skip-permissions
 /gmsd:complete-milestone     # Archive, tag, done
 #+end_src
 
-*** New Project from Existing Document
+*** New project from existing document
 
 #+begin_src bash
 /gmsd:new-project --auto @prd.md   # Auto-runs research/requirements/roadmap from your doc
@@ -365,7 +365,7 @@ claude --dangerously-skip-permissions
 /gmsd:discuss-phase 1               # Normal flow from here
 #+end_src
 
-*** Existing Codebase
+*** Existing codebase
 
 #+begin_src bash
 /gmsd:map-codebase           # Analyze what exists (parallel agents)
@@ -373,14 +373,14 @@ claude --dangerously-skip-permissions
 # (normal phase workflow from here)
 #+end_src
 
-*** Quick Bug Fix
+*** Quick bug fix
 
 #+begin_src bash
 /gmsd:quick
 > "Fix the login button not responding on mobile Safari"
 #+end_src
 
-*** Resuming After a Break
+*** Resuming after a break
 
 #+begin_src bash
 /gmsd:progress               # See where you left off and what's next
@@ -388,7 +388,7 @@ claude --dangerously-skip-permissions
 /gmsd:resume-work            # Full context restoration from last session
 #+end_src
 
-*** Preparing for Release
+*** Preparing for release
 
 #+begin_src bash
 /gmsd:audit-milestone        # Check requirements coverage, detect stubs
@@ -396,7 +396,7 @@ claude --dangerously-skip-permissions
 /gmsd:complete-milestone     # Archive, tag, done
 #+end_src
 
-*** Speed vs Quality Presets
+*** Speed vs quality presets
 
 | Scenario | Mode | Depth | Profile | Research | Plan Check | Verifier |
 |----------+------+-------+---------+----------+------------+----------+
@@ -404,7 +404,7 @@ claude --dangerously-skip-permissions
 | Normal dev | ~interactive~ | ~standard~ | ~balanced~ | on | on | on |
 | Production | ~interactive~ | ~comprehensive~ | ~quality~ | on | on | on |
 
-*** Mid-Milestone Scope Changes
+*** Mid-milestone scope changes
 
 #+begin_src bash
 /gmsd:add-phase              # Append a new phase to the roadmap
@@ -422,45 +422,45 @@ claude --dangerously-skip-permissions
 
 You ran ~/gmsd:new-project~ but ~.planning/PROJECT.org~ already exists. This is a safety check. If you want to start over, delete the ~.planning/~ directory first.
 
-*** Context Degradation During Long Sessions
+*** Context degradation during long sessions
 
 Clear your context window between major commands: ~/clear~ in Claude Code. GMSD is designed around fresh contexts -- every subagent gets a clean 200K window. If quality is dropping in the main session, clear and use ~/gmsd:resume-work~ or ~/gmsd:progress~ to restore state.
 
-*** Plans Seem Wrong or Misaligned
+*** Plans seem wrong or misaligned
 
 Run ~/gmsd:discuss-phase [N]~ before planning. Most plan quality issues come from Claude making assumptions that ~CONTEXT.org~ would have prevented. You can also run ~/gmsd:list-phase-assumptions [N]~ to see what Claude intends to do before committing to a plan.
 
-*** Execution Fails or Produces Stubs
+*** Execution fails or produces stubs
 
 Check that the plan was not too ambitious. Plans should have 2-3 tasks maximum. If tasks are too large, they exceed what a single context window can produce reliably. Re-plan with smaller scope.
 
-*** Lost Track of Where You Are
+*** Lost track of where you are
 
 Run ~/gmsd:progress~. It reads all state files and tells you exactly where you are and what to do next.
 
-*** Need to Change Something After Execution
+*** Need to change something after execution
 
 Do not re-run ~/gmsd:execute-phase~. Use ~/gmsd:quick~ for targeted fixes, or ~/gmsd:verify-work~ to systematically identify and fix issues through UAT.
 
-*** Model Costs Too High
+*** Model costs too high
 
 Switch to budget profile: ~/gmsd:set-profile budget~. Disable research and plan-check agents via ~/gmsd:settings~ if the domain is familiar to you (or to Claude).
 
-*** Working on a Sensitive/Private Project
+*** Working on a sensitive/private project
 
 Set ~commit_docs: false~ during ~/gmsd:new-project~ or via ~/gmsd:settings~. This automatically adds ~.planning/~ to your ~.gitignore~. Planning artifacts stay local and never touch git.
 
-*** GMSD Update Overwrote My Local Changes
+*** GMSD update overwrote my local changes
 
 Since v1.17, the installer backs up locally modified files to ~gmsd-local-patches/~. Run ~/gmsd:reapply-patches~ to merge your changes back.
 
-*** Subagent Appears to Fail but Work Was Done
+*** Subagent appears to fail but work was done
 
 A known workaround exists for a Claude Code classification bug. GMSD's orchestrators (execute-phase, quick) spot-check actual output before reporting failure. If you see a failure message but commits were made, check ~git log~ -- the work may have succeeded.
 
 -----
 
-** Recovery Quick Reference
+** Recovery quick reference
 
 | Problem | Solution |
 |---------+----------+
@@ -476,11 +476,11 @@ A known workaround exists for a Claude Code classification bug. GMSD's orchestra
 
 -----
 
-** Project File Structure
+** Project file structure
 
 For reference, here is what GMSD creates in your project:
 
-#+begin_example
+#+BEGIN_EXAMPLE
 .planning/
   PROJECT.org              # Project vision and context (always loaded)
   REQUIREMENTS.org         # Scoped v1/v2 requirements with IDs
@@ -501,4 +501,4 @@ For reference, here is what GMSD creates in your project:
       CONTEXT.org           # Your implementation preferences
       RESEARCH.org          # Ecosystem research findings
       VERIFICATION.org      # Post-execution verification results
-#+end_example
+#+END_EXAMPLE
