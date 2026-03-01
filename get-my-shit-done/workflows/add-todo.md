@@ -98,8 +98,14 @@ If `.planning/STATE.org` exists:
 <step name="git_commit">
 Commit the todo file and any updated state:
 
+If `.planning/STATE.org` exists:
 ```bash
 node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: capture todo - [title]" --files .planning/TODOS.org .planning/STATE.org
+```
+
+If `.planning/STATE.org` does NOT exist:
+```bash
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: capture todo - [title]" --files .planning/TODOS.org
 ```
 
 Tool respects `commit_docs` config and gitignore automatically.
@@ -114,7 +120,10 @@ Todo saved to .planning/TODOS.org
   [title]
   Area: [area] | Priority: [#P]
   Files: [count] referenced
+```
 
+If `.planning/STATE.org` exists (active project):
+```
 ---
 
 Would you like to:
@@ -122,6 +131,17 @@ Would you like to:
 1. Continue with current work
 2. Add another todo
 3. View all todos (/gmsd:check-todos)
+```
+
+If `.planning/STATE.org` does NOT exist (no project yet):
+```
+---
+
+Would you like to:
+
+1. Add another todo
+2. View all todos (/gmsd:check-todos)
+3. Start a project (/gmsd:new-project)
 ```
 </step>
 
@@ -135,5 +155,5 @@ Would you like to:
 - [ ] No duplicates (checked and resolved)
 - [ ] Area consistent with existing todos
 - [ ] STATE.org updated if exists
-- [ ] TODOS.org and state committed to git
+- [ ] TODOS.org committed to git (and STATE.org if it exists)
 </success_criteria>
