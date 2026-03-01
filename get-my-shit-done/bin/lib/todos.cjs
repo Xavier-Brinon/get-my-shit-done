@@ -385,18 +385,78 @@ function updateEntryPriority(fileContent, entryTitle, newPriority) {
   return lines.join('\n');
 }
 
-// ─── Migration Guard ─────────────────────────────────────────────────────────
+// ─── Auto-Migration ──────────────────────────────────────────────────────────
 
 /**
- * Error out if old file-per-todo directories exist without a TODOS.org.
- * Forces users to run `todo migrate` before using any todo command.
+ * Check if old file-per-todo directories exist.
  */
-function requireMigrationIfLegacy(cwd) {
+function hasLegacyFormat(cwd) {
   const pendingDir = path.join(cwd, '.planning', 'todos', 'pending');
   const completedDir = path.join(cwd, '.planning', 'todos', 'completed');
   const doneDir = path.join(cwd, '.planning', 'todos', 'done');
-  if (fs.existsSync(pendingDir) || fs.existsSync(completedDir) || fs.existsSync(doneDir)) {
-    error(`Old file-per-todo format detected in .planning/todos/. Run 'todo migrate' to convert to TODOS.org.`);
+  return fs.existsSync(pendingDir) || fs.existsSync(completedDir) || fs.existsSync(doneDir);
+}
+
+/**
+ * Migrate old file-per-todo directories to TODOS.org.
+ * Returns { active, archived, errors } counts.
+ */
+function migrateToTodosOrg(cwd) {
+  const todosPath = path.join(cwd, '.planning', FILES.TODOS);
+  const pendingDir = path.join(cwd, '.planning', 'todos', 'pending');
+  const completedDir = path.join(cwd, '.planning', 'todos', 'completed');
+  const doneDir = path.join(cwd, '.planning', 'todos', 'done');
+
+  const migrated = { active: 0, archived: 0, errors: [] };
+
+  const now = new Date();
+  let content = buildTodosHeader(now) + '\n* Active\n\n';
+
+  for (const dir of [pendingDir]) {
+    if (!fs.existsSync(dir)) continue;
+    const files = fs.readdirSync(dir).filter(f => f.endsWith(DOC_EXT) || f.endsWith('.md'));
+    for (const file of files) {
+      try {
+        const text = fs.readFileSync(path.join(dir, file), 'utf-8');
+        const entry = parseLegacyTodo(text, 'TODO');
+        content += entry + '\n';
+        migrated.active++;
+      } catch (e) {
+        migrated.errors.push({ file, error: e.message });
+      }
+    }
+  }
+
+  content += '* Archive\n\n';
+
+  for (const dir of [completedDir, doneDir]) {
+    if (!fs.existsSync(dir)) continue;
+    const files = fs.readdirSync(dir).filter(f => f.endsWith(DOC_EXT) || f.endsWith('.md'));
+    for (const file of files) {
+      try {
+        const text = fs.readFileSync(path.join(dir, file), 'utf-8');
+        const entry = parseLegacyTodo(text, 'DONE');
+        content += entry + '\n';
+        migrated.archived++;
+      } catch (e) {
+        migrated.errors.push({ file, error: e.message });
+      }
+    }
+  }
+
+  fs.mkdirSync(path.join(cwd, '.planning'), { recursive: true });
+  fs.writeFileSync(todosPath, content, 'utf-8');
+
+  return migrated;
+}
+
+/**
+ * If old format directories exist and no TODOS.org, auto-migrate then continue.
+ */
+function autoMigrateIfLegacy(cwd) {
+  const todosPath = path.join(cwd, '.planning', FILES.TODOS);
+  if (!fs.existsSync(todosPath) && hasLegacyFormat(cwd)) {
+    migrateToTodosOrg(cwd);
   }
 }
 
@@ -458,10 +518,10 @@ function cmdTodoComplete(cwd, identifier, raw) {
   }
 
   const todosPath = path.join(cwd, '.planning', FILES.TODOS);
+  autoMigrateIfLegacy(cwd);
   let content = safeReadFile(todosPath);
 
   if (!content) {
-    requireMigrationIfLegacy(cwd);
     error(`TODOS.org not found at ${path.join('.planning', FILES.TODOS)}`);
   }
 
@@ -492,9 +552,9 @@ function cmdTodoUpdate(cwd, identifier, updates, raw) {
   }
 
   const todosPath = path.join(cwd, '.planning', FILES.TODOS);
+  autoMigrateIfLegacy(cwd);
   let content = safeReadFile(todosPath);
   if (!content) {
-    requireMigrationIfLegacy(cwd);
     error(`TODOS.org not found at ${path.join('.planning', FILES.TODOS)}`);
   }
 
@@ -526,10 +586,10 @@ function cmdTodoUpdate(cwd, identifier, updates, raw) {
  */
 function cmdTodoList(cwd, filters, raw) {
   const todosPath = path.join(cwd, '.planning', FILES.TODOS);
+  autoMigrateIfLegacy(cwd);
   let content = safeReadFile(todosPath);
 
   if (!content) {
-    requireMigrationIfLegacy(cwd);
     output({ count: 0, todos: [] }, raw, '0');
     return;
   }
@@ -569,11 +629,10 @@ function cmdTodoList(cwd, filters, raw) {
 function cmdTodoInitContext(cwd, area, raw) {
   const now = new Date();
   const todosPath = path.join(cwd, '.planning', FILES.TODOS);
+  autoMigrateIfLegacy(cwd);
   const content = safeReadFile(todosPath);
 
   if (!content) {
-    requireMigrationIfLegacy(cwd);
-
     const result = {
       date: now.toISOString().split('T')[0],
       timestamp: now.toISOString(),
@@ -625,55 +684,16 @@ function cmdTodoInitContext(cwd, area, raw) {
  */
 function cmdTodoMigrate(cwd, raw) {
   const todosPath = path.join(cwd, '.planning', FILES.TODOS);
-  const pendingDir = path.join(cwd, '.planning', 'todos', 'pending');
-  const completedDir = path.join(cwd, '.planning', 'todos', 'completed');
-  const doneDir = path.join(cwd, '.planning', 'todos', 'done');
-
-  const migrated = { active: 0, archived: 0, errors: [] };
 
   if (fs.existsSync(todosPath)) {
     error('TODOS.org already exists. Migration would overwrite it.');
   }
 
-  const now = new Date();
-  let content = buildTodosHeader(now) + '\n* Active\n\n';
-
-  // Migrate pending todos
-  for (const dir of [pendingDir]) {
-    if (!fs.existsSync(dir)) continue;
-    const files = fs.readdirSync(dir).filter(f => f.endsWith(DOC_EXT) || f.endsWith('.md'));
-    for (const file of files) {
-      try {
-        const text = fs.readFileSync(path.join(dir, file), 'utf-8');
-        const entry = parseLegacyTodo(text, 'TODO');
-        content += entry + '\n';
-        migrated.active++;
-      } catch (e) {
-        migrated.errors.push({ file, error: e.message });
-      }
-    }
+  if (!hasLegacyFormat(cwd)) {
+    error('No old-format todo directories found to migrate.');
   }
 
-  content += '* Archive\n\n';
-
-  // Migrate completed/done todos
-  for (const dir of [completedDir, doneDir]) {
-    if (!fs.existsSync(dir)) continue;
-    const files = fs.readdirSync(dir).filter(f => f.endsWith(DOC_EXT) || f.endsWith('.md'));
-    for (const file of files) {
-      try {
-        const text = fs.readFileSync(path.join(dir, file), 'utf-8');
-        const entry = parseLegacyTodo(text, 'DONE');
-        content += entry + '\n';
-        migrated.archived++;
-      } catch (e) {
-        migrated.errors.push({ file, error: e.message });
-      }
-    }
-  }
-
-  fs.mkdirSync(path.join(cwd, '.planning'), { recursive: true });
-  fs.writeFileSync(todosPath, content, 'utf-8');
+  const migrated = migrateToTodosOrg(cwd);
 
   output({
     migrated: true,

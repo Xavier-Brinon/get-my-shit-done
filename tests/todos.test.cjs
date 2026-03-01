@@ -461,14 +461,22 @@ describe('todo complete command', () => {
     assert.ok(!result.success, 'should fail');
   });
 
-  test('suggests migration when old format exists', () => {
+  test('auto-migrates old format then completes todo', () => {
     const pendingDir = path.join(tmpDir, '.planning', 'todos', 'pending');
     fs.mkdirSync(pendingDir, { recursive: true });
-    fs.writeFileSync(path.join(pendingDir, 'test.org'), 'title: Test\n');
+    fs.writeFileSync(path.join(pendingDir, 'test.org'), 'title: Test\narea: general\ncreated: 2026-01-01\n');
 
     const result = runGsdTools('todo complete "Test"', tmpDir);
-    assert.ok(!result.success, 'should fail');
-    assert.ok(result.error.includes('migrate'), 'error suggests migration');
+    assert.ok(result.success, `Command failed: ${result.error}`);
+
+    const output = JSON.parse(result.output);
+    assert.strictEqual(output.completed, true);
+    assert.strictEqual(output.title, 'Test');
+
+    // Verify TODOS.org exists with entry in Archive
+    const content = fs.readFileSync(path.join(tmpDir, '.planning', 'TODOS.org'), 'utf-8');
+    assert.ok(content.includes('* Archive'), 'should have Archive section');
+    assert.ok(content.includes('** DONE'), 'completed entry in Archive');
   });
 });
 
@@ -551,7 +559,7 @@ describe('todo list command (via list-todos)', () => {
     assert.strictEqual(output.count, 0);
   });
 
-  test('errors when old format exists without TODOS.org', () => {
+  test('auto-migrates old format and lists todos', () => {
     const pendingDir = path.join(tmpDir, '.planning', 'todos', 'pending');
     fs.mkdirSync(pendingDir, { recursive: true });
     fs.writeFileSync(
@@ -560,8 +568,14 @@ describe('todo list command (via list-todos)', () => {
     );
 
     const result = runGsdTools('list-todos', tmpDir);
-    assert.ok(!result.success, 'should fail');
-    assert.ok(result.error.includes('todo migrate'), 'error tells user to migrate');
+    assert.ok(result.success, `Command failed: ${result.error}`);
+
+    const output = JSON.parse(result.output);
+    assert.strictEqual(output.count, 1);
+    assert.strictEqual(output.todos[0].title, 'Test task');
+
+    // Verify TODOS.org was created
+    assert.ok(fs.existsSync(path.join(tmpDir, '.planning', 'TODOS.org')), 'TODOS.org should be created');
   });
 });
 
@@ -612,13 +626,21 @@ describe('init todos command', () => {
     assert.strictEqual(output.area_filter, 'api');
   });
 
-  test('errors when old format exists without TODOS.org', () => {
+  test('auto-migrates old format and returns context', () => {
     const pendingDir = path.join(tmpDir, '.planning', 'todos', 'pending');
     fs.mkdirSync(pendingDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(pendingDir, 'old-todo.org'),
+      'title: Old todo\narea: general\ncreated: 2026-01-15\n'
+    );
 
     const result = runGsdTools('init todos', tmpDir);
-    assert.ok(!result.success, 'should fail');
-    assert.ok(result.error.includes('todo migrate'), 'error tells user to migrate');
+    assert.ok(result.success, `Command failed: ${result.error}`);
+
+    const output = JSON.parse(result.output);
+    assert.strictEqual(output.todo_count, 1);
+    assert.strictEqual(output.todos_file_exists, true);
+    assert.strictEqual(output.todos[0].title, 'Old todo');
   });
 });
 
