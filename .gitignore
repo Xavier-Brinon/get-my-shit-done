@@ -5,8 +5,5 @@ CLAUDE.md
 # Local tool installs
 .claude/
 
-# Internal planning documents
-.planning/
-
 # Serena config
 .serena/
