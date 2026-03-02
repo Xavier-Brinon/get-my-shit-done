@@ -98,7 +98,7 @@ gaps. The audit output is the specification for this phase.
 *Plans*: 2 plans (2 waves)
 
 Plans:
-- [ ] 03-01-PLAN.org --- Create tutorial and how-to templates (Wave 1)
+- [X] 03-01-PLAN.org --- Create tutorial and how-to templates (Wave 1)
 - [ ] 03-02-PLAN.org --- Update Diataxis audit document with new coverage (Wave 2, depends on 03-01)
 
 *** Phase 4: Internal Docs
@@ -161,5 +161,5 @@ Dashed arrows = soft dependency (informs but does not block).
 |------------------------------+----------------+-------------+-----------|
 | 1. Framework Foundation      |            1/1 | Complete    | 2026-02-28 |
 | 2. Classification and Audit  |            3/3 | Complete    | 2026-02-28 |
-| 3. Gap Filling               |            0/2 | Not started | -         |
+| 3. Gap Filling               |            1/2 | In progress | -         |
 | 4. Internal Docs             |            0/3 | Not started | -         |

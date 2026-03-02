@@ -26,9 +26,9 @@ Requirements for Diataxis documentation framework integration.
 
 - [X] *GAPS-01*: Formal audit document maps every existing template to a Diataxis
   quadrant and identifies underserved quadrants
-- [ ] *GAPS-02*: New tutorial template(s) exist for learning-oriented deliverables
+- [X] *GAPS-02*: New tutorial template(s) exist for learning-oriented deliverables
   (guided experiences for project onboarding)
-- [ ] *GAPS-03*: New how-to template(s) exist for task-oriented deliverables
+- [X] *GAPS-03*: New how-to template(s) exist for task-oriented deliverables
   (step-by-step guides for common GMSD workflows)
 
 *** Internal Docs
@@ -78,8 +78,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CLASS-02    |     2 | Complete |
 | CLASS-03    |     2 | Complete |
 | GAPS-01     |     2 | Complete |
-| GAPS-02     |     3 | Pending |
-| GAPS-03     |     3 | Pending |
+| GAPS-02     |     3 | Complete |
+| GAPS-03     |     3 | Complete |
 | DOCS-01     |     4 | Pending |
 | DOCS-02     |     4 | Pending |
 | DOCS-03     |     4 | Pending |
@@ -91,4 +91,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 -----
 /Requirements defined: 2026-02-27/
-/Last updated: 2026-02-28 — CLASS-03 marked complete after Phase 2 plan 02-02 execution/
+/Last updated: 2026-03-02 — GAPS-02, GAPS-03 marked complete after Phase 3 plan 03-01 execution/

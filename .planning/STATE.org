@@ -3,11 +3,11 @@
 :milestone: v1.0
 :milestone_name: milestone
 :status: unknown
-:last_updated: "2026-02-28T23:30:00.933Z"
+:last_updated: "2026-03-02T11:46:23Z"
 :progress.total_phases: 4
 :progress.completed_phases: 2
-:progress.total_plans: 4
-:progress.completed_plans: 4
+:progress.total_plans: 5
+:progress.completed_plans: 5
 :END:
 
 #+title: GMSD Project State
@@ -24,16 +24,16 @@ See: =.planning/PROJECT.org= (updated 2026-02-27)
 
 *Core value:* Every document GMSD produces follows a principled documentation
 framework so users always find the right type of doc for their need.
-*Current focus:* Phase 2 — Classification and Audit
+*Current focus:* Phase 3 — Gap Filling
 
 ** Current Position
 
-Phase: 2 of 4 (Classification and Audit) — COMPLETE
-Plan: 3 of 3 completed (02-03: Write formal Diataxis audit document)
-Status: Phase 2 complete — all 3 plans executed and summarised
-Last activity: 2026-02-28 — Phase 2 plan 02-03 executed via execute-phase
+Phase: 3 of 4 (Gap Filling) — IN PROGRESS
+Plan: 1 of 2 completed (03-01: Create tutorial and how-to templates)
+Status: Phase 3 plan 03-01 complete — tutorial and how-to templates created
+Last activity: 2026-03-02 — Phase 3 plan 03-01 executed via execute-phase
 
-Progress: [████████████████████████░░░░░░░░░░░░] 50% (Phase 1 + Phase 2 complete)
+Progress: [███████████████████████████░░░░░░░░░] 57% (Phase 1 + Phase 2 + Phase 3 plan 1)
 
 ** Performance Metrics
 
@@ -48,8 +48,9 @@ Progress: [███████████████████████
 |--------------------------------+-------+--------+----------|
 | 01-framework-foundation        |     1 | 10min  | 10min    |
 | 02-classification-and-audit    |   3/3 | 50min  | 17min    |
+| 03-gap-filling                 |   1/2 | 3min   | 3min     |
 
-*Recent Trend:* 3 plans completed in Phase 2 (02-01: template classification, 02-02: agent diataxis tags, 02-03: audit)
+*Recent Trend:* 1 plan completed in Phase 3 (03-01: create tutorial and how-to templates)
 
 /Updated after each plan completion/
 
@@ -78,6 +79,10 @@ Recent decisions affecting current work:
 - Tutorial quadrant = critical gap (0 deliverable templates) — GAPS-02
 - How-to quadrant = low coverage (1 template: user-setup.org only) — GAPS-03
 - No misaligned templates found across all 36 primaries
+- Tutorial skeleton scoped to GMSD workflow (discuss/plan/execute cycle)
+- How-to skeleton kept generic — usable for any multi-step procedure
+- Bookend structure for tutorials: "What you'll learn" / "What you learned"
+- Good examples may be GMSD-specific even when the skeleton is generic
 
 *** Pending Todos
 
@@ -89,6 +94,6 @@ None yet.
 
 ** Session Continuity
 
-Last session: 2026-02-28
-Stopped at: Completed Phase 2 plan 02-03 — formal Diataxis audit document written (references/diataxis-audit.org)
-Resume file: None — Phase 2 complete, Phase 3 gap-filling next
+Last session: 2026-03-02
+Stopped at: Completed Phase 3 plan 03-01 — tutorial and how-to templates created
+Resume file: None — Phase 3 plan 03-01 complete, Phase 3 plan 03-02 next

@@ -1,0 +1,124 @@
+:PROPERTIES:
+:phase: 03-gap-filling
+:plan: 01
+:subsystem: documentation
+:tags: [diataxis, tutorial, how-to, templates, org-mode]
+:requires: [{phase: 02-classification-and-audit, provides: Diataxis audit identifying Tutorial and How-to gaps}]
+:provides: [tutorial.org template for learning-oriented onboarding, howto.org template for task-oriented procedures, Diataxis quadrant coverage for Tutorial and How-to]
+:affects: [future phases using tutorial or how-to deliverable types, agents that generate documentation from templates]
+:tech-stack.added: []
+:tech-stack.patterns: [Meta-template block pattern: property drawer + <template> + <good_examples> + <guidelines>]
+:key-files.created: [get-my-shit-done/templates/tutorial.org, get-my-shit-done/templates/howto.org]
+:key-files.modified: []
+:key-decisions: ["Tutorial skeleton scoped to GMSD workflow (discuss/plan/execute cycle)", "How-to skeleton kept generic — not GMSD-scoped, usable for any procedure", "Bookend structure for tutorials: matching What-you-will-learn and What-you-learned sections", "Good examples may be GMSD-specific even when the skeleton is generic"]
+:patterns-established: ["Tutorial bookend pattern: open with outcome bullets, close with same bullets in past tense", "How-to disambiguation test: does the reader know their goal before starting?", "Org comments for all guidance text (invisible when exported)"]
+:requirements-completed: [GAPS-02, GAPS-03]
+:duration: 3min
+:completed: 2026-03-02
+:END:
+
+#+title: Phase 03 Plan 01: Create Tutorial and How-to Templates Summary
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 03 Plan 01: Create Tutorial and How-to Templates Summary
+
+*Tutorial and how-to Diataxis templates created using bookend structure
+and generic procedure skeleton; every quadrant now has template coverage*
+
+** Performance
+
+- *Duration:* 3 min
+- *Started:* 2026-03-02T11:43:03Z
+- *Completed:* 2026-03-02T11:46:23Z
+- *Tasks:* 2
+- *Files modified:* 2
+
+** Accomplishments
+
+- Created =templates/tutorial.org= filling the critical Tutorial quadrant
+  gap (previously 0 templates): bookend structure, three GMSD cycle steps,
+  warm tone, milestone acknowledgements, worked example, disambiguation test
+- Created =templates/howto.org= expanding How-to coverage (previously 1
+  template): generic procedure skeleton usable for any multi-step
+  procedure, professional tone, verification section, troubleshooting table
+- All 218 existing tests pass — no regressions introduced
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Create tutorial template* - ~e8184d9~ (feat)
+2. *Task 2: Create how-to template* - ~2f4d86d~ (feat)
+
+** Files Created/Modified
+
+- =get-my-shit-done/templates/tutorial.org= - Tutorial quadrant template
+  with "Your First Phase" skeleton, bookend structure, worked example
+  (task tracker), and authoring guidelines
+- =get-my-shit-done/templates/howto.org= - How-to quadrant template with
+  generic procedure skeleton, prerequisites/steps/verification/
+  troubleshooting sections, worked example (resume paused plan), and
+  authoring guidelines
+
+** Decisions Made
+
+- *Tutorial skeleton scoped to GMSD* (discuss-phase / plan-phase /
+  execute-phase cycle): the tutorial must demonstrate a complete, working
+  GMSD cycle to be genuinely useful for onboarding
+- *How-to skeleton kept generic*: the template must be usable for GMSD
+  workflows, deployment runbooks, and operational guides — GMSD-specific
+  framing belongs in the examples, not the skeleton
+- *Good examples may be GMSD-specific*: examples are illustrative, not
+  prescriptive; a GMSD-specific worked example demonstrates the template
+  better than a fabricated generic one
+- *Org comments throughout*: all guidance text uses org comment syntax
+  so it is visible when editing but invisible when exported — consistent
+  with the project.org comment pattern
+
+** Deviations from Plan
+
+None — plan executed exactly as written.
+
+** Issues Encountered
+
+Templates were created in =~/.claude/get-my-shit-done/templates/=
+initially (the installed location) before the project repo location
+=get-my-shit-done/templates/= was confirmed. Corrected immediately by
+copying to the repo and committing from there. No impact on output.
+
+** Architectural Observations
+
+- *Emergent patterns:* Both templates follow the identical meta-template
+  block vocabulary (=<template>=, =<good_examples>=, =<guidelines>=).
+  This pattern is now established across all 38 templates. The Common
+  Closure Principle is satisfied — all template-authoring conventions
+  live in one place (org-styleguide.md + the templates themselves).
+- *Coupling discovered:* Tutorial template references the how-to template
+  in its "See also" footer, and the how-to references the tutorial.
+  This is intentional coupling at the content level — the two quadrants
+  are natural complements and cross-references help readers navigate.
+- *Boundary assessment:* The decision to keep the how-to skeleton generic
+  while scoping the tutorial to GMSD is correct Diataxis practice.
+  Tutorials are always domain-specific (the reader needs a real
+  learning experience); how-to guides are reusable procedure templates.
+- *ADR candidates:* None. Both decisions (tutorial scope, how-to
+  genericity) are captured in this summary's key-decisions.
+
+** User Setup Required
+
+None — no external service configuration required.
+
+** Next Phase Readiness
+
+- Tutorial and How-to quadrant gaps are filled — GAPS-02 and GAPS-03
+  requirements are complete
+- Phase 3 can continue with remaining gap-filling plans (if any)
+- Any agent generating learning-oriented content should use
+  =templates/tutorial.org=; any agent generating procedural content
+  should use =templates/howto.org=
+
+-----
+
+/Phase: 03-gap-filling/
+/Completed: 2026-03-02/
