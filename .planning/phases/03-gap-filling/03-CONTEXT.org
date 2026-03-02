@@ -1,6 +1,7 @@
 #+title: Phase 3: Gap Filling - Context
 #+date: [2026-03-02 Mon]
 #+status: Ready for planning
+#+phase: 03-gap-filling
 #+startup: indent
 #+options: toc:2 num:nil ^:{}
 
@@ -101,6 +102,3 @@ None — discussion stayed within phase scope
 </deferred>
 
 -----
-
-/Phase: 03-gap-filling/
-/Context gathered: [2026-03-02 Mon]/
