@@ -16,6 +16,7 @@ This template is used by the complete-milestone workflow to create archive files
 
 ** File Template
 
+#+begin_example
 #+title: Milestone v{{VERSION}}: {{MILESTONE_NAME}}
 #+status: SHIPPED {{DATE}}
 #+phases: {{PHASE_START}}-{{PHASE_END}}
@@ -24,6 +25,7 @@ This template is used by the complete-milestone workflow to create archive files
 #+options: toc:2 num:nil ^:{}
 
 * Milestone v{{VERSION}}: {{MILESTONE_NAME}}
+#+end_example
 
 ** Overview
 

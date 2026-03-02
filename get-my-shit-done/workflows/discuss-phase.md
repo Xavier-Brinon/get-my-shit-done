@@ -318,7 +318,7 @@ mkdir -p ".planning/phases/${padded_phase}-${phase_slug}"
 
 **Structure the content by what was discussed:**
 
-```markdown
+```org
 #+title: Phase [X]: [Name] - Context
 #+date: [YYYY-MM-DD Day]
 #+status: Ready for planning
@@ -326,29 +326,29 @@ mkdir -p ".planning/phases/${padded_phase}-${phase_slug}"
 #+options: toc:2 num:nil ^:{}
 
 <domain>
-## Phase Boundary
+** Phase Boundary
 
 [Clear statement of what this phase delivers — the scope anchor]
 
 </domain>
 
 <decisions>
-## Implementation Decisions
+** Implementation Decisions
 
-### [Category 1 that was discussed]
+*** [Category 1 that was discussed]
 - [Decision or preference captured]
 - [Another decision if applicable]
 
-### [Category 2 that was discussed]
+*** [Category 2 that was discussed]
 - [Decision or preference captured]
 
-### Claude's Discretion
+*** Claude's Discretion
 [Areas where user said "you decide" — note that Claude has flexibility here]
 
 </decisions>
 
 <specifics>
-## Specific Ideas
+** Specific Ideas
 
 [Any particular references, examples, or "I want it like X" moments from discussion]
 
@@ -357,7 +357,7 @@ mkdir -p ".planning/phases/${padded_phase}-${phase_slug}"
 </specifics>
 
 <deferred>
-## Deferred Ideas
+** Deferred Ideas
 
 [Ideas that came up but belong in other phases. Don't lose them.]
 
@@ -365,7 +365,7 @@ mkdir -p ".planning/phases/${padded_phase}-${phase_slug}"
 
 </deferred>
 
----
+-----
 
 /Phase: XX-name/
 /Context gathered: [YYYY-MM-DD Day]/

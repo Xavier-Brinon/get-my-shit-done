@@ -99,7 +99,7 @@ Display:
 ## [title]
 
 **State:** [state] | **Priority:** [#P] | **Area:** [area]
-#+created: [date] ([relative time] ago)
+**Created:** [date] ([relative time] ago)
 **Files:** [list or "None"]
 
 ### Problem

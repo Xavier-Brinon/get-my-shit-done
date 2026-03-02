@@ -433,43 +433,43 @@ Create `.planning/phases/{phase_dir}/{phase_num}-VERIFICATION.org`:
 #+startup: indent
 #+options: toc:2 num:nil ^:{}
 
-## Goal Achievement
+* Goal Achievement
 
-### Observable Truths
+** Observable Truths
 
 | #   | Truth   | Status     | Evidence       |
-| --- | ------- | ---------- | -------------- |
+|-----+---------+------------+----------------|
 | 1   | {truth} | ✓ VERIFIED | {evidence}     |
 | 2   | {truth} | ✗ FAILED   | {what's wrong} |
 
-**Score:** {N}/{M} truths verified
+*Score:* {N}/{M} truths verified
 
-### Required Artifacts
+** Required Artifacts
 
 | Artifact | Expected    | Status | Details |
-| -------- | ----------- | ------ | ------- |
-| `path`   | description | status | details |
+|----------+-------------+--------+---------|
+| =path=   | description | status | details |
 
-### Key Link Verification
+** Key Link Verification
 
 | From | To  | Via | Status | Details |
-| ---- | --- | --- | ------ | ------- |
+|------+-----+-----+--------+---------|
 
-### Requirements Coverage
+** Requirements Coverage
 
 | Requirement | Source Plan | Description | Status | Evidence |
-| ----------- | ---------- | ----------- | ------ | -------- |
+|-------------+------------+-------------+--------+----------|
 
-### Anti-Patterns Found
+** Anti-Patterns Found
 
 | File | Line | Pattern | Severity | Impact |
-| ---- | ---- | ------- | -------- | ------ |
+|------+------+---------+----------+--------|
 
-### Human Verification Required
+** Human Verification Required
 
 {Items needing human testing — detailed format for user}
 
-### Gaps Summary
+** Gaps Summary
 
 {Narrative summary of what's missing and why}
 
