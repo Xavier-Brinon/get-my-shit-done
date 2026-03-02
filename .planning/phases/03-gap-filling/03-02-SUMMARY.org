@@ -1,0 +1,117 @@
+:PROPERTIES:
+:phase: 03-gap-filling
+:plan: 02
+:subsystem: documentation
+:tags: [diataxis, audit, tutorial, how-to, templates, org-mode]
+:requires: [{phase: 03-gap-filling plan 01, provides: tutorial.org and howto.org templates created}]
+:provides: [Updated diataxis-audit.org reflecting Phase 3 coverage: Tutorial 1, How-to 2, Total 31 deliverable templates]
+:affects: [future audits consulting diataxis-audit.org, Phase 4 planning using audit as source of truth]
+:tech-stack.added: []
+:tech-stack.patterns: [Single Source of Truth pattern: one audit document is authoritative record of Diataxis coverage]
+:key-files.created: []
+:key-files.modified: [get-my-shit-done/references/diataxis-audit.org]
+:key-decisions: ["Diataxis audit updated same session as gap-filling to avoid stale state", "Recommendations section renamed to Recommendations Status to reflect Phase 3 completion"]
+:patterns-established: []
+:requirements-completed: [GAPS-02, GAPS-03]
+:duration: 3min
+:completed: 2026-03-02
+:END:
+
+#+title: Phase 03 Plan 02: Update Diataxis Audit Document Summary
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 03 Plan 02: Update Diataxis Audit Document Summary
+
+*Diataxis audit reconciled to reflect Phase 3 gap-filling: Tutorial and
+How-to gaps marked addressed, distribution table updated to 31 templates*
+
+** Performance
+
+- *Duration:* 3 min
+- *Started:* 2026-03-02T11:49:23Z
+- *Completed:* 2026-03-02T11:52:19Z
+- *Tasks:* 1
+- *Files modified:* 1
+
+** Accomplishments
+
+- Updated =references/diataxis-audit.org= to reflect two new templates from
+  Plan 03-01: distribution table shows 31 deliverable templates (was 29),
+  Tutorial at 1 (was 0), How-to at 2 (was 1)
+- Gap Analysis: Tutorial subsection changed from "CRITICAL GAP" to
+  "ADDRESSED", How-to changed from "LOW COVERAGE" to "IMPROVED"; both
+  reference the templates created in Plan 03-01
+- MermaidJS pie chart updated to include Tutorial: 1 and How-to: 2
+- Template Quadrant Mapping table: added =tutorial.org= and =howto.org=
+  rows, count updated from (24) to (26)
+- Recommendations renamed to "Recommendations Status" with Phase 3
+  completion documented; =:templates_audited:= updated 36 to 38
+- All 218 existing tests pass — no regressions introduced
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Update audit document with new template coverage* - ~d343c9e~ (feat)
+
+** Files Created/Modified
+
+- =get-my-shit-done/references/diataxis-audit.org= — Distribution table
+  updated (Tutorial 0→1, How-to 1→2, Total 29→31); MermaidJS chart
+  updated; Gap Analysis marked ADDRESSED/IMPROVED; Template Quadrant
+  Mapping table expanded; Recommendations renamed and updated
+
+** Decisions Made
+
+- *Audit updated same session as gap-filling:* Keeping the audit
+  synchronised with template creation prevents stale state and ensures
+  downstream consumers (Phase 4, future audits) see accurate coverage
+  immediately after gaps are filled.
+- *Recommendations renamed to "Recommendations Status":* The section
+  previously described future work; after Phase 3 it records completed
+  work. The rename signals that the document records history, not
+  forward-looking recommendations.
+
+** Deviations from Plan
+
+None — plan executed exactly as written.
+
+** Issues Encountered
+
+None.
+
+** Architectural Observations
+
+- *Single Source of Truth pattern confirmed:* The audit document functions
+  as the authoritative record of Diataxis coverage. Updating it
+  atomically after gap-filling (rather than leaving it stale) upholds
+  the Single Source of Truth principle — there is one place to check
+  whether a quadrant gap has been addressed.
+- *Coupling discovered:* The audit document is coupled to the templates
+  list by count and name. Each new template requires a corresponding
+  audit update. This is intentional coupling — the audit explicitly
+  tracks templates by name, so the coupling is load-bearing.
+- *Boundary assessment:* The audit-as-record pattern (records Phase 2
+  work, updated in Phase 3) works well. The Misalignment Summary section
+  correctly refers to Phase 2's 36-template assessment even after Phase 3
+  adds 2 more templates — the new templates were never assessed for
+  misalignment because they were purpose-built for specific quadrants.
+- *ADR candidates:* None. The decision to keep the audit synchronised
+  is operational practice, not an architectural choice.
+
+** User Setup Required
+
+None — no external service configuration required.
+
+** Next Phase Readiness
+
+- Diataxis audit is accurate and internally consistent for Phase 4
+- All Diataxis quadrants now have template coverage (Tutorial: 1, How-to: 2)
+- GAPS-02 and GAPS-03 requirements formally recorded as completed in audit
+- Phase 4 can rely on =references/diataxis-audit.org= as an accurate
+  baseline for any further classification or gap analysis work
+
+-----
+/Phase: 03-gap-filling/
+/Completed: 2026-03-02/
