@@ -19,11 +19,14 @@ Template for ~.planning/phases/XX-name/{phase_num}-RESEARCH.org~ - comprehensive
 ** File Template
 
 #+begin_src org
-* Phase [X]: [Name] - Research
+#+title: Phase [X]: [Name] - Research
+#+researched: [YYYY-MM-DD Day]
+#+domain: [primary technology/problem domain]
+#+confidence: HIGH | MEDIUM | LOW
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Researched:* [date]
-*Domain:* [primary technology/problem domain]
-*Confidence:* [HIGH/MEDIUM/LOW]
+* Phase [X]: [Name] - Research
 
 <user_constraints>
 
@@ -293,11 +296,14 @@ Things that couldn't be fully resolved:
 ** Good Example
 
 #+begin_src org
-* Phase 3: 3D City Driving - Research
+#+title: Phase 3: 3D City Driving - Research
+#+researched: [2025-01-20 Mon]
+#+domain: Three.js 3D web game with driving mechanics
+#+confidence: HIGH
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Researched:* 2025-01-20
-*Domain:* Three.js 3D web game with driving mechanics
-*Confidence:* HIGH
+* Phase 3: 3D City Driving - Research
 
 <research_summary>
 

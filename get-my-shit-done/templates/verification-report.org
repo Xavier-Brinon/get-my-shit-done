@@ -24,11 +24,14 @@ Template for ~.planning/phases/XX-name/{phase_num}-VERIFICATION.org~ — phase g
 :score: N/M must-haves verified
 :END:
 
-* Phase {X}: {Name} Verification Report
+#+title: Phase {X}: {Name} Verification Report
+#+phase_goal: {goal from ROADMAP.org}
+#+verified: {timestamp}
+#+status: {passed | gaps_found | human_needed}
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Phase Goal:* {goal from ROADMAP.org}
-*Verified:* {timestamp}
-*Status:* {passed | gaps_found | human_needed}
+* Phase {X}: {Name} Verification Report
 
 ** Goal Achievement
 
@@ -205,11 +208,14 @@ None — all verifiable items checked programmatically.
 :score: 2/5 must-haves verified
 :END:
 
-* Phase 3: Chat Interface Verification Report
+#+title: Phase 3: Chat Interface Verification Report
+#+phase_goal: Working chat interface where users can send and receive messages
+#+verified: [2025-01-15 Wed 14:30]
+#+status: gaps_found
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Phase Goal:* Working chat interface where users can send and receive messages
-*Verified:* 2025-01-15T14:30:00Z
-*Status:* gaps_found
+* Phase 3: Chat Interface Verification Report
 
 ** Goal Achievement
 

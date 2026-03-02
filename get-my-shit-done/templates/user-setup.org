@@ -19,11 +19,14 @@ Template for ~.planning/phases/XX-name/{phase}-USER-SETUP.org~ - human-required 
 ** File Template
 
 #+begin_src org
-* Phase {X}: User Setup Required
+#+title: Phase {X}: User Setup Required
+#+generated: [YYYY-MM-DD Day]
+#+phase: {phase-name}
+#+status: Incomplete
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Generated:* [YYYY-MM-DD]
-*Phase:* {phase-name}
-*Status:* Incomplete
+* Phase {X}: User Setup Required
 
 Complete these items for the integration to function. Claude automated everything possible; these items require human access to external dashboards/accounts.
 
@@ -128,11 +131,14 @@ user_setup:
 
 <stripe_example>
 #+begin_src org
-* Phase 10: User Setup Required
+#+title: Phase 10: User Setup Required
+#+generated: [2025-01-14 Tue]
+#+phase: 10-monetization
+#+status: Incomplete
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Generated:* 2025-01-14
-*Phase:* 10-monetization
-*Status:* Incomplete
+* Phase 10: User Setup Required
 
 Complete these items for Stripe integration to function.
 
@@ -203,11 +209,14 @@ Expected: Build passes, webhook returns 400 (signature validation working).
 
 <supabase_example>
 #+begin_src org
-* Phase 2: User Setup Required
+#+title: Phase 2: User Setup Required
+#+generated: [2025-01-14 Tue]
+#+phase: 02-authentication
+#+status: Incomplete
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Generated:* 2025-01-14
-*Phase:* 02-authentication
-*Status:* Incomplete
+* Phase 2: User Setup Required
 
 Complete these items for Supabase Auth to function.
 
@@ -257,11 +266,14 @@ npx supabase status
 
 <sendgrid_example>
 #+begin_src org
-* Phase 5: User Setup Required
+#+title: Phase 5: User Setup Required
+#+generated: [2025-01-14 Tue]
+#+phase: 05-notifications
+#+status: Incomplete
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Generated:* 2025-01-14
-*Phase:* 05-notifications
-*Status:* Incomplete
+* Phase 5: User Setup Required
 
 Complete these items for SendGrid email to function.
 
