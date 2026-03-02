@@ -25,10 +25,13 @@ Template for ~.planning/phases/XX-name/{phase_num}-CONTEXT.org~ - captures imple
 ** File Template
 
 #+begin_src org
-* Phase [X]: [Name] - Context
+#+title: Phase [X]: [Name] - Context
+#+date: [YYYY-MM-DD Day]
+#+status: Ready for planning
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Gathered:* [date]
-*Status:* Ready for planning
+* Phase [X]: [Name] - Context
 
 <domain>
 ** Phase Boundary
@@ -76,7 +79,7 @@ Template for ~.planning/phases/XX-name/{phase_num}-CONTEXT.org~ - captures imple
 -----
 
 /Phase: XX-name/
-/Context gathered: [date]/
+/Context gathered: [YYYY-MM-DD Day]/
 #+end_src
 
 <good_examples>
@@ -84,10 +87,13 @@ Template for ~.planning/phases/XX-name/{phase_num}-CONTEXT.org~ - captures imple
 *Example 1: Visual feature (Post Feed)*
 
 #+begin_src org
-* Phase 3: Post Feed - Context
+#+title: Phase 3: Post Feed - Context
+#+date: [2025-01-20 Mon]
+#+status: Ready for planning
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Gathered:* 2025-01-20
-*Status:* Ready for planning
+* Phase 3: Post Feed - Context
 
 <domain>
 ** Phase Boundary
@@ -139,16 +145,19 @@ Display posts from followed users in a scrollable feed. Users can view posts and
 -----
 
 /Phase: 03-post-feed/
-/Context gathered: 2025-01-20/
+/Context gathered: [2025-01-20 Mon]/
 #+end_src
 
 *Example 2: CLI tool (Database backup)*
 
 #+begin_src org
-* Phase 2: Backup Command - Context
+#+title: Phase 2: Backup Command - Context
+#+date: [2025-01-20 Mon]
+#+status: Ready for planning
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Gathered:* 2025-01-20
-*Status:* Ready for planning
+* Phase 2: Backup Command - Context
 
 <domain>
 ** Phase Boundary
@@ -201,16 +210,19 @@ CLI command to backup database to local file or S3. Supports full and incrementa
 -----
 
 /Phase: 02-backup-command/
-/Context gathered: 2025-01-20/
+/Context gathered: [2025-01-20 Mon]/
 #+end_src
 
 *Example 3: Organization task (Photo library)*
 
 #+begin_src org
-* Phase 1: Photo Organization - Context
+#+title: Phase 1: Photo Organization - Context
+#+date: [2025-01-20 Mon]
+#+status: Ready for planning
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Gathered:* 2025-01-20
-*Status:* Ready for planning
+* Phase 1: Photo Organization - Context
 
 <domain>
 ** Phase Boundary
@@ -263,7 +275,7 @@ Organize existing photo library into structured folders. Handle duplicates and a
 -----
 
 /Phase: 01-photo-organization/
-/Context gathered: 2025-01-20/
+/Context gathered: [2025-01-20 Mon]/
 #+end_src
 
 </good_examples>

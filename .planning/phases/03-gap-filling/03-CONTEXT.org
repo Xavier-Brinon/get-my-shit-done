@@ -1,0 +1,104 @@
+#+title: Phase 3: Gap Filling - Context
+#+date: [2026-03-02 Mon]
+#+status: Ready for planning
+#+phase: 03-gap-filling
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 3: Gap Filling - Context
+
+<domain>
+** Phase Boundary
+
+Create new templates for the underserved Diataxis quadrants identified
+in the Phase 2 audit. Specifically: a tutorial template (0 coverage,
+critical gap) and a how-to template (1 existing, low coverage). At
+completion, no quadrant remains completely unrepresented in
+=templates/=. This phase creates templates only — no agent behaviour
+changes, no new commands, no documentation reorganisation.
+
+</domain>
+
+<decisions>
+** Implementation Decisions
+
+*** Tutorial template scope
+- Walkthrough covers "Your First Phase": =discuss-phase= →
+  =plan-phase= → =execute-phase=
+- One complete GMSD cycle — the core loop that every user needs to
+  learn
+- Template is a skeleton with placeholders that agents/users fill for
+  their project
+- =good_examples= section includes one fully worked example showing
+  the completed tutorial
+- Target audience: new GMSD user with zero GMSD knowledge (but knows
+  their project domain)
+- Learning bookends: "What you'll learn" objectives at the top, "What
+  you learned" recap at the end
+- Steps chosen to build understanding, not for efficiency (tutorial,
+  not how-to)
+
+*** How-to template structure
+- Generic repeatable-procedure template — usable for any multi-step
+  procedure (GMSD workflows, deployment runbooks, operational guides)
+- Not scoped to GMSD specifically — maximises reuse across project
+  types
+- Full structural sections: prerequisites, goal statement, numbered
+  steps, verification/check commands, troubleshooting
+- Linear sequence with conditional notes inline for variations (e.g.,
+  "If using Docker, substitute X")
+- No branching paths — one clean main path with noted alternatives
+- =good_examples= section includes one fully worked example
+
+*** Writing tone
+- Tutorial template: encouraging, warm, congratulatory at milestones
+  ("Great — you've just created your first plan!")
+- How-to template: professional, concise, respects the reader's time
+- Tone difference is intentional — matches Diataxis quadrant intent
+  (tutorial = confidence-building, how-to = task-completion)
+- Template guidance written as org-mode comments (=# comment= or
+  =#+begin_comment=) — invisible when exported, visible when editing
+
+*** Diataxis metadata and audit
+- New templates classified with =:diataxis_primary:= property at
+  creation (tutorial.org = tutorial, howto.org = how-to)
+- =references/diataxis-audit.org= updated to reflect new quadrant
+  coverage — distribution tables, gap analysis section
+- No changes to =references/diataxis.org= (reference doc defines the
+  framework; templates are implementations)
+
+*** Claude's Discretion
+- Internal template structure beyond the decided sections (headings,
+  property drawers, org-mode conventions)
+- Exact worked example content in =good_examples= sections
+- Whether the tutorial example uses a realistic or toy project scenario
+- How troubleshooting section is structured in the how-to template
+- Audit update formatting and what level of detail in the updated gap analysis
+
+</decisions>
+
+<specifics>
+** Specific Ideas
+
+- Tutorial template file: =templates/tutorial.org=
+- How-to template file: =templates/howto.org=
+- Tutorial structural model: =user-setup.org= is the closest existing
+  model (step-by-step, goal-oriented) but tutorials differ from
+  how-tos in one critical dimension: steps are chosen to build
+  understanding, not for efficiency
+- How-to structural model: =user-setup.org= is the direct ancestor —
+  the new template removes the "external service" framing and makes
+  the goal and steps generic
+- One full example per template in =good_examples= — enough to show
+  the pattern without overwhelming
+
+</specifics>
+
+<deferred>
+** Deferred Ideas
+
+None — discussion stayed within phase scope
+
+</deferred>
+
+-----

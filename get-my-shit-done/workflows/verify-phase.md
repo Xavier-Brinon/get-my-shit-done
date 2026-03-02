@@ -88,7 +88,7 @@ If no must_haves in frontmatter AND no Success Criteria in ROADMAP:
 <step name="verify_truths">
 For each observable truth, determine if the codebase enables it.
 
-**Status:** ✓ VERIFIED (all supporting artifacts pass) | ✗ FAILED (artifact missing/stub/unwired) | ? UNCERTAIN (needs human)
+#+status: ✓ VERIFIED (all supporting artifacts pass) | ✗ FAILED (artifact missing/stub/unwired) | ? UNCERTAIN (needs human)
 
 For each truth: identify supporting artifacts → check artifact status → check wiring → determine truth status.
 

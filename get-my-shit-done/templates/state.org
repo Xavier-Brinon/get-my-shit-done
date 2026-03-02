@@ -17,14 +17,17 @@ Template for ~.planning/STATE.org~ — the project's living memory.
 ** File template
 
 #+begin_src org
+#+title: Project State
+#+core_value: [One-liner from PROJECT.org Core Value section]
+#+current_focus: [Current phase name]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
 * Project State
 
 ** Project Reference
 
 See: .planning/PROJECT.org (updated [date])
-
-*Core value:* [One-liner from PROJECT.org Core Value section]
-*Current focus:* [Current phase name]
 
 ** Current Position
 

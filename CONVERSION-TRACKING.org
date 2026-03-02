@@ -1,13 +1,12 @@
 #+title: GSD → GMSD Fork Conversion Tracking
 #+startup: indent
 #+options: toc:2 num:nil ^:{}
+#+status: COMPLETE (all phases finished)
+#+test_suite: 128/128 passing
 
 * Overview
 
 This document tracks the conversion of [[https://github.com/glittercowboy/get-shit-done][GSD (Get Shit Done)]] into *GMSD (Get My Shit Done)* — a personal fork oriented around Emacs/Org-mode, Architecture Decision Records (MADR 4.0), and software architecture learning.
-
-*Status:* COMPLETE (all phases finished)
-*Test suite:* 127/127 passing
 
 * Phase Summary
 

@@ -17,6 +17,10 @@ Template for ~.planning/phases/XX-name/{phase}-{plan}-SUMMARY.org~ - phase compl
 ** File Template
 
 #+begin_src org
+#+title: Phase [X]: [Name] Summary
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
 :PROPERTIES:
 :phase: XX-name
 :plan: YY
@@ -167,6 +171,10 @@ The one-liner should tell someone what actually shipped.
 
 <example>
 #+begin_src org
+#+title: Phase 1: Foundation Summary
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
 * Phase 1: Foundation Summary
 
 *JWT auth with refresh rotation using jose library, Prisma User model, and protected API middleware*

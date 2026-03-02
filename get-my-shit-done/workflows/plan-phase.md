@@ -79,51 +79,52 @@ Generating CONTEXT.org from requirements...
    - Create CONTEXT.org in the phase directory
 
 4. Write CONTEXT.org:
-```markdown
-# Phase [X]: [Name] - Context
-
-**Gathered:** [date]
-**Status:** Ready for planning
-**Source:** PRD Express Path ({PRD_FILE})
+```org
+#+title: Phase [X]: [Name] - Context
+#+date: [YYYY-MM-DD Day]
+#+status: Ready for planning
+#+source: PRD Express Path ({PRD_FILE})
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
 <domain>
-## Phase Boundary
+** Phase Boundary
 
 [Extracted from PRD — what this phase delivers]
 
 </domain>
 
 <decisions>
-## Implementation Decisions
+** Implementation Decisions
 
 {For each requirement/story/criterion in the PRD:}
-### [Category derived from content]
+*** [Category derived from content]
 - [Requirement as locked decision]
 
-### Claude's Discretion
+*** Claude's Discretion
 [Areas not covered by PRD — implementation details, technical choices]
 
 </decisions>
 
 <specifics>
-## Specific Ideas
+** Specific Ideas
 
 [Any specific references, examples, or concrete requirements from PRD]
 
 </specifics>
 
 <deferred>
-## Deferred Ideas
+** Deferred Ideas
 
 [Items in PRD explicitly marked as future/v2/out-of-scope]
 [If none: "None — PRD covers phase scope"]
 
 </deferred>
 
----
+-----
 
-*Phase: XX-name*
-*Context gathered: [date] via PRD Express Path*
+/Phase: XX-name/
+/Context gathered: [YYYY-MM-DD Day] via PRD Express Path/
 ```
 
 5. Commit:

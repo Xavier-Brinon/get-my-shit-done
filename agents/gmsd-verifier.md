@@ -425,50 +425,51 @@ Create `.planning/phases/{phase_dir}/{phase_num}-VERIFICATION.org`:
 :human_verification: [{test: "What to do", expected: "What should happen", why_human: "Why can't verify programmatically"}]  # Only if status: human_needed
 :END:
 
-# Phase {X}: {Name} Verification Report
+#+title: Phase {X}: {Name} Verification Report
+#+phase_goal: {goal from ROADMAP.org}
+#+verified: {timestamp}
+#+status: {status}
+#+re_verification: {Yes — after gap closure | No — initial verification}
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-**Phase Goal:** {goal from ROADMAP.org}
-**Verified:** {timestamp}
-**Status:** {status}
-**Re-verification:** {Yes — after gap closure | No — initial verification}
+* Goal Achievement
 
-## Goal Achievement
-
-### Observable Truths
+** Observable Truths
 
 | #   | Truth   | Status     | Evidence       |
-| --- | ------- | ---------- | -------------- |
+|-----+---------+------------+----------------|
 | 1   | {truth} | ✓ VERIFIED | {evidence}     |
 | 2   | {truth} | ✗ FAILED   | {what's wrong} |
 
-**Score:** {N}/{M} truths verified
+*Score:* {N}/{M} truths verified
 
-### Required Artifacts
+** Required Artifacts
 
 | Artifact | Expected    | Status | Details |
-| -------- | ----------- | ------ | ------- |
-| `path`   | description | status | details |
+|----------+-------------+--------+---------|
+| =path=   | description | status | details |
 
-### Key Link Verification
+** Key Link Verification
 
 | From | To  | Via | Status | Details |
-| ---- | --- | --- | ------ | ------- |
+|------+-----+-----+--------+---------|
 
-### Requirements Coverage
+** Requirements Coverage
 
 | Requirement | Source Plan | Description | Status | Evidence |
-| ----------- | ---------- | ----------- | ------ | -------- |
+|-------------+------------+-------------+--------+----------|
 
-### Anti-Patterns Found
+** Anti-Patterns Found
 
 | File | Line | Pattern | Severity | Impact |
-| ---- | ---- | ------- | -------- | ------ |
+|------+------+---------+----------+--------|
 
-### Human Verification Required
+** Human Verification Required
 
 {Items needing human testing — detailed format for user}
 
-### Gaps Summary
+** Gaps Summary
 
 {Narrative summary of what's missing and why}
 

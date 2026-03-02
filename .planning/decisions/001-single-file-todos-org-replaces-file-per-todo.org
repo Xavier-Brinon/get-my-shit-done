@@ -1,0 +1,90 @@
+:PROPERTIES:
+:adr-id: 001
+:title: Single-file TODOS.org replaces file-per-todo
+:status: accepted
+:decision-makers: Xavier
+:date: 2026-03-01
+:END:
+
+* Single-file TODOS.org replaces file-per-todo
+
+** Context and Problem Statement
+
+GMSD's todo system stored each todo as a separate =.org= file in =.planning/todos/pending/= and =.planning/todos/completed/=. This required slug generation, directory management, file moves between directories, and bash =grep= for duplicate checks. Meanwhile, org-mode has first-class TODO handling (keywords, priorities, tags, timestamps, properties) that makes a single-file approach both simpler and more powerful.
+
+How should GMSD manage project todos to reduce complexity while gaining native org-mode features?
+
+** Decision Drivers
+
+- Org-mode has built-in TODO keywords (=TODO=, =NEXT=, =WAITING=, =DONE=, =CANCELLED=), priorities (=[#A]=, =[#B]=, =[#C]=), tags, and timestamps that the file-per-todo format didn't use
+- File-per-todo required slug generation, =mkdir -p=, file moves, and directory scanning — all unnecessary complexity
+- Emacs agenda (=C-c a t=) works natively with a single =TODOS.org= but cannot aggregate across dozens of individual files without custom configuration
+- The three-directory structure (=pending/=, =completed/=, =done/=) had a naming inconsistency (=completed= vs =done=) already causing confusion
+- Cross-project todo discovery was impossible — no way to find all project todos from a single location
+
+** Considered Options
+
+- Keep file-per-todo with org property drawers (minimal change)
+- Single =TODOS.org= with native org-mode features (chosen)
+- External task manager integration (Org-roam, org-super-agenda)
+
+** Decision Outcome
+
+Chosen option: "Single =TODOS.org= with native org-mode features", because it eliminates ~80% of the todo infrastructure code (no slug generation, no directory management, no file moves) while gaining priority tracking, state workflows, and native Emacs agenda compatibility.
+
+*** Confirmation
+
+- All 188 tests passed as of [2026-03-01] (128 existing + 60 new)
+- =todo add=, =todo complete=, =todo update= CLI commands work against single file
+- =todo migrate= converts old format without data loss
+- Old format directories are not deleted by =todo migrate= (manual cleanup)
+- All todo commands error with migration instructions if old format directories exist without =TODOS.org=
+
+*** Positive Consequences
+
+- Fewer moving parts: one file instead of N files + 3 directories
+- Native org-mode integration: Emacs agenda, priority sorting, tag filtering all work out of the box
+- Todo state machine: =TODO -> NEXT -> WAITING -> DONE/CANCELLED= with proper timestamps
+- Priority tracking: =[#A]=, =[#B]=, =[#C]= cookies for urgency
+- Cross-project index: =~/TODOS.org= with org links to each project's todos
+- Problem/solution context preserved as =*** Problem= / =*** Solution= subsections
+- Simpler workflows: =add-todo.md= and =check-todos.md= are shorter and more focused
+
+*** Negative Consequences
+
+- Git diffs on a single file are noisier than separate files (all changes in one file)
+- Concurrent todo edits by multiple agents could cause conflicts (unlikely in practice since GMSD is single-user)
+- Migration step required for existing projects (=todo migrate= command provided)
+
+** Pros and Cons of the Options
+
+*** Keep file-per-todo with org property drawers
+
+- Good, because minimal change to existing code
+- Good, because each todo is independently versionable in git
+- Bad, because still requires slug generation, directory management, file moves
+- Bad, because cannot use org-mode agenda without custom elisp
+- Bad, because no priority or state tracking built in
+
+*** Single TODOS.org with native org-mode features
+
+- Good, because eliminates slug generation, directory management, file moves
+- Good, because native Emacs agenda support (=C-c a t=)
+- Good, because priority and state workflows are built into org-mode
+- Good, because cross-project discovery via =~/TODOS.org=
+- Bad, because git diffs are noisier for a single file
+- Bad, because migration needed for existing projects
+
+*** External task manager integration
+
+- Good, because mature tools with advanced features
+- Bad, because adds external dependency
+- Bad, because breaks GMSD's self-contained design philosophy
+- Bad, because significant integration effort
+
+** More Information
+
+- Module: =get-my-shit-done/bin/lib/todos.cjs= — three-layer architecture (parser / mutation / command)
+- Tests: =tests/todos.test.cjs= — 60 tests covering all layers
+- Migration: =gmsd-tools.cjs todo migrate= converts old =.planning/todos/= to =.planning/TODOS.org=
+- Global index: =gmsd-tools.cjs todo global-register= creates/updates =~/TODOS.org=

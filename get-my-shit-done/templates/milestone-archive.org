@@ -16,11 +16,16 @@ This template is used by the complete-milestone workflow to create archive files
 
 ** File Template
 
-* Milestone v{{VERSION}}: {{MILESTONE_NAME}}
+#+begin_example
+#+title: Milestone v{{VERSION}}: {{MILESTONE_NAME}}
+#+status: SHIPPED {{DATE}}
+#+phases: {{PHASE_START}}-{{PHASE_END}}
+#+total_plans: {{TOTAL_PLANS}}
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
-*Status:* ✅ SHIPPED {{DATE}}
-*Phases:* {{PHASE_START}}-{{PHASE_END}}
-*Total Plans:* {{TOTAL_PLANS}}
+* Milestone v{{VERSION}}: {{MILESTONE_NAME}}
+#+end_example
 
 ** Overview
 
