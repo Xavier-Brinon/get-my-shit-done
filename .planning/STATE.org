@@ -81,7 +81,7 @@ Recent decisions affecting current work:
 
 *** Pending Todos
 
-None yet.
+2 pending — =.planning/TODOS.org=
 
 *** Blockers/Concerns
 
