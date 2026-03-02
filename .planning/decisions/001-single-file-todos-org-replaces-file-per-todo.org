@@ -34,7 +34,7 @@ Chosen option: "Single =TODOS.org= with native org-mode features", because it el
 
 *** Confirmation
 
-- All 188 tests pass (128 existing + 60 new)
+- All 188 tests passed as of [2026-03-01] (128 existing + 60 new)
 - =todo add=, =todo complete=, =todo update= CLI commands work against single file
 - =todo migrate= converts old format without data loss
 - Old format directories are not deleted by =todo migrate= (manual cleanup)
