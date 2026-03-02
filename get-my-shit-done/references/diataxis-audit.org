@@ -1,6 +1,6 @@
 :PROPERTIES:
-:audit_date: 2026-02-28
-:templates_audited: 36
+:audit_date: 2026-03-02
+:templates_audited: 38
 :agents_audited: 7
 :END:
 
@@ -24,8 +24,8 @@ and analyses.
 
 ** Template Quadrant Mapping
 
-36 templates audited. 7 meta templates tagged =:diataxis_meta: true= (internal
-machinery, not user-facing output). 29 deliverable templates produce user-facing
+38 templates audited. 7 meta templates tagged =:diataxis_meta: true= (internal
+machinery, not user-facing output). 31 deliverable templates produce user-facing
 documents.
 
 *** Codebase Templates (7)
@@ -50,7 +50,7 @@ documents.
 | =research-project/STACK.org=            | reference | none      | no    | no          | Reader looks up recommended technologies and alternatives          |
 | =research-project/SUMMARY.org=          | reference | none      | no    | no          | Reader looks up consolidated research findings before planning     |
 
-*** Root Planning and Workflow Templates (24)
+*** Root Planning and Workflow Templates (26)
 
 | Template                        | Primary     | Secondary   | Meta? | Misaligned? | Rationale                                                           |
 |---------------------------------+-------------+-------------+-------+-------------+---------------------------------------------------------------------|
@@ -60,6 +60,7 @@ documents.
 | =debug-subagent-prompt.org=     | reference   | none        | yes   | no          | Orchestrator looks up spawn template for debug subagent             |
 | =DEBUG.org=                     | reference   | none        | yes   | no          | Debugger looks up current hypothesis, evidence, and eliminated theories |
 | =discovery.org=                 | reference   | none        | no    | no          | Reader looks up primary recommendation and alternatives considered  |
+| =howto.org=                     | how-to      | none        | no    | no          | Reader follows steps to accomplish a specific operational goal      |
 | =milestone-archive.org=         | reference   | none        | no    | no          | Reader looks up shipped milestone history, phases, and key decisions |
 | =milestone.org=                 | reference   | none        | no    | no          | Reader looks up what was shipped, stats, and git ranges             |
 | =phase-prompt.org=              | reference   | none        | yes   | no          | Planner looks up required PLAN.org format and frontmatter fields    |
@@ -74,6 +75,7 @@ documents.
 | =summary-minimal.org=           | reference   | none        | no    | no          | Reader looks up plan accomplishments and commits                    |
 | =summary-standard.org=          | reference   | none        | no    | no          | Reader looks up plan accomplishments and key decisions              |
 | =summary.org=                   | reference   | none        | no    | no          | Reader looks up plan accomplishments, decisions, and deviations     |
+| =tutorial.org=                  | tutorial    | none        | no    | no          | Reader follows guided walkthrough to learn GMSD workflow            |
 | =UAT.org=                       | reference   | none        | yes   | no          | UAT agent looks up current test status and active test case         |
 | =user-setup.org=                | how-to      | none        | no    | no          | Human follows steps to configure external services                  |
 | =VALIDATION.org=                | reference   | none        | yes   | no          | Plan-checker looks up per-task verification map and sampling rates  |
@@ -96,7 +98,7 @@ types produced, derived from =<diataxis_style>= tag content.
 
 ** Quadrant Distribution
 
-Counts cover deliverable templates only (29 total). Meta templates (7) are excluded
+Counts cover deliverable templates only (31 total). Meta templates (7) are excluded
 from deliverable statistics and shown separately.
 
 *** Deliverable Template Distribution
@@ -105,9 +107,9 @@ from deliverable statistics and shown separately.
 |-------------+-------+-------------------------------------------------|
 | Reference   |    27 | All codebase, research-project, and most root templates |
 | Explanation |     1 | =project.org=                                   |
-| How-to      |     1 | =user-setup.org=                                |
-| Tutorial    |     0 | None                                            |
-| *Total*     |    29 |                                                 |
+| How-to      |     2 | =user-setup.org=, =howto.org=                   |
+| Tutorial    |     1 | =tutorial.org=                                  |
+| *Total*     |    31 |                                                 |
 
 *** Meta Template Distribution (informational)
 
@@ -121,26 +123,27 @@ from deliverable statistics and shown separately.
 pie title Template Quadrant Distribution (deliverable templates only)
     "Reference" : 27
     "Explanation" : 1
-    "How-to" : 1
+    "How-to" : 2
+    "Tutorial" : 1
 #+end_src
 
 ** Gap Analysis
 
-Analysis of underserved quadrants in deliverable templates (29 total).
+Analysis of underserved quadrants in deliverable templates (31 total).
 
-*** Tutorial (CRITICAL GAP — 0 deliverable templates)
+*** Tutorial (ADDRESSED — 1 deliverable template)
 
-- *Current count:* 0 deliverable templates
-- *Gap severity:* Critical — zero coverage
-- *User need unserved:* A new GMSD user has no guided, learning-oriented entry
-  point. Tutorials are for beginners who need to build confidence through a
-  structured, success-guaranteed experience. Without a tutorial template, GMSD
-  has no mechanism to onboard users into the workflow — they must discover how
-  to use the system through reference documents, which assumes prior knowledge.
-- *Concrete absence:* No "Getting Started" or "Your First Plan" guided walkthrough
-  template exists. A new user cannot follow a worked example that builds
-  understanding incrementally.
-- *Requirement:* GAPS-02 (create tutorial template for Tutorial quadrant)
+- *Current count:* 1 deliverable template (=tutorial.org=)
+- *Gap severity:* Addressed — =tutorial.org= created in Phase 3, Plan 03-01
+- *User need now served:* A new GMSD user can follow =tutorial.org= as a
+  guided, learning-oriented entry point. The template provides a structured,
+  success-guaranteed walkthrough through the GMSD discuss/plan/execute cycle.
+  Users can build confidence and understanding before working independently
+  with reference documents.
+- *Resolution:* =templates/tutorial.org= created in Phase 3 (Plan 03-01)
+  to address GAPS-02. The template uses a bookend structure ("What you will
+  learn" / "What you learned") and covers one complete GMSD workflow cycle.
+- *Requirement:* GAPS-02 — completed Phase 3 Plan 03-01
 
 *** Explanation (LOW COVERAGE — 1 deliverable template)
 
@@ -156,18 +159,19 @@ Analysis of underserved quadrants in deliverable templates (29 total).
   rationale summaries, or system-level explanation writing exists beyond
   =project.org=.
 
-*** How-to (LOW COVERAGE — 1 deliverable template)
+*** How-to (IMPROVED — 2 deliverable templates)
 
-- *Current count:* 1 deliverable template (=user-setup.org=)
-- *Gap severity:* Low — coverage exists but is scoped only to service configuration
-- *User need underserved:* How-to documents guide a reader through accomplishing
-  a specific goal. Only =user-setup.org= serves this purpose, and it is scoped
-  exclusively to configuring external services (Stripe, AWS, etc.). There is no
-  how-to template for GMSD workflow steps themselves — no "how to run a phase",
-  "how to add a template", or similar operational guides.
-- *Concrete absence:* No general-purpose how-to template exists for documenting
-  repeatable multi-step procedures beyond external service configuration.
-- *Requirement:* GAPS-03 (create how-to template for How-to quadrant)
+- *Current count:* 2 deliverable templates (=user-setup.org=, =howto.org=)
+- *Gap severity:* Improved — general-purpose how-to template added in Phase 3
+- *User need now better served:* How-to documents guide a reader through
+  accomplishing a specific goal. =user-setup.org= serves external service
+  configuration; =howto.org= provides a generic skeleton usable for GMSD
+  workflow procedures, runbook entries, and any repeatable multi-step
+  operational task.
+- *Resolution:* =templates/howto.org= created in Phase 3 (Plan 03-01)
+  to address GAPS-03. The template is deliberately generic — GMSD-specific
+  framing belongs in worked examples, not the skeleton itself.
+- *Requirement:* GAPS-03 — completed Phase 3 Plan 03-01
 
 *** Reference (WELL SERVED — 27 deliverable templates)
 
@@ -181,7 +185,7 @@ Analysis of underserved quadrants in deliverable templates (29 total).
 
 No templates classified as =:diataxis_misaligned: true= in Plan 02-01.
 
-All 36 templates were assessed against the Diataxis decision tree:
+All 38 templates were assessed against the Diataxis decision tree:
 - Does the reader look up specific facts? → Reference
 - Does the reader follow steps to accomplish a goal? → How-to
 - Does the reader build understanding of a concept? → Explanation
@@ -193,59 +197,44 @@ templates as reference) was confirmed correct for all 12 templates in that group
 
 *No misalignment corrections are required.*
 
-** Recommendations for Phase 3
+** Recommendations Status
 
-Based on gap analysis, the following recommendations are ordered by severity:
-zero-coverage quadrants take priority over low-coverage quadrants.
+Phase 3 gap-filling is complete. The two recommendations from the original
+audit (Priority 1 and Priority 2) have been addressed by Phase 3 Plan 03-01.
 
-*** Priority 1: Create Tutorial Template (GAPS-02)
+*** Priority 1: Create Tutorial Template (GAPS-02) — Completed
 
-- *Quadrant:* Tutorial (0 deliverable templates — critical gap)
-- *Recommended template:* =templates/tutorial.org=
-- *Content:* A structured, success-guaranteed walkthrough that takes a new user
-  through one complete GMSD workflow from start to finish. The tutorial must:
-  - Have a clear, achievable end state ("you will have a committed plan")
-  - Present steps in sequence with no branching decisions for the learner
-  - Be encouraging and congratulatory at completion
-  - Not require prior GMSD knowledge
-- *Structural model:* =user-setup.org= provides the closest model (step-by-step,
-  goal-oriented) but Tutorial differs from How-to in one critical dimension:
-  Tutorial is for learning, not for getting something done. Steps in a tutorial
-  are chosen to build understanding, not for efficiency.
-- *Suggested scope:* "Your First GMSD Phase" — guides a new user through running
-  =gmsd:discuss-phase=, reading the generated ROADMAP.org, and executing one plan.
-- *Connects to:* GAPS-02 requirement
+- *Quadrant:* Tutorial (was 0 deliverable templates — critical gap)
+- *Delivered:* =templates/tutorial.org= created in Phase 3 (Plan 03-01)
+- *Scope implemented:* GMSD workflow tutorial using the discuss/plan/execute
+  cycle; bookend structure with "What you will learn" and "What you learned"
+  sections; worked example using a task-tracker project
+- *Status:* GAPS-02 requirement completed
 
-*** Priority 2: Create How-to Template for Repeatable Procedures (GAPS-03)
+*** Priority 2: Create How-to Template for Repeatable Procedures (GAPS-03) — Completed
 
-- *Quadrant:* How-to (1 deliverable template — low coverage)
-- *Recommended template:* =templates/howto.org= (general-purpose how-to guide)
-- *Content:* A template for documenting any repeatable multi-step procedure with
-  a specific goal. Unlike =user-setup.org= (scoped to external service
-  configuration), this template should be generic enough for workflow
-  documentation, runbook entries, and operational procedures.
-- *Structural model:* =user-setup.org= is the direct model — numbered steps,
-  goal statement, verification commands. The new template removes the
-  "external service" framing and makes the goal and steps generic.
-- *Suggested scope:* Generic how-to guide usable for any operational procedure
-  a GMSD project team needs to document.
-- *Connects to:* GAPS-03 requirement
+- *Quadrant:* How-to (was 1 deliverable template — low coverage)
+- *Delivered:* =templates/howto.org= created in Phase 3 (Plan 03-01)
+- *Scope implemented:* Generic procedure skeleton — not GMSD-scoped so it
+  is usable for workflow documentation, runbook entries, and operational
+  procedures; worked example uses "resume a paused plan"
+- *Status:* GAPS-03 requirement completed
 
 *** Priority 3: Evaluate Explanation Coverage (No Requirement Yet)
 
 - *Quadrant:* Explanation (1 deliverable template — low coverage)
-- *Status:* No formal requirement exists yet; assess after GAPS-02 and GAPS-03
+- *Status:* No formal requirement; not addressed in Phase 3
 - *Observation:* The single explanation template (=project.org=) serves its
-  purpose well — PROJECT.org is the correct place for "what is this project and
-  why?" writing. The gap is real but lower urgency than Tutorial and How-to
-  because explanatory content can be embedded in ADRs (=adr.org= secondary:
-  explanation) and RESEARCH.org (=research.org= secondary: explanation).
-- *Future consideration:* If GMSD projects regularly need standalone conceptual
-  guides (architecture overview documents, design rationale documents), a
-  dedicated explanation template for those use cases would address the gap.
+  purpose well — PROJECT.org is the correct place for "what is this project
+  and why?" writing. The gap is real but lower urgency because explanatory
+  content can be embedded in ADRs (=adr.org= secondary: explanation) and
+  RESEARCH.org (=research.org= secondary: explanation).
+- *Future consideration:* If GMSD projects regularly need standalone
+  conceptual guides (architecture overview documents, design rationale
+  documents), a dedicated explanation template would address the gap.
   Consider as Phase 4 scope.
 
 -----
-/Phase: 02-classification-and-audit/
-/Audit completed: 2026-02-28/
-/Audit covers: 36 templates (02-01) + 7 agents (02-02)/
+/Phase: 02-classification-and-audit (original audit)/
+/Updated: Phase 03 (Plan 03-01 gap-filling complete)/
+/Audit covers: 38 templates (02-01 + Phase 3) + 7 agents (02-02)/
