@@ -1,0 +1,22 @@
+#+title: Project TODOs
+#+author: GMSD
+#+date: [2026-03-02 Mon]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+#+TODO: TODO(t) NEXT(n) WAITING(w) | DONE(d) CANCELLED(c)
+
+* Active
+
+** TODO [#C] Convert .continue-here.md to .continue-here.org :planning:
+:PROPERTIES:
+:created: [2026-03-02 Mon]
+:files: .planning/phases/03-gap-filling/.continue-here.md, get-my-shit-done/workflows/pause-work.md, get-my-shit-done/workflows/resume-work.md
+:END:
+
+*** Problem
+Handoff files are written as .md but project uses org-mode exclusively. The pause-work workflow writes .continue-here.md — should be .continue-here.org with org property drawers instead of YAML frontmatter.
+
+*** Solution
+Update pause-work.md workflow template to output .org format. Update resume-work.md to read .org. Convert any existing .continue-here.md files.
+
+* Archive
