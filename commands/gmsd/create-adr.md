@@ -72,7 +72,7 @@ Ask focused questions to fill in the ADR:
    - Positive: What improves as a result?
    - Negative: What trade-offs are you accepting?
 
-7. **Confirmation**: "How will you verify this decision was implemented correctly?" (review, test, fitness function)
+7. **Confirmation**: "How will you verify this decision was implemented correctly?" (review, test, fitness function). Anchor empirical claims to the decision date — e.g., "All N tests passed as of [YYYY-MM-DD]"
 
 Use `AskUserQuestion` for structured choices where possible. For open-ended sections, have a conversation and synthesize.
 </step>

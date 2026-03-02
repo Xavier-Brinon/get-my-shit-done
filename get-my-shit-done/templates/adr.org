@@ -63,7 +63,7 @@ Chosen option: "[title of option N]", because [justification. e.g., only option 
 
 *** Confirmation
 
-[Describe how the implementation of/compliance with the ADR can be confirmed. Are the design and implementation of the architecture consistent with the decision made? E.g., by a review, an ## architecture fitness function, a ## test, ...]
+[Describe how the implementation of/compliance with the ADR can be confirmed. E.g., by a review, an architecture fitness function, a test. Anchor any empirical claims to the decision date — e.g., "All N tests passed as of [YYYY-MM-DD]" — since ADRs are historical records, not living dashboards.]
 
 *** Positive Consequences
 
