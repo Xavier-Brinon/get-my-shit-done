@@ -425,12 +425,13 @@ Create `.planning/phases/{phase_dir}/{phase_num}-VERIFICATION.org`:
 :human_verification: [{test: "What to do", expected: "What should happen", why_human: "Why can't verify programmatically"}]  # Only if status: human_needed
 :END:
 
-# Phase {X}: {Name} Verification Report
-
-**Phase Goal:** {goal from ROADMAP.org}
-**Verified:** {timestamp}
-**Status:** {status}
-**Re-verification:** {Yes — after gap closure | No — initial verification}
+#+title: Phase {X}: {Name} Verification Report
+#+phase_goal: {goal from ROADMAP.org}
+#+verified: {timestamp}
+#+status: {status}
+#+re_verification: {Yes — after gap closure | No — initial verification}
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
 ## Goal Achievement
 

@@ -45,7 +45,7 @@ PHASE_INFO=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs find-phase 01 --
 ```
 
 From each VERIFICATION.org, extract:
-- **Status:** passed | gaps_found
+- =#+status:= passed | gaps_found
 - **Critical gaps:** (if any — these are blockers)
 - **Non-critical gaps:** tech debt, deferred items, warnings
 - **Anti-patterns found:** TODOs, stubs, placeholders

@@ -4,11 +4,10 @@
 #+startup: indent
 #+options: toc:2 num:nil ^:{}
 
-* Requirements: GMSD Diataxis Integration
+#+defined: [2026-02-27]
+#+core_value: Every document GMSD produces follows a principled documentation framework so users always find the right type of doc for their need.
 
-*Defined:* 2026-02-27
-*Core Value:* Every document GMSD produces follows a principled documentation
-framework so users always find the right type of doc for their need.
+* Requirements: GMSD Diataxis Integration
 
 ** v1.0 Requirements
 

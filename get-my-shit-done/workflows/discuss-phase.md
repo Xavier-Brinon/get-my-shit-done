@@ -319,10 +319,11 @@ mkdir -p ".planning/phases/${padded_phase}-${phase_slug}"
 **Structure the content by what was discussed:**
 
 ```markdown
-# Phase [X]: [Name] - Context
-
-**Gathered:** [date]
-**Status:** Ready for planning
+#+title: Phase [X]: [Name] - Context
+#+date: [YYYY-MM-DD Day]
+#+status: Ready for planning
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
 <domain>
 ## Phase Boundary
@@ -366,8 +367,8 @@ mkdir -p ".planning/phases/${padded_phase}-${phase_slug}"
 
 ---
 
-*Phase: XX-name*
-*Context gathered: [date]*
+/Phase: XX-name/
+/Context gathered: [YYYY-MM-DD Day]/
 ```
 
 Write file.

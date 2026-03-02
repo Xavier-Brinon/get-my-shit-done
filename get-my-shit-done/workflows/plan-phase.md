@@ -80,11 +80,12 @@ Generating CONTEXT.org from requirements...
 
 4. Write CONTEXT.org:
 ```markdown
-# Phase [X]: [Name] - Context
-
-**Gathered:** [date]
-**Status:** Ready for planning
-**Source:** PRD Express Path ({PRD_FILE})
+#+title: Phase [X]: [Name] - Context
+#+date: [YYYY-MM-DD Day]
+#+status: Ready for planning
+#+source: PRD Express Path ({PRD_FILE})
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
 
 <domain>
 ## Phase Boundary
@@ -122,8 +123,8 @@ Generating CONTEXT.org from requirements...
 
 ---
 
-*Phase: XX-name*
-*Context gathered: [date] via PRD Express Path*
+/Phase: XX-name/
+/Context gathered: [YYYY-MM-DD Day] via PRD Express Path/
 ```
 
 5. Commit:
