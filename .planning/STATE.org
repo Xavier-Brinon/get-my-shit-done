@@ -3,10 +3,10 @@
 :milestone: v1.0
 :milestone_name: milestone
 :status: unknown
-:last_updated: "2026-03-02T11:52:19Z"
-:progress.total_phases: 4
-:progress.completed_phases: 2
-:progress.total_plans: 5
+:last_updated: "2026-03-02T11:57:00.009Z"
+:progress.total_phases: 3
+:progress.completed_phases: 1
+:progress.total_plans: 2
 :progress.completed_plans: 6
 :END:
 

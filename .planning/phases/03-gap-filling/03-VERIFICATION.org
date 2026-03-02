@@ -1,0 +1,182 @@
+:PROPERTIES:
+:phase: 03-gap-filling
+:verified: 2026-03-02T12:00:00Z
+:status: passed
+:score: 8/8 must-haves verified
+:re_verification: false
+:END:
+
+#+title: Phase 03: Gap Filling Verification Report
+#+author: GMSD Verifier
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 03: Gap Filling Verification Report
+
+*Phase Goal:* New templates exist for the underserved quadrants identified
+in the Phase 2 audit. At minimum, a tutorial template (guided learning
+experience for project onboarding) and a how-to template (step-by-step
+for common GMSD workflows) fill the quadrants that 40+ existing templates
+do not cover.
+
+*Verified:* 2026-03-02T12:00:00Z
+*Status:* PASSED
+*Re-verification:* No — initial verification
+
+** Goal Achievement
+
+*** Observable Truths
+
+| # | Truth                                                         | Status     | Evidence                                                         |
+|---+---------------------------------------------------------------+------------+------------------------------------------------------------------|
+| 1 | Tutorial template exists for learning-oriented onboarding     | VERIFIED   | =get-my-shit-done/templates/tutorial.org= present, 348 lines    |
+| 2 | How-to template exists for task-oriented procedures           | VERIFIED   | =get-my-shit-done/templates/howto.org= present, 270 lines       |
+| 3 | Both templates carry Diataxis metadata                        | VERIFIED   | =:diataxis_primary: tutorial= and =:diataxis_primary: how-to=   |
+| 4 | No quadrant remains completely unrepresented                  | VERIFIED   | Audit shows Tutorial: 1, How-to: 2, Explanation: 1, Reference: 27 |
+| 5 | Audit document reflects new template counts                   | VERIFIED   | Distribution table shows 31 total, Tutorial 1, How-to 2         |
+| 6 | Tutorial gap marked as addressed in audit                     | VERIFIED   | Gap Analysis: =*** Tutorial (ADDRESSED — 1 deliverable template)= |
+| 7 | How-to gap coverage updated in audit                          | VERIFIED   | Gap Analysis: =*** How-to (IMPROVED — 2 deliverable templates)=  |
+| 8 | MermaidJS chart matches updated counts                        | VERIFIED   | Chart: Reference 27, Explanation 1, How-to 2, Tutorial 1         |
+
+*Score:* 8/8 truths verified
+
+*** Required Artifacts
+
+| Artifact                                          | Expected                                        | Status   | Details                                    |
+|---------------------------------------------------+-------------------------------------------------+----------+--------------------------------------------|
+| =get-my-shit-done/templates/tutorial.org=         | Tutorial quadrant template with bookend structure | VERIFIED | 348 lines; =:diataxis_primary: tutorial=;  =<template>=, =<good_examples>=, =<guidelines>= all present |
+| =get-my-shit-done/templates/howto.org=            | How-to quadrant template with generic procedure skeleton | VERIFIED | 270 lines; =:diataxis_primary: how-to=; =<template>=, =<good_examples>=, =<guidelines>= all present |
+| =get-my-shit-done/references/diataxis-audit.org=  | Updated Diataxis audit with Phase 3 coverage    | VERIFIED | =:templates_audited: 38=; =tutorial.org= and =howto.org= both listed; ADDRESSED/IMPROVED status set |
+
+*Note on artifact paths:* Plan 03-01 frontmatter recorded
+=:files_modified: [templates/tutorial.org, templates/howto.org]=
+but the actual committed paths are
+=get-my-shit-done/templates/tutorial.org= and
+=get-my-shit-done/templates/howto.org=. This is the correct installed
+location for the project structure and matches the installed copy at
+=~/.claude/get-my-shit-done/templates/=. The SUMMARY frontmatter
+correctly records the =get-my-shit-done/= prefix. This is a plan
+frontmatter recording discrepancy only — not a functional gap.
+
+*** Key Link Verification
+
+| From                                         | To                                  | Via                                           | Status   | Details                                               |
+|----------------------------------------------+-------------------------------------+-----------------------------------------------+----------+-------------------------------------------------------|
+| =get-my-shit-done/templates/tutorial.org=    | =references/diataxis-condensed.md=  | =:diataxis_primary: tutorial= property        | VERIFIED | Property present line 2; bookend pattern correct      |
+| =get-my-shit-done/templates/howto.org=       | =references/diataxis-condensed.md=  | =:diataxis_primary: how-to= property          | VERIFIED | Property present line 2; generic skeleton confirmed   |
+| =get-my-shit-done/references/diataxis-audit.org= | =templates/tutorial.org=        | Listed in distribution table and gap analysis | VERIFIED | =tutorial.org= referenced in mapping table and Gap Analysis section |
+| =get-my-shit-done/references/diataxis-audit.org= | =templates/howto.org=           | Listed in distribution table and gap analysis | VERIFIED | =howto.org= referenced in mapping table (row added) and How-to gap section |
+
+*** Requirements Coverage
+
+| Requirement | Source Plan | Description                                                               | Status    | Evidence                                                             |
+|-------------+-------------+---------------------------------------------------------------------------+-----------+----------------------------------------------------------------------|
+| GAPS-02     | 03-01, 03-02 | New tutorial template(s) exist for learning-oriented deliverables        | SATISFIED | =tutorial.org= created in commit =e8184d9=; marked =[X]= in REQUIREMENTS.org; traceability table shows Phase 3 Complete |
+| GAPS-03     | 03-01, 03-02 | New how-to template(s) exist for task-oriented deliverables              | SATISFIED | =howto.org= created in commit =2f4d86d=; marked =[X]= in REQUIREMENTS.org; traceability table shows Phase 3 Complete |
+
+No orphaned requirements detected. REQUIREMENTS.org maps exactly GAPS-02
+and GAPS-03 to Phase 3; both plans claim both IDs; both are now marked
+Complete.
+
+*** Structural Verification of Templates
+
+*tutorial.org* structural elements:
+
+- =:diataxis_primary: tutorial= property drawer: PRESENT (line 2)
+- =<template>= block: PRESENT (line 31)
+- "What you'll learn" section (Bookend 1): PRESENT (line 40)
+- Prerequisites section: PRESENT (line 54)
+- Step 1 — discuss-phase: PRESENT (line 67)
+- Step 2 — plan-phase: PRESENT (line 89)
+- Step 3 — execute-phase: PRESENT (line 100)
+- Milestone acknowledgements between steps: PRESENT (3 milestones)
+- "What you learned" section (Bookend 2): PRESENT (line 140)
+- =<good_examples>= block with worked example (task tracker): PRESENT
+- =<guidelines>= block with disambiguation test: PRESENT
+- Org-mode comments for guidance (invisible on export): PRESENT
+- Backticks: 0 (no violations)
+- Conditional language in steps: NONE found
+
+*howto.org* structural elements:
+
+- =:diataxis_primary: how-to= property drawer: PRESENT (line 2)
+- =<template>= block: PRESENT (line 29)
+- Goal section: PRESENT (line 37)
+- Prerequisites section: PRESENT (line 43)
+- Steps section (numbered, imperative): PRESENT (line 54)
+- Verification section with bash command + expected output: PRESENT (line 79)
+- Troubleshooting section (symptom-to-fix table): PRESENT (line 95)
+- =<good_examples>= block (resume paused GMSD plan): PRESENT
+- =<guidelines>= block with disambiguation test: PRESENT
+- Generic skeleton (not GMSD-scoped): CONFIRMED
+- Professional tone, no warm/encouraging language in skeleton: CONFIRMED
+- Backticks: 0 (no violations)
+
+*** Anti-Patterns Found
+
+| File          | Line | Pattern              | Severity | Impact                                                           |
+|---------------+------+----------------------+----------+------------------------------------------------------------------|
+| =howto.org=   |   97 | "Generic placeholders" | INFO   | Intentional guidance text in an org comment — not an implementation stub. The word "placeholders" describes what the agent should write, not a deferred implementation. |
+| =howto.org=   |  235 | "Generic placeholders" | INFO   | Same — appears in =<guidelines>= block as authoring instruction. No impact on template function. |
+
+No blockers or warnings found. The two INFO items are design-intent
+guidance text inside comment blocks, not stubs or deferred work.
+
+*** Commit Verification
+
+All three commits from SUMMARYs confirmed in repository:
+
+- =e8184d9= — feat(03-01): create tutorial template
+- =2f4d86d= — feat(03-01): create how-to template
+- =d343c9e= — feat(03-02): update diataxis audit with Phase 3 template coverage
+
+*** Test Suite
+
+All 218 existing tests pass. No regressions introduced.
+
+#+begin_example
+ℹ tests 218
+ℹ pass 218
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+#+end_example
+
+*** ADR Consistency
+
+No =.planning/decisions/= directory exists in the project. No ADRs are
+linked to Phase 03. The SUMMARY for Plan 03-01 explicitly notes that
+both key decisions (tutorial scope to GMSD, how-to skeleton kept
+generic) are operational practice, not architectural choices warranting
+ADRs. Consistent with the absence of a decisions directory.
+
+*** Human Verification Required
+
+None required. All structural, content, and wiring checks passed
+programmatically. No visual, real-time, or external service integration
+behavior to verify.
+
+** Gaps Summary
+
+No gaps. All must-haves verified.
+
+Both templates are present at the correct installed location
+(=get-my-shit-done/templates/=), substantively implemented (not stubs),
+and correctly wired through =:diataxis_primary:= metadata and audit
+document cross-references. The diataxis-audit.org update is internally
+consistent: distribution table totals (27+1+2+1=31) match the sum, the
+MermaidJS chart matches the table, and both gap analysis sections
+reference the correct template files.
+
+Requirements GAPS-02 and GAPS-03 are satisfied and recorded as Complete
+in REQUIREMENTS.org with correct phase traceability.
+
+The phase goal is achieved: every Diataxis quadrant now has at least one
+deliverable template, and the tutorial and how-to quadrants are
+specifically filled by the new templates created in this phase.
+
+-----
+
+/Verified: 2026-03-02T12:00:00Z/
+/Verifier: Claude (gmsd-verifier)/
