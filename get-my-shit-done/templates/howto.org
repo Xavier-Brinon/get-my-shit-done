@@ -1,0 +1,270 @@
+:PROPERTIES:
+:diataxis_primary: how-to
+:diataxis_secondary: none
+:diataxis_rationale: Reader follows the generated how-to to accomplish a specific operational goal. Reader arrives with a goal already in mind and assumes their own competence; the document confirms scope and directs action without background or onboarding.
+:END:
+
+#+title: How-to
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* How-to Template
+
+Template for task-oriented procedure documents. Use this template when
+the reader has a specific goal and needs the shortest reliable path to
+reach it.
+
+#+begin_comment
+Diataxis: How-to quadrant.
+Purpose: The reader arrives with a goal already formed. They need
+direction, not education. This template skips onboarding and delivers
+a numbered procedure with verification.
+
+Use this template (not the tutorial template) when:
+- The reader knows what they want to accomplish
+- Background knowledge can be assumed
+- The document's value is measured by whether the reader reaches the goal
+#+end_comment
+
+<template>
+
+#+begin_src org
+,* How to [Goal]
+
+# Diataxis: How-to. State the goal in the title and repeat it in the
+# first heading. Readers scan headings to confirm this solves their
+# problem before committing to read further.
+
+,** Goal
+
+[One sentence confirming exactly what this procedure accomplishes.
+Match the title. Example: "This procedure configures X so that Y."]
+
+,** Prerequisites
+
+# List only hard blockers — things the reader must have or have done
+# before step 1 can succeed. Skip anything they can reasonably infer.
+# Keep this section short.
+
+Before starting:
+
+- [Required tool, service, or state — e.g., ~tool~ installed]
+- [Access or permission required — e.g., write access to =path/=]
+
+,** Steps
+
+# Numbered, imperative, concrete. One action per step. No prose paragraphs.
+# Use inline conditional notes for variations but do not branch the
+# main path. Example inline note: "(If using Docker, substitute ~X~.)"
+
+1. [Imperative verb] [concrete object]: [command or action]
+
+   #+begin_src bash
+   [command]
+   #+end_src
+
+2. [Imperative verb] [concrete object].
+
+3. [Imperative verb] [concrete object]: [command or action]
+
+   #+begin_src bash
+   [command]
+   #+end_src
+
+   /(If [variation], substitute [alternative].)/
+
+4. [Imperative verb] [concrete object].
+
+,** Verification
+
+# State what success looks like. Provide a command and expected output.
+# Reader should be able to confirm completion without interpretation.
+
+Confirm the procedure succeeded:
+
+#+begin_src bash
+[verification command]
+#+end_src
+
+Expected output:
+
+#+begin_example
+[exact or representative expected output]
+#+end_example
+
+,** Troubleshooting
+
+# Symptom-to-fix pairs only. Keep entries brief. Generic placeholders
+# in the skeleton; fill in with procedure-specific issues.
+
+| Symptom                     | Fix                                      |
+|-----------------------------+------------------------------------------|
+| [Error message or symptom]  | [Concrete remediation step]              |
+| [Second symptom]            | [Concrete remediation step]              |
+
+-----
+
+/See also:/ [[file:./tutorial.org][Tutorial — Your First Phase with GMSD]] for a
+learning-oriented introduction.
+#+end_src
+
+</template>
+
+<good_examples>
+
+*Worked example: How to resume a paused GMSD plan*
+
+This is what a filled-in how-to looks like. The example is GMSD-specific
+even though the skeleton is generic — that is the intended pattern.
+
+#+begin_src org
+,* How to Resume a Paused GMSD Plan
+
+,** Goal
+
+This procedure resumes plan execution after a checkpoint or interrupted
+session, picking up from the last completed task.
+
+,** Prerequisites
+
+Before starting:
+
+- GMSD project initialised (=.planning/= directory present)
+- At least one plan with a =SUMMARY.org= or partial execution on disk
+- Claude Code running in the project directory
+
+,** Steps
+
+1. Check the current execution state:
+
+   #+begin_src bash
+   cat .planning/STATE.org
+   #+end_src
+
+   Look for the =Stopped at= line under =Session Continuity= — this
+   identifies the plan and last completed task.
+
+2. Identify the plan file for the stopped phase:
+
+   #+begin_src bash
+   ls .planning/phases/
+   #+end_src
+
+   Find the directory matching the phase in =Stopped at=.
+
+3. Run the execute command in Claude Code:
+
+   #+begin_src
+   /gmsd:execute-phase
+   #+end_src
+
+   GMSD reads =STATE.org=, detects the incomplete plan, and resumes
+   from the last committed task. /(If multiple plans are incomplete,
+   GMSD prompts you to select one.)/
+
+4. Confirm execution completes:
+
+   #+begin_src bash
+   git log --oneline -5
+   #+end_src
+
+   Each completed task appears as a separate commit.
+
+,** Verification
+
+Confirm the plan is fully executed:
+
+#+begin_src bash
+ls .planning/phases/XX-name/*-SUMMARY.org
+#+end_src
+
+Expected output:
+
+#+begin_example
+.planning/phases/01-task-creation/01-01-SUMMARY.org
+#+end_example
+
+A =SUMMARY.org= file present for the plan confirms execution completed.
+
+,** Troubleshooting
+
+| Symptom                              | Fix                                             |
+|--------------------------------------+-------------------------------------------------|
+| =STATE.org= shows no =Stopped at=    | No paused plan; run =/gmsd:discuss-phase= first |
+| Execution reruns completed tasks     | Delete partial =SUMMARY.org= and re-run         |
+| Git conflicts on resume              | Resolve conflicts, then re-run execute-phase    |
+
+-----
+
+/See also:/ Your First Phase tutorial for a guided introduction to the
+full GMSD cycle.
+#+end_src
+
+</good_examples>
+
+<guidelines>
+
+*Authoring guidance for agents generating how-to documents.*
+
+,** Purpose of this template
+
+Use this template when generating a task-oriented document where the
+reader arrives with a specific goal already in mind. The how-to's value
+is measured by one criterion: did the reader reach their goal?
+
+*Disambiguation test:* Does this content help the reader reach the goal
+faster? If it explains rather than directs, remove it or move it to a
+comment or Explanation document.
+
+| Dimension     | How-to (this template)           | Tutorial                       |
+|---------------+----------------------------------+--------------------------------|
+| Reader goal   | Specific — reader knows          | None yet — follows the teacher |
+| Competence    | Assumed                          | None assumed                   |
+| Path control  | Reader controls                  | Author controls                |
+
+,** Required structural elements
+
+Every how-to generated from this template must contain:
+
+- *Goal statement* — one sentence in the =*= heading and repeated as a
+  sentence under =** Goal=. Reader confirms scope immediately
+- *Prerequisites* — hard blockers only, no speculative or obvious items
+- *Numbered steps* — imperative verbs, one action per step, linear
+  sequence. Inline conditionals for variations only
+- *Verification* — command and expected output confirming success
+- *Troubleshooting* — symptom-to-fix table, brief, generic placeholders
+
+,** Tone rules
+
+- Professional, concise, neutral
+- No warm or encouraging language (that is tutorial tone)
+- No third-person background paragraphs about why things work
+- Assume the reader is competent — skip context they already have
+
+,** Skeleton scope
+
+The skeleton in =<template>= is intentionally generic — not scoped to
+GMSD or any specific tool. Agents fill it in for any procedure. The
+=<good_examples>= block may be GMSD-specific since examples are
+illustrative, not prescriptive.
+
+,** Org-mode conventions for how-to documents
+
+- Use ==verbatim== for paths, filenames, and commands
+- Use =~code~= for code fragments and option names
+- Use =#+begin_src bash= for shell commands
+- Use =#+begin_example= for expected output (not code)
+- Do not use backticks anywhere
+- Wrap prose at 78 characters
+- Use =-= as the bullet character
+- Title case for =*= headings; sentence case for =**= and below
+
+,** Anti-patterns
+
+- Background theory or "why" explanations — remove or move to comments
+- Encouraging or congratulatory language — neutral tone only
+- Branching paths (multiple step sequences) — split into separate how-tos
+- Tutorial-style scaffolding ("don't worry if...") — strip it out
+- Repeating information from prerequisites in the steps — trust the reader
+
+</guidelines>
