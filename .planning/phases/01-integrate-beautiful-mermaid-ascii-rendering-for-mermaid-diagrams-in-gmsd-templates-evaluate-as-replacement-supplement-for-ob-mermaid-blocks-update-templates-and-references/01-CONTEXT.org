@@ -1,0 +1,77 @@
+#+title: Phase 1: Integrate beautiful-mermaid ASCII rendering - Context
+#+date: [2026-03-03 Tue]
+#+status: Ready for planning
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 1: Integrate beautiful-mermaid ASCII rendering - Context
+
+<domain>
+** Phase Boundary
+
+Integrate beautiful-mermaid (https://github.com/lukilabs/beautiful-mermaid) as the
+rendering backend for all MermaidJS diagrams in GMSD templates and references. Replace
+ob-mermaid blocks entirely. Update templates, references, org-styleguides, and agent
+=<architecture_learning>= sections. Atomic cutover — no mixed state.
+
+Origin: TODO #1 in =.planning/TODOS.org=.
+
+</domain>
+
+<decisions>
+** Implementation Decisions
+
+*** Replacement strategy
+- Full replacement of ob-mermaid — no coexistence, no fallback
+- If a diagram type renders poorly in ASCII, simplify the diagram until it's readable — do not fall back to ob-mermaid
+- Remove all ob-mermaid references from styleguides and references (clean break)
+
+*** Rendering workflow
+- Keep Mermaid source syntax alongside ASCII renders (for future re-rendering)
+- Mermaid source stored in collapsed/folded org blocks (visible when expanded, hidden by default)
+- Claude's discretion on: integration point (agent-time vs standalone tool vs both), org-mode wrapping for ASCII output
+
+*** Diagram quality constraints
+- 80-column strict maximum width for all ASCII diagrams
+- Must be clearly readable in a terminal at 80 columns — quality over completeness
+- When simplifying: preserve relationships (edges/connections) over labels (detailed node text)
+- Claude's discretion on: which Mermaid diagram types to support (audit actual usage in templates)
+
+*** Template and reference updates
+- Atomic switch — update all templates, references, and agent docs in one pass
+- Update both org-styleguide versions (full and condensed) to reference MermaidJS ASCII
+- Include 1-2 rendered ASCII diagram examples in the styleguide
+- Update =<architecture_learning>= sections in all 9 agents that reference MermaidJS
+- Naming convention: "MermaidJS ASCII" (keeps MermaidJS as diagram language, specifies ASCII rendering)
+
+*** Claude's Discretion
+- Integration point: when/how beautiful-mermaid runs (agent output time, standalone CLI, or both)
+- Org-mode wrapping syntax for ASCII diagram blocks
+- Which Mermaid diagram types to support (based on audit of actual usage)
+- Simplification strategy per diagram type
+
+</decisions>
+
+<specifics>
+** Specific Ideas
+
+- beautiful-mermaid package: https://github.com/lukilabs/beautiful-mermaid
+- Current ob-mermaid usage documented in =references/org-styleguide-full.org= (~570 lines)
+- Condensed agent reference in =references/org-styleguide.md= (~130 lines)
+- 7 org-generating agents have =<org_style>= tags referencing the condensed guide
+- 9 agents have =<architecture_learning>= sections with MermaidJS diagram blocks
+- 5 templates have MermaidJS =ob-mermaid= diagram blocks
+
+</specifics>
+
+<deferred>
+** Deferred Ideas
+
+None — discussion stayed within phase scope.
+
+</deferred>
+
+-----
+
+/Phase: 01-integrate-beautiful-mermaid/
+/Context gathered: [2026-03-03 Tue]/
