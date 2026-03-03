@@ -1,0 +1,125 @@
+:PROPERTIES:
+:phase: 01-integrate-beautiful-mermaid
+:plan: 01
+:type: execute
+:wave: 1
+:depends_on: []
+:files_modified: [get-my-shit-done/bin/render-mermaid.cjs, package.json, tests/render-mermaid.test.cjs]
+:autonomous: true
+:requirements: [MERMAID-TOOL]
+:must_haves.truths: ["render-mermaid.cjs accepts Mermaid source and produces ASCII output within 120 columns", "beautiful-mermaid is installed as a project dependency", "Width constraint is enforced with paddingX fallback strategy"]
+:must_haves.artifacts: [{path: get-my-shit-done/bin/render-mermaid.cjs, provides: Facade over beautiful-mermaid renderMermaidASCII, exports: [renderWithinWidth]}, {path: tests/render-mermaid.test.cjs, provides: Unit tests for render script, contains: width assertion}, {path: package.json, provides: beautiful-mermaid dependency, contains: beautiful-mermaid}]
+:must_haves.key_links: [{from: get-my-shit-done/bin/render-mermaid.cjs, to: beautiful-mermaid, via: require beautiful-mermaid, pattern: "require.*beautiful-mermaid"}, {from: tests/render-mermaid.test.cjs, to: get-my-shit-done/bin/render-mermaid.cjs, via: require render script, pattern: "require.*render-mermaid"}]
+:END:
+
+#+title: Plan 01: Create MermaidJS ASCII render script
+#+author: GMSD
+#+date: [2026-03-03]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+<objective>
+Create the render-mermaid.cjs script that wraps beautiful-mermaid's renderMermaidASCII()
+API, install the dependency, and write unit tests.
+
+Purpose: This script is the single integration point (Facade pattern) for all MermaidJS
+ASCII rendering in the project. Templates and references will use its output in Plan 02
+and Plan 03.
+
+Output: Working render script, installed dependency, passing tests.
+
+Architectural pattern: **Facade** -- a single bin/render-mermaid.cjs encapsulates the
+beautiful-mermaid library. No other code calls the library directly. This isolates the
+project from API changes in the upstream package.
+</objective>
+
+<execution_context>
+@/Users/xavierbrinon/.claude/get-my-shit-done/workflows/execute-plan.md
+@/Users/xavierbrinon/.claude/get-my-shit-done/templates/summary.org
+</execution_context>
+
+<context>
+@.planning/PROJECT.org
+@.planning/ROADMAP.org
+@.planning/STATE.org
+@.planning/phases/01-integrate-beautiful-mermaid-ascii-rendering-for-mermaid-diagrams-in-gmsd-templates-evaluate-as-replacement-supplement-for-ob-mermaid-blocks-update-templates-and-references/01-RESEARCH.org
+</context>
+
+<tasks>
+
+<task type="auto">
+  <name>Task 1: Install beautiful-mermaid and create render script</name>
+  <files>package.json, get-my-shit-done/bin/render-mermaid.cjs</files>
+  <action>
+1. Install beautiful-mermaid as a dependency:
+   npm install beautiful-mermaid
+
+2. Create get-my-shit-done/bin/render-mermaid.cjs as a CJS module that:
+   - Exports a renderWithinWidth(source, maxWidth = 120) function
+   - Uses renderMermaidASCII from beautiful-mermaid with options:
+     useAscii: false (Unicode box-drawing for readability)
+     paddingY: 1
+     boxBorderPadding: 1
+   - Implements paddingX fallback: tries paddingX 2, then 1, then 0
+   - Returns { ascii, paddingX, width } on success, null if all paddings exceed maxWidth
+   - When run directly (require.main === module), reads Mermaid source from:
+     a) File argument (node render-mermaid.cjs diagram.mmd)
+     b) Stdin (echo "flowchart LR ..." | node render-mermaid.cjs)
+   - Prints rendered ASCII to stdout; exits 1 if rendering fails or exceeds width
+   - Prints max line width to stderr for diagnostics
+
+Note: useAscii: false is counterintuitive -- false means USE Unicode (prettier).
+The API option name is inverted from expectations.
+  </action>
+  <verify>
+    <automated>node get-my-shit-done/bin/render-mermaid.cjs <<< "flowchart LR\n    A --> B" | head -5</automated>
+  </verify>
+  <done>Script renders a simple flowchart to stdout. Unicode box-drawing characters visible. Exit code 0.</done>
+</task>
+
+<task type="auto">
+  <name>Task 2: Add unit tests for render script</name>
+  <files>tests/render-mermaid.test.cjs</files>
+  <action>
+1. Create tests/render-mermaid.test.cjs using Node.js built-in test runner (node:test).
+   Match existing test file conventions in tests/ directory.
+
+2. Test cases:
+   a) renderWithinWidth with simple flowchart returns non-null result
+   b) Returned ASCII string is non-empty and contains box-drawing characters
+   c) All lines in output are <= 120 characters wide
+   d) renderWithinWidth returns result object with { ascii, paddingX, width } shape
+   e) renderWithinWidth with extremely wide diagram (10+ horizontal nodes) returns
+      null when it cannot fit in 120 columns
+   f) renderWithinWidth with custom maxWidth parameter (e.g., 60) respects the override
+
+3. Import renderWithinWidth from the render script using require().
+
+4. Run existing test suite to verify no regressions: node --test tests/*.test.cjs
+  </action>
+  <verify>
+    <automated>node --test tests/render-mermaid.test.cjs</automated>
+  </verify>
+  <done>All render-mermaid tests pass. Existing 218 tests still pass (node --test tests/*.test.cjs shows 0 failures).</done>
+</task>
+
+</tasks>
+
+<verification>
+- node get-my-shit-done/bin/render-mermaid.cjs renders flowchart, sequenceDiagram, and stateDiagram-v2
+- All rendered output lines <= 120 characters
+- node --test tests/render-mermaid.test.cjs passes
+- node --test tests/*.test.cjs passes (no regressions)
+- package.json contains beautiful-mermaid in dependencies
+</verification>
+
+<success_criteria>
+- render-mermaid.cjs exists and is executable as both module and CLI
+- beautiful-mermaid listed in package.json dependencies
+- All new tests pass, all existing tests pass
+- 3 diagram types (flowchart, sequenceDiagram, stateDiagram-v2) render correctly
+</success_criteria>
+
+<output>
+After completion, create .planning/phases/01-integrate-beautiful-mermaid-ascii-rendering-for-mermaid-diagrams-in-gmsd-templates-evaluate-as-replacement-supplement-for-ob-mermaid-blocks-update-templates-and-references/01-01-SUMMARY.org
+</output>
