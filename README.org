@@ -166,7 +166,7 @@ and ~git commit~ 50 times defeats the purpose.
 If you prefer not to use that flag, add this to your project's
 ~.claude/settings.json~:
 
-#+begin_src json
+#+begin_src js
 {
   "permissions": {
     "allow": [
@@ -204,7 +204,7 @@ between phases, clean PRs, easy rollback.
 
 Set ~branching_strategy~ to ~phase~ in your project config:
 
-#+begin_src json :file .planning/config.json
+#+begin_src js :file .planning/config.json
 {
   "git": {
     "branching_strategy": "phase"
@@ -651,7 +651,7 @@ deny list:
 1. Open Claude Code settings (~.claude/settings.json~ or global)
 2. Add sensitive file patterns to the deny list:
 
-#+begin_src json
+#+begin_src js
 {
   "permissions": {
     "deny": [

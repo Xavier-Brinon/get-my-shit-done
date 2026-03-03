@@ -77,7 +77,7 @@ GMSD stores project settings in ~.planning/config.json~. Configure during
 
 *** Full config.json schema
 
-#+begin_src json
+#+begin_src js
 {
   "mode": "interactive",
   "depth": "standard",
