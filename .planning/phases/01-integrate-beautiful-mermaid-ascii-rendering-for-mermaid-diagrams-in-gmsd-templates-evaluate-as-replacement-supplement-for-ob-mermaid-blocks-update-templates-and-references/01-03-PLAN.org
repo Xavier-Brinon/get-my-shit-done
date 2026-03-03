@@ -4,11 +4,11 @@
 :type: execute
 :wave: 2
 :depends_on: [01-01]
-:files_modified: [get-my-shit-done/references/org-styleguide.md, get-my-shit-done/references/diataxis.org, get-my-shit-done/references/diataxis-audit.org]
+:files_modified: [get-my-shit-done/references/org-styleguide.md, get-my-shit-done/references/org-styleguide-full.org, get-my-shit-done/references/diataxis.org, get-my-shit-done/references/diataxis-audit.org]
 :autonomous: false
 :requirements: [MERMAID-REFS]
-:must_haves.truths: ["org-styleguide.md documents MermaidJS ASCII convention instead of ob-mermaid", "Styleguide includes 1-2 rendered ASCII diagram examples", "diataxis.org and diataxis-audit.org ob-mermaid blocks replaced with ASCII", "All source and installed copies are in sync", "No ob-mermaid references remain anywhere in the project"]
-:must_haves.artifacts: [{path: get-my-shit-done/references/org-styleguide.md, provides: Updated diagram convention, contains: BEGIN_EXAMPLE}, {path: get-my-shit-done/references/diataxis.org, provides: Diataxis tree as ASCII, contains: BEGIN_EXAMPLE}, {path: get-my-shit-done/references/diataxis-audit.org, provides: Distribution chart as ASCII, contains: BEGIN_EXAMPLE}]
+:must_haves.truths: ["org-styleguide.md documents MermaidJS ASCII convention instead of ob-mermaid", "org-styleguide-full.org documents MermaidJS ASCII convention instead of ob-mermaid", "Styleguide includes 1-2 rendered ASCII diagram examples", "diataxis.org and diataxis-audit.org ob-mermaid blocks replaced with ASCII", "All source and installed copies are in sync", "No ob-mermaid references remain anywhere in the project"]
+:must_haves.artifacts: [{path: get-my-shit-done/references/org-styleguide.md, provides: Updated diagram convention (condensed), contains: BEGIN_EXAMPLE}, {path: get-my-shit-done/references/org-styleguide-full.org, provides: Updated diagram convention (full), contains: BEGIN_EXAMPLE}, {path: get-my-shit-done/references/diataxis.org, provides: Diataxis tree as ASCII, contains: BEGIN_EXAMPLE}, {path: get-my-shit-done/references/diataxis-audit.org, provides: Distribution chart as ASCII, contains: "BEGIN_EXAMPLE or text table representation"}]
 :must_haves.key_links: [{from: "~/.claude/get-my-shit-done/ (installed copies)", to: "get-my-shit-done/ (source)", via: "file copy", pattern: "identical content"}, {from: "org-styleguide.md diagram rule", to: "bin/render-mermaid.cjs", via: "documents usage of render script", pattern: "render-mermaid"}]
 :END:
 
@@ -43,6 +43,7 @@ Output: Updated references, synced installed copies, clean ob-mermaid grep.
 @.planning/phases/01-integrate-beautiful-mermaid-ascii-rendering-for-mermaid-diagrams-in-gmsd-templates-evaluate-as-replacement-supplement-for-ob-mermaid-blocks-update-templates-and-references/01-RESEARCH.org
 
 @get-my-shit-done/references/org-styleguide.md
+@get-my-shit-done/references/org-styleguide-full.org
 @get-my-shit-done/references/diataxis.org
 @get-my-shit-done/references/diataxis-audit.org
 </context>
@@ -50,8 +51,8 @@ Output: Updated references, synced installed copies, clean ob-mermaid grep.
 <tasks>
 
 <task type="auto">
-  <name>Task 1: Update org-styleguide.md and replace reference file diagrams</name>
-  <files>get-my-shit-done/references/org-styleguide.md, get-my-shit-done/references/diataxis.org, get-my-shit-done/references/diataxis-audit.org</files>
+  <name>Task 1: Update both org-styleguide versions and replace reference file diagrams</name>
+  <files>get-my-shit-done/references/org-styleguide.md, get-my-shit-done/references/org-styleguide-full.org, get-my-shit-done/references/diataxis.org, get-my-shit-done/references/diataxis-audit.org</files>
   <action>
 1. Update org-styleguide.md "Source Code Blocks" section (lines 116-132):
    - Replace line 121 ob-mermaid rule with MermaidJS ASCII convention:
@@ -64,13 +65,22 @@ Output: Updated references, synced installed copies, clean ob-mermaid grep.
    - This is one of the 1-2 rendered ASCII diagram examples required by the
      user's decision.
 
-2. Replace ob-mermaid block in diataxis.org (~line 362):
+2. Update org-styleguide-full.org diagram section:
+   - Find any ob-mermaid rules or references (search for "ob-mermaid", "mermaid",
+     and ":file.*png" patterns)
+   - Replace ob-mermaid conventions with MermaidJS ASCII convention, matching
+     the same guidance added to the condensed version
+   - If the full version has ob-mermaid diagram examples, replace them with
+     MermaidJS ASCII examples using the EXAMPLE + :exports none pattern
+   - Ensure the full and condensed versions are consistent in their diagram guidance
+
+3. Replace ob-mermaid block in diataxis.org (~line 362):
    - Extract the Mermaid source (diataxis tree diagram)
    - Render with bin/render-mermaid.cjs
    - Replace with EXAMPLE + :exports none structure
    - Simplify if exceeding 120 columns
 
-3. Replace ob-mermaid block in diataxis-audit.org (~line 127):
+4. Replace ob-mermaid block in diataxis-audit.org (~line 127):
    - Extract the Mermaid source (distribution chart)
    - This is an XY chart type -- check if beautiful-mermaid supports it
    - If supported: render and replace as usual
@@ -81,7 +91,7 @@ Output: Updated references, synced installed copies, clean ob-mermaid grep.
   <verify>
     <automated>! grep -r "ob-mermaid" get-my-shit-done/references/ && ! grep ":file.*\.png.*:exports results" get-my-shit-done/references/</automated>
   </verify>
-  <done>org-styleguide.md documents MermaidJS ASCII convention with example. diataxis.org and diataxis-audit.org diagrams replaced. No ob-mermaid or :file .png references remain in references/.</done>
+  <done>org-styleguide.md and org-styleguide-full.org both document MermaidJS ASCII convention with examples. diataxis.org and diataxis-audit.org diagrams replaced. No ob-mermaid or :file .png references remain in references/.</done>
 </task>
 
 <task type="auto">
@@ -100,6 +110,7 @@ Plan 02 template changes and Plan 03 reference changes.
 
 2. Copy updated reference files (from this plan):
    cp get-my-shit-done/references/org-styleguide.md ~/.claude/get-my-shit-done/references/org-styleguide.md
+   cp get-my-shit-done/references/org-styleguide-full.org ~/.claude/get-my-shit-done/references/org-styleguide-full.org
    cp get-my-shit-done/references/diataxis.org ~/.claude/get-my-shit-done/references/diataxis.org
    cp get-my-shit-done/references/diataxis-audit.org ~/.claude/get-my-shit-done/references/diataxis-audit.org
 
@@ -111,15 +122,15 @@ Plan 02 template changes and Plan 03 reference changes.
    (should return 0 results)
   </action>
   <verify>
-    <automated>! grep -r "ob-mermaid\|begin_src mermaid :file" ~/.claude/get-my-shit-done/templates/ ~/.claude/get-my-shit-done/references/ 2>/dev/null && diff get-my-shit-done/references/org-styleguide.md ~/.claude/get-my-shit-done/references/org-styleguide.md</automated>
+    <automated>! grep -r "ob-mermaid\|begin_src mermaid :file" ~/.claude/get-my-shit-done/templates/ ~/.claude/get-my-shit-done/references/ 2>/dev/null && diff get-my-shit-done/references/org-styleguide.md ~/.claude/get-my-shit-done/references/org-styleguide.md && diff get-my-shit-done/references/org-styleguide-full.org ~/.claude/get-my-shit-done/references/org-styleguide-full.org</automated>
   </verify>
-  <done>All 8 modified files synced to ~/.claude/get-my-shit-done/. Installed copies match source. Zero ob-mermaid references remain in either location.</done>
+  <done>All 9 modified files synced to ~/.claude/get-my-shit-done/. Installed copies match source. Zero ob-mermaid references remain in either location.</done>
 </task>
 
 <task type="checkpoint:human-verify" gate="blocking">
   <name>Task 3: Verify ASCII diagrams are readable</name>
   <what-built>All ob-mermaid blocks replaced with MermaidJS ASCII renders across templates
-and references. Source and installed copies synced. Styleguide updated.</what-built>
+and references. Source and installed copies synced. Both styleguide versions updated.</what-built>
   <how-to-verify>
 1. Open get-my-shit-done/templates/adr.org in Emacs -- confirm 2 ASCII diagrams are
    visible and readable without rendering
@@ -127,9 +138,11 @@ and references. Source and installed copies synced. Styleguide updated.</what-bu
    diagram types (flowchart, sequence, state) render readably
 3. Open get-my-shit-done/references/org-styleguide.md -- confirm the new MermaidJS ASCII
    convention and example look correct
-4. Run: grep -rn "ob-mermaid\|:file.*\.png.*:exports results" get-my-shit-done/
+4. Open get-my-shit-done/references/org-styleguide-full.org -- confirm the diagram section
+   matches the condensed version's guidance
+5. Run: grep -rn "ob-mermaid\|:file.*\.png.*:exports results" get-my-shit-done/
    Confirm 0 results (clean break complete)
-5. Run: node --test tests/*.test.cjs
+6. Run: node --test tests/*.test.cjs
    Confirm all tests pass
   </how-to-verify>
   <resume-signal>Type "approved" or describe issues with specific diagrams</resume-signal>
@@ -148,6 +161,7 @@ and references. Source and installed copies synced. Styleguide updated.</what-bu
 
 <success_criteria>
 - org-styleguide.md documents MermaidJS ASCII with rendered example
+- org-styleguide-full.org documents MermaidJS ASCII with rendered example
 - diataxis.org and diataxis-audit.org diagrams replaced
 - All source files synced to ~/.claude/get-my-shit-done/
 - Zero ob-mermaid references anywhere in project or installed copies
