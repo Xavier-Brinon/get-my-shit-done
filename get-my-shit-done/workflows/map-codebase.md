@@ -70,13 +70,13 @@ mkdir -p .planning/codebase
 ```
 
 **Expected output files:**
-- STACK.md (from tech mapper)
-- INTEGRATIONS.md (from tech mapper)
-- ARCHITECTURE.md (from arch mapper)
-- STRUCTURE.md (from arch mapper)
-- CONVENTIONS.md (from quality mapper)
-- TESTING.md (from quality mapper)
-- CONCERNS.md (from concerns mapper)
+- STACK.org (from tech mapper)
+- INTEGRATIONS.org (from tech mapper)
+- ARCHITECTURE.org (from arch mapper)
+- STRUCTURE.org (from arch mapper)
+- CONVENTIONS.org (from quality mapper)
+- TESTING.org (from quality mapper)
+- CONCERNS.org (from concerns mapper)
 
 Continue to spawn_agents.
 </step>
@@ -101,8 +101,8 @@ Task(
 Analyze this codebase for technology stack and external integrations.
 
 Write these documents to .planning/codebase/:
-- STACK.md - Languages, runtime, frameworks, dependencies, configuration
-- INTEGRATIONS.md - External APIs, databases, auth providers, webhooks
+- STACK.org - Languages, runtime, frameworks, dependencies, configuration
+- INTEGRATIONS.org - External APIs, databases, auth providers, webhooks
 
 Explore thoroughly. Write documents directly using templates. Return confirmation only."
 )
@@ -121,8 +121,8 @@ Task(
 Analyze this codebase architecture and directory structure.
 
 Write these documents to .planning/codebase/:
-- ARCHITECTURE.md - Pattern, layers, data flow, abstractions, entry points
-- STRUCTURE.md - Directory layout, key locations, naming conventions
+- ARCHITECTURE.org - Pattern, layers, data flow, abstractions, entry points
+- STRUCTURE.org - Directory layout, key locations, naming conventions
 
 Explore thoroughly. Write documents directly using templates. Return confirmation only."
 )
@@ -141,8 +141,8 @@ Task(
 Analyze this codebase for coding conventions and testing patterns.
 
 Write these documents to .planning/codebase/:
-- CONVENTIONS.md - Code style, naming, patterns, error handling
-- TESTING.md - Framework, structure, mocking, coverage
+- CONVENTIONS.org - Code style, naming, patterns, error handling
+- TESTING.org - Framework, structure, mocking, coverage
 
 Explore thoroughly. Write documents directly using templates. Return confirmation only."
 )
@@ -161,7 +161,7 @@ Task(
 Analyze this codebase for technical debt, known issues, and areas of concern.
 
 Write this document to .planning/codebase/:
-- CONCERNS.md - Tech debt, bugs, security, performance, fragile areas
+- CONCERNS.org - Tech debt, bugs, security, performance, fragile areas
 
 Explore thoroughly. Write document directly using template. Return confirmation only."
 )
@@ -181,8 +181,8 @@ Read each agent's output file to collect confirmations.
 
 **Focus:** {focus}
 **Documents written:**
-- `.planning/codebase/{DOC1}.md` ({N} lines)
-- `.planning/codebase/{DOC2}.md` ({N} lines)
+- `.planning/codebase/{DOC1}.org` ({N} lines)
+- `.planning/codebase/{DOC2}.org` ({N} lines)
 
 Ready for orchestrator summary.
 ```
@@ -199,7 +199,7 @@ Verify all documents created successfully:
 
 ```bash
 ls -la .planning/codebase/
-wc -l .planning/codebase/*.md
+wc -l .planning/codebase/*.org
 ```
 
 **Verification checklist:**
@@ -218,7 +218,7 @@ Run secret pattern detection:
 
 ```bash
 # Check for common API key patterns in generated docs
-grep -E '(sk-[a-zA-Z0-9]{20,}|sk_live_[a-zA-Z0-9]+|sk_test_[a-zA-Z0-9]+|ghp_[a-zA-Z0-9]{36}|gho_[a-zA-Z0-9]{36}|glpat-[a-zA-Z0-9_-]+|AKIA[A-Z0-9]{16}|xox[baprs]-[a-zA-Z0-9-]+|-----BEGIN.*PRIVATE KEY|eyJ[a-zA-Z0-9_-]+\.eyJ[a-zA-Z0-9_-]+\.)' .planning/codebase/*.md 2>/dev/null && SECRETS_FOUND=true || SECRETS_FOUND=false
+grep -E '(sk-[a-zA-Z0-9]{20,}|sk_live_[a-zA-Z0-9]+|sk_test_[a-zA-Z0-9]+|ghp_[a-zA-Z0-9]{36}|gho_[a-zA-Z0-9]{36}|glpat-[a-zA-Z0-9_-]+|AKIA[A-Z0-9]{16}|xox[baprs]-[a-zA-Z0-9-]+|-----BEGIN.*PRIVATE KEY|eyJ[a-zA-Z0-9_-]+\.eyJ[a-zA-Z0-9_-]+\.)' .planning/codebase/*.org 2>/dev/null && SECRETS_FOUND=true || SECRETS_FOUND=false
 ```
 
 **If SECRETS_FOUND=true:**
@@ -250,7 +250,7 @@ Continue to commit_codebase_map.
 Commit the codebase map:
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: map existing codebase" --files .planning/codebase/*.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: map existing codebase" --files .planning/codebase/*.org
 ```
 
 Continue to offer_next.
@@ -261,7 +261,7 @@ Present completion summary and next steps.
 
 **Get line counts:**
 ```bash
-wc -l .planning/codebase/*.md
+wc -l .planning/codebase/*.org
 ```
 
 **Output format:**
@@ -270,13 +270,13 @@ wc -l .planning/codebase/*.md
 Codebase mapping complete.
 
 Created .planning/codebase/:
-- STACK.md ([N] lines) - Technologies and dependencies
-- ARCHITECTURE.md ([N] lines) - System design and patterns
-- STRUCTURE.md ([N] lines) - Directory layout and organization
-- CONVENTIONS.md ([N] lines) - Code style and patterns
-- TESTING.md ([N] lines) - Test structure and practices
-- INTEGRATIONS.md ([N] lines) - External services and APIs
-- CONCERNS.md ([N] lines) - Technical debt and issues
+- STACK.org ([N] lines) - Technologies and dependencies
+- ARCHITECTURE.org ([N] lines) - System design and patterns
+- STRUCTURE.org ([N] lines) - Directory layout and organization
+- CONVENTIONS.org ([N] lines) - Code style and patterns
+- TESTING.org ([N] lines) - Test structure and practices
+- INTEGRATIONS.org ([N] lines) - External services and APIs
+- CONCERNS.org ([N] lines) - Technical debt and issues
 
 
 ---
@@ -293,7 +293,7 @@ Created .planning/codebase/:
 
 **Also available:**
 - Re-run mapping: `/gmsd:map-codebase`
-- Review specific file: `cat .planning/codebase/STACK.md`
+- Review specific file: `cat .planning/codebase/STACK.org`
 - Edit any document before proceeding
 
 ---

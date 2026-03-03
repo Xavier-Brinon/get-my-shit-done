@@ -1,6 +1,6 @@
 <purpose>
 Execute discovery at the appropriate depth level.
-Produces DISCOVERY.md (for Level 2-3) that informs PLAN.org creation.
+Produces DISCOVERY.org (for Level 2-3) that informs PLAN.org creation.
 
 Called from plan-phase.md's mandatory_discovery step with a depth parameter.
 
@@ -13,8 +13,8 @@ NOTE: For comprehensive ecosystem research ("how do experts build this"), use /g
 | Level | Name         | Time      | Output                                       | When                                      |
 | ----- | ------------ | --------- | -------------------------------------------- | ----------------------------------------- |
 | 1     | Quick Verify | 2-5 min   | No file, proceed with verified knowledge     | Single library, confirming current syntax |
-| 2     | Standard     | 15-30 min | DISCOVERY.md                                 | Choosing between options, new integration |
-| 3     | Deep Dive    | 1+ hour   | Detailed DISCOVERY.md with validation gates  | Architectural decisions, novel problems   |
+| 2     | Standard     | 15-30 min | DISCOVERY.org                                 | Choosing between options, new integration |
+| 3     | Deep Dive    | 1+ hour   | Detailed DISCOVERY.org with validation gates  | Architectural decisions, novel problems   |
 
 **Depth is determined by plan-phase.md before routing here.**
 </depth_levels>
@@ -69,7 +69,7 @@ For: Single known library, confirming syntax/version still correct.
    - API syntax unchanged
    - No breaking changes in recent versions
 
-4. **If verified:** Return to plan-phase.md with confirmation. No DISCOVERY.md needed.
+4. **If verified:** Return to plan-phase.md with confirmation. No DISCOVERY.org needed.
 
 5. **If concerns found:** Escalate to Level 2.
 
@@ -107,7 +107,7 @@ For: Choosing between options, new external integration.
 
 5. **Cross-verify:** Any WebSearch finding → confirm with Context7/official docs.
 
-6. **Create DISCOVERY.md** using ~/.claude/get-my-shit-done/templates/discovery.org structure:
+6. **Create DISCOVERY.org** using ~/.claude/get-my-shit-done/templates/discovery.org structure:
 
    - Summary with recommendation
    - Key findings per option
@@ -116,7 +116,7 @@ For: Choosing between options, new external integration.
 
 7. Return to plan-phase.md.
 
-**Output:** `.planning/phases/XX-name/DISCOVERY.md`
+**Output:** `.planning/phases/XX-name/DISCOVERY.org`
 </step>
 
 <step name="level_3_deep_dive">
@@ -158,7 +158,7 @@ For: Architectural decisions, novel problems, high-risk choices.
    - Mark what's verified vs assumed
    - Flag contradictions
 
-6. **Create comprehensive DISCOVERY.md:**
+6. **Create comprehensive DISCOVERY.org:**
 
    - Full structure from ~/.claude/get-my-shit-done/templates/discovery.org
    - Quality report with source attribution
@@ -169,7 +169,7 @@ For: Architectural decisions, novel problems, high-risk choices.
 
 8. Return to plan-phase.md.
 
-**Output:** `.planning/phases/XX-name/DISCOVERY.md` (comprehensive)
+**Output:** `.planning/phases/XX-name/DISCOVERY.org` (comprehensive)
 </step>
 
 <step name="identify_unknowns">
@@ -191,7 +191,7 @@ Include:
 - Clear discovery objective
 - Scoped include/exclude lists
 - Source preferences (official docs, Context7, current year)
-- Output structure for DISCOVERY.md
+- Output structure for DISCOVERY.org
   </step>
 
 <step name="execute_discovery">
@@ -203,7 +203,7 @@ Run the discovery:
 </step>
 
 <step name="create_discovery_output">
-Write `.planning/phases/XX-name/DISCOVERY.md`:
+Write `.planning/phases/XX-name/DISCOVERY.org`:
 - Summary with recommendation
 - Key findings with sources
 - Code examples if applicable
@@ -211,7 +211,7 @@ Write `.planning/phases/XX-name/DISCOVERY.md`:
 </step>
 
 <step name="confidence_gate">
-After creating DISCOVERY.md, check confidence level.
+After creating DISCOVERY.org, check confidence level.
 
 If confidence is LOW:
 Use AskUserQuestion:
@@ -231,7 +231,7 @@ Proceed directly, just note: "Discovery complete (high confidence)."
 </step>
 
 <step name="open_questions_gate">
-If DISCOVERY.md has open_questions:
+If DISCOVERY.org has open_questions:
 
 Present them inline:
 "Open questions from discovery:
@@ -246,7 +246,7 @@ If "address first": Gather user input on questions, update discovery.
 
 <step name="offer_next">
 ```
-Discovery complete: .planning/phases/XX-name/DISCOVERY.md
+Discovery complete: .planning/phases/XX-name/DISCOVERY.org
 Recommendation: [one-liner]
 Confidence: [level]
 
@@ -259,7 +259,7 @@ What's next?
 
 ```
 
-NOTE: DISCOVERY.md is NOT committed separately. It will be committed with phase completion.
+NOTE: DISCOVERY.org is NOT committed separately. It will be committed with phase completion.
 </step>
 
 </process>
@@ -273,7 +273,7 @@ NOTE: DISCOVERY.md is NOT committed separately. It will be committed with phase 
 **Level 2 (Standard):**
 - Context7 consulted for all options
 - WebSearch findings cross-verified
-- DISCOVERY.md created with recommendation
+- DISCOVERY.org created with recommendation
 - Confidence level MEDIUM or higher
 - Ready to inform PLAN.org creation
 
@@ -281,7 +281,7 @@ NOTE: DISCOVERY.md is NOT committed separately. It will be committed with phase 
 - Discovery scope defined
 - Context7 exhaustively consulted
 - All WebSearch findings verified against authoritative sources
-- DISCOVERY.md created with comprehensive analysis
+- DISCOVERY.org created with comprehensive analysis
 - Quality report with source attribution
 - If LOW confidence findings → validation checkpoints defined
 - Confidence gate passed

@@ -237,7 +237,7 @@ Usage: `/gmsd:pause-work`
 Systematic debugging with persistent state across context resets.
 
 - Gathers symptoms through adaptive questioning
-- Creates `.planning/debug/[slug].md` to track investigation
+- Creates `.planning/debug/[slug].org` to track investigation
 - Investigates using scientific method (evidence → hypothesis → test)
 - Survives `/clear` — run `/gmsd:debug` with no args to resume
 - Archives resolved issues to `.planning/debug/resolved/`

@@ -22,7 +22,7 @@ User's issue: $ARGUMENTS
 
 Check for active sessions:
 ```bash
-ls .planning/debug/*.md 2>/dev/null | grep -v resolved | head -5
+ls .planning/debug/*.org 2>/dev/null | grep -v resolved | head -5
 ```
 </context>
 
@@ -85,7 +85,7 @@ goal: find_and_fix
 </mode>
 
 <debug_file>
-Create: .planning/debug/{slug}.md
+Create: .planning/debug/{slug}.org
 </debug_file>
 ```
 
@@ -133,7 +133,7 @@ Continue debugging {slug}. Evidence is in the debug file.
 
 <prior_state>
 <files_to_read>
-- .planning/debug/{slug}.md (Debug session state)
+- .planning/debug/{slug}.org (Debug session state)
 </files_to_read>
 </prior_state>
 

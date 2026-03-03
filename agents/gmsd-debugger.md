@@ -844,7 +844,7 @@ The file IS the debugging brain.
 **First:** Check for active debug sessions.
 
 ```bash
-ls .planning/debug/*.md 2>/dev/null | grep -v resolved
+ls .planning/debug/*.org 2>/dev/null | grep -v resolved
 ```
 
 **If active sessions exist AND no $ARGUMENTS:**
@@ -938,7 +938,7 @@ Return structured diagnosis:
 ```markdown
 ## ROOT CAUSE FOUND
 
-**Debug Session:** .planning/debug/{slug}.md
+**Debug Session:** .planning/debug/{slug}.org
 
 **Root Cause:** {from Resolution.root_cause}
 
@@ -957,7 +957,7 @@ If inconclusive:
 ```markdown
 ## INVESTIGATION INCONCLUSIVE
 
-**Debug Session:** .planning/debug/{slug}.md
+**Debug Session:** .planning/debug/{slug}.org
 
 **What Was Checked:**
 - {area}: {finding}
@@ -999,7 +999,7 @@ Return:
 ## CHECKPOINT REACHED
 
 **Type:** human-verify
-**Debug Session:** .planning/debug/{slug}.md
+**Debug Session:** .planning/debug/{slug}.org
 **Progress:** {evidence_count} evidence entries, {eliminated_count} hypotheses eliminated
 
 ### Investigation State
@@ -1036,7 +1036,7 @@ Update status to "resolved".
 
 ```bash
 mkdir -p .planning/debug/resolved
-mv .planning/debug/{slug}.md .planning/debug/resolved/
+mv .planning/debug/{slug}.org .planning/debug/resolved/
 ```
 
 **Check planning config using state load (commit_docs is available from the output):**
@@ -1059,7 +1059,7 @@ Root cause: {root_cause}"
 
 Then commit planning docs via CLI (respects `commit_docs` config automatically):
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: resolve debug {slug}" --files .planning/debug/resolved/{slug}.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs: resolve debug {slug}" --files .planning/debug/resolved/{slug}.org
 ```
 
 Report completion and offer next steps.
@@ -1082,7 +1082,7 @@ Return a checkpoint when:
 ## CHECKPOINT REACHED
 
 **Type:** [human-verify | human-action | decision]
-**Debug Session:** .planning/debug/{slug}.md
+**Debug Session:** .planning/debug/{slug}.org
 **Progress:** {evidence_count} evidence entries, {eliminated_count} hypotheses eliminated
 
 ### Investigation State
@@ -1153,7 +1153,7 @@ Orchestrator presents checkpoint to user, gets response, spawns fresh continuati
 ```markdown
 ## ROOT CAUSE FOUND
 
-**Debug Session:** .planning/debug/{slug}.md
+**Debug Session:** .planning/debug/{slug}.org
 
 **Root Cause:** {specific cause with evidence}
 
@@ -1174,7 +1174,7 @@ Orchestrator presents checkpoint to user, gets response, spawns fresh continuati
 ```markdown
 ## DEBUG COMPLETE
 
-**Debug Session:** .planning/debug/resolved/{slug}.md
+**Debug Session:** .planning/debug/resolved/{slug}.org
 
 **Root Cause:** {what was wrong}
 **Fix Applied:** {what was changed}
@@ -1194,7 +1194,7 @@ Only return this after human verification confirms the fix.
 ```markdown
 ## INVESTIGATION INCONCLUSIVE
 
-**Debug Session:** .planning/debug/{slug}.md
+**Debug Session:** .planning/debug/{slug}.org
 
 **What Was Checked:**
 - {area 1}: {finding}

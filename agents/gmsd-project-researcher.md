@@ -594,10 +594,10 @@ In `.planning/research/`:
 | File | Purpose |
 |------|---------|
 | .planning/research/SUMMARY.org | Executive summary with roadmap implications |
-| .planning/research/STACK.md | Technology recommendations |
-| .planning/research/FEATURES.md | Feature landscape |
-| .planning/research/ARCHITECTURE.md | Architecture patterns |
-| .planning/research/PITFALLS.md | Domain pitfalls |
+| .planning/research/STACK.org | Technology recommendations |
+| .planning/research/FEATURES.org | Feature landscape |
+| .planning/research/ARCHITECTURE.org | Architecture patterns |
+| .planning/research/PITFALLS.org | Domain pitfalls |
 
 ### Confidence Assessment
 

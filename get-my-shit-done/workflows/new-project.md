@@ -294,7 +294,7 @@ All Active requirements are hypotheses until shipped and validated.
 
 Infer Validated requirements from existing code:
 
-1. Read `.planning/codebase/ARCHITECTURE.md` and `STACK.md`
+1. Read `.planning/codebase/ARCHITECTURE.org` and `STACK.org`
 2. Identify what the codebase already does
 3. These become the initial Validated set
 
@@ -569,7 +569,7 @@ What's the standard 2025 stack for [domain]?
 </files_to_read>
 
 <downstream_consumer>
-Your STACK.md feeds into roadmap creation. Be prescriptive:
+Your STACK.org feeds into roadmap creation. Be prescriptive:
 - Specific libraries with versions
 - Clear rationale for each choice
 - What NOT to use and why
@@ -582,7 +582,7 @@ Your STACK.md feeds into roadmap creation. Be prescriptive:
 </quality_gate>
 
 <output>
-Write to: .planning/research/STACK.md
+Write to: .planning/research/STACK.org
 Use template: ~/.claude/get-my-shit-done/templates/research-project/STACK.org
 </output>
 ", subagent_type="general-purpose", model="{researcher_model}", description="Stack research")
@@ -609,7 +609,7 @@ What features do [domain] products have? What's table stakes vs differentiating?
 </files_to_read>
 
 <downstream_consumer>
-Your FEATURES.md feeds into requirements definition. Categorize clearly:
+Your FEATURES.org feeds into requirements definition. Categorize clearly:
 - Table stakes (must have or users leave)
 - Differentiators (competitive advantage)
 - Anti-features (things to deliberately NOT build)
@@ -622,7 +622,7 @@ Your FEATURES.md feeds into requirements definition. Categorize clearly:
 </quality_gate>
 
 <output>
-Write to: .planning/research/FEATURES.md
+Write to: .planning/research/FEATURES.org
 Use template: ~/.claude/get-my-shit-done/templates/research-project/FEATURES.org
 </output>
 ", subagent_type="general-purpose", model="{researcher_model}", description="Features research")
@@ -649,7 +649,7 @@ How are [domain] systems typically structured? What are major components?
 </files_to_read>
 
 <downstream_consumer>
-Your ARCHITECTURE.md informs phase structure in roadmap. Include:
+Your ARCHITECTURE.org informs phase structure in roadmap. Include:
 - Component boundaries (what talks to what)
 - Data flow (how information moves)
 - Suggested build order (dependencies between components)
@@ -662,7 +662,7 @@ Your ARCHITECTURE.md informs phase structure in roadmap. Include:
 </quality_gate>
 
 <output>
-Write to: .planning/research/ARCHITECTURE.md
+Write to: .planning/research/ARCHITECTURE.org
 Use template: ~/.claude/get-my-shit-done/templates/research-project/ARCHITECTURE.org
 </output>
 ", subagent_type="general-purpose", model="{researcher_model}", description="Architecture research")
@@ -689,7 +689,7 @@ What do [domain] projects commonly get wrong? Critical mistakes?
 </files_to_read>
 
 <downstream_consumer>
-Your PITFALLS.md prevents mistakes in roadmap/planning. For each pitfall:
+Your PITFALLS.org prevents mistakes in roadmap/planning. For each pitfall:
 - Warning signs (how to detect early)
 - Prevention strategy (how to avoid)
 - Which phase should address it
@@ -702,7 +702,7 @@ Your PITFALLS.md prevents mistakes in roadmap/planning. For each pitfall:
 </quality_gate>
 
 <output>
-Write to: .planning/research/PITFALLS.md
+Write to: .planning/research/PITFALLS.org
 Use template: ~/.claude/get-my-shit-done/templates/research-project/PITFALLS.org
 </output>
 ", subagent_type="general-purpose", model="{researcher_model}", description="Pitfalls research")
@@ -717,10 +717,10 @@ Synthesize research outputs into SUMMARY.org.
 </task>
 
 <files_to_read>
-- .planning/research/STACK.md
-- .planning/research/FEATURES.md
-- .planning/research/ARCHITECTURE.md
-- .planning/research/PITFALLS.md
+- .planning/research/STACK.org
+- .planning/research/FEATURES.org
+- .planning/research/ARCHITECTURE.org
+- .planning/research/PITFALLS.org
 </files_to_read>
 
 <output>
@@ -764,7 +764,7 @@ Read PROJECT.org and extract:
 - Stated constraints (budget, timeline, tech limitations)
 - Any explicit scope boundaries
 
-**If research exists:** Read research/FEATURES.md and extract feature categories.
+**If research exists:** Read research/FEATURES.org and extract feature categories.
 
 **If auto mode:**
 - Auto-include all table stakes features (users expect these)
@@ -1083,10 +1083,10 @@ Exit skill and invoke SlashCommand("/gmsd:discuss-phase 1 --auto")
 - `.planning/PROJECT.org`
 - `.planning/config.json`
 - `.planning/research/` (if research selected)
-  - `STACK.md`
-  - `FEATURES.md`
-  - `ARCHITECTURE.md`
-  - `PITFALLS.md`
+  - `STACK.org`
+  - `FEATURES.org`
+  - `ARCHITECTURE.org`
+  - `PITFALLS.org`
   - `SUMMARY.org`
 - `.planning/REQUIREMENTS.org`
 - `.planning/ROADMAP.org`

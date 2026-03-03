@@ -282,12 +282,12 @@ For each gap that has a `debug_session:` field:
 - Move to resolved directory:
 ```bash
 mkdir -p .planning/debug/resolved
-mv .planning/debug/{slug}.md .planning/debug/resolved/
+mv .planning/debug/{slug}.org .planning/debug/resolved/
 ```
 
 **6. Commit updated artifacts:**
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(phase-${PARENT_PHASE}): resolve UAT gaps and debug sessions after ${PHASE_NUMBER} gap closure" --files .planning/phases/*${PARENT_PHASE}*/*-UAT.org .planning/debug/resolved/*.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "docs(phase-${PARENT_PHASE}): resolve UAT gaps and debug sessions after ${PHASE_NUMBER} gap closure" --files .planning/phases/*${PARENT_PHASE}*/*-UAT.org .planning/debug/resolved/*.org
 ```
 </step>
 

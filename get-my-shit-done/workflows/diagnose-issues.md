@@ -64,7 +64,7 @@ Spawning parallel debug agents to investigate root causes:
 | Delete removes comment | blocker |
 
 Each agent will:
-1. Create DEBUG-{slug}.md with symptoms pre-filled
+1. Create DEBUG-{slug}.org with symptoms pre-filled
 2. Investigate autonomously (read code, form hypotheses, test)
 3. Return root cause
 
@@ -105,7 +105,7 @@ Each agent returns with:
 ```
 ## ROOT CAUSE FOUND
 
-**Debug Session:** ${DEBUG_DIR}/{slug}.md
+**Debug Session:** ${DEBUG_DIR}/{slug}.org
 
 **Root Cause:** {specific cause with evidence}
 
@@ -151,7 +151,7 @@ For each gap in the Gaps section, add artifacts and missing fields:
   missing:
     - "Add commentCount to useEffect dependency array"
     - "Trigger re-render when new comment added"
-  debug_session: .planning/debug/comment-not-refreshing.md
+  debug_session: .planning/debug/comment-not-refreshing.org
 ```
 
 Update status in frontmatter to "diagnosed".
@@ -200,7 +200,7 @@ Agents only diagnose—plan-phase --gaps handles fixes (no fix application).
 - Report incomplete diagnosis
 
 **Agent times out:**
-- Check DEBUG-{slug}.md for partial progress
+- Check DEBUG-{slug}.org for partial progress
 - Can resume with /gmsd:debug
 
 **All agents fail:**

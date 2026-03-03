@@ -218,8 +218,8 @@ Format:
 
 **Focus:** {focus}
 **Documents written:**
-- `.planning/codebase/{DOC1}.md` ({N} lines)
-- `.planning/codebase/{DOC2}.md` ({N} lines)
+- `.planning/codebase/{DOC1}.org` ({N} lines)
+- `.planning/codebase/{DOC2}.org` ({N} lines)
 
 Ready for orchestrator summary.
 ```

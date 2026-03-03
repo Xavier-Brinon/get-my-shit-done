@@ -1025,7 +1025,7 @@ If STATE.org missing but .planning/ exists, offer to reconstruct or continue wit
 Check for codebase map:
 
 ```bash
-ls .planning/codebase/*.md 2>/dev/null
+ls .planning/codebase/*.org 2>/dev/null
 ```
 
 If exists, load relevant documents by phase type:

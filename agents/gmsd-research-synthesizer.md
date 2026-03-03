@@ -18,7 +18,7 @@ Your job: Create a unified research summary that informs roadmap creation. Extra
 If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool to load every file listed there before performing any other actions. This is your primary context.
 
 **Core responsibilities:**
-- Read all 4 research files (STACK.md, FEATURES.md, ARCHITECTURE.md, PITFALLS.md)
+- Read all 4 research files (STACK.org, FEATURES.org, ARCHITECTURE.org, PITFALLS.org)
 - Synthesize findings into executive summary
 - Derive roadmap implications from combined research
 - Identify confidence levels and gaps
@@ -95,19 +95,19 @@ When assessing confidence in the Architecture area, look for:
 Read all 4 research files:
 
 ```bash
-cat .planning/research/STACK.md
-cat .planning/research/FEATURES.md
-cat .planning/research/ARCHITECTURE.md
-cat .planning/research/PITFALLS.md
+cat .planning/research/STACK.org
+cat .planning/research/FEATURES.org
+cat .planning/research/ARCHITECTURE.org
+cat .planning/research/PITFALLS.org
 
 # Planning config loaded via gmsd-tools.cjs in commit step
 ```
 
 Parse each file to extract:
-- **STACK.md:** Recommended technologies, versions, rationale
-- **FEATURES.md:** Table stakes, differentiators, anti-features
-- **ARCHITECTURE.md:** Patterns, component boundaries, data flow
-- **PITFALLS.md:** Critical/moderate/minor pitfalls, phase warnings
+- **STACK.org:** Recommended technologies, versions, rationale
+- **FEATURES.org:** Table stakes, differentiators, anti-features
+- **ARCHITECTURE.org:** Patterns, component boundaries, data flow
+- **PITFALLS.org:** Critical/moderate/minor pitfalls, phase warnings
 
 ## Step 2: Synthesize Executive Summary
 
@@ -122,20 +122,20 @@ Someone reading only this section should understand the research conclusions.
 
 For each research file, pull out the most important points:
 
-**From STACK.md:**
+**From STACK.org:**
 - Core technologies with one-line rationale each
 - Any critical version requirements
 
-**From FEATURES.md:**
+**From FEATURES.org:**
 - Must-have features (table stakes)
 - Should-have features (differentiators)
 - What to defer to v2+
 
-**From ARCHITECTURE.md:**
+**From ARCHITECTURE.org:**
 - Major components and their responsibilities
 - Key patterns to follow
 
-**From PITFALLS.md:**
+**From PITFALLS.org:**
 - Top 3-5 pitfalls with prevention strategies
 
 ## Step 4: Derive Roadmap Implications
@@ -150,7 +150,7 @@ This is the most important section. Based on combined research:
 **For each suggested phase, include:**
 - Rationale (why this order)
 - What it delivers
-- Which features from FEATURES.md
+- Which features from FEATURES.org
 - Which pitfalls it must avoid
 
 **Add research flags:**
@@ -161,10 +161,10 @@ This is the most important section. Based on combined research:
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | [level] | [based on source quality from STACK.md] |
-| Features | [level] | [based on source quality from FEATURES.md] |
-| Architecture | [level] | [based on source quality from ARCHITECTURE.md] |
-| Pitfalls | [level] | [based on source quality from PITFALLS.md] |
+| Stack | [level] | [based on source quality from STACK.org] |
+| Features | [level] | [based on source quality from FEATURES.org] |
+| Architecture | [level] | [based on source quality from ARCHITECTURE.org] |
+| Pitfalls | [level] | [based on source quality from PITFALLS.org] |
 
 Identify gaps that couldn't be resolved and need attention during planning.
 
@@ -211,10 +211,10 @@ When SUMMARY.org is written and committed:
 ## SYNTHESIS COMPLETE
 
 **Files synthesized:**
-- .planning/research/STACK.md
-- .planning/research/FEATURES.md
-- .planning/research/ARCHITECTURE.md
-- .planning/research/PITFALLS.md
+- .planning/research/STACK.org
+- .planning/research/FEATURES.org
+- .planning/research/ARCHITECTURE.org
+- .planning/research/PITFALLS.org
 
 **Output:** .planning/research/SUMMARY.org
 

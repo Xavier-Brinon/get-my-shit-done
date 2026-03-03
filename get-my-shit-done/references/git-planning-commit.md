@@ -23,7 +23,7 @@ The CLI will return `skipped` (with reason) if `commit_docs` is `false` or `.pla
 To fold `.planning/` file changes into the previous commit:
 
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "" --files .planning/codebase/*.md --amend
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "" --files .planning/codebase/*.org --amend
 ```
 
 ## Commit Message Patterns
