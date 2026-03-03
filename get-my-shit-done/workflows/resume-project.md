@@ -69,7 +69,7 @@ ls .planning/phases/*/.continue-here*.org 2>/dev/null
 for plan in .planning/phases/*/*-PLAN.org; do
   summary="${plan/PLAN/SUMMARY}"
   [ ! -f "$summary" ] && echo "Incomplete: $plan"
-done 2>/dev/null
+done 2>/dev/null || true
 
 # Check for interrupted agents (use has_interrupted_agent and interrupted_agent_id from init)
 if [ "$has_interrupted_agent" = "true" ]; then

@@ -7,18 +7,6 @@
 
 * Active
 
-** TODO [#C] Suppress false exit-code-1 in resume-work shell check :tooling:
-:PROPERTIES:
-:created: [2026-03-02 Mon]
-:files: get-my-shit-done/workflows/resume-project.md
-:END:
-
-*** Problem
-The for loop in resume-project.md step check_incomplete_work exits with code 1 when no *-PLAN.org files exist (glob doesn't match). This surfaces as Error: Exit code 1 in Claude Code output, which is confusing but harmless.
-
-*** Solution
-Append || true or ; true after the for loop to ensure the compound command always exits 0. Alternatively, guard the glob with a file-existence check first.
-
 ** TODO [#C] Use ASCII art for Mermaid using beautiful-mermaid :docs:
 :PROPERTIES:
 :created: [2026-03-02 Mon]
@@ -45,6 +33,24 @@ Search all org files for #+begin_src json and replace with #+begin_src js. Check
 
 * Archive
 
+
+
+** DONE [#C] Suppress false exit-code-1 in resume-work shell check :tooling:
+CLOSED: [2026-03-03 Tue 20:08]
+:LOGBOOK:
+- State "DONE" from "TODO"       [2026-03-03 Tue 20:08] \\
+  Completed during check-todos workflow
+:END:
+:PROPERTIES:
+:created: [2026-03-02 Mon]
+:files: get-my-shit-done/workflows/resume-project.md
+:END:
+
+*** Problem
+The for loop in resume-project.md step check_incomplete_work exits with code 1 when no *-PLAN.org files exist (glob doesn't match). This surfaces as Error: Exit code 1 in Claude Code output, which is confusing but harmless.
+
+*** Solution
+Append || true or ; true after the for loop to ensure the compound command always exits 0. Alternatively, guard the glob with a file-existence check first.
 
 ** DONE [#C] Convert .continue-here.md to .continue-here.org :planning:
 CLOSED: [2026-03-03 Tue 19:42]
