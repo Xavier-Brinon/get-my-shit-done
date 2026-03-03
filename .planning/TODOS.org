@@ -32,7 +32,7 @@ CLOSED: [2026-03-03 Tue 21:10]
 :END:
 :PROPERTIES:
 :created: [2026-03-02 Mon]
-:files: docs/reference.org, README.org
+:files: docs/reference.org, docs/context-monitor.org, README.org
 :END:
 
 *** Problem
