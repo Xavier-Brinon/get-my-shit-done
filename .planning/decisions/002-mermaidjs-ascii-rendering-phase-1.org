@@ -1,0 +1,117 @@
+:PROPERTIES:
+:adr-id: 002
+:title: Replace ob-mermaid with beautiful-mermaid ASCII rendering
+:status: accepted
+:decision-makers: Xavier, Claude
+:date: 2026-03-03
+:phase: 01
+:END:
+
+* Replace ob-mermaid with beautiful-mermaid ASCII rendering
+
+** Context and Problem Statement
+
+GMSD templates and agent instructions use MermaidJS diagrams rendered via ob-mermaid
+(Emacs org-babel integration with =mmdc=). These diagrams are invisible in org buffers —
+they appear as raw Mermaid syntax until explicitly rendered to PNG/SVG via a browser or
+headless Chromium. This means diagrams provide no value when reading docs in Emacs or in
+terminal output, which is where GMSD users spend most of their time. Additionally, the
+ob-mermaid toolchain (mmdc + Chromium) is heavy, slow to render, and can break in
+headless/CI environments.
+
+Should GMSD switch to ASCII-rendered diagrams that display natively in any text context?
+
+** Decision Drivers
+
+- Diagrams must be readable directly in Emacs org-mode buffers without rendering
+- Diagrams must be readable in terminal output (Claude Code context)
+- Reduce external toolchain dependencies (no browser/Chromium requirement)
+- Preserve the ability to express architectural relationships visually
+- Maintain Mermaid as the diagram source language (team familiarity, ecosystem)
+
+** Considered Options
+
+- Keep ob-mermaid (status quo)
+- Replace with beautiful-mermaid (full ASCII switch)
+- Hybrid: beautiful-mermaid where readable, ob-mermaid for complex diagrams
+
+** Decision Outcome
+
+Chosen option: "Replace with beautiful-mermaid (full ASCII switch)", because it resolves
+both core drivers (Emacs readability and toolchain simplification) without introducing the
+maintenance burden of a mixed rendering system. Diagrams that don't render well in ASCII
+are simplified to fit, prioritizing relationships over label detail, within a 120-column
+width constraint.
+
+*** Confirmation
+
+- All templates and references updated to use MermaidJS ASCII (atomic switch)
+- Mermaid source syntax preserved in collapsed org blocks for future re-rendering
+- All ob-mermaid references removed from both org-styleguide versions
+- All 9 agent =<architecture_learning>= sections updated
+- ASCII diagrams readable at 120 columns in Emacs and terminal
+
+*** Positive Consequences
+
+- Diagrams visible instantly in org buffers — no render step needed
+- Zero external dependencies for diagram display (no mmdc, no Chromium)
+- Works in all contexts: Emacs, terminal, GitHub, plain text viewers
+- Mermaid source preserved in collapsed blocks — can re-render if beautiful-mermaid
+  improves or if high-fidelity output is ever needed
+
+*** Negative Consequences
+
+- ASCII art has lower visual fidelity than SVG/PNG renders
+- Complex diagrams may need simplification to fit 120-column constraint
+- Adds beautiful-mermaid as an npm dependency
+- Labels may be abbreviated when space is tight (relationships prioritized over text)
+
+** Pros and Cons of the Options
+
+*** Keep ob-mermaid (status quo)
+
+Mermaid diagrams rendered to PNG/SVG via Emacs org-babel and mmdc (headless Chromium).
+
+- Good, because high-fidelity visual output (colors, styled boxes, arrows)
+- Good, because mature toolchain with broad Mermaid feature support
+- Neutral, because familiar to Emacs org-babel users
+- Bad, because diagrams invisible in org buffers until explicitly rendered
+- Bad, because requires Chromium/mmdc — heavy external dependency
+- Bad, because renders break in headless/CI environments
+- Bad, because no value in terminal context (Claude Code)
+
+*** Replace with beautiful-mermaid (full ASCII switch)
+
+All Mermaid diagrams rendered to ASCII art via beautiful-mermaid npm package. Source
+syntax preserved in collapsed org blocks.
+
+- Good, because diagrams visible instantly in any text context (Emacs, terminal, GitHub)
+- Good, because no external rendering dependencies
+- Good, because Mermaid source preserved — re-rendering possible later
+- Good, because clean atomic migration — no mixed rendering state
+- Neutral, because adds beautiful-mermaid as npm dependency
+- Bad, because lower visual fidelity than rendered SVG/PNG
+- Bad, because complex diagrams may need simplification to fit 120 columns
+
+*** Hybrid: beautiful-mermaid where readable, ob-mermaid for complex diagrams
+
+Use ASCII for simple diagrams (flowcharts, sequences), keep ob-mermaid for complex ones
+(class diagrams, large architectures).
+
+- Good, because best visual output for each diagram type
+- Good, because simple diagrams get ASCII readability benefit
+- Neutral, because preserves ob-mermaid expertise
+- Bad, because maintains two rendering systems and their dependencies
+- Bad, because inconsistent reading experience (some visible, some not)
+- Bad, because agents need conditional logic to choose rendering approach
+- Bad, because "which diagrams are too complex?" is a subjective threshold
+
+** More Information
+
+- beautiful-mermaid: https://github.com/lukilabs/beautiful-mermaid
+- Phase 1 CONTEXT.org captures all implementation decisions (rendering workflow, org
+  wrapping, source preservation, template scope)
+- Naming convention: "MermaidJS ASCII" — keeps MermaidJS as diagram language, specifies
+  ASCII as rendering format
+- Previous convention: "MermaidJS as default diagram tool (ob-mermaid syntax)" — documented
+  in MEMORY.md and =references/org-styleguide-full.org=
