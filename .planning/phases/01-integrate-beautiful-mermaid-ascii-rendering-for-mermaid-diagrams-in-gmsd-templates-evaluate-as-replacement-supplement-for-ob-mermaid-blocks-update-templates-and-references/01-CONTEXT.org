@@ -32,8 +32,8 @@ Origin: TODO #1 in =.planning/TODOS.org=.
 - Claude's discretion on: integration point (agent-time vs standalone tool vs both), org-mode wrapping for ASCII output
 
 *** Diagram quality constraints
-- 80-column strict maximum width for all ASCII diagrams
-- Must be clearly readable in a terminal at 80 columns — quality over completeness
+- 120-column maximum width for all ASCII diagrams
+- Must be clearly readable in a terminal at 120 columns — quality over completeness
 - When simplifying: preserve relationships (edges/connections) over labels (detailed node text)
 - Claude's discretion on: which Mermaid diagram types to support (audit actual usage in templates)
 
