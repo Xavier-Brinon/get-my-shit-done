@@ -7,18 +7,6 @@
 
 * Active
 
-** TODO [#C] Convert .continue-here.md to .continue-here.org :planning:
-:PROPERTIES:
-:created: [2026-03-02 Mon]
-:files: .planning/phases/03-gap-filling/.continue-here.md, get-my-shit-done/workflows/pause-work.md, get-my-shit-done/workflows/resume-work.md
-:END:
-
-*** Problem
-Handoff files are written as .md but project uses org-mode exclusively. The pause-work workflow writes .continue-here.md — should be .continue-here.org with org property drawers instead of YAML frontmatter.
-
-*** Solution
-Update pause-work.md workflow template to output .org format. Update resume-work.md to read .org. Convert any existing .continue-here.md files.
-
 ** TODO [#C] Suppress false exit-code-1 in resume-work shell check :tooling:
 :PROPERTIES:
 :created: [2026-03-02 Mon]
@@ -56,3 +44,21 @@ Some org-mode source blocks use #+begin_src json for JSON content, but Emacs org
 Search all org files for #+begin_src json and replace with #+begin_src js. Check docs/, references/, and templates/ directories.
 
 * Archive
+
+
+** DONE [#C] Convert .continue-here.md to .continue-here.org :planning:
+CLOSED: [2026-03-03 Tue 19:42]
+:LOGBOOK:
+- State "DONE" from "TODO"       [2026-03-03 Tue 19:42] \\
+  Completed during check-todos workflow
+:END:
+:PROPERTIES:
+:created: [2026-03-02 Mon]
+:files: .planning/phases/03-gap-filling/.continue-here.md, get-my-shit-done/workflows/pause-work.md, get-my-shit-done/workflows/resume-work.md
+:END:
+
+*** Problem
+Handoff files are written as .md but project uses org-mode exclusively. The pause-work workflow writes .continue-here.md — should be .continue-here.org with org property drawers instead of YAML frontmatter.
+
+*** Solution
+Update pause-work.md workflow template to output .org format. Update resume-work.md to read .org. Convert any existing .continue-here.md files.

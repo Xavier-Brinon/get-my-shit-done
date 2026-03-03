@@ -63,7 +63,7 @@ Look for incomplete work that needs attention:
 
 ```bash
 # Check for continue-here files (mid-plan resumption)
-ls .planning/phases/*/.continue-here*.md 2>/dev/null
+ls .planning/phases/*/.continue-here*.org 2>/dev/null
 
 # Check for plans without summaries (incomplete execution)
 for plan in .planning/phases/*/*-PLAN.org; do

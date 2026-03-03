@@ -1,5 +1,5 @@
 <purpose>
-Create `.continue-here.md` handoff file to preserve complete work state across sessions. Enables seamless resumption with full context restoration.
+Create `.continue-here.org` handoff file to preserve complete work state across sessions. Enables seamless resumption with full context restoration.
 </purpose>
 
 <required_reading>
@@ -34,52 +34,52 @@ Ask user for clarifications if needed via conversational questions.
 </step>
 
 <step name="write">
-**Write handoff to `.planning/phases/XX-name/.continue-here.md`:**
+**Write handoff to `.planning/phases/XX-name/.continue-here.org`:**
 
-```markdown
----
-phase: XX-name
-task: 3
-total_tasks: 7
-status: in_progress
-last_updated: [timestamp from current-timestamp]
----
+```org
+:PROPERTIES:
+:phase: XX-name
+:task: 3
+:total_tasks: 7
+:status: in_progress
+:last_updated: [timestamp from current-timestamp]
+:END:
 
-<current_state>
+#+title: Continue Here — XX-name
+#+startup: indent
+
+* Current State
+
 [Where exactly are we? Immediate context]
-</current_state>
 
-<completed_work>
+* Completed Work
 
 - Task 1: [name] - Done
 - Task 2: [name] - Done
 - Task 3: [name] - In progress, [what's done]
-</completed_work>
 
-<remaining_work>
+* Remaining Work
 
 - Task 3: [what's left]
 - Task 4: Not started
 - Task 5: Not started
-</remaining_work>
 
-<decisions_made>
+* Decisions Made
 
 - Decided to use [X] because [reason]
 - Chose [approach] over [alternative] because [reason]
-</decisions_made>
 
-<blockers>
+* Blockers
+
 - [Blocker 1]: [status/workaround]
-</blockers>
 
-<context>
+* Context
+
 [Mental state, what were you thinking, the plan]
-</context>
 
-<next_action>
+* Next Action
+
 Start with: [specific first action when resuming]
-</next_action>
 ```
 
 Be specific enough for a fresh Claude to understand immediately.
@@ -92,13 +92,13 @@ timestamp=$(node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs current-timestamp
 
 <step name="commit">
 ```bash
-node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "wip: [phase-name] paused at task [X]/[Y]" --files .planning/phases/*/.continue-here.md
+node ~/.claude/get-my-shit-done/bin/gmsd-tools.cjs commit "wip: [phase-name] paused at task [X]/[Y]" --files .planning/phases/*/.continue-here.org
 ```
 </step>
 
 <step name="confirm">
 ```
-✓ Handoff created: .planning/phases/[XX-name]/.continue-here.md
+✓ Handoff created: .planning/phases/[XX-name]/.continue-here.org
 
 Current state:
 
@@ -115,7 +115,7 @@ To resume: /gmsd:resume-work
 </process>
 
 <success_criteria>
-- [ ] .continue-here.md created in correct phase directory
+- [ ] .continue-here.org created in correct phase directory
 - [ ] All sections filled with specific content
 - [ ] Committed as WIP
 - [ ] User knows location and how to resume

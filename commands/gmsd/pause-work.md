@@ -8,7 +8,7 @@ allowed-tools:
 ---
 
 <objective>
-Create `.continue-here.md` handoff file to preserve complete work state across sessions.
+Create `.continue-here.org` handoff file to preserve complete work state across sessions.
 
 Routes to the pause-work workflow which handles:
 - Current phase detection from recent files

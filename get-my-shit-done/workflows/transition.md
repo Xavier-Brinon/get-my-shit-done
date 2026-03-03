@@ -111,7 +111,7 @@ Wait for user decision.
 Check for lingering handoffs:
 
 ```bash
-ls .planning/phases/XX-current/.continue-here*.md 2>/dev/null
+ls .planning/phases/XX-current/.continue-here*.org 2>/dev/null
 ```
 
 If found, delete them — phase is complete, handoffs are stale.

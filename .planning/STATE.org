@@ -59,7 +59,7 @@ Decisions logged in =PROJECT.org= Key Decisions table (10 decisions, all ✓ Goo
 
 *** Pending Todos
 
-4 pending — =.planning/TODOS.org=
+3 pending — =.planning/TODOS.org=
 
 *** Blockers/Concerns
 
