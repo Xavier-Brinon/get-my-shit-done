@@ -1,0 +1,572 @@
+#+title: Phase 1: Integrate beautiful-mermaid ASCII Rendering - Research
+#+author: GMSD
+#+date: [2026-03-03]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 1: Integrate beautiful-mermaid ASCII Rendering - Research
+
+:PROPERTIES:
+:researched: [2026-03-03]
+:domain: MermaidJS ASCII rendering, org-mode diagram blocks, template migration
+:confidence: HIGH
+:END:
+
+<user_constraints>
+** User Constraints (from CONTEXT.org)
+
+*** Locked Decisions
+
+**** Replacement strategy
+- Full replacement of ob-mermaid — no coexistence, no fallback
+- If a diagram type renders poorly in ASCII, simplify the diagram until it's
+  readable — do not fall back to ob-mermaid
+- Remove all ob-mermaid references from styleguides and references (clean break)
+
+**** Rendering workflow
+- Keep Mermaid source syntax alongside ASCII renders (for future re-rendering)
+- Mermaid source stored in collapsed/folded org blocks (visible when expanded,
+  hidden by default)
+
+**** Diagram quality constraints
+- 120-column maximum width for all ASCII diagrams
+- Must be clearly readable in a terminal at 120 columns — quality over
+  completeness
+- When simplifying: preserve relationships (edges/connections) over labels
+  (detailed node text)
+
+**** Template and reference updates
+- Atomic switch — update all templates, references, and agent docs in one pass
+- Update both org-styleguide versions (full and condensed) to reference
+  MermaidJS ASCII
+- Include 1-2 rendered ASCII diagram examples in the styleguide
+- Update =<architecture_learning>= sections in all 9 agents that reference
+  MermaidJS (note: audit showed 0 agents currently contain mermaid syntax
+  in =<architecture_learning>= blocks — the 9-agent count refers to agents
+  with the tag; update scope is the styleguide =<org_style>= references and
+  the styleguide files themselves)
+- Naming convention: "MermaidJS ASCII" (keeps MermaidJS as diagram language,
+  specifies ASCII rendering)
+
+*** Claude's Discretion
+- Integration point: when/how beautiful-mermaid runs (agent output time,
+  standalone CLI, or both)
+- Org-mode wrapping syntax for ASCII diagram blocks
+- Which Mermaid diagram types to support (based on audit of actual usage)
+- Simplification strategy per diagram type
+
+*** Deferred Ideas (OUT OF SCOPE)
+None — discussion stayed within phase scope.
+
+</user_constraints>
+
+** Summary
+
+=beautiful-mermaid= (v1.1.3) is a pure TypeScript npm package that renders
+Mermaid diagram source into ASCII/Unicode art via =renderMermaidASCII()=.
+It has no CLI binary — usage is programmatic only. This means the rendering
+integration point is a Node.js script run at authoring time, not at agent
+inference time. The package supports 6 diagram types: flowcharts, state
+diagrams, sequence diagrams, class diagrams, ER diagrams, and XY charts.
+
+The audit of actual ob-mermaid usage in templates reveals: 5 templates use
+ob-mermaid blocks covering 3 diagram types (flowchart, sequenceDiagram,
+stateDiagram-v2). No agents currently embed Mermaid syntax inside
+=<architecture_learning>= blocks — the "9 agents" scope from MEMORY.md refers
+to agents whose =<org_style>= tag references the styleguide (which contains
+ob-mermaid conventions). The actual update scope is the styleguide files and
+the template =#+begin_src mermaid= blocks.
+
+The primary challenge is that =beautiful-mermaid= does not expose a width
+parameter — output width is emergent from diagram structure and =paddingX=.
+Achieving the 120-column constraint requires adjusting =paddingX= and,
+where diagrams still exceed width, simplifying the Mermaid source itself.
+The rendering script must be the canonical tool that both validates and
+produces all ASCII blocks in the project.
+
+*Primary recommendation:* Write a Node.js render script using
+=beautiful-mermaid= ~renderMermaidASCII()~ with tuned =paddingX= that
+produces ASCII within 120 columns; replace all 9 =#+begin_src mermaid=
+ob-mermaid blocks in templates + 2 ob-mermaid references in
+=org-styleguide.md= and 1 in =workflows/org-review.md= in an atomic pass.
+
+** Scope Audit
+
+*** Confirmed ob-mermaid occurrences requiring replacement
+
+**** Template files (source: =get-my-shit-done/templates/= AND
+=~/.claude/get-my-shit-done/templates/=)
+
+| File | ob-mermaid blocks | Diagram types |
+|------+-------------------+---------------|
+| =adr.org= | 2 | flowchart TD, flowchart LR |
+| =roadmap.org= | 1 | flowchart LR |
+| =research.org= | 1 | flowchart TD |
+| =codebase/architecture.org= | 2 | flowchart TD, sequenceDiagram |
+| =research-project/ARCHITECTURE.org= | 3 | flowchart TD, sequenceDiagram, stateDiagram-v2 |
+
+*Total: 9 ob-mermaid blocks across 5 template files.*
+
+**** Reference and workflow files
+
+| File | ob-mermaid references | Nature |
+|------+-----------------------+--------|
+| =get-my-shit-done/references/org-styleguide.md= | 2 | Syntax rule + code example |
+| =~/.claude/get-my-shit-done/references/org-styleguide.md= | 2 | Same (installed copy) |
+| =get-my-shit-done/workflows/org-review.md= | 1 | Checklist item |
+| =~/.claude/get-my-shit-done/workflows/org-review.md= | 1 | Same (installed copy) |
+| =~/.claude/get-my-shit-done/references/diataxis-audit.org= | 1 | Historical diagram |
+| =~/.claude/get-my-shit-done/references/diataxis.org= | 1 | Diataxis tree diagram |
+
+**** Agent files
+
+All 10 =agents/gmsd-*.md= files have =<architecture_learning>= sections.
+Zero of these sections contain Mermaid syntax or ob-mermaid blocks. The agents
+do not embed diagrams — they reference the styleguide via =<org_style>= tags.
+Updating the styleguide files is sufficient to update agent behavior.
+
+*Clarification: MEMORY.md note "9 agents have =<architecture_learning>=
+sections with MermaidJS diagram blocks" is inaccurate as of audit date. No
+agent files contain Mermaid diagram syntax.*
+
+*** Diagram type coverage by beautiful-mermaid
+
+All 3 diagram types found in templates are supported by =beautiful-mermaid=:
+
+| Diagram type | Supported | Templates using it |
+|--------------+-----------+--------------------|
+| =flowchart= | Yes | adr.org, roadmap.org, research.org, architecture.org, ARCHITECTURE.org |
+| =sequenceDiagram= | Yes | codebase/architecture.org, research-project/ARCHITECTURE.org |
+| =stateDiagram-v2= | Yes | research-project/ARCHITECTURE.org |
+
+** Standard Stack
+
+*** Core
+
+| Library | Version | Purpose | Why Standard |
+|---------+---------+---------+--------------|
+| =beautiful-mermaid= | 1.1.3 | ASCII rendering of Mermaid source | Only npm package providing this; zero DOM deps; pure TS |
+| Node.js | >=16.7.0 | Runtime for render script | Already project requirement |
+
+This follows the *Principle of Least Astonishment* — using the only purpose-built
+library for Mermaid-to-ASCII means no custom rendering logic to maintain.
+
+*** Installation
+
+#+begin_src bash
+npm install beautiful-mermaid
+#+end_src
+
+Note: =beautiful-mermaid= will be a runtime dependency of the GMSD package
+(it must be present when the render script is invoked, not just at dev time).
+Evaluate whether to add to =package.json= ~dependencies~ (if bundled) or
+document as a peer requirement.
+
+*** Alternatives Considered
+
+| Instead of | Could Use | Tradeoff |
+|------------+-----------+----------|
+| =beautiful-mermaid= | Hand-rolled ASCII renderer | 10x complexity; no alternative library found |
+| Node.js render script | CLI wrapper | =beautiful-mermaid= has no CLI binary; wrapper would add a shell layer with no benefit |
+| Per-render invocation | Pre-render + commit ASCII | Pre-render is preferred — diagrams are static content; rendering on-demand requires the dep at runtime |
+
+** Architecture Patterns
+
+*** Recommended Project Structure
+
+#+begin_src
+get-my-shit-done/
+├── bin/
+│   └── render-mermaid.cjs       # New: standalone render script
+├── templates/
+│   ├── adr.org                  # Updated: ob-mermaid → ASCII blocks
+│   ├── roadmap.org              # Updated: ob-mermaid → ASCII blocks
+│   ├── research.org             # Updated: ob-mermaid → ASCII blocks
+│   ├── codebase/
+│   │   └── architecture.org     # Updated: ob-mermaid → ASCII blocks
+│   └── research-project/
+│       └── ARCHITECTURE.org     # Updated: ob-mermaid → ASCII blocks
+└── references/
+    ├── org-styleguide.md        # Updated: ob-mermaid rule → MermaidJS ASCII rule
+    └── org-styleguide-full.org  # Updated: diagram section
+#+end_src
+
+The *Facade Pattern* applies here: a single =render-mermaid.cjs= script
+encapsulates the =beautiful-mermaid= API. All template authors and the
+planner invoke this script; none call the library directly.
+
+*** Pattern 1: Render Script (Facade)
+
+*What:* A Node.js CJS script that accepts Mermaid source on stdin or as a
+file argument and outputs the rendered ASCII string to stdout.
+
+*When to use:* Called during template authoring, phase execution, and whenever
+a diagram needs rendering. The script is the single integration point.
+
+#+begin_src javascript
+// Source: beautiful-mermaid npm package (v1.1.3)
+const { renderMermaidASCII } = require('beautiful-mermaid');
+
+const diagram = `flowchart LR
+    A[Phase 1] --> B[Phase 2]
+    B --> C[Phase 3]`;
+
+const ascii = renderMermaidASCII(diagram, {
+  paddingX: 2,
+  paddingY: 1,
+  useAscii: false  // false = Unicode box-drawing chars (better readability)
+});
+
+console.log(ascii);
+#+end_src
+
+*** Pattern 2: Org-mode wrapping for ASCII diagram blocks
+
+*What:* The ASCII output is stored in an =#+BEGIN_EXAMPLE= / =#+END_EXAMPLE=
+block (preformatted, non-code) with the Mermaid source preserved in a
+collapsed =#+begin_src mermaid= block immediately below.
+
+*When to use:* Every diagram in templates and generated documents.
+
+This enforces *separation of concerns* between the rendered output (readable
+immediately) and the diagram source (available for re-rendering).
+
+#+begin_src org
+,#+NAME: phase-dependencies
+,#+CAPTION: Phase dependency diagram
+,#+BEGIN_EXAMPLE
+  ┌────────────┐     ┌────────────┐
+  │  Phase 1   │────▶│  Phase 2   │
+  └────────────┘     └────────────┘
+,#+END_EXAMPLE
+
+,#+begin_details
+,#+begin_summary
+Mermaid source (expand to re-render)
+,#+end_summary
+,#+begin_src mermaid
+flowchart LR
+    P1["Phase 1"] --> P2["Phase 2"]
+,#+end_src
+,#+end_details
+#+end_src
+
+*Alternative wrapping* (if =#+begin_details= is not available in target org
+version — Claude's discretion to verify): use a standard =:collapsed:= drawer
+or a commented block. The =#+begin_details= / =#+end_details= blocks are an
+org-mode 9.6+ feature for foldable content.
+
+*** Pattern 3: 120-column width management
+
+*What:* =beautiful-mermaid= does not expose a width parameter. Width emerges
+from content and =paddingX=. The workflow is: render with tuned =paddingX=
+→ measure output width → simplify diagram if needed → re-render.
+
+#+begin_src javascript
+// Source: beautiful-mermaid npm package (v1.1.3)
+function renderWithinWidth(diagramSource, maxCols = 120) {
+  for (const paddingX of [2, 1, 0]) {
+    const ascii = renderMermaidASCII(diagramSource, { paddingX, paddingY: 1 });
+    const maxLineWidth = Math.max(...ascii.split('\n').map(l => l.length));
+    if (maxLineWidth <= maxCols) return ascii;
+  }
+  // Still too wide: caller must simplify diagram source
+  return null;
+}
+#+end_src
+
+*** Anti-Patterns to Avoid
+
+- *Keeping ob-mermaid as fallback*: Decision is locked — full replacement.
+  Mixed rendering state causes inconsistency in styleguide guidance.
+- *Runtime rendering in agents*: Agents produce text; they should not invoke
+  =beautiful-mermaid= at inference time. ASCII diagrams are pre-rendered
+  static content in templates.
+- *Wrapping ASCII in =#+begin_src= blocks with a language tag*: Language-tagged
+  src blocks imply code that can be executed. Use =#+BEGIN_EXAMPLE= for
+  preformatted ASCII art output.
+- *Storing rendered ASCII without source*: Without the preserved Mermaid source,
+  diagrams cannot be updated or re-rendered when =beautiful-mermaid= improves.
+
+** Don't Hand-Roll
+
+| Problem | Don't Build | Use Instead | Why |
+|---------+-------------+-------------+-----|
+| Mermaid → ASCII conversion | Custom ASCII layout engine | =beautiful-mermaid= | Grid layout, box-drawing, arrow routing are non-trivial; 6 diagram types already supported |
+| Width enforcement | Custom truncation logic | =paddingX= tuning + source simplification | Truncation breaks diagram structure; simplification preserves relationships |
+
+*Key insight:* ASCII diagram layout is deceptively complex — box placement,
+arrow routing, and label fitting involve constraint solving. =beautiful-mermaid=
+handles this for all 6 supported types; custom solutions would need to
+reimplement this per diagram type.
+
+** Common Pitfalls
+
+*** Pitfall 1: Output width exceeds 120 columns with default paddingX
+
+*What goes wrong:* =renderMermaidASCII= default =paddingX: 5= produces wide
+output. Diagrams with 4+ nodes in a horizontal chain regularly exceed 120
+columns.
+
+*Why it happens:* Width is emergent — every node label + border + padding adds
+to total width. Default padding is generous for visual aesthetics, not terminal
+constraints.
+
+*How to avoid:* Start with =paddingX: 2, paddingY: 1= as the default. Provide
+a width-check loop (see Pattern 3). If output still exceeds 120 at =paddingX:
+0=, the diagram source must be simplified before rendering.
+
+*Warning signs:* Any diagram with more than 3 nodes in a horizontal sequence
+is a candidate for width issues.
+
+*** Pitfall 2: Dual file locations — source and installed copy drift
+
+*What goes wrong:* Templates exist in both
+=get-my-shit-done/templates/= (source) and
+=~/.claude/get-my-shit-done/templates/= (installed copy). Updating only the
+source means the installed copy still contains ob-mermaid blocks.
+
+*Why it happens:* The install script copies source to =~/.claude/= at install
+time. Changes to source do not auto-propagate.
+
+*How to avoid:* The atomic update pass must modify *both* locations — source
+files and installed copies. Document this as a two-location update in the plan.
+Similarly for reference and workflow files.
+
+*** Pitfall 3: =#+begin_details= availability in org-mode
+
+*What goes wrong:* If org-mode version in use does not support
+=#+begin_details= / =#+end_details= for foldable blocks, the source-
+preservation pattern breaks.
+
+*Why it happens:* =#+begin_details= is an org-mode 9.6+ feature. Earlier
+versions only support =:PROPERTIES:= drawers for folding.
+
+*How to avoid:* Verify org-mode version or use a universally supported
+alternative for the collapsed Mermaid source block (e.g., a =:COLLAPSED:=
+property drawer, or a plain comment block if re-rendering is treated as a
+manual step). Marked as Claude's discretion in CONTEXT.org.
+
+*** Pitfall 4: =beautiful-mermaid= has no CLI — not executable directly
+
+*What goes wrong:* Attempting =npx beautiful-mermaid diagram.mmd= fails.
+The package has no =bin= entry and no CLI.
+
+*Why it happens:* =beautiful-mermaid= is a library, not a tool. The npm
+package metadata confirms =bin: None=.
+
+*How to avoid:* The render script =bin/render-mermaid.cjs= must wrap the API.
+Do not document or reference =npx beautiful-mermaid= usage anywhere.
+
+*** Pitfall 5: =useAscii: false= (Unicode) vs =useAscii: true= (plain ASCII)
+
+*What goes wrong:* =useAscii: true= uses only basic ASCII characters (=+=-=|=)
+for boxes and arrows. =useAscii: false= (default) uses Unicode box-drawing
+characters (=┌─┐│└┘=). The Unicode version is more readable; the ASCII version
+is safe for environments that cannot render Unicode.
+
+*Why it happens:* The API option name is inverted from expectations — =useAscii:
+false= produces the prettier Unicode output.
+
+*How to avoid:* Default to =useAscii: false= (Unicode box-drawing). The project
+targets Emacs and terminals — both render Unicode. Document this in the render
+script.
+
+** Code Examples
+
+Verified patterns from =beautiful-mermaid= v1.1.3 source and npm registry.
+
+*** Basic ASCII render (Node.js CJS)
+
+#+begin_src javascript
+// Source: beautiful-mermaid v1.1.3 API (npm registry verified)
+const { renderMermaidASCII } = require('beautiful-mermaid');
+
+const diagram = `flowchart LR
+    P1["Phase 1\nFoundation"] --> P2["Phase 2\nAuth"]
+    P1 --> P3["Phase 3\nContent"]
+    P2 --> P4["Phase 4\nSocial"]
+    P3 --> P4`;
+
+const ascii = renderMermaidASCII(diagram, {
+  useAscii: false,   // Unicode box-drawing (more readable)
+  paddingX: 2,
+  paddingY: 1,
+  boxBorderPadding: 1
+});
+
+process.stdout.write(ascii + '\n');
+#+end_src
+
+*** Width-constrained render function
+
+#+begin_src javascript
+// Source: beautiful-mermaid v1.1.3 API + project constraint (120 cols)
+const { renderMermaidASCII } = require('beautiful-mermaid');
+
+function renderWithinWidth(source, maxWidth = 120) {
+  const paddingSteps = [2, 1, 0];
+  for (const paddingX of paddingSteps) {
+    const ascii = renderMermaidASCII(source, {
+      useAscii: false,
+      paddingX,
+      paddingY: 1,
+      boxBorderPadding: 1
+    });
+    const lines = ascii.split('\n');
+    const maxLine = Math.max(...lines.map(l => l.length));
+    if (maxLine <= maxWidth) {
+      return { ascii, paddingX, width: maxLine };
+    }
+  }
+  return null; // Caller must simplify diagram source
+}
+#+end_src
+
+*** Org-mode block structure for rendered diagram
+
+#+begin_src org
+,** Phase Dependencies
+
+,#+NAME: roadmap-phases
+,#+CAPTION: Phase dependency diagram (MermaidJS ASCII)
+,#+BEGIN_EXAMPLE
+┌───────────┐     ┌───────────┐
+│  Phase 1  │────▶│  Phase 2  │
+│ Foundation│     │   Auth    │
+└───────────┘     └───────────┘
+,#+END_EXAMPLE
+
+,#+begin_src mermaid :exports none
+flowchart LR
+    P1["Phase 1\nFoundation"] --> P2["Phase 2\nAuth"]
+,#+end_src
+#+end_src
+
+Note: =:exports none= on the Mermaid source block prevents ob-mermaid from
+attempting to render it if a user has ob-mermaid configured. The block is
+preserved for source reference only.
+
+*** Org-mode styleguide update pattern
+
+Replace the existing ob-mermaid rule:
+
+#+begin_src org
+- Use =#+begin_src mermaid :file name.png :exports results= for diagrams (ob-mermaid).
+#+end_src
+
+With the MermaidJS ASCII convention:
+
+#+begin_src org
+- Use =#+BEGIN_EXAMPLE= / =#+END_EXAMPLE= for rendered MermaidJS ASCII diagrams
+  (produced by =bin/render-mermaid.cjs=). Preserve Mermaid source in a
+  =#+begin_src mermaid :exports none= block immediately below for re-rendering.
+#+end_src
+
+** State of the Art
+
+| Old Approach | Current Approach | When Changed | Impact |
+|--------------+------------------+--------------+--------|
+| ob-mermaid (mmdc + Chromium) | beautiful-mermaid ASCII rendering | Phase 1 (2026-03-03) | Diagrams readable in org buffers without render step; zero external deps |
+| =#+begin_src mermaid :file X.png :exports results= | =#+BEGIN_EXAMPLE= + =#+begin_src mermaid :exports none= | Phase 1 | Diagram always visible; source always preserved |
+
+*Deprecated/outdated after this phase:*
+- =#+begin_src mermaid :file name.png :exports results=: ob-mermaid syntax,
+  removed from all templates and styleguides
+- =mmdc= (Mermaid CLI): no longer referenced or required
+- Chromium/headless browser: no longer a GMSD diagram dependency
+
+** Validation Architecture
+
+*** Test Framework
+
+| Property | Value |
+|----------+-------|
+| Framework | Node.js built-in test runner |
+| Config file | none (uses =node --test=) |
+| Quick run command | =node --test tests/*.test.cjs= |
+| Full suite command | =node --test tests/*.test.cjs= |
+
+Existing test suite: 218 tests, 52 suites, 0 failures (verified 2026-03-03).
+
+*** Phase Requirements → Test Map
+
+No formal requirement IDs were assigned for this phase. Testing strategy:
+
+| Behavior | Test Type | Command | Notes |
+|----------+-----------+---------+-------|
+| ASCII render produces valid output | manual/visual | Run =node get-my-shit-done/bin/render-mermaid.cjs= | Visual inspection |
+| Output width ≤ 120 columns | automated unit | New test in =tests/= | Width assertion on rendered output |
+| All 9 ob-mermaid blocks replaced | automated grep | =grep -r "ob-mermaid" get-my-shit-done/templates/= exits 0 | File scan |
+| Source block preserved alongside each ASCII block | manual/visual | Review template files | Structural check |
+| Existing 218 tests still pass | automated | =node --test tests/*.test.cjs= | Regression gate |
+
+*** Wave 0 Gaps
+
+- [ ] =tests/render-mermaid.test.cjs= — unit tests for width constraint and
+  render output validity
+- [ ] =get-my-shit-done/bin/render-mermaid.cjs= — render script itself
+  (created in Wave 1)
+
+** Open Questions
+
+1. *Org-mode source preservation block syntax*
+   - What we know: =#+begin_details= is org 9.6+; =:exports none= on src block
+     suppresses ob-mermaid rendering; user has Emacs
+   - What's unclear: which collapsed-block syntax works best in user's Emacs
+     version; whether =#+begin_details= is available
+   - Recommendation: Claude's discretion — use =:exports none= on the source
+     block as minimum requirement; add =#+COMMENT:= annotation if folding is
+     not available
+
+2. *beautiful-mermaid as package dependency*
+   - What we know: =package.json= currently has no runtime dependencies;
+     beautiful-mermaid must be installed to run the render script
+   - What's unclear: whether to add to =dependencies= (always bundled) or
+     require users to install it separately
+   - Recommendation: Add to =dependencies= in =package.json= so =npm install=
+     in the project always has it available; or add to a new
+     =peerDependencies= section. Resolve in planning.
+
+3. *diataxis-audit.org and diataxis.org ob-mermaid blocks*
+   - What we know: Two files in =references/= contain ob-mermaid blocks
+     (=diataxis-audit.org=: 1 block, =diataxis.org=: 1 block) in the installed
+     path =~/.claude/get-my-shit-done/references/=. These are not in the
+     source project templates directory.
+   - What's unclear: Whether these are part of the CONTEXT.org "atomic switch"
+     scope or are documentation-only files with lower priority
+   - Recommendation: Include in scope — CONTEXT.org says "remove all ob-mermaid
+     references"; resolve in plan.
+
+** Sources
+
+*** Primary (HIGH confidence)
+- =beautiful-mermaid= npm registry entry — version 1.1.3, bin: None,
+  description, keywords confirmed
+- GitHub =lukilabs/beautiful-mermaid= README — API signatures, diagram types,
+  =AsciiRenderOptions= interface
+- GitHub =lukilabs/beautiful-mermaid= src/ascii/index.ts — =renderMermaidASCII=
+  signature and options confirmed
+- GitHub =lukilabs/beautiful-mermaid= src/index.ts — full export list confirmed
+- Project file audit (grep) — 9 ob-mermaid blocks in 5 template files; 0 in
+  agent =<architecture_learning>= sections
+
+*** Secondary (MEDIUM confidence)
+- =AsciiRenderOptions= default values (=paddingX: 5=, =paddingY: 5=,
+  =boxBorderPadding: 1=) — from README extraction; not directly verified in
+  TypeScript source
+
+*** Tertiary (LOW confidence)
+- Width behavior with various diagram sizes — no quantitative data found;
+  the =paddingX= reduction strategy is derived from API understanding,
+  not benchmarked output
+
+** Metadata
+
+:PROPERTIES:
+:confidence.standard_stack: HIGH — beautiful-mermaid v1.1.3 verified via npm registry and GitHub source
+:confidence.architecture: HIGH — file audit complete; all ob-mermaid locations confirmed
+:confidence.pitfalls: MEDIUM — width behavior at default padding inferred; no measured output data
+:research_date: [2026-03-03]
+:valid_until: [2026-04-03]
+:END:
