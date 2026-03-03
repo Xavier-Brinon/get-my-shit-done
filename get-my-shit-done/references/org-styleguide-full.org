@@ -5,6 +5,11 @@
 #+options: toc:3 num:t
 
 * Introduction
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader looks up org-mode syntax rules and conventions
+:END:
 
 This style guide codifies conventions for writing clear, consistent,
 and maintainable Org-mode documents. It draws from the official Org

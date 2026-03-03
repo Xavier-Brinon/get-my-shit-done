@@ -1,0 +1,190 @@
+#+title: Roadmap: GMSD Diataxis Integration
+#+author: GMSD
+#+date: [2026-02-27]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Roadmap: GMSD Diataxis Integration
+
+** Overview
+
+This milestone integrates the Diataxis documentation framework into GMSD so that
+every document the system produces — deliverables for user projects and GMSD's own
+internal docs — has a clear quadrant classification (tutorial, how-to, reference,
+or explanation). The work flows from framework definition, through classification
+and gap analysis, to new template creation, and finally to reorganising GMSD's own
+documentation.
+
+** Phases
+
+*Phase Numbering:*
+- Integer phases (1, 2, 3): Planned milestone work
+- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+
+Decimal phases appear between their surrounding integers in numeric order.
+
+- [X] *Phase 1: Framework Foundation* - Define the Diataxis reference document that all classification work depends on
+- [X] *Phase 2: Classification and Audit* - Classify all existing templates and agents; produce formal gap audit
+- [x] *Phase 3: Gap Filling* - Create new templates for underserved quadrants identified in the audit (completed 2026-03-02)
+- [X] *Phase 4: Internal Docs* - Reorganise GMSD's own documentation to Diataxis quadrants (completed 2026-03-02)
+- [X] *Phase 5: Retroactive Verification* - Write VERIFICATION.org for Phases 1–2 to close audit verification gaps
+
+** Phase Details
+
+*** Phase 1: Framework Foundation
+*Goal*: A Diataxis condensed reference document exists in =references/= and
+serves as the single source of truth for quadrant definitions, writing rules,
+and anti-patterns. All downstream classification and agent tagging draws from
+this document.
+*Depends on*: Nothing (first phase)
+*Requirements*: CLASS-01
+*Success Criteria* (what must be TRUE):
+  1. =references/diataxis.org= exists with quadrant definitions (tutorial,
+     how-to, reference, explanation) and writing rules for each
+  2. Each quadrant section includes at least two anti-patterns (what
+     the quadrant is NOT)
+  3. The document is concise enough for agents to consume as a =<diataxis_style>=
+     tag — suitable for condensed reference format
+*Plans*: TBD
+
+Plans:
+- [X] 01-01: Write Diataxis condensed reference document
+
+*** Phase 2: Classification and Audit
+*Goal*: Every existing deliverable template (40+) carries a Diataxis quadrant
+classification in its metadata; every org-generating agent (7) has a
+=<diataxis_style>= tag; and a formal audit document records the quadrant
+distribution and identifies gaps. These three requirements travel together
+because the audit drives and validates the classification work.
+
+Architectural note (cohesion): CLASS-02, CLASS-03, and GAPS-01 are grouped
+here because they share a single underlying activity — systematic quadrant
+assignment. Separating them would create two incomplete passes over the same
+material.
+
+*Depends on*: Phase 1 (reference document must exist before classification)
+*Requirements*: CLASS-02, CLASS-03, GAPS-01
+*Success Criteria* (what must be TRUE):
+  1. Every template in =templates/= has a Diataxis quadrant property visible
+     in its header or metadata (no unclassified templates remain)
+  2. All 7 org-generating agents have a =<diataxis_style>= tag that references
+     the appropriate quadrant guidance from the Phase 1 reference document
+  3. =references/diataxis-audit.org= exists, maps every template to a quadrant,
+     and names which quadrants have zero or one template (the gaps)
+*Plans*: 3 plans (2 waves)
+
+Plans:
+- [X] 02-01-PLAN.org --- Classify all 36 deliverable templates with Diataxis quadrant metadata (Wave 1)
+- [X] 02-02-PLAN.org --- Add =<diataxis_style>= tags to 7 org-generating agents (Wave 1)
+- [X] 02-03-PLAN.org --- Write formal audit document with gap analysis (Wave 2, depends on 02-01 + 02-02)
+
+*** Phase 3: Gap Filling
+*Goal*: New templates exist for the underserved quadrants identified in the
+Phase 2 audit. At minimum, a tutorial template (guided learning experience for
+project onboarding) and a how-to template (step-by-step for common GMSD
+workflows) fill the quadrants that 40+ existing templates do not cover.
+
+Architectural note (stable dependencies): This phase depends on Phase 2 because
+gap filling without a gap audit risks creating duplicates or missing the real
+gaps. The audit output is the specification for this phase.
+
+*Depends on*: Phase 2 (audit must identify gaps before filling them)
+*Requirements*: GAPS-02, GAPS-03
+*Success Criteria* (what must be TRUE):
+  1. At least one tutorial template exists in =templates/= for learning-oriented
+     project onboarding deliverables, classified as tutorial quadrant
+  2. At least one how-to template exists in =templates/= for task-oriented
+     GMSD workflow guides, classified as how-to quadrant
+  3. No quadrant remains completely unrepresented in =templates/= after this phase
+*Plans*: 2 plans (2 waves)
+
+Plans:
+- [X] 03-01-PLAN.org --- Create tutorial and how-to templates (Wave 1)
+- [X] 03-02-PLAN.org --- Update Diataxis audit document with new coverage (Wave 2, depends on 03-01)
+
+*** Phase 4: Internal Docs
+*Goal*: GMSD's own documentation is reorganised by Diataxis quadrant. The
+monolithic =USER-GUIDE.org= is split into separate quadrant-aligned documents,
+=references/= files carry explicit quadrant classifications, and =README.org=
+separates tutorial-style from reference-style content.
+
+Architectural note (vertical slice): Each of DOCS-01/02/03 is a vertical slice
+through one artifact. They are grouped here because they share audience (GMSD
+developers and users reading internal docs) and can proceed in parallel once
+the framework is established.
+
+*Depends on*: Phase 1 (framework must be defined before internal docs are
+reorganised against it); Phase 2 is soft-recommended (audit informs which
+=references/= files need most work) but does not block
+*Requirements*: DOCS-01, DOCS-02, DOCS-03
+*Success Criteria* (what must be TRUE):
+  1. =USER-GUIDE.org= is replaced by at least two Diataxis-quadrant documents
+     (e.g., a tutorial document and a how-to/reference document) — the
+     original mixed content is no longer present in a single file
+  2. Every file in =references/= has an explicit Diataxis quadrant label
+     (in its header or a classification section)
+  3. =README.org= separates tutorial-like getting-started content from
+     reference-like feature descriptions — the two are no longer interleaved
+*Plans*: TBD
+
+Plans:
+- [X] 04-01: Split USER-GUIDE.org into Diataxis-aligned documents
+- [X] 04-02: Classify and reorganise =references/= files by quadrant
+- [X] 04-03: Align README.org sections with Diataxis quadrants
+
+*** Phase 5: Retroactive Verification
+*Goal*: Phases 1 and 2 receive formal VERIFICATION.org files confirming that
+their requirements (CLASS-01, CLASS-02, CLASS-03, GAPS-01) are satisfied. The
+milestone audit found substantive evidence of completion (SUMMARYs, artifacts,
+integration checks) but these phases predate the verification workflow step.
+This phase closes the procedural gap.
+
+*Depends on*: Phase 3 (current last completed phase)
+*Requirements*: CLASS-01, CLASS-02, CLASS-03, GAPS-01
+*Gap Closure*: Closes verification gaps from v1.0 audit
+*Success Criteria* (what must be TRUE):
+  1. =.planning/phases/01-framework-foundation/VERIFICATION.org= exists and
+     confirms CLASS-01 is satisfied with artifact evidence
+  2. =.planning/phases/02-classification-and-audit/VERIFICATION.org= exists and
+     confirms CLASS-02, CLASS-03, GAPS-01 are satisfied with artifact evidence
+  3. All 4 partial requirements promoted to satisfied status in REQUIREMENTS.org
+*Plans*: 1 plan
+
+Plans:
+- [X] 05-01-PLAN.org --- Write VERIFICATION.org for Phase 1 and Phase 2, promote requirements (Wave 1)
+
+** Phase Dependencies
+
+#+name: phase-dependencies
+#+description: Dependency relationships between milestone phases
+#+begin_src mermaid :file phase-dependencies.png :exports results
+flowchart LR
+    P1["Phase 1\nFramework Foundation\n(CLASS-01)"]
+    P2["Phase 2\nClassification and Audit\n(CLASS-02, CLASS-03, GAPS-01)"]
+    P3["Phase 3\nGap Filling\n(GAPS-02, GAPS-03)"]
+    P4["Phase 4\nInternal Docs\n(DOCS-01, DOCS-02, DOCS-03)"]
+
+    P1 --> P2
+    P2 --> P3
+    P1 --> P4
+    P2 -.->|"audit informs refs/ work"| P4
+    P5["Phase 5\nRetroactive Verification\n(CLASS-01, CLASS-02, CLASS-03, GAPS-01)"]
+    P3 --> P5
+#+end_src
+
+Solid arrows = hard dependency (must complete before).
+Dashed arrows = soft dependency (informs but does not block).
+
+** Progress
+
+*Execution Order:* 1 -> 2 -> 3 -> 4
+
+#+CAPTION: Phase progress tracker
+#+NAME: tab:progress
+| Phase                        | Plans Complete | Status      | Completed |
+|------------------------------+----------------+-------------+-----------|
+| 1. Framework Foundation      |            1/1 | Complete    | 2026-02-28 |
+| 2. Classification and Audit  |            3/3 | Complete    | 2026-02-28 |
+| 3. Gap Filling               | 2/2 | Complete   | 2026-03-02 |
+| 4. Internal Docs             | 3/3 | Complete   | 2026-03-02 |
+| 5. Retroactive Verification  |            1/1 | Complete    | 2026-03-02 |

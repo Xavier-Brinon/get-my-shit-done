@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up planning commit format and scope prefixes"
+---
+
 # Git Planning Commit
 
 Commit planning artifacts using the gmsd-tools CLI, which automatically checks `commit_docs` config and gitignore status.

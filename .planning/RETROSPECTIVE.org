@@ -1,0 +1,97 @@
+#+title: Retrospective
+#+author: GMSD
+#+date: [2026-03-03]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Project Retrospective
+
+*A living document updated after each milestone. Lessons feed forward into future planning.*
+
+** Milestone: v1.0 — GMSD Diataxis Integration
+
+*Shipped:* 2026-03-03
+*Phases:* 5 | *Plans:* 10 | *Timeline:* 3 days (2026-02-28 → 2026-03-02)
+
+*** What Was Built
+- Diataxis reference framework (=diataxis.org= + =diataxis-condensed.md=) as shared vocabulary for all agents
+- 38/38 templates classified by Diataxis quadrant; 7/7 agents tagged with =<diataxis_style>=
+- Formal audit document (=diataxis-audit.org=) with gap analysis and MermaidJS distribution chart
+- New tutorial and how-to templates filling critical quadrant gaps
+- =USER-GUIDE.org= split into =docs/howto.org= and =docs/reference.org=; README.org restructured as tutorial hub
+- All 18 =references/= files classified with Diataxis metadata
+- Retroactive VERIFICATION.org for Phases 1–2 closing procedural gaps
+
+*** What Worked
+- *Pipeline architecture:* Phases formed a clean dependency chain (framework → classify → fill gaps → internal docs → verify). Each phase produced artifacts consumed by the next — easy to verify integration
+- *Dual-document pattern:* Authoritative .org + condensed .md for agent consumption proved effective and reusable (matches existing org-styleguide pattern)
+- *Wave-based parallelism in Phase 2:* 3 plans across 2 waves; classification plans (02-01, 02-02) ran in Wave 1, audit (02-03) ran in Wave 2 after classification was complete
+- *Summary-extract tool:* When fields matched, instant structured data from SUMMARYs
+- *Integration checker:* Caught the diataxis-audit.org 20-byte cosmetic drift between repo and installed copies
+
+*** What Was Inefficient
+- *summary-extract tool* didn't parse some org property drawer fields (=provides=, =one_liner=, =requirements-completed= with hyphens) — required manual grep fallback
+- *Phase 5 (Retroactive Verification)* was a corrective phase that wouldn't have been needed if the verification workflow step had existed from Phase 1. Phases 1–2 predate the verification workflow, so this was expected but still a cost
+- *STATE.org progress counters* were stale (showed 3/5 completed phases, 6 plans when 10 exist) — the CLI updated =last_updated= but not the body content
+- *Roadmap analyze tool* returned empty results, requiring manual verification of phase completeness
+
+*** Patterns Established
+- *=:diataxis_primary:= property drawer:* Standard metadata for Diataxis classification on all templates
+- *=<diataxis_style>= tag pattern:* Place after =</org_style>=, 15-22 lines, include anti-patterns, reference condensed doc
+- *Single-quadrant agents* (4: roadmapper, phase-researcher, codebase-mapper, verifier) → Reference rules
+- *Multi-quadrant agents* (3: executor, planner, project-researcher) → per-output-type sub-sections
+- *=:re_verification: true=* flag for VERIFICATION.org files applied retroactively
+- *Bookend structure for tutorials:* "What you'll learn" / "What you learned"
+
+*** Key Lessons
+1. *Build verification into the workflow from the start.* Phase 5 existed solely to backfill missing VERIFICATION.org files for Phases 1–2. Going forward, every execute-phase should produce a VERIFICATION.org
+2. *Audit → Fill → Re-audit is a proven gap-closure loop.* The Phase 2 audit drove Phase 3 work; Phase 3 updated the audit; the milestone re-audit confirmed closure. This pattern can be reused
+3. *Classification metadata is cheap, directory restructuring is expensive.* The decision to classify in-place rather than reorganize directories was validated — 38 files gained metadata with zero user-facing disruption
+
+*** Architecture Retrospective
+
+*Architectural Decisions Made:*
+- *Diataxis as framework:* ✓ Good — maps cleanly to the two-layer system (GMSD internal + user project deliverables)
+- *Classify not restructure:* ✓ Good — invisible to users, metadata-driven, no migration cost
+- *Dual-document reference:* ✓ Good — reuses established pattern from org-styleguide
+
+*Architectural Patterns That Emerged:*
+- *Pipeline integration:* Phase outputs → next phase inputs through file-based contracts (no runtime API). Clean and auditable
+- *Property-drawer-as-interface:* =:diataxis_primary:= acts as a machine-readable interface that the audit document consumes. This is an accidental but good architecture pattern
+
+*Architecture Lessons:*
+- *Boundary placement:* Phase boundaries aligned perfectly with architectural boundaries. Each phase owned a clear domain. No cross-boundary reaching needed
+- *Integration points:* All file-based, all schema-consistent. The =diataxis-audit.org= as single source of truth for coverage state was the key integration contract
+- *Quality attributes:* Maintainability drove decisions — classification metadata over restructuring; retroactive verification over accepting procedural gaps
+
+*ADR Candidates:*
+- "Dual-document reference as GMSD convention" — deferred (awaiting hat-trick: 3 instances)
+- "Reference dominance as intentional architecture" — deferred
+- "Property drawer as classification interface" — candidate for future ADR if pattern grows
+
+*** Cost Observations
+- Model mix: predominantly Sonnet for agents, Opus for orchestration
+- Sessions: ~4 sessions across 3 days
+- Notable: Phase 3 (gap filling) was fastest at 6min total — well-scoped phases with clear audit-driven specs execute quickly
+
+-----
+
+** Cross-Milestone Trends
+
+*** Process Evolution
+
+| Milestone | Timeline | Phases | Key Change                              |
+|-----------+----------+--------+-----------------------------------------|
+| v1.0      | 3 days   |      5 | First full audit → gap closure → re-audit cycle |
+
+*** Cumulative Quality
+
+| Milestone | Tests | Audit Score | Requirements |
+|-----------+-------+-------------+--------------|
+| v1.0      |   218 | 9/9         | 9 satisfied  |
+
+*** Top Lessons (Verified Across Milestones)
+
+1. Build verification into the workflow from the start — avoid retroactive phases
+2. Audit → Fill → Re-audit is a proven gap closure loop
+3. Metadata classification is cheaper than structural reorganization

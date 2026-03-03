@@ -1,0 +1,133 @@
+:PROPERTIES:
+:phase: 04-internal-docs
+:verified: 2026-03-02T20:00:00Z
+:status: passed
+:score: 14/14 must-haves verified
+:re_verification: false
+:END:
+
+#+title: Phase 04: Internal Docs Verification Report
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 04: Internal Docs Verification Report
+
+*Phase Goal:* GMSD's own documentation is reorganised by Diataxis quadrant. The
+monolithic USER-GUIDE.org is split into separate quadrant-aligned documents,
+=references/= files carry explicit quadrant classifications, and README.org
+separates tutorial-style from reference-style content.
+
+*Verified:* 2026-03-02T20:00:00Z
+*Status:* PASSED
+*Re-verification:* No — initial verification
+
+** Goal Achievement
+
+*** Observable Truths
+
+| #  | Truth                                                              | Status     | Evidence                                                             |
+|----+--------------------------------------------------------------------+------------+----------------------------------------------------------------------|
+|  1 | USER-GUIDE.org is deleted after split                              | VERIFIED   | =test ! -f docs/USER-GUIDE.org= confirms deletion; commit f8c249e   |
+|  2 | docs/howto.org exists with how-to quadrant classification          | VERIFIED   | File exists; =:diataxis_primary: how-to= at line 13                 |
+|  3 | docs/reference.org exists with reference quadrant classification   | VERIFIED   | File exists; =:diataxis_primary: reference= at line 13              |
+|  4 | Content is allocated by quadrant not by topic                      | VERIFIED   | howto.org has Troubleshooting+Recovery; reference.org has Command+Config |
+|  5 | Both new files have nav headers with org links                     | VERIFIED   | Nav headers at line 7 of both files linking Home/How-to/Reference   |
+|  6 | Existing docs/ files get nav headers and Diataxis classification   | VERIFIED   | context-monitor.org (reference) and sync-upstream-playbook.org (how-to) both classified |
+|  7 | Every references/ file has diataxis_primary metadata              | VERIFIED   | grep -rl returns 18/18 files; both installed and project source      |
+|  8 | Org files use PROPERTIES drawers under first heading              | VERIFIED   | diataxis.org, diataxis-audit.org, org-styleguide-full.org all correct |
+|  9 | Markdown files use YAML frontmatter                               | VERIFIED   | All 15 md files have YAML block at file top                          |
+| 10 | No files are moved or renamed                                     | VERIFIED   | =ls ~/.claude/get-my-shit-done/references/ | wc -l= returns 18      |
+| 11 | diataxis-audit.org extended with references/ classification        | VERIFIED   | "Phase 4 artifact changes" section present; 18 files listed          |
+| 12 | README.org has diataxis_primary: tutorial property                | VERIFIED   | =:diataxis_primary: tutorial= at line 7                             |
+| 13 | README links to docs/reference.org and docs/howto.org             | VERIFIED   | Links at lines 594, 631 (reference.org) and 699 (howto.org)         |
+| 14 | No USER-GUIDE.org links remain in README                          | VERIFIED   | =grep -c "USER-GUIDE" README.org= returns 0                         |
+
+*Score:* 14/14 truths verified
+
+*** Required Artifacts
+
+| Artifact                                     | Expected                                          | Status   | Details                                                           |
+|----------------------------------------------+---------------------------------------------------+----------+-------------------------------------------------------------------|
+| =docs/howto.org=                             | How-to quadrant: workflows, troubleshooting, recovery | VERIFIED | =:diataxis_primary: how-to=; sections: Workflow diagrams, Troubleshooting, Recovery quick reference |
+| =docs/reference.org=                         | Reference quadrant: commands, config, examples, structure | VERIFIED | =:diataxis_primary: reference=; sections: Command reference, Configuration reference, Usage examples, Project file structure |
+| =docs/USER-GUIDE.org=                        | DELETED — must not exist                          | VERIFIED | File does not exist; confirmed by =test ! -f=                     |
+| =docs/context-monitor.org=                  | Classified reference + nav header                 | VERIFIED | =:diataxis_primary: reference= at line 12; nav at line 6         |
+| =docs/sync-upstream-playbook.org=           | Classified how-to + nav header                    | VERIFIED | =:diataxis_primary: how-to= at line 11; nav at line 5            |
+| =references/= (18 files, installed copy)     | All classified reference quadrant                 | VERIFIED | 18/18 files with diataxis_primary: reference                      |
+| =references/= (18 files, project source)     | All classified reference quadrant                 | VERIFIED | 18/18 files with diataxis_primary: reference                      |
+| =references/diataxis-audit.org=             | Extended with references/ classification section  | VERIFIED | "Phase 4 artifact changes" section + 18-file classification table |
+| =README.org=                                 | Tutorial-quadrant onboarding hub                  | VERIFIED | =:diataxis_primary: tutorial=, =:diataxis_secondary: explanation= |
+
+*** Key Link Verification
+
+| From                       | To                          | Via                         | Status   | Details                                                              |
+|----------------------------+-----------------------------+-----------------------------+----------+----------------------------------------------------------------------|
+| =docs/howto.org=           | =docs/reference.org=        | Nav header cross-links      | WIRED    | Line 7: =/Navigation: [...] | [[reference.org][Reference]]/=        |
+| =docs/reference.org=       | =docs/howto.org=            | Nav header cross-links      | WIRED    | Line 7: =/Navigation: [...] | [[howto.org][How-to]]/=              |
+| =README.org=               | =docs/reference.org=        | Org file link               | WIRED    | Lines 594, 631: =[[file:docs/reference.org][User Guide --- Reference]]= |
+| =README.org=               | =docs/howto.org=            | Org file link               | WIRED    | Line 699: =[[file:docs/howto.org][User Guide --- How-to]]=         |
+| =references/diataxis-audit.org= | =references/diataxis-condensed.md= | Audit records classification | WIRED | Section "Phase 4 artifact changes" covers all 18 files               |
+
+*** Requirements Coverage
+
+| Requirement | Source Plan | Description                                               | Status    | Evidence                                                     |
+|-------------+-------------+-----------------------------------------------------------+-----------+--------------------------------------------------------------|
+| DOCS-01     | 04-01       | USER-GUIDE.org split into Diataxis-aligned documents      | SATISFIED | howto.org + reference.org exist; USER-GUIDE.org deleted      |
+| DOCS-02     | 04-02       | =references/= files classified by Diataxis quadrant      | SATISFIED | 18/18 files with diataxis_primary: reference metadata        |
+| DOCS-03     | 04-03       | README.org sections aligned with Diataxis                 | SATISFIED | tutorial classification; command/config tables condensed; links to docs/ |
+
+No orphaned requirements detected for phase 04. REQUIREMENTS.org traceability table maps exactly DOCS-01, DOCS-02, DOCS-03 to phase 4 — all accounted for.
+
+Note: No =.planning/decisions/= directory exists in this repository. ADR verification is not applicable for this phase.
+
+*** Anti-Patterns Found
+
+No anti-patterns detected. Scan performed on all six modified/created docs/ files and README.org:
+
+- No TODO/FIXME/placeholder comments
+- No stub return values or empty implementations (documentation files)
+- Content sections verified as substantive (multiple headings, tables, code blocks)
+- No backtick code fragments in org files (correct =~code~= and ==verbatim== usage)
+
+| File | Line | Pattern | Severity | Impact |
+|------+---------+---------+----------+--------|
+| —    | —       | None    | —        | —      |
+
+*** Human Verification Required
+
+The following items cannot be verified programmatically and should be confirmed by the user if needed. They are flagged as informational — they do not block the PASSED status since all structural checks passed.
+
+**** 1. Org link navigation in Emacs
+
+*Test:* Open =docs/howto.org= in Emacs and follow the nav header links with =C-c C-o=.
+*Expected:* Links navigate to README.org, howto.org, and reference.org correctly.
+*Why human:* Org link targets depend on relative path resolution which requires live Emacs evaluation.
+
+**** 2. README.org rendered content quality
+
+*Test:* Review README.org in Emacs or GitHub rendering to confirm the condensed Commands and Configuration sections are readable and useful for a first-time reader.
+*Expected:* The core workflow table (8 commands) and core settings + model profiles tables are sufficient onboarding context without the full reference.
+*Why human:* Subjective readability assessment requires human judgment.
+
+**** 3. Content completeness of howto.org split
+
+*Test:* Browse =docs/howto.org= and confirm all troubleshooting scenarios and workflow diagrams from the original USER-GUIDE.org are present.
+*Expected:* 10 troubleshooting subsections, 5 workflow diagrams (full lifecycle, planning coordination, validation, execution wave, brownfield), and recovery table all visible.
+*Why human:* Content completeness (nothing accidentally omitted during split) needs visual confirmation.
+
+** Gaps Summary
+
+None. All 14 must-have truths are verified. All artifacts exist with substantive implementation. All key links are wired. All three requirement IDs (DOCS-01, DOCS-02, DOCS-03) are satisfied with direct codebase evidence.
+
+The phase goal is fully achieved:
+
+- The monolithic =docs/USER-GUIDE.org= is deleted and its content distributed into two quadrant-aligned files: =docs/howto.org= (how-to quadrant) and =docs/reference.org= (reference quadrant).
+- All =references/= files (18 total, both installed copy and project source) carry explicit =diataxis_primary: reference= metadata via appropriate format conventions (=:PROPERTIES:= drawers for org, YAML frontmatter for markdown).
+- =README.org= is restructured as a tutorial-quadrant hub: classified with =:diataxis_primary: tutorial=, condensed command/config sections replaced with links to =docs/reference.org=, all USER-GUIDE.org links eliminated.
+- Test suite passes: 218 tests, 0 failures, 0 regressions.
+
+-----
+/Verified: 2026-03-02/
+/Verifier: Claude (gmsd-verifier)/

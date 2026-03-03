@@ -1,0 +1,663 @@
+#+title: Phase 3: Gap Filling — Research
+#+researched: [2026-03-02 Mon]
+#+domain: Diataxis template authoring (org-mode)
+#+confidence: HIGH
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 3: Gap Filling — Research
+
+<user_constraints>
+
+** User Constraints (from CONTEXT.org)
+
+*** Locked Decisions
+
+Tutorial template scope:
+- Walkthrough covers "Your First Phase": =discuss-phase= → =plan-phase= → =execute-phase=
+- One complete GMSD cycle — the core loop that every user needs to learn
+- Template is a skeleton with placeholders that agents/users fill for their project
+- =good_examples= section includes one fully worked example showing the completed tutorial
+- Target audience: new GMSD user with zero GMSD knowledge (but knows their project domain)
+- Learning bookends: "What you'll learn" objectives at the top, "What you learned" recap at end
+- Steps chosen to build understanding, not for efficiency (tutorial, not how-to)
+
+How-to template structure:
+- Generic repeatable-procedure template — usable for any multi-step procedure (GMSD
+  workflows, deployment runbooks, operational guides)
+- Not scoped to GMSD specifically — maximises reuse across project types
+- Full structural sections: prerequisites, goal statement, numbered steps,
+  verification/check commands, troubleshooting
+- Linear sequence with conditional notes inline for variations (e.g., "If using
+  Docker, substitute X")
+- No branching paths — one clean main path with noted alternatives
+- =good_examples= section includes one fully worked example
+
+Writing tone:
+- Tutorial template: encouraging, warm, congratulatory at milestones
+  ("Great — you've just created your first plan!")
+- How-to template: professional, concise, respects the reader's time
+- Tone difference is intentional — matches Diataxis quadrant intent
+  (tutorial = confidence-building, how-to = task-completion)
+- Template guidance written as org-mode comments (=# comment= or
+  =#+begin_comment=) — invisible when exported, visible when editing
+
+Diataxis metadata and audit:
+- New templates classified with =:diataxis_primary:= property at creation
+  (=tutorial.org= = tutorial, =howto.org= = how-to)
+- =references/diataxis-audit.org= updated to reflect new quadrant coverage —
+  distribution tables, gap analysis section
+- No changes to =references/diataxis.org= (reference doc defines the framework;
+  templates are implementations)
+
+*** Claude's Discretion
+
+- Internal template structure beyond the decided sections (headings, property
+  drawers, org-mode conventions)
+- Exact worked example content in =good_examples= sections
+- Whether the tutorial example uses a realistic or toy project scenario
+- How troubleshooting section is structured in the how-to template
+- Audit update formatting and what level of detail in the updated gap analysis
+
+*** Deferred Ideas (OUT OF SCOPE)
+
+None — discussion stayed within phase scope
+
+</user_constraints>
+
+<phase_requirements>
+
+** Phase Requirements
+
+#+CAPTION: Phase 3 requirement coverage
+| ID      | Description                                                    | Research Support                                      |
+|---------+----------------------------------------------------------------+-------------------------------------------------------|
+| GAPS-02 | New tutorial template(s) exist for learning-oriented           | Tutorial quadrant rules, org-mode comment syntax,     |
+|         | deliverables (guided experiences for project onboarding)       | =user-setup.org= structural model, bookend pattern    |
+| GAPS-03 | New how-to template(s) exist for task-oriented deliverables    | How-to quadrant rules, generic how-to structure,      |
+|         | (step-by-step guides for common GMSD workflows)                | =user-setup.org= direct ancestor, numbered steps      |
+
+</phase_requirements>
+
+** Summary
+
+Phase 3 creates two org-mode template files — =templates/tutorial.org= and
+=templates/howto.org= — that fill the critical Tutorial (0 templates) and
+low-coverage How-to (1 template) Diataxis quadrants identified in the Phase 2
+audit. The domain is documentation authoring, not software engineering: the
+"standard stack" is org-mode conventions and Diataxis writing rules, not
+libraries or frameworks.
+
+Both templates follow the established meta-template pattern: file-level property
+drawer with =:diataxis_primary:=, a =<template>= block containing the skeleton,
+a =<good_examples>= block with one worked example, and a =<guidelines>= block
+explaining usage. The closest structural ancestor for both is =user-setup.org=,
+which demonstrates the step-based pattern — but the Tutorial quadrant demands
+steps chosen for understanding, not efficiency, and a warm encouraging tone that
+=user-setup.org= does not use.
+
+Upon completion, the Phase 2 audit document (=references/diataxis-audit.org=)
+must be updated: the distribution table, the gap analysis section, and the
+recommendations section all reference zero tutorial templates and recommend the
+creation that Phase 3 delivers.
+
+*Primary recommendation:* Model both templates on =user-setup.org= structure;
+differentiate tutorial via tone (warm, bookends) and howto via generic goal
+framing (not service-scoped). Apply org-mode comments for guidance text.
+
+** Standard Stack
+
+This principle is the *Principle of Least Astonishment* applied to documentation
+authoring: use the conventions every other GMSD template already uses so future
+contributors and agents encounter no surprises.
+
+*** Core conventions
+
+#+CAPTION: Core authoring stack for Phase 3 templates
+| Convention             | Form                           | Purpose                                | Why Standard                          |
+|------------------------+--------------------------------+----------------------------------------+---------------------------------------|
+| File-level property    | =:PROPERTIES:= before title   | Diataxis metadata (=:diataxis_primary:=) | All 36 existing templates use this     |
+| Org-mode file header   | =#+title:=, =#+startup:=,     | Consistent parseable header            | Required by org-styleguide.md         |
+|                        | =#+options: toc:2 num:nil ^:{}= |                                       |                                       |
+| Heading depth          | Max 4 levels (* through ****)  | Prevents over-nesting                  | Org-styleguide.md constraint          |
+| Heading casing         | Title case (* headings),       | Visual hierarchy                       | Org-styleguide.md rule                |
+|                        | sentence case (** and below)   |                                       |                                       |
+| Code markup            | =~code~= for names/vars,       | Semantic markup                        | Org-styleguide.md; backticks invalid  |
+|                        | ==verbatim== for paths/files   |                                       |                                       |
+| Bullet character       | =-= (hyphen only)              | Consistent list style                  | Org-styleguide.md rule                |
+| Prose wrapping         | 78 chars                       | Readable in Emacs and diffs            | Org-styleguide.md rule                |
+| Template guidance text | =# comment= or =#+begin_comment= | Invisible on export, visible in editor | Locked decision in CONTEXT.org       |
+
+*** Template meta-structure
+
+#+CAPTION: Meta-template block pattern (all deliverable templates use this)
+| Block           | Purpose                                        | Required? |
+|-----------------+------------------------------------------------+-----------|
+| Property drawer | =:diataxis_primary:=, rationale                | Yes       |
+| =<template>=    | The skeleton the agent fills in               | Yes       |
+| =<good_examples>= | One fully worked example (per CONTEXT.org)   | Yes       |
+| =<guidelines>=  | Authoring guidance for agents                  | Yes       |
+
+Pattern confirmed from: =user-setup.org=, =context.org=, =project.org=, =research.org=.
+
+*** Org-mode comment forms
+
+Two forms are valid for template guidance text:
+
+#+begin_example
+# Single-line comment (prefix with hash + space)
+# Invisible when exported via ox-html, ox-latex, etc.
+#+end_example
+
+#+begin_example
+#+begin_comment
+Multi-line comment block.
+Invisible when exported.
+#+end_comment
+#+end_example
+
+*Confidence:* HIGH — sourced from existing templates in this repo and
+CONTEXT.org locked decision ("Template guidance written as org-mode comments").
+
+The =# comment= form is confirmed in existing templates (e.g., =project.org=
+uses =# Shipped and confirmed valuable.= as inline guidance). The
+=#+begin_comment= block form suits multi-sentence guidance.
+
+*** No external dependencies
+
+Phase 3 creates only text files. No =npm install=, no new libraries, no tooling
+changes. All conventions are already established in the codebase.
+
+** Architecture Patterns
+
+This *Separation of Concerns* principle drives the template structure: the
+skeleton (what users fill) is separated from the guidance (how to fill it) which
+is separated from the example (what it looks like complete).
+
+*** Recommended file locations
+
+#+begin_example
+get-my-shit-done/templates/
+├── tutorial.org     # NEW — GAPS-02 (Tutorial quadrant)
+├── howto.org        # NEW — GAPS-03 (How-to quadrant)
+└── user-setup.org   # Existing ancestor model
+
+get-my-shit-done/references/
+└── diataxis-audit.org  # UPDATE — distribution table, gap analysis
+#+end_example
+
+*** Pattern 1: Tutorial template structure
+
+The Tutorial quadrant enforces *separation between doing and understanding* —
+steps prompt action; rationale is deferred to separate explanation documents.
+
+#+begin_src org
+:PROPERTIES:
+:diataxis_primary: tutorial
+:diataxis_secondary: none
+:diataxis_rationale: Reader follows the generated tutorial to learn the GMSD
+  workflow by doing — completing a full phase cycle and building confidence.
+:END:
+
+#+title: Tutorial
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Tutorial Template
+
+<template>
+#+begin_src org
+#+title: [Project]: Your First Phase
+#+date: [YYYY-MM-DD]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Your First Phase
+
+# What you'll learn (set expectations up front — Diataxis rule)
+By the end of this tutorial you will have:
+- Discussed and scoped a real phase for [Project]
+- Generated an executable plan
+- Completed at least one task from that plan
+
+Prerequisites:
+- GMSD installed and configured (see [[file:user-setup.org][User Setup]])
+- A project you want to work on
+
+** Step 1: Discuss your first phase
+
+# Tutorial rule: start with a concrete action immediately
+Run the discuss-phase command to define your scope...
+
+#+begin_src bash
+/gmsd:discuss-phase
+#+end_src
+
+...
+
+** What you learned
+
+# Recap bookend (locked decision in CONTEXT.org)
+You have now completed one full GMSD cycle...
+#+end_src
+</template>
+#+end_src
+
+Key structural decisions:
+- "What you'll learn" at top (bookend 1 — expectations)
+- "What you learned" at bottom (bookend 2 — recap)
+- =# comment= headers explain each section's Diataxis purpose (invisible on export)
+- Steps numbered and action-first (imperative, not descriptive)
+- Milestone acknowledgements between major steps ("Great — you've created your first plan!")
+- One concrete =good_examples= block showing a fully completed tutorial
+
+*** Pattern 2: How-to template structure
+
+The How-to quadrant enforces *goal-first, competence-assumed* structure — no
+onboarding, no theory, immediate numbered steps toward a stated objective.
+
+#+begin_src org
+:PROPERTIES:
+:diataxis_primary: how-to
+:diataxis_secondary: none
+:diataxis_rationale: Reader follows the generated HOWTO.org to accomplish a
+  specific operational goal — steps are numbered, minimal, and goal-directed.
+:END:
+
+#+title: How-to
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* How-to Template
+
+<template>
+#+begin_src org
+#+title: How to [Goal]
+#+date: [YYYY-MM-DD]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+# State the goal immediately — reader confirms this solves their problem
+* How to [Specific Goal]
+
+# Assume competence — no background explanation
+
+** Prerequisites
+
+# List only blockers. Skip anything the reader can infer.
+- [Prerequisite 1]
+- [Prerequisite 2]
+
+** Steps
+
+1. [Step 1 — imperative verb, concrete action]
+2. [Step 2]
+   # Inline conditional: If X, substitute Y
+3. [Step 3]
+
+** Verification
+
+# What success looks like
+#+begin_src bash
+[verification command]
+#+end_src
+
+Expected output: [what to look for]
+
+** Troubleshooting
+
+# Edge cases only — not background theory
+- *[Symptom]*: [Fix]
+- *[Symptom]*: [Fix]
+#+end_src
+</template>
+#+end_src
+
+Key structural decisions:
+- Goal in =#+title:= and =* heading= (stated twice — How-to rule: confirm scope immediately)
+- Prerequisites section short — only blockers, not background
+- Numbered steps (not bullets) — direction matters in a procedure
+- Inline conditionals (e.g., "If using Docker, substitute X") — no branching paths
+- Verification section — reader confirms success without authorial hand-holding
+- Troubleshooting section — brief, symptom→fix pattern only
+
+*** Pattern 3: Audit document update
+
+The diataxis-audit.org update follows *Single Source of Truth* — one audit
+document reflects current coverage. Three sections require update:
+
+1. *Distribution table* (=** Quadrant Distribution > *** Deliverable Template Distribution=)
+   - Tutorial count: 0 → 1
+   - How-to count: 1 → 2
+   - Total: 29 → 31
+
+2. *Gap analysis entries* — Tutorial and How-to sections change from gap descriptions
+   to "Addressed in Phase 3" notes; GAPS-02 and GAPS-03 links added.
+
+3. *Recommendations section* — Priority 1 and Priority 2 recommendations
+   updated to reflect completion; Phase 3 reference added.
+
+The MermaidJS pie chart at =*** MermaidJS Distribution Chart= must also be
+updated to reflect the new counts.
+
+*** Anti-patterns to avoid
+
+- *Mixing quadrants mid-template:* Tutorial steps that explain "why this works"
+  should be =# comments= or omitted, not embedded prose. How-to prerequisites
+  should not include background theory.
+- *Skipping the bookends in the tutorial:* Both "What you'll learn" and "What
+  you learned" are locked decisions — they define the tutorial quadrant's
+  success-guaranteed structure.
+- *Scoping the how-to to GMSD:* The how-to template must be generic — no
+  GMSD-specific framing in the skeleton (only in =good_examples=).
+- *Using backticks:* All code references use =~code~= or ==verbatim== markup.
+  Backticks have no special meaning in org-mode.
+- *Missing blank lines before headings:* Every heading must be preceded by one
+  blank line. Missing these causes parser ambiguity.
+
+** Don't Hand-Roll
+
+This is a *build vs. buy* decision applied to documentation authoring.
+
+#+CAPTION: Build vs. established convention decisions
+| Problem                          | Don't Invent              | Use Instead                          | Why                                           |
+|----------------------------------+---------------------------+--------------------------------------+-----------------------------------------------|
+| Template guidance text           | Inline prose mixed with   | =# comment= or =#+begin_comment=    | Org-mode's built-in comment syntax is export- |
+|                                  | skeleton content          |                                      | invisible; custom markup is not               |
+| Diataxis classification metadata | Custom heading or section | =:diataxis_primary:= property drawer | Matches all 36 existing templates; parseable  |
+| Step numbering in how-to         | Custom numbering scheme   | Org numbered lists (=1.=, =2.=)     | Org auto-renumbers; standard rendering        |
+| Worked examples block            | Separate file or link     | =<good_examples>= block in same file | Established meta-template pattern             |
+| Template framing prose           | Custom XML-like tags      | Existing tag vocabulary:              | Already parsed by agent prompts;              |
+|                                  |                           | =<template>=, =<guidelines>=         | consistent with all other templates           |
+
+*Key insight:* Every structural choice in a new template that diverges from the
+existing 36 templates creates a maintenance inconsistency. The org-styleguide.md,
+the property drawer pattern, and the meta-template block vocabulary are already
+established — the correct approach is to follow them precisely.
+
+** Common Pitfalls
+
+*** Pitfall 1: Tutorial becomes a how-to
+
+*What goes wrong:* The tutorial skeleton drifts into assuming reader competence —
+steps start with "if you want to..." (goal-assumed) rather than "run this command"
+(action-first, teacher-led).
+
+*Why it happens:* Authors naturally slide toward efficiency. Tutorials must
+resist this: the path is chosen for learning, not for speed.
+
+*How to avoid:* Apply the Diataxis disambiguation test in the =<guidelines>=
+block of the template: "Does the reader know what they want before they start?
+If yes, they want a how-to. If no, they want this tutorial."
+
+*Warning signs:* Phrases like "when you need to..." or "if your project
+requires..." signal how-to framing. Tutorial steps are unconditional.
+
+*** Pitfall 2: How-to accumulates background theory
+
+*What goes wrong:* A Prerequisites section grows into an explanation of why
+prerequisites matter. A Troubleshooting section explains root causes instead of
+giving fixes.
+
+*Why it happens:* Explanation is naturally attractive to authors who want the
+reader to understand, not just act.
+
+*How to avoid:* Every sentence in the how-to template should answer "does this
+help the reader reach the goal faster?" — if it explains rather than directs,
+remove it or move it to a comment.
+
+*Warning signs:* Any paragraph that begins with "This is because..." or "The
+reason we..." belongs in an explanation document, not a how-to.
+
+*** Pitfall 3: Org-mode comment syntax confusion
+
+*What goes wrong:* Template guidance text uses =# text= without a space, or uses
+Markdown-style =<!-- comment -->= which is not valid org-mode.
+
+*Why it happens:* Markdown comment habits carry over. The correct org-mode single-
+line comment is =# text= (hash, space, text). Without the space, org-mode
+treats it differently in some contexts.
+
+*How to avoid:* Use =# comment= for single-line inline guidance, =#+begin_comment=
+/ =#+end_comment= for multi-line blocks.
+
+*Warning signs:* Org export includes guidance text that should have been hidden.
+Test by checking that export output omits all template guidance.
+
+*** Pitfall 4: Milestone congratulations break how-to tone
+
+*What goes wrong:* The how-to template adopts encouraging language from the
+tutorial template. "Great — you've completed Step 3!" is tutorial tone, not
+how-to tone.
+
+*Why it happens:* The two templates are developed in the same phase and tone
+can bleed between them.
+
+*How to avoid:* Write how-to copy in neutral third-person ("Step 3 installs
+the dependency. Continue when the command exits without error."). Reserve warm
+tone exclusively for the tutorial template.
+
+*** Pitfall 5: Audit update misses the MermaidJS chart
+
+*What goes wrong:* The distribution table is updated but the pie chart =#+begin_src
+mermaid= block still shows old counts.
+
+*Why it happens:* The chart is visually separate from the table and easy to miss
+on a targeted edit.
+
+*How to avoid:* Include audit update as a single task that explicitly lists all
+three update targets: distribution table, gap analysis section, and MermaidJS
+chart.
+
+** Code Examples
+
+Verified patterns from existing GMSD templates (HIGH confidence — sourced
+directly from repo files).
+
+*** Property drawer for tutorial template
+
+#+begin_src org
+:PROPERTIES:
+:diataxis_primary: tutorial
+:diataxis_secondary: none
+:diataxis_rationale: Reader follows the generated tutorial.org to learn the
+  GMSD workflow by completing a real phase from start to finish.
+:END:
+#+end_src
+
+Source: Pattern from =user-setup.org=, =context.org=, =project.org= (all use identical drawer structure).
+
+*** Property drawer for how-to template
+
+#+begin_src org
+:PROPERTIES:
+:diataxis_primary: how-to
+:diataxis_secondary: none
+:diataxis_rationale: Reader follows the generated HOWTO.org to accomplish a
+  specific operational goal — steps are numbered, minimal, and goal-directed.
+:END:
+#+end_src
+
+*** Org-mode comment for template guidance
+
+#+begin_src org
+# Replace [Goal] with the specific outcome the reader will achieve.
+# Keep this under 10 words — goal should be scannable.
+#+end_src
+
+#+begin_src org
+#+begin_comment
+This section is for template authors only. Delete or replace all
+placeholder text before distributing this document.
+#+end_comment
+#+end_src
+
+Source: org-mode specification; confirmed pattern in =project.org= (=# Shipped and confirmed valuable.=).
+
+*** Learning bookend pattern (tutorial)
+
+#+begin_src org
+** What you'll learn
+
+By the end of this tutorial you will have:
+- [Concrete outcome 1]
+- [Concrete outcome 2]
+- [Concrete outcome 3]
+
+# Set realistic expectations — state assumed prior knowledge here
+Assumes: [prerequisite knowledge]
+#+end_src
+
+#+begin_src org
+** What you learned
+
+# Recap bookend — mirrors "What you'll learn" exactly
+You have now:
+- [Echo of outcome 1 in past tense]
+- [Echo of outcome 2 in past tense]
+- [Echo of outcome 3 in past tense]
+
+# Warm close — tutorial tone, confidence-building
+[Encouraging close sentence]
+#+end_src
+
+*** Diataxis distribution table update pattern
+
+#+begin_src org
+#+CAPTION: Deliverable Template Distribution
+| Quadrant    | Count | Templates                                       |
+|-------------+-------+-------------------------------------------------|
+| Reference   |    27 | All codebase, research-project, and most root   |
+| Explanation |     1 | =project.org=                                   |
+| How-to      |     2 | =user-setup.org=, =howto.org=                   |
+| Tutorial    |     1 | =tutorial.org=                                  |
+| *Total*     |    31 |                                                 |
+#+end_src
+
+*** Mermaid chart update pattern
+
+#+begin_src org
+#+begin_src mermaid :file diataxis-distribution.png :exports results
+pie title Template Quadrant Distribution (deliverable templates only)
+    "Reference" : 27
+    "Explanation" : 1
+    "How-to" : 2
+    "Tutorial" : 1
+#+end_src
+#+end_src
+
+** Validation Architecture
+
+*** Test framework
+
+#+CAPTION: Test infrastructure for Phase 3
+| Property           | Value                                                    |
+|--------------------+----------------------------------------------------------|
+| Framework          | Node.js built-in test runner (=node:test=)              |
+| Config file        | None — invoked directly                                  |
+| Quick run command  | =node --test tests/*.test.cjs=                          |
+| Full suite command | =node --test tests/*.test.cjs=                          |
+| Current status     | 218 tests passing, 0 failing (confirmed 2026-03-02)     |
+
+*** Phase requirements test map
+
+#+CAPTION: Requirement to test type mapping
+| Req ID  | Behavior                                           | Test Type   | Automated Command                         | File Exists? |
+|---------+----------------------------------------------------+-------------+-------------------------------------------+--------------|
+| GAPS-02 | =templates/tutorial.org= exists with              | manual-only | Visual review of file + org export        | No — Wave 0  |
+|         | =:diataxis_primary: tutorial=, bookend headings,  |             | check; no CLI test for org content        |              |
+|         | =<template>=, =<good_examples>=, =<guidelines>=   |             |                                           |              |
+| GAPS-03 | =templates/howto.org= exists with                 | manual-only | Visual review of file + org export        | No — Wave 0  |
+|         | =:diataxis_primary: how-to=, numbered steps,      |             | check; no CLI test for org content        |              |
+|         | prerequisites, verification, troubleshooting       |             |                                           |              |
+
+*Justification for manual-only:* GAPS-02 and GAPS-03 require creating plain org-mode
+text files. The project's existing test suite (=tests/*.test.cjs=) tests CLI
+commands (=gmsd-tools.cjs=) and JSON output — it has no mechanism for validating
+org-mode document structure, Diataxis metadata properties, or prose tone. Adding
+such tests would require a bespoke org parser for what is fundamentally a content
+review task. Manual visual inspection and export-checking is the appropriate
+verification method.
+
+*Audit doc update* (updating =references/diataxis-audit.org=) is also manual-only
+for the same reason.
+
+*** Sampling rate
+
+- Per task commit: Run =node --test tests/*.test.cjs= to confirm no regressions
+  (existing 218 tests must stay green; Phase 3 adds no new automated tests)
+- Per wave merge: Full suite =node --test tests/*.test.cjs=
+- Phase gate: Full suite green + manual review of both template files before
+  =/gmsd:verify-work=
+
+*** Wave 0 gaps
+
+None — no new test infrastructure is needed. The existing test suite covers all
+CLI behavior; template content is verified manually. Framework is installed and
+operational.
+
+** Open Questions
+
+1. *Worked example project scenario for tutorial*
+   - What we know: Tutorial covers discuss → plan → execute for GMSD
+   - What's unclear: Whether the =good_examples= should use a realistic project
+     (e.g., "a note-taking CLI") or a toy/abstract scenario (e.g., "Project X")
+   - Recommendation: Use a realistic but generic project — a "personal task
+     tracker" or "static site generator" — concrete enough to model the full
+     cycle without being too domain-specific. This is at Claude's Discretion
+     per CONTEXT.org.
+
+2. *Troubleshooting section depth in how-to*
+   - What we know: Section exists per locked decision; "how it's structured" is
+     at Claude's Discretion
+   - What's unclear: Whether to include GMSD-specific troubleshooting items in
+     the skeleton vs. leaving them generic placeholders
+   - Recommendation: Keep skeleton entries as generic placeholders (symptom →
+     fix format); =good_examples= demonstrates GMSD-specific content. This
+     preserves the template's reusability outside GMSD.
+
+** Sources
+
+*** Primary (HIGH confidence)
+
+- =get-my-shit-done/references/diataxis-condensed.md= — Tutorial and How-to
+  writing rules, anti-patterns, disambiguation checklist
+- =get-my-shit-done/references/diataxis.org= — Full tutorial definition and
+  writing rules (lines 34–80 read)
+- =get-my-shit-done/references/diataxis-audit.org= — Phase 2 audit findings,
+  gap analysis, distribution table (full file read)
+- =get-my-shit-done/templates/user-setup.org= — Structural ancestor for both
+  new templates; meta-template block pattern confirmed
+- =get-my-shit-done/templates/context.org= — Meta-template block vocabulary
+  (=<template>=, =<good_examples>=, =<guidelines>=) confirmed
+- =get-my-shit-done/templates/project.org= — Org-mode comment pattern (=# text=)
+  confirmed; property drawer pattern confirmed
+- =references/org-styleguide.md= — Org-mode conventions (headings, markup,
+  comments, whitespace rules)
+- =.planning/phases/03-gap-filling/03-CONTEXT.org= — Locked decisions and
+  discretion areas
+
+*** Secondary (MEDIUM confidence)
+
+- =.planning/REQUIREMENTS.org= — GAPS-02 and GAPS-03 formal definitions
+- =.planning/STATE.org= — Phase 2 completion status, accumulated decisions
+
+*** Tertiary (LOW confidence)
+
+None — all findings derived from project-internal sources with direct inspection.
+
+** Metadata
+
+*Confidence breakdown:*
+- Standard stack (org conventions): HIGH — sourced directly from project files
+  and org-styleguide.md; no external dependencies
+- Architecture patterns (template structure): HIGH — pattern confirmed across
+  4 existing templates (user-setup.org, context.org, project.org, research.org)
+- Pitfalls: HIGH — derived from Diataxis writing rules (official framework docs)
+  and direct code review; not speculative
+- Validation architecture: HIGH — test runner confirmed operational (218/218
+  passing); manual-only justification verified by inspection of test suite scope
+
+*Research date:* 2026-03-02
+*Valid until:* 2026-04-02 (org-mode conventions and Diataxis framework are stable;
+30-day validity is conservative)

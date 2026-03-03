@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up org-mode rules for generating documents"
+---
+
 # Org-Mode Style Guide — Agent Quick Reference
 
 Follow these rules when generating `.org` documents. For the full reference, see `@~/.claude/get-my-shit-done/references/org-styleguide-full.org`.

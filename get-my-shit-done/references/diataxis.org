@@ -11,6 +11,11 @@
 :END:
 
 * Introduction
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader looks up quadrant definitions and writing rules
+:END:
 
 This document is the GMSD single source of truth for the Diataxis
 documentation framework. All downstream phases — classification (Phase

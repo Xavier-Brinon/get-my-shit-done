@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up config.json schema and field semantics"
+---
+
 <planning_config>
 
 Configuration options for `.planning/` directory behavior.

@@ -1,0 +1,83 @@
+#+title: Phase 4: Internal Docs - Context
+#+date: [2026-03-02 Sun]
+#+status: Ready for planning
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+<domain>
+** Phase Boundary
+
+Reorganise GMSD's own documentation by Diataxis quadrant. Split the monolithic
+=USER-GUIDE.org= into quadrant-aligned documents, classify =references/= files
+with Diataxis metadata, and restructure =README.org= to separate
+tutorial-style onboarding from reference-style content. Cross-document
+navigation links tie the new structure together.
+
+</domain>
+
+<decisions>
+** Implementation Decisions
+
+*** USER-GUIDE.org Split Strategy
+- Split into exactly *two documents*: =docs/howto.org= (workflows,
+  troubleshooting, recovery) and =docs/reference.org= (commands,
+  configuration, usage examples)
+- New files live in =docs/= directory (not top-level)
+- *Delete* =docs/USER-GUIDE.org= after split — no redirect stub
+- Both new files carry =:diataxis_primary:= property in =:PROPERTIES:= drawer,
+  consistent with template classification from Phase 2
+
+*** References Classification
+- *Metadata only* — add =:diataxis_primary:= to each file header, no folder
+  restructure (path stability matters for agent =@file= references)
+- Classify files in their native format: =:PROPERTIES:= drawers for =.org=,
+  YAML frontmatter for =.md=
+- Update =diataxis-audit.org= with a new section covering =references/=
+  classification
+
+*** README.org Restructuring
+- README becomes an *onboarding hub*: project intro, installation,
+  getting-started tutorial, then links out to =docs/= for details
+- Reference-like content (command list, features, config) moves into
+  =docs/reference.org= (merged with USER-GUIDE reference content)
+- "Why" explanation sections ("Why Org-mode?", "Why ADRs?") *stay in README* —
+  they're part of the onboarding narrative
+- README gets =:diataxis_primary: tutorial= in its property drawer
+
+*** Cross-Document Navigation
+- Every file in =docs/= gets a consistent nav header using native org links:
+  =/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/=
+- All existing =docs/= files (=context-monitor.org=, =sync-upstream-playbook.org=)
+  also get Diataxis classification and the nav header
+- README links to all =docs/= files as the hub
+
+*** Claude's Discretion
+- Exact content allocation between howto and reference when borderline
+- Org-mode formatting details within new files
+- How to handle content that doesn't fit cleanly into either quadrant
+- Nav header exact styling and placement
+
+</decisions>
+
+<specifics>
+** Specific Ideas
+
+- Phase 2 established the =:diataxis_primary:= / =:diataxis_secondary:= /
+  =:diataxis_rationale:= property pattern for templates — reuse the same
+  pattern for docs and references
+- The diataxis-audit.org from Phase 2 is the authority on what quadrant
+  coverage looks like — extend it rather than creating a parallel tracking doc
+
+</specifics>
+
+<deferred>
+** Deferred Ideas
+
+None — discussion stayed within phase scope
+
+</deferred>
+
+-----
+
+/Phase: 04-internal-docs/
+/Context gathered: [2026-03-02 Sun]/

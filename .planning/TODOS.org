@@ -31,4 +31,28 @@ The for loop in resume-project.md step check_incomplete_work exits with code 1 w
 *** Solution
 Append || true or ; true after the for loop to ensure the compound command always exits 0. Alternatively, guard the glob with a file-existence check first.
 
+** TODO [#C] Use ASCII art for Mermaid using beautiful-mermaid :docs:
+:PROPERTIES:
+:created: [2026-03-02 Mon]
+:files: references/diataxis.org, templates/
+:END:
+
+*** Problem
+GMSD templates use ob-mermaid syntax for MermaidJS diagrams, but rendered diagrams require a browser or image viewer. beautiful-mermaid (https://github.com/lukilabs/beautiful-mermaid) renders Mermaid diagrams as ASCII art, which would display natively in Emacs org-mode buffers and terminal output.
+
+*** Solution
+Integrate beautiful-mermaid as a rendering option for Mermaid diagrams in GMSD templates. Evaluate whether it can replace or supplement ob-mermaid blocks. See https://github.com/lukilabs/beautiful-mermaid for API and usage.
+
+** TODO [#C] Fix #+begin_src json to #+begin_src js in org docs :docs:
+:PROPERTIES:
+:created: [2026-03-02 Mon]
+:files: docs/reference.org, README.org
+:END:
+
+*** Problem
+Some org-mode source blocks use #+begin_src json for JSON content, but Emacs org-mode uses 'js' (or 'javascript') as the language identifier for JSON syntax highlighting — there is no built-in 'json' major mode in standard Emacs org-babel. Using #+begin_src js provides correct syntax highlighting in Emacs.
+
+*** Solution
+Search all org files for #+begin_src json and replace with #+begin_src js. Check docs/, references/, and templates/ directories.
+
 * Archive

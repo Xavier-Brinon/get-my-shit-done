@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up verification rules per artifact type"
+---
+
 # Verification Patterns
 
 How to verify different types of artifacts are real implementations, not stubs or placeholders.

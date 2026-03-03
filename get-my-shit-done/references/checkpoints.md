@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up checkpoint rules and golden rules"
+---
+
 <overview>
 Plans execute autonomously. Checkpoints formalize interaction points where human verification or decisions are needed.
 

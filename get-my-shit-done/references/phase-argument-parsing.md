@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up phase argument parsing rules"
+---
+
 # Phase Argument Parsing
 
 Parse and normalize phase arguments for commands that operate on phases.

@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up brand colours, typography, and component style"
+---
+
 <ui_patterns>
 
 Visual patterns for user-facing GMSD output. Orchestrators @-reference this file.

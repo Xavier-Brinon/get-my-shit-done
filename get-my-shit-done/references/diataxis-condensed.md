@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up quadrant rules for generating documents"
+---
+
 # Diataxis Framework — Agent Quick Reference
 
 Condensed reference for use in agent `<diataxis_style>` tags. Apply these

@@ -2,7 +2,16 @@
 #+startup: indent
 #+options: toc:2 num:nil ^:{}
 
+/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/
+
+-----
+
 * Overview
+:PROPERTIES:
+:diataxis_primary: how-to
+:diataxis_secondary: none
+:diataxis_rationale: Reader follows steps to sync this fork with upstream GSD changes
+:END:
 
 GMSD is a fork of [[https://github.com/glittercowboy/get-shit-done][GSD]] with several transformation phases applied (renaming, org-mode conversion, property drawers, ADR integration). The =sync-upstream.js= script automates pulling upstream changes through the GMSD transformation pipeline.
 

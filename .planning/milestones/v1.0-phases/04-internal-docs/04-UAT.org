@@ -1,0 +1,67 @@
+:PROPERTIES:
+:status: complete
+:phase: 04-internal-docs
+:source: 04-01-SUMMARY.org, 04-02-SUMMARY.org, 04-03-SUMMARY.org
+:started: 2026-03-02T20:00:00Z
+:updated: 2026-03-02T22:20:00Z
+:END:
+
+#+title: Phase 04 Internal Docs UAT
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 04 Internal Docs UAT
+
+** Current Test
+
+[testing complete]
+
+** Tests
+
+*** 1. howto.org content and classification
+expected: docs/howto.org exists with :diataxis_primary: how-to property drawer. Contains workflow diagrams, troubleshooting (10 subsections), and recovery quick reference table. Has nav header linking to Home, How-to, and Reference.
+result: pass
+
+*** 2. reference.org content and classification
+expected: docs/reference.org exists with :diataxis_primary: reference property drawer. Contains 4 command tables, full configuration reference with schema and sub-tables, 8 usage examples, and project file structure. Has nav header.
+result: pass
+
+*** 3. USER-GUIDE.org deleted
+expected: docs/USER-GUIDE.org no longer exists on disk. Content fully migrated to howto.org and reference.org.
+result: pass
+
+*** 4. Nav header consistency across docs/
+expected: All four docs/ files (howto.org, reference.org, context-monitor.org, sync-upstream-playbook.org) have identical nav header pattern: /Navigation: Home | How-to | Reference/ with org links.
+result: pass
+
+*** 5. Existing docs/ files classified
+expected: docs/context-monitor.org has :diataxis_primary: reference property. docs/sync-upstream-playbook.org has :diataxis_primary: how-to property. Both have nav headers.
+result: pass
+
+*** 6. references/ metadata coverage
+expected: All 18 files in references/ directory carry diataxis_primary: reference metadata. 3 org files use PROPERTIES drawers under first heading. 15 markdown files use YAML frontmatter at top.
+result: pass
+
+*** 7. Diataxis audit extended
+expected: references/diataxis-audit.org has a new section covering references/ directory classification with an 18-file table and Phase 4 artifact changes.
+result: pass
+
+*** 8. README.org tutorial restructure
+expected: README.org has * GET MY SHIT DONE (GMSD) heading with :diataxis_primary: tutorial property. Core workflow table (8 commands) retained. Full command/config tables replaced with brief summaries and links to docs/reference.org. "Why Org-mode?" and "Why ADRs?" sections still present.
+result: pass
+
+*** 9. No broken USER-GUIDE links
+expected: No references to USER-GUIDE.org remain in README.org or any docs/ file. README links point to docs/reference.org and docs/howto.org instead. Troubleshooting section links to docs/howto.org.
+result: pass
+
+** Summary
+
+total: 9
+passed: 9
+issues: 0
+pending: 0
+skipped: 0
+
+** Gaps
+
+[none yet]

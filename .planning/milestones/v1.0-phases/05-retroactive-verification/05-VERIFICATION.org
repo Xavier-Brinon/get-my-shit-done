@@ -1,0 +1,156 @@
+:PROPERTIES:
+:phase: 05-retroactive-verification
+:verified: 2026-03-02T16:00:00Z
+:status: passed
+:score: 3/3 must-haves verified
+:re_verification: false
+:END:
+
+#+title: Phase 05: Retroactive Verification Verification Report
+#+author: GMSD Verifier
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 05: Retroactive Verification Verification Report
+
+*Phase Goal:* Phases 1 and 2 receive formal =VERIFICATION.org= files
+confirming that their requirements (CLASS-01, CLASS-02, CLASS-03, GAPS-01)
+are satisfied. The milestone audit found substantive evidence of completion
+but these phases predate the verification workflow step. This phase closes
+the procedural gap.
+
+*Verified:* 2026-03-02T16:00:00Z
+*Status:* PASSED
+*Re-verification:* No --- initial verification
+
+** Goal Achievement
+
+*** Observable Truths
+
+| # | Truth                                                                        | Status   | Evidence                                                                                  |
+|---+------------------------------------------------------------------------------+----------+-------------------------------------------------------------------------------------------|
+| 1 | Phase 1 =VERIFICATION.org= confirms CLASS-01 satisfied with artifact evidence | VERIFIED | File exists at =.planning/phases/01-framework-foundation/VERIFICATION.org=; status: passed; score: 4/4; =:re_verification: true=; CLASS-01 in requirements coverage table with SATISFIED status |
+| 2 | Phase 2 =VERIFICATION.org= confirms CLASS-02, CLASS-03, GAPS-01 satisfied    | VERIFIED | File exists at =.planning/phases/02-classification-and-audit/VERIFICATION.org=; status: passed; score: 5/5; =:re_verification: true=; all 3 requirements in coverage table with SATISFIED status |
+| 3 | All 4 partial requirements promoted to satisfied in =REQUIREMENTS.org=        | VERIFIED | =REQUIREMENTS.org= shows CLASS-01, CLASS-02, CLASS-03, GAPS-01 as =[X]=; traceability table shows Complete; 6 =[X]= and 3 =[ ]= total; last-updated note records Phase 5 closure |
+
+*Score:* 3/3 truths verified
+
+*** Required Artifacts
+
+| Artifact                                                        | Expected                                                         | Status   | Details                                                                              |
+|-----------------------------------------------------------------+------------------------------------------------------------------+----------+--------------------------------------------------------------------------------------|
+| =.planning/phases/01-framework-foundation/VERIFICATION.org=    | Phase 1 retroactive verification, CLASS-01 satisfied            | VERIFIED | File present; 127 lines; frontmatter: status=passed, score=4/4, re_verification=true |
+| =.planning/phases/02-classification-and-audit/VERIFICATION.org= | Phase 2 retroactive verification, CLASS-02/03/GAPS-01 satisfied | VERIFIED | File present; 150 lines; frontmatter: status=passed, score=5/5, re_verification=true |
+| =.planning/REQUIREMENTS.org=                                    | 6 =[X]= completed requirements, 3 =[ ]= pending                 | VERIFIED | 6 =[X]= confirmed (CLASS-01/02/03, GAPS-01/02/03); 3 =[ ]= confirmed (DOCS-01/02/03) |
+
+*** Key Link Verification
+
+| From                                                             | To                                     | Via                                              | Status   | Details                                                                    |
+|------------------------------------------------------------------+----------------------------------------+--------------------------------------------------+----------+----------------------------------------------------------------------------|
+| =01-framework-foundation/VERIFICATION.org=                      | =01-01-SUMMARY.org= evidence           | Requirements coverage table references commits =0cfff9d= and =077a5dc= | VERIFIED | Both commits confirmed present in git log; CLASS-01 row cites specific commit hashes |
+| =02-classification-and-audit/VERIFICATION.org=                  | =02-01/02/03-SUMMARY.org= evidence     | Requirements coverage table references 5 commits across 3 plans        | VERIFIED | All 5 commits (=0985da8=, =1af20c1=, =23fb1af=, =7ee8b52=, =54fee69=) confirmed in git log |
+| =REQUIREMENTS.org= traceability table                           | CLASS-01, CLASS-02, CLASS-03, GAPS-01  | Phase column 1,5/2,5 entries with Complete status                     | VERIFIED | All 4 requirements show Complete in traceability table; Phase 5 listed as co-owner |
+
+*** Requirements Coverage
+
+| Requirement | Source Plan    | Description                                                                          | Status    | Evidence                                                                            |
+|-------------+----------------+--------------------------------------------------------------------------------------+-----------+-------------------------------------------------------------------------------------|
+| CLASS-01    | 05-01-PLAN.org | Diataxis condensed reference exists with quadrant definitions, rules, anti-patterns  | SATISFIED | Phase 1 VERIFICATION.org: 4/4 truths verified; =diataxis.org= (389 lines, 4 quadrants, 37 anti-patterns) and =diataxis-condensed.md= (122 lines) confirmed on disk |
+| CLASS-02    | 05-01-PLAN.org | Every deliverable template (40+) has a Diataxis quadrant classification              | SATISFIED | Phase 2 VERIFICATION.org: 38/38 templates carry =:diataxis_primary:=; 0 unclassified (=grep -rL= returns empty); confirmed on disk |
+| CLASS-03    | 05-01-PLAN.org | Every org-generating agent (7) has a =<diataxis_style>= tag                         | SATISFIED | Phase 2 VERIFICATION.org: all 7 agent files confirmed with tag; each confirmed individually on disk |
+| GAPS-01     | 05-01-PLAN.org | Formal audit document maps every template to a quadrant and identifies underserved quadrants | SATISFIED | Phase 2 VERIFICATION.org: =diataxis-audit.org= (240 lines) confirmed present; 20 gap/critical mentions; Tutorial gap critical, How-to low-coverage |
+
+*** Structural Verification
+
+*Phase 1 VERIFICATION.org* content checks (confirmed on disk):
+
+- =references/diataxis.org= line count: 389 lines (CONFIRMED --- file present at =get-my-shit-done/references/diataxis.org=)
+- Quadrant headings: 4/4 present (Tutorial line 34, How-to line 108, Reference line 180, Explanation line 245)
+- Anti-pattern markers (Warning/NOT): 37 total (claim: 8 minimum --- EXCEEDS requirement)
+- =diataxis-condensed.md= line count: 122 lines (CONFIRMED --- under 150 limit)
+- Back-reference line 5: "rationale, examples, and decision tree: =references/diataxis.org=." (PRESENT)
+- Installed path: =~/.claude/get-my-shit-done/references/diataxis.org= and =diataxis-condensed.md= (PRESENT)
+
+*Phase 2 VERIFICATION.org* content checks (confirmed on disk):
+
+- Template count: 38 =.org= files in =templates/= (recursive, including =codebase/= and =research-project/= subdirs)
+- Unclassified templates: 0 (=grep -rL :diataxis_primary:= returns empty)
+- Agents with =<diataxis_style>=: 7/7 (all 7 named agents confirmed via grep)
+- =diataxis-audit.org= line count: 240 lines (CONFIRMED)
+- Gap/critical mentions in audit: 20 (CONFIRMED via grep -ic)
+- Installed path: =~/.claude/get-my-shit-done/references/diataxis-audit.org= (PRESENT)
+
+*REQUIREMENTS.org* state (confirmed on disk):
+
+- =[X]= checkboxes: 6 (CLASS-01, CLASS-02, CLASS-03, GAPS-01, GAPS-02, GAPS-03)
+- =[ ]= checkboxes: 3 (DOCS-01, DOCS-02, DOCS-03)
+- Traceability table: CLASS-01/02/03 show Phase 1,5/2,5 with Complete; GAPS-01 shows Phase 2,5 with Complete
+- Last-updated note: records Phase 5 closure with date
+
+*** Anti-Patterns Found
+
+None. Both VERIFICATION.org files contain substantive artifact evidence
+from actual disk and git log checks, not inferred from SUMMARY text.
+Commit hashes are verified. REQUIREMENTS.org changes are mechanical
+checkbox promotions with no ambiguity.
+
+*Note on path convention in VERIFICATION files:* The Phase 1 and Phase 2
+VERIFICATION.org files use the path prefix =get-my-shit-done/references/=
+rather than bare =references/=. This is accurate --- the project root is
+the =get-my-shit-done/= parent and the reference files live one level
+down. No structural gap.
+
+*** Commit Verification
+
+Phase 5 commits confirmed in repository:
+
+- =c9e3090= --- feat(05-01): add retroactive VERIFICATION.org for Phase 1 and Phase 2
+- =788e891= --- feat(05-01): promote CLASS-01 CLASS-02 CLASS-03 GAPS-01 to satisfied in REQUIREMENTS.org
+
+Phase 1 and Phase 2 commits cross-referenced in the VERIFICATION.org files:
+
+- =0cfff9d= --- feat(01-01): write full Diataxis reference document
+- =077a5dc= --- feat(01-01): write condensed Diataxis agent reference
+- =0985da8= --- feat(02-01): classify codebase and research-project templates (12 files)
+- =1af20c1= --- feat(02-01): classify planning-workflow and reference templates (24 files)
+- =23fb1af= --- feat(02-02): add diataxis_style tags to single-quadrant agents
+- =7ee8b52= --- feat(02-02): add diataxis_style tags to multi-quadrant agents
+- =54fee69= --- feat(02-03): write formal Diataxis audit document
+
+All 9 commits confirmed via =git log --oneline=.
+
+*** ADR Review
+
+No =.planning/decisions/= directory exists in this project. No ADRs are
+linked to Phase 5. No ADR review required.
+
+*** Test Suite
+
+All 218 tests pass. No regressions introduced by Phase 5.
+
+#+begin_example
+tests 218
+pass  218
+fail  0
+#+end_example
+
+** Gaps Summary
+
+No gaps. All 3 must-haves verified.
+
+The phase goal is achieved: Phase 1 and Phase 2 now have formal
+=VERIFICATION.org= files with =:re_verification: true= flags, each
+confirmed against live disk artifacts and the git log rather than inferred
+from SUMMARY text. The four requirements (CLASS-01, CLASS-02, CLASS-03,
+GAPS-01) that the milestone audit scored as partial due to missing
+verification files are now formally satisfied and promoted to =[X]= in
+=REQUIREMENTS.org= with a traceability table entry showing Phase 5 as
+co-owner of the procedural closure.
+
+The procedural gap identified by the v1.0 milestone audit is closed.
+
+-----
+
+/Verified: 2026-03-02T16:00:00Z/
+/Verifier: Claude (gmsd-verifier)/

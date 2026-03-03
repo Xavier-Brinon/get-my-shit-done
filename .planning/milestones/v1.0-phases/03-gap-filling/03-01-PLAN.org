@@ -1,0 +1,281 @@
+:PROPERTIES:
+:phase: 03-gap-filling
+:plan: 01
+:type: execute
+:wave: 1
+:depends_on: []
+:files_modified: [templates/tutorial.org, templates/howto.org]
+:autonomous: true
+:requirements: [GAPS-02, GAPS-03]
+:must_haves.truths: [Tutorial template exists for learning-oriented onboarding, How-to template exists for task-oriented procedures, Both templates carry Diataxis metadata, No quadrant remains completely unrepresented]
+:must_haves.artifacts.0.path: templates/tutorial.org
+:must_haves.artifacts.0.provides: Tutorial quadrant template with bookend structure
+:must_haves.artifacts.0.contains: diataxis_primary: tutorial
+:must_haves.artifacts.1.path: templates/howto.org
+:must_haves.artifacts.1.provides: How-to quadrant template with generic procedure structure
+:must_haves.artifacts.1.contains: diataxis_primary: how-to
+:must_haves.key_links.0.from: templates/tutorial.org
+:must_haves.key_links.0.to: references/diataxis-condensed.md
+:must_haves.key_links.0.via: Follows tutorial quadrant writing rules
+:must_haves.key_links.0.pattern: diataxis_primary: tutorial
+:must_haves.key_links.1.from: templates/howto.org
+:must_haves.key_links.1.to: references/diataxis-condensed.md
+:must_haves.key_links.1.via: Follows how-to quadrant writing rules
+:must_haves.key_links.1.pattern: diataxis_primary: how-to
+:END:
+
+#+title: Plan 03-01: Create Tutorial and How-to Templates
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Plan 03-01: Create Tutorial and How-to Templates
+
+Implements the *Template Gap Filling* pattern --- creates new deliverable
+templates for the two underserved Diataxis quadrants (Tutorial: 0 templates,
+How-to: 1 template) identified in the Phase 2 audit. Both templates follow
+the established meta-template structure (property drawer + =<template>= +
+=<good_examples>= + =<guidelines>=) so they integrate seamlessly with the
+existing 36 templates.
+
+<objective>
+Create =templates/tutorial.org= and =templates/howto.org= --- two new
+deliverable templates that fill the critical Tutorial gap and the low-coverage
+How-to gap in GMSD's Diataxis quadrant distribution.
+
+Purpose: After Phase 2 audited all 36 templates and found Tutorial at zero
+coverage and How-to at one template, these two new files ensure every Diataxis
+quadrant has representation in GMSD's template library.
+
+Output: Two org-mode template files ready for agents to use when generating
+learning-oriented (tutorial) and task-oriented (how-to) deliverables.
+</objective>
+
+<execution_context>
+@/Users/xavierbrinon/.claude/get-my-shit-done/workflows/execute-plan.md
+@/Users/xavierbrinon/.claude/get-my-shit-done/templates/summary.org
+</execution_context>
+
+<context>
+@.planning/PROJECT.org
+@.planning/ROADMAP.org
+@.planning/STATE.org
+@.planning/phases/03-gap-filling/03-CONTEXT.org
+@.planning/phases/03-gap-filling/03-RESEARCH.org
+
+Key references (read these before writing):
+@/Users/xavierbrinon/.claude/get-my-shit-done/templates/user-setup.org (structural ancestor for both templates)
+@/Users/xavierbrinon/.claude/get-my-shit-done/templates/context.org (meta-template block vocabulary confirmation)
+@/Users/xavierbrinon/.claude/get-my-shit-done/templates/project.org (org-mode comment pattern confirmation)
+@/Users/xavierbrinon/.claude/get-my-shit-done/references/diataxis-condensed.md (quadrant writing rules)
+@/Users/xavierbrinon/.claude/get-my-shit-done/references/diataxis.org (full tutorial and how-to definitions)
+@/Users/xavierbrinon/.claude/get-my-shit-done/references/org-styleguide.md (org-mode conventions)
+
+<interfaces>
+Both templates must follow the meta-template block pattern established across
+all 36 existing templates:
+
+1. File-level property drawer with =:diataxis_primary:=, =:diataxis_secondary:=,
+   =:diataxis_rationale:=
+2. =#+title:=, =#+startup: indent=, =#+options: toc:2 num:nil ^:{}=
+3. =<template>= block containing the org skeleton agents will fill
+4. =<good_examples>= block with one fully worked example
+5. =<guidelines>= block with authoring guidance
+
+Property drawer format (from user-setup.org):
+#+begin_src org
+:PROPERTIES:
+:diataxis_primary: how-to
+:diataxis_secondary: none
+:diataxis_rationale: [rationale text]
+:END:
+#+end_src
+</interfaces>
+</context>
+
+<tasks>
+
+<task type="auto">
+  <name>Task 1: Create tutorial template</name>
+  <files>templates/tutorial.org</files>
+  <action>
+Create =templates/tutorial.org= following the meta-template block pattern.
+
+*File-level property drawer:*
+- =:diataxis_primary: tutorial=
+- =:diataxis_secondary: none=
+- =:diataxis_rationale:= explaining that the reader follows the generated
+  tutorial to learn the GMSD workflow by completing a full phase cycle
+
+*Template block (=<template>=):*
+The skeleton must cover "Your First Phase" --- one complete GMSD cycle:
+=discuss-phase= then =plan-phase= then =execute-phase=.
+
+Required structural elements (all locked decisions from CONTEXT.org):
+- "What you'll learn" section at the top (bookend 1 --- sets expectations
+  with bullet list of concrete outcomes)
+- Prerequisites section (GMSD installed, a project to work on)
+- Step 1: Discuss your first phase (=discuss-phase= command)
+- Step 2: Plan the phase (=plan-phase= command)
+- Step 3: Execute the plan (=execute-phase= command)
+- Milestone acknowledgements between major steps --- warm, encouraging tone
+  (e.g., "Great --- you've just created your first plan!")
+- "What you learned" section at the bottom (bookend 2 --- echoes the
+  "What you'll learn" bullets in past tense, encouraging close)
+
+*Tone:* Warm, encouraging, congratulatory at milestones. Steps are
+unconditional (teacher-led, no branching). Steps chosen to build
+understanding, not for efficiency.
+
+*Guidance text:* Use org-mode comments (=# comment= for single-line,
+=#+begin_comment= / =#+end_comment= for multi-line) to explain each
+section's Diataxis purpose. These are invisible when exported, visible
+when editing.
+
+*Anti-patterns to avoid:*
+- Do NOT use backticks anywhere --- use =~code~= or ==verbatim==
+- Do NOT use conditional language ("if you want to...") --- tutorial steps
+  are unconditional
+- Do NOT explain theory inline --- defer rationale to comments or omit
+- Do NOT mix how-to framing ("when you need to...") into the tutorial
+
+*Good examples block (=<good_examples>=):*
+One fully worked example showing the completed tutorial for a realistic
+but generic project (e.g., a personal task tracker or similar). This is
+at Claude's Discretion per CONTEXT.org. The example should demonstrate
+what a filled-in tutorial looks like from start to finish.
+
+*Guidelines block (=<guidelines>=):*
+Authoring guidance for agents generating tutorials. Include the Diataxis
+disambiguation test: "Does the reader know what they want before they
+start? If yes, they want a how-to. If no, they want this tutorial."
+
+Follow org-styleguide.md conventions throughout: 78-char prose wrap,
+=-= as bullet character, =~code~= / ==verbatim== markup, max 4 heading
+levels, title case for =*= headings, sentence case for =**= and below,
+blank line before every heading.
+  </action>
+  <verify>
+File exists: =ls templates/tutorial.org=
+Contains Diataxis property: =grep "diataxis_primary: tutorial" templates/tutorial.org=
+Contains bookend headings: =grep -c "What you" templates/tutorial.org= returns 2+
+Contains template block: =grep -c "template" templates/tutorial.org= returns 1+
+Contains good_examples block: =grep "good_examples" templates/tutorial.org=
+Contains guidelines block: =grep "guidelines" templates/tutorial.org=
+No backticks: =grep -c '`' templates/tutorial.org= returns 0
+No regressions: =node --test tests/*.test.cjs=
+  </verify>
+  <done>
+=templates/tutorial.org= exists with =:diataxis_primary: tutorial= property,
+"What you'll learn" and "What you learned" bookend sections, three GMSD
+cycle steps (discuss/plan/execute), warm encouraging tone, one worked
+example in =<good_examples>=, and authoring guidance in =<guidelines>=.
+All org-mode comment guidance is invisible when exported.
+  </done>
+</task>
+
+<task type="auto">
+  <name>Task 2: Create how-to template</name>
+  <files>templates/howto.org</files>
+  <action>
+Create =templates/howto.org= following the meta-template block pattern.
+
+*File-level property drawer:*
+- =:diataxis_primary: how-to=
+- =:diataxis_secondary: none=
+- =:diataxis_rationale:= explaining that the reader follows the generated
+  how-to to accomplish a specific operational goal
+
+*Template block (=<template>=):*
+A generic repeatable-procedure skeleton (locked decision: NOT scoped to
+GMSD specifically). Must be usable for any multi-step procedure: GMSD
+workflows, deployment runbooks, operational guides.
+
+Required structural elements (all locked decisions from CONTEXT.org):
+- Goal statement in =#+title:= and =*= heading (stated twice --- How-to
+  rule: confirm scope immediately, e.g., "How to [Goal]")
+- Prerequisites section --- list only blockers, skip anything the reader
+  can infer. Short.
+- Numbered steps section --- imperative verbs, concrete actions. Linear
+  sequence. Inline conditional notes for variations (e.g., "If using
+  Docker, substitute X") but NO branching paths.
+- Verification section --- what success looks like, with a bash command
+  block and expected output
+- Troubleshooting section --- brief symptom-to-fix pattern only. Keep as
+  generic placeholders in the skeleton.
+
+*Tone:* Professional, concise, respects the reader's time. Neutral
+third-person. NO warm/encouraging language (that is tutorial tone only).
+
+*Guidance text:* Use org-mode comments (=# comment= for single-line,
+=#+begin_comment= / =#+end_comment= for multi-line) to explain each
+section's purpose. These are invisible when exported, visible when editing.
+
+*Anti-patterns to avoid:*
+- Do NOT use backticks --- use =~code~= or ==verbatim==
+- Do NOT include background theory or explanations of "why" --- how-to
+  assumes competence
+- Do NOT use encouraging/congratulatory language --- that is tutorial tone
+- Do NOT scope the skeleton to GMSD specifically --- keep generic
+
+*Good examples block (=<good_examples>=):*
+One fully worked example showing a completed how-to. Per CONTEXT.org this
+is at Claude's Discretion. The example should demonstrate a realistic
+procedure (can be GMSD-specific in the example, since the skeleton itself
+is generic).
+
+*Guidelines block (=<guidelines>=):*
+Authoring guidance for agents generating how-to documents. Include the
+Diataxis disambiguation test: "Does this help the reader reach the goal
+faster? If it explains rather than directs, remove it or move it to a
+comment."
+
+Follow org-styleguide.md conventions throughout: 78-char prose wrap,
+=-= as bullet character, =~code~= / ==verbatim== markup, max 4 heading
+levels, title case for =*= headings, sentence case for =**= and below,
+blank line before every heading.
+  </action>
+  <verify>
+File exists: =ls templates/howto.org=
+Contains Diataxis property: =grep "diataxis_primary: how-to" templates/howto.org=
+Contains required sections: =grep -c "Prerequisites\|Steps\|Verification\|Troubleshooting" templates/howto.org= returns 4+
+Contains template block: =grep "template" templates/howto.org=
+Contains good_examples block: =grep "good_examples" templates/howto.org=
+Contains guidelines block: =grep "guidelines" templates/howto.org=
+No backticks: =grep -c '`' templates/howto.org= returns 0
+No regressions: =node --test tests/*.test.cjs=
+  </verify>
+  <done>
+=templates/howto.org= exists with =:diataxis_primary: how-to= property,
+generic procedure skeleton with prerequisites/steps/verification/troubleshooting
+sections, professional concise tone, inline conditional notes pattern, one
+worked example in =<good_examples>=, and authoring guidance in =<guidelines>=.
+Template is not GMSD-scoped --- usable for any multi-step procedure.
+  </done>
+</task>
+
+</tasks>
+
+<verification>
+Both template files exist and follow established meta-template structure:
+- =ls templates/tutorial.org templates/howto.org= lists both files
+- =grep "diataxis_primary" templates/tutorial.org templates/howto.org= shows
+  correct quadrant classification for each
+- =grep -c '`' templates/tutorial.org templates/howto.org= returns 0 for both
+  (no backticks)
+- =node --test tests/*.test.cjs= passes (no regressions to existing 218 tests)
+</verification>
+
+<success_criteria>
+- =templates/tutorial.org= exists with tutorial quadrant classification, bookend
+  structure, three GMSD cycle steps, warm tone, worked example, and guidelines
+- =templates/howto.org= exists with how-to quadrant classification, generic
+  procedure skeleton, professional tone, worked example, and guidelines
+- Both files follow org-styleguide.md conventions and meta-template block pattern
+- Existing test suite passes without regressions
+</success_criteria>
+
+<output>
+After completion, create =.planning/phases/03-gap-filling/03-01-SUMMARY.org=
+</output>

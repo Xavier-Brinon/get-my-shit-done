@@ -1,0 +1,183 @@
+:PROPERTIES:
+:phase: 03-gap-filling
+:plan: 02
+:type: execute
+:wave: 2
+:depends_on: [03-01]
+:files_modified: [references/diataxis-audit.org]
+:autonomous: true
+:requirements: [GAPS-02, GAPS-03]
+:must_haves.truths: [Audit distribution table reflects new template counts, Tutorial gap is marked as addressed, How-to gap coverage is updated, MermaidJS chart matches updated counts]
+:must_haves.artifacts.0.path: references/diataxis-audit.org
+:must_haves.artifacts.0.provides: Updated Diataxis audit with Phase 3 coverage
+:must_haves.artifacts.0.contains: tutorial.org
+:must_haves.key_links.0.from: references/diataxis-audit.org
+:must_haves.key_links.0.to: templates/tutorial.org
+:must_haves.key_links.0.via: Listed in distribution table and gap analysis
+:must_haves.key_links.0.pattern: tutorial.org
+:must_haves.key_links.1.from: references/diataxis-audit.org
+:must_haves.key_links.1.to: templates/howto.org
+:must_haves.key_links.1.via: Listed in distribution table and gap analysis
+:must_haves.key_links.1.pattern: howto.org
+:END:
+
+#+title: Plan 03-02: Update Diataxis Audit Document
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Plan 03-02: Update Diataxis Audit Document
+
+Updates =references/diataxis-audit.org= to reflect the new templates created
+in Plan 03-01. Implements the *Single Source of Truth* pattern --- one audit
+document is the authoritative record of Diataxis quadrant coverage across all
+GMSD templates. Without this update, the audit would report stale gaps that
+Phase 3 has already filled.
+
+<objective>
+Update =references/diataxis-audit.org= so the distribution table, gap
+analysis, MermaidJS chart, and recommendations all reflect the two new
+templates (=tutorial.org= and =howto.org=) created in Plan 03-01.
+
+Purpose: The audit document is the formal record of Diataxis coverage.
+After Plan 03-01 creates the templates, this plan reconciles the audit
+so downstream consumers (Phase 4, future audits) see accurate coverage.
+
+Output: Updated =references/diataxis-audit.org= with correct counts,
+addressed gaps, and revised recommendations.
+</objective>
+
+<execution_context>
+@/Users/xavierbrinon/.claude/get-my-shit-done/workflows/execute-plan.md
+@/Users/xavierbrinon/.claude/get-my-shit-done/templates/summary.org
+</execution_context>
+
+<context>
+@.planning/PROJECT.org
+@.planning/ROADMAP.org
+@.planning/STATE.org
+@.planning/phases/03-gap-filling/03-CONTEXT.org
+@.planning/phases/03-gap-filling/03-RESEARCH.org
+@.planning/phases/03-gap-filling/03-01-SUMMARY.org (needed: what templates were actually created)
+
+Key reference (the file being updated):
+@/Users/xavierbrinon/.claude/get-my-shit-done/references/diataxis-audit.org
+</context>
+
+<tasks>
+
+<task type="auto">
+  <name>Task 1: Update audit document with new template coverage</name>
+  <files>references/diataxis-audit.org</files>
+  <action>
+Read =references/diataxis-audit.org= and update three sections plus the
+MermaidJS chart. All four update targets are explicitly listed to avoid
+the Pitfall 5 anti-pattern (missing the chart).
+
+*1. Template Quadrant Mapping table (=** Template Quadrant Mapping=):*
+Add two new rows to the =*** Root Planning and Workflow Templates= table:
+
+| =tutorial.org= | tutorial | none | no | no | Reader follows guided walkthrough to learn GMSD workflow |
+| =howto.org= | how-to | none | no | no | Reader follows steps to accomplish a specific operational goal |
+
+Update the table count heading from "(24)" to "(26)".
+
+*2. Deliverable Template Distribution table (=*** Deliverable Template Distribution=):*
+- Tutorial count: 0 to 1, add =tutorial.org= in Templates column
+- How-to count: 1 to 2, add =howto.org= alongside =user-setup.org=
+- Total: 29 to 31
+
+The updated table should look like:
+
+#+begin_example
+| Quadrant    | Count | Templates                                       |
+|-------------+-------+-------------------------------------------------|
+| Reference   |    27 | All codebase, research-project, and most root   |
+| Explanation |     1 | =project.org=                                   |
+| How-to      |     2 | =user-setup.org=, =howto.org=                   |
+| Tutorial    |     1 | =tutorial.org=                                  |
+| *Total*     |    31 |                                                 |
+#+end_example
+
+*3. Gap Analysis section (=** Gap Analysis=):*
+- =*** Tutorial= subsection: Change "CRITICAL GAP --- 0 deliverable templates"
+  to "ADDRESSED --- 1 deliverable template". Update current count to 1.
+  Note that =tutorial.org= was created in Phase 3 (Plan 03-01) to address
+  GAPS-02. Keep the user-need description but frame it as now-served.
+- =*** How-to= subsection: Change severity from "LOW COVERAGE --- 1 deliverable
+  template" to "IMPROVED --- 2 deliverable templates". Update current count
+  to 2. Note =howto.org= added in Phase 3 (Plan 03-01) for GAPS-03.
+- Update the intro line "Analysis of underserved quadrants in deliverable
+  templates (29 total)" to reflect 31 total.
+
+*4. MermaidJS pie chart (=*** MermaidJS Distribution Chart=):*
+Update the =#+begin_src mermaid= block to:
+
+#+begin_example
+pie title Template Quadrant Distribution (deliverable templates only)
+    "Reference" : 27
+    "Explanation" : 1
+    "How-to" : 2
+    "Tutorial" : 1
+#+end_example
+
+*5. Recommendations section (=** Recommendations for Phase 3=):*
+- Rename heading to "** Recommendations Status" or similar to reflect that
+  Phase 3 is now complete
+- Priority 1 (Tutorial): Mark as addressed by Phase 3 Plan 03-01, reference
+  =templates/tutorial.org=
+- Priority 2 (How-to): Mark as addressed by Phase 3 Plan 03-01, reference
+  =templates/howto.org=
+- Priority 3 (Explanation): Keep as-is (still no formal requirement)
+
+*6. File-level metadata:*
+Update the =:audit_date:= property to today's date. Update
+=:templates_audited:= from 36 to 38.
+
+Follow org-styleguide.md conventions: no backticks, =~code~= / ==verbatim==
+markup, 78-char prose wrap, =-= bullets only.
+  </action>
+  <verify>
+Distribution table updated: =grep "Tutorial.*1" references/diataxis-audit.org=
+How-to count updated: =grep "How-to.*2" references/diataxis-audit.org=
+Total updated: =grep "31" references/diataxis-audit.org=
+New templates listed: =grep "tutorial.org" references/diataxis-audit.org= and =grep "howto.org" references/diataxis-audit.org=
+MermaidJS chart updated: =grep -A4 "pie title" references/diataxis-audit.org= shows Tutorial: 1 and How-to: 2
+Gap analysis updated: =grep "ADDRESSED" references/diataxis-audit.org=
+No backticks: =grep -c '`' references/diataxis-audit.org= returns 0
+No regressions: =node --test tests/*.test.cjs=
+  </verify>
+  <done>
+=references/diataxis-audit.org= accurately reflects Phase 3 template
+additions: distribution table shows 31 deliverable templates (Tutorial: 1,
+How-to: 2), gap analysis marks Tutorial and How-to as addressed, MermaidJS
+chart matches updated counts, and recommendations reference the new
+template files.
+  </done>
+</task>
+
+</tasks>
+
+<verification>
+Audit document is internally consistent:
+- Distribution table total (31) matches sum of quadrant counts (27+1+2+1)
+- MermaidJS chart values match distribution table values
+- Gap analysis sections reference the correct template files
+- Template Quadrant Mapping table includes both new templates
+- =:templates_audited:= property matches actual count
+- =node --test tests/*.test.cjs= passes (no regressions)
+</verification>
+
+<success_criteria>
+- =references/diataxis-audit.org= distribution table shows 31 deliverable
+  templates with Tutorial at 1 and How-to at 2
+- Gap analysis marks Tutorial and How-to gaps as addressed by Phase 3
+- MermaidJS pie chart reflects updated counts
+- Recommendations reference completed Phase 3 work
+- All numbers are internally consistent across sections
+</success_criteria>
+
+<output>
+After completion, create =.planning/phases/03-gap-filling/03-02-SUMMARY.org=
+</output>

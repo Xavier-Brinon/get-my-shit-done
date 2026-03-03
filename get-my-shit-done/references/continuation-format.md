@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up session continuation format and fields"
+---
+
 # Continuation Format
 
 Standard format for presenting next steps after completing a command or workflow.

@@ -3,7 +3,16 @@
 #+startup: indent
 #+options: toc:2 num:nil ^:{}
 
+/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/
+
+-----
+
 * Context Window Monitor
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader looks up context window thresholds and monitoring rules
+:END:
 
 A PostToolUse hook that warns the agent when context window usage is high.
 

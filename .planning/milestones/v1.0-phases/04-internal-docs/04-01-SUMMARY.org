@@ -1,0 +1,130 @@
+:PROPERTIES:
+:phase: 04-internal-docs
+:plan: 01
+:subsystem: documentation
+:tags: [diataxis, org-mode, how-to, reference, user-guide]
+:requires: []
+:provides: [docs/howto.org with how-to quadrant, docs/reference.org with reference quadrant, nav headers on all docs/ files, Diataxis classification on all docs/ files]
+:affects: [04-02, 04-03, future documentation phases]
+:tech-stack.added: []
+:tech-stack.patterns: ["Diataxis quadrant-per-file pattern: one file per quadrant, no mixing", "Nav header pattern: italic org link bar after #+options:", "Diataxis property drawer at heading level for general docs (not file-level)"]
+:key-files.created: [docs/howto.org, docs/reference.org]
+:key-files.modified: [docs/context-monitor.org, docs/sync-upstream-playbook.org]
+:key-decisions: ["USER-GUIDE.org deleted (no redirect stub) after content fully split into howto.org and reference.org", "Property drawers placed at heading level not file level for general docs", "Nav header placed as italic org link bar immediately after #+options: line"]
+:patterns-established: ["Nav header pattern: /Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/", "Diataxis heading-level property drawer: diataxis_primary, diataxis_secondary, diataxis_rationale"]
+:requirements-completed: [DOCS-01]
+:duration: 4min
+:completed: 2026-03-02
+:END:
+
+#+title: Phase 04 Plan 01: Split USER-GUIDE.org into Diataxis-aligned Documents Summary
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 04 Plan 01: Split USER-GUIDE.org into Diataxis-aligned Documents Summary
+
+*Monolithic =docs/USER-GUIDE.org= split into =docs/howto.org= (workflows,
+troubleshooting, recovery) and =docs/reference.org= (commands, configuration,
+usage examples, file structure); all four docs/ files classified with Diataxis
+and given consistent nav headers.*
+
+** Performance
+
+- *Duration:* 4 min
+- *Started:* 2026-03-02T19:27:53Z
+- *Completed:* 2026-03-02T19:31:57Z
+- *Tasks:* 3
+- *Files modified:* 5 (2 created, 2 modified, 1 deleted)
+
+** Accomplishments
+
+- Created =docs/howto.org= with Diataxis =how-to= classification, nav header,
+  and all procedural content from USER-GUIDE.org: workflow diagrams (5
+  diagrams), troubleshooting (10 subsections), and recovery quick reference table
+- Created =docs/reference.org= with Diataxis =reference= classification, nav
+  header, and all lookup content from USER-GUIDE.org: command reference (4
+  tables), configuration reference (full schema + 6 sub-tables), usage examples
+  (8 scenarios), and project file structure
+- Deleted =docs/USER-GUIDE.org= (content fully migrated, no redirect stub per
+  locked decision)
+- Classified =docs/context-monitor.org= as =reference= quadrant and added nav
+  header
+- Classified =docs/sync-upstream-playbook.org= as =how-to= quadrant and added
+  nav header
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Create docs/howto.org from USER-GUIDE.org how-to content* - ~7df5a79~ (feat)
+2. *Task 2: Create docs/reference.org from USER-GUIDE.org reference content* - ~26e36eb~ (feat)
+3. *Task 3: Delete USER-GUIDE.org and classify existing docs/ files* - ~f8c249e~ (feat)
+
+** Files Created/Modified
+
+- =docs/howto.org= - How-to quadrant: workflow diagrams, troubleshooting, recovery
+- =docs/reference.org= - Reference quadrant: commands, configuration, usage examples, file structure
+- =docs/context-monitor.org= - Added diataxis_primary: reference + nav header
+- =docs/sync-upstream-playbook.org= - Added diataxis_primary: how-to + nav header
+- =docs/USER-GUIDE.org= - Deleted (content split into howto.org + reference.org)
+
+** Decisions Made
+
+- Content allocated strictly by Diataxis quadrant (not by topic): procedural
+  and step-by-step content to how-to, lookup and descriptive content to
+  reference
+- Property drawers placed at the first =*= heading level, not file level, for
+  general user-facing documents (consistent with RESEARCH.org Pitfall 2 note)
+- Nav header uses italic org link bar pattern immediately after =#+options:=
+  with a horizontal rule separator
+- =sync-upstream-playbook.org= first heading kept as =* Overview= (not renamed)
+
+** Deviations from Plan
+
+None -- plan executed exactly as written.
+
+** Issues Encountered
+
+None.
+
+** Architectural Observations
+
+- *Emergent patterns:* The nav header pattern (italic link bar + horizontal
+  rule after =#+options:=) emerges consistently across all four docs/ files.
+  This is a Document Linking pattern that could be standardized for any new
+  docs/ file added in future phases.
+- *Coupling discovered:* All four docs/ files now cross-reference each other
+  via the nav header. This is intentional coupling -- the nav header creates an
+  explicit navigation contract between the documents.
+- *Boundary assessment:* The how-to/reference split maps cleanly to USER-GUIDE
+  section boundaries. No content required editorial judgment about which
+  quadrant it belonged to -- the original file's section structure already
+  encoded the quadrant boundary implicitly.
+- *ADR candidates:* None. The Diataxis pattern and nav header structure were
+  already established as decisions in prior phases.
+
+** User Setup Required
+
+None -- no external service configuration required.
+
+** Next Phase Readiness
+
+- All four =docs/= files are Diataxis-classified with consistent nav headers
+- =DOCS-01= requirement satisfied: USER-GUIDE.org replaced by quadrant-aligned
+  documents
+- Phase 04 Plan 02 (=references/= classification) and Plan 03 (agents/commands
+  classification) can proceed independently
+
+** Self-Check: PASSED
+
+- FOUND: =docs/howto.org= exists
+- FOUND: =docs/reference.org= exists
+- FOUND: =docs/USER-GUIDE.org= deleted
+- FOUND: =.planning/phases/04-internal-docs/04-01-SUMMARY.org= exists
+- FOUND: commits ~7df5a79~, ~26e36eb~, ~f8c249e~ in git log
+
+-----
+/Phase: 04-internal-docs/
+/Completed: 2026-03-02/

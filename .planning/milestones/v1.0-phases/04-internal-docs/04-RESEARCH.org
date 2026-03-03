@@ -1,0 +1,467 @@
+#+title: Phase 4: Internal Docs — Research
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 4: Internal Docs — Research
+
+*Researched:* [2026-03-02 Sun]
+*Domain:* Org-mode documentation restructuring; Diataxis quadrant classification
+*Confidence:* HIGH
+
+<user_constraints>
+** User Constraints (from CONTEXT.org)
+
+*** Locked Decisions
+
+**** USER-GUIDE.org Split Strategy
+- Split into exactly *two documents*: =docs/howto.org= (workflows,
+  troubleshooting, recovery) and =docs/reference.org= (commands,
+  configuration, usage examples)
+- New files live in =docs/= directory (not top-level)
+- *Delete* =docs/USER-GUIDE.org= after split — no redirect stub
+- Both new files carry =:diataxis_primary:= property in =:PROPERTIES:= drawer,
+  consistent with template classification from Phase 2
+
+**** References Classification
+- *Metadata only* — add =:diataxis_primary:= to each file header, no folder
+  restructure (path stability matters for agent =@file= references)
+- Classify files in their native format: =:PROPERTIES:= drawers for =.org=,
+  YAML frontmatter for =.md=
+- Update =diataxis-audit.org= with a new section covering =references/=
+  classification
+
+**** README.org Restructuring
+- README becomes an *onboarding hub*: project intro, installation,
+  getting-started tutorial, then links out to =docs/= for details
+- Reference-like content (command list, features, config) moves into
+  =docs/reference.org= (merged with USER-GUIDE reference content)
+- "Why" explanation sections ("Why Org-mode?", "Why ADRs?") *stay in README* —
+  they're part of the onboarding narrative
+- README gets =:diataxis_primary: tutorial= in its property drawer
+
+**** Cross-Document Navigation
+- Every file in =docs/= gets a consistent nav header using native org links:
+  =/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/=
+- All existing =docs/= files (=context-monitor.org=, =sync-upstream-playbook.org=)
+  also get Diataxis classification and the nav header
+- README links to all =docs/= files as the hub
+
+*** Claude's Discretion
+- Exact content allocation between howto and reference when borderline
+- Org-mode formatting details within new files
+- How to handle content that doesn't fit cleanly into either quadrant
+- Nav header exact styling and placement
+
+*** Deferred Ideas (OUT OF SCOPE)
+None — discussion stayed within phase scope
+</user_constraints>
+
+<phase_requirements>
+** Phase Requirements
+
+| ID      | Description                                                                                                         | Research Support                                                                                                      |
+|---------+---------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------|
+| DOCS-01 | USER-GUIDE.org is split into separate Diataxis-aligned documents (tutorial, how-to, reference, explanation)         | Content audit below identifies which sections map to how-to vs reference; decision locks exactly two output files     |
+| DOCS-02 | Files in =references/= directory are classified by Diataxis quadrant and reorganized accordingly                    | All 18 =references/= files catalogued with proposed quadrant; metadata-only, no folder restructure                    |
+| DOCS-03 | README.org sections are aligned with Diataxis (tutorial-like content separated from reference-like content)         | README content audit identifies tutorial vs reference sections; =:diataxis_primary: tutorial= on the hub              |
+</phase_requirements>
+
+** Summary
+
+Phase 4 is a documentation restructuring phase with no code changes and no
+external library dependencies. The domain is entirely internal: Org-mode file
+editing, Diataxis quadrant application, and cross-document linking.
+
+All prior phases established the necessary preconditions. Phase 1 defined the
+=:diataxis_primary:= property pattern and the condensed reference in
+=references/diataxis-condensed.md=. Phase 2 applied that pattern to all 38
+templates. Phase 4 applies the same established pattern to three artifacts that
+remained unclassified: =USER-GUIDE.org= (which is split rather than merely
+classified), =references/= files (metadata-only classification), and =README.org=
+(restructured as an onboarding hub).
+
+The primary risk is content allocation judgment: some USER-GUIDE.org sections
+sit on the how-to/reference boundary. The how-to quadrant governs step-oriented
+goal accomplishment; the reference quadrant governs fact lookup. The distinction
+is reliable for the sections audited below.
+
+*Primary recommendation:* Execute as three parallel plans (DOCS-01, DOCS-02,
+DOCS-03). All three are independent — none modifies files touched by the others.
+DOCS-01 touches =docs/=; DOCS-02 touches =references/=; DOCS-03 touches
+=README.org=. Wave 1 can run all three in parallel.
+
+** Standard Stack
+
+*** Core
+
+| Tool            | Version    | Purpose                              | Why Standard                                              |
+|-----------------+------------+--------------------------------------+-----------------------------------------------------------|
+| Org-mode syntax | N/A        | All content editing and markup       | Project's sole doc format; established in fork conversion |
+| Diataxis        | N/A        | Quadrant classification framework    | Established in Phase 1; =:diataxis_primary:= pattern live |
+| =:PROPERTIES:= drawers | N/A | Metadata on =.org= files            | GMSD frontmatter convention; parsed by =frontmatter.cjs=  |
+| YAML frontmatter | N/A       | Metadata on =.md= files              | Convention for agent reference files in =references/=     |
+
+*** Supporting
+
+| Tool              | Purpose                                    | When to Use                               |
+|-------------------+--------------------------------------------+-------------------------------------------|
+| Org internal links | Cross-document navigation                 | Nav headers in every =docs/= file         |
+| =#+CAPTION:= / =#+NAME:= | Table labelling                  | Referencing tables within reference.org   |
+| =#+begin_example= | Preformatted non-code text                 | Workflow diagram preservation in howto.org |
+
+*** Alternatives Considered
+
+| Instead of                          | Could Use             | Tradeoff                                              |
+|-------------------------------------+-----------------------+-------------------------------------------------------|
+| Two split files (howto + reference) | Single relabelled file | Locked decision; split enforces clear quadrant boundary |
+| Metadata-only for references/       | Folder restructure    | Locked decision; path stability for agent @file refs  |
+| =:PROPERTIES:= drawers              | Inline comment labels | Drawers are machine-parseable; comments are not       |
+
+** Architecture Patterns
+
+*** Recommended File Structure
+
+#+BEGIN_EXAMPLE
+docs/
+  USER-GUIDE.org        <- DELETE after split
+  howto.org             <- NEW: workflows, troubleshooting, recovery (how-to quadrant)
+  reference.org         <- NEW: commands, config, usage examples (reference quadrant)
+  context-monitor.org   <- CLASSIFY + nav header (reference quadrant)
+  sync-upstream-playbook.org  <- CLASSIFY + nav header (how-to quadrant)
+
+README.org              <- RESTRUCTURE: onboarding hub, tutorial quadrant, links to docs/
+
+references/             <- CLASSIFY in-place, metadata only
+  diataxis-audit.org    <- .org: :PROPERTIES: drawer; + new section for this phase
+  diataxis.org          <- .org: :PROPERTIES: drawer
+  org-styleguide-full.org <- .org: :PROPERTIES: drawer
+  *.md files            <- YAML frontmatter block
+#+END_EXAMPLE
+
+*** Pattern 1: Diataxis property drawer (established)
+
+The =:diataxis_primary:= property drawer pattern was established in Phase 2.
+Apply identically here. Org files receive a file-level property drawer; =.md=
+files receive a YAML frontmatter block.
+
+Org file pattern:
+
+#+begin_src org
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader looks up [what the reader looks up]
+:END:
+#+end_src
+
+Markdown file pattern:
+
+#+begin_src yaml
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: Reader looks up [what the reader looks up]
+---
+#+end_src
+
+*** Pattern 2: Nav header in docs/ files
+
+Every file in =docs/= (including the two new files) gets a consistent nav
+header in italics using native org links. This is a Claude's Discretion area
+for exact styling and placement. The locked decision specifies the form:
+
+#+begin_src org
+/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/
+#+end_src
+
+Placement: immediately after the =#+options:= header line, before the first
+heading. A horizontal rule (=-----=) separates it from the body.
+
+*** Pattern 3: README as onboarding hub
+
+The restructured README retains the "Why" explanation sections but removes the
+dense command tables and full configuration schema, which move to
+=docs/reference.org=. The README's new role is a tutorial-quadrant entry point:
+the reader follows it to get from zero to running GMSD.
+
+Links from README to =docs/= files use org file links:
+
+#+begin_src org
+For the full command reference, see [[file:docs/reference.org][User Guide — Reference]].
+For workflow procedures and troubleshooting, see [[file:docs/howto.org][User Guide — How-to]].
+#+end_src
+
+*** Anti-Patterns to Avoid
+
+- *Splitting on topic rather than quadrant:* The boundary between the two new
+  files is quadrant (goal-oriented steps vs fact lookup), not topic area. A
+  command table is reference even if it describes a workflow command; a
+  step-by-step recovery procedure is how-to even if it's about configuration.
+- *Leaving README with both tutorial and reference content:* The current README
+  mixes "Getting started" (tutorial) with "Commands" and "Configuration"
+  (reference). The restructured README must remove or link out the reference
+  sections to achieve a clean tutorial classification.
+- *Adding redirect stubs:* Locked decision — delete =USER-GUIDE.org=, no stub.
+- *Moving =references/= files:* Path stability is a locked constraint. Only
+  add metadata; never rename or move files in =references/=.
+
+** Don't Hand-Roll
+
+| Problem                   | Don't Build          | Use Instead                              | Why                                              |
+|---------------------------+----------------------+------------------------------------------+--------------------------------------------------|
+| Quadrant classification   | Custom taxonomy      | Diataxis framework (established Phase 1) | Framework is already integrated; consistent      |
+| Metadata format           | Free-form comments   | =:PROPERTIES:= drawers / YAML frontmatter | Machine-parseable; consistent with all templates |
+| Cross-doc navigation      | Complex TOC system   | Native org links in nav header            | Org links are stable, zero tooling dependency   |
+| Audit tracking            | New tracking doc     | Extend =diataxis-audit.org=               | Locked decision; avoids parallel tracking docs   |
+
+*Key insight:* This is a **build vs buy decision** resolved entirely in favour of
+reuse. Every tool and pattern is already established. The phase is pure
+application of existing conventions to three remaining artifacts.
+
+** Content Audit: USER-GUIDE.org Sections
+
+Current =docs/USER-GUIDE.org= sections and their target files:
+
+#+CAPTION: USER-GUIDE.org content allocation
+#+NAME: tab:ug-allocation
+| Section                           | Target file       | Quadrant  | Rationale                                          |
+|-----------------------------------+-------------------+-----------+----------------------------------------------------|
+| Workflow diagrams                 | =docs/howto.org=  | How-to    | Diagrams illustrate procedural workflows           |
+| Command reference                 | =docs/reference.org= | Reference | Reader looks up a command name and its purpose  |
+| Configuration reference           | =docs/reference.org= | Reference | Reader looks up a setting and its options       |
+| Usage examples                    | =docs/reference.org= | Reference | Canonical examples are consulted, not followed  |
+| Troubleshooting                   | =docs/howto.org=  | How-to    | Reader follows steps to resolve a specific problem |
+| Recovery quick reference          | =docs/howto.org=  | How-to    | Reader follows steps for a recovery scenario       |
+| Project file structure            | =docs/reference.org= | Reference | Reader looks up what files GMSD creates         |
+
+*Borderline case:* Usage examples could be classified as how-to (following steps)
+or reference (consulting patterns). The locked decision places the command
+reference in =docs/reference.org= — usage examples are the companion illustrations
+to those commands and belong with them.
+
+** Content Audit: README.org Sections
+
+Current =README.org= sections and their disposition:
+
+#+CAPTION: README.org content disposition
+#+NAME: tab:readme-disposition
+| Section                                  | Disposition        | Rationale                                                  |
+|------------------------------------------+--------------------+------------------------------------------------------------|
+| What changed from upstream GSD (table)   | Stay (contextual)  | Part of onboarding context for this fork                   |
+| Why Org-mode? / Why ADRs? (explanation)  | Stay               | Locked: explanation narrative for onboarding               |
+| Getting started (install, verify)        | Stay               | Tutorial quadrant core content                             |
+| Staying updated / Non-interactive install | Stay (setup steps) | Tutorial-adjacent onboarding steps                         |
+| Recommended workflow: worktrees          | Stay (brief)       | Onboarding concept; detailed procedures link to howto.org  |
+| How it works (1-6 steps narrative)       | Stay (abridged)    | Tutorial narrative — reduce detail, link to reference.org  |
+| Commands (full tables)                   | Move to reference.org | Reference lookup content, too dense for onboarding hub  |
+| Configuration (full schema + tables)     | Move to reference.org | Reference lookup content                                |
+| Security                                 | Stay (brief note)  | Safety-critical; keep visible on landing doc               |
+| Troubleshooting (brief)                  | Stay (brief)       | Retain minimal entry, link to howto.org for full guide     |
+| Community ports / Star history / License | Stay               | Standard README footer; no quadrant impact                 |
+
+** Content Audit: references/ Files
+
+All 18 files in =references/= with proposed Diataxis classification:
+
+#+CAPTION: references/ file classification
+#+NAME: tab:refs-classification
+| File                          | Format | Proposed Primary | Rationale                                                      |
+|-------------------------------+--------+------------------+----------------------------------------------------------------|
+| =diataxis.org=                | org    | reference        | Reader looks up quadrant definitions and writing rules         |
+| =diataxis-audit.org=          | org    | reference        | Reader looks up template-to-quadrant mapping and audit results |
+| =org-styleguide-full.org=     | org    | reference        | Reader looks up org-mode syntax rules                          |
+| =diataxis-condensed.md=       | md     | reference        | Agent looks up quadrant rules for generating documents         |
+| =org-styleguide.md=           | md     | reference        | Agent looks up org-mode rules for generating documents         |
+| =checkpoints.md=              | md     | reference        | Agent looks up checkpoint rules and golden rules               |
+| =continuation-format.md=      | md     | reference        | Agent looks up session continuation format and fields          |
+| =decimal-phase-calculation.md= | md    | reference        | Agent looks up insert-phase decimal numbering algorithm        |
+| =git-integration.md=          | md     | reference        | Agent looks up commit conventions and git strategy             |
+| =git-planning-commit.md=      | md     | reference        | Agent looks up planning commit format and scope prefixes       |
+| =model-profile-resolution.md= | md     | reference        | Agent looks up model selection logic per profile               |
+| =model-profiles.md=           | md     | reference        | Agent looks up model names per profile tier                    |
+| =phase-argument-parsing.md=   | md     | reference        | Agent looks up phase argument parsing rules                    |
+| =planning-config.md=          | md     | reference        | Agent looks up config.json schema and field semantics          |
+| =questioning.md=              | md     | reference        | Agent looks up question structure for discuss-phase            |
+| =tdd.md=                      | md     | reference        | Agent looks up TDD patterns and test-first rules               |
+| =ui-brand.md=                 | md     | reference        | Agent looks up brand colours, typography, and component style  |
+| =verification-patterns.md=    | md     | reference        | Agent looks up verification rules per artifact type            |
+
+*Classification note:* All 18 files are reference quadrant. This is expected:
+=references/= is the agent knowledge base — all files are consulted for specific
+facts, not read linearly. No how-to, tutorial, or explanation files exist in
+=references/=, which is correct by design. The audit will record this uniform
+classification and note it as intended rather than a gap.
+
+** Common Pitfalls
+
+*** Pitfall 1: Breaking agent @file references
+
+*What goes wrong:* Moving or renaming any file in =references/= breaks agent
+system prompts that use =@file= paths. For example,
+=@/Users/xavierbrinon/.claude/get-my-shit-done/references/diataxis-condensed.md=
+is embedded in 7 agent files. A rename silently breaks those agents.
+
+*Why it happens:* The user path for =references/= is in the global Claude install
+(=~/.claude/get-my-shit-done/references/=), not the project repo. Agents use
+absolute paths baked into their system prompts.
+
+*How to avoid:* Locked decision — metadata only, no restructure. Verify by
+grepping agent files for =@file= references before any file modification.
+
+*Warning signs:* Any proposed task that involves =mv=, =rename=, or new directory
+creation in =references/=.
+
+*** Pitfall 2: Property drawer placement in file-level frontmatter
+
+*What goes wrong:* For SUMMARY, PLAN, and VERIFICATION files, the GMSD
+convention places the property drawer at the very top of the file (before the
+first heading). For general documents being classified here, the drawer belongs
+under the first heading, not at file-level.
+
+*Why it happens:* The org-styleguide.md has two drawer placement rules — file-
+level (for GMSD-parsed files) and heading-level (for general docs). Confusion
+causes drawers to be misplaced.
+
+*How to avoid:* =docs/= files and =references/= files are general documents, not
+GMSD-parsed frontmatter files. Use heading-level drawers: the =:PROPERTIES:=
+drawer goes under the first heading (=* Title=), not at file top.
+
+*Warning signs:* A drawer appearing before =* Title= in files that are not PLAN,
+SUMMARY, or VERIFICATION.
+
+*** Pitfall 3: Orphaned links after USER-GUIDE.org deletion
+
+*What goes wrong:* =README.org= currently contains a link to =USER-GUIDE.org=
+(line 579: =[[file:docs/USER-GUIDE.org][User Guide]]=). Deleting =USER-GUIDE.org=
+without updating README creates a broken org link.
+
+*Why it happens:* DOCS-01 (split + delete) and DOCS-03 (README restructure) are
+independent plans that both touch the same link relationship.
+
+*How to avoid:* DOCS-03 (README restructure) must update all links to
+=USER-GUIDE.org= to point to the new =docs/reference.org= and =docs/howto.org=.
+If run in parallel, DOCS-03 must know the final filenames from DOCS-01. Since
+the filenames are locked decisions, parallel execution is safe — the executor
+for DOCS-03 can reference the locked filenames without waiting for DOCS-01.
+
+*Warning signs:* Any =[[file:docs/USER-GUIDE.org]]= link remaining in any file
+after phase completion.
+
+*** Pitfall 4: Over-emptying README
+
+*What goes wrong:* In zealous pursuit of a "clean tutorial quadrant" README, too
+much content is removed, leaving the README too sparse to be useful as an
+onboarding hub. The Commands section is reference, but a brief command table is
+valuable for first-time readers.
+
+*Why it happens:* The Diataxis rule "tutorial = learning-oriented" is interpreted
+as "remove all reference material," but a good tutorial includes enough reference
+context for the reader to act.
+
+*How to avoid:* The audit table above identifies what stays vs moves. "Brief"
+retention is the pattern for commands and configuration: keep enough for quick
+reference, link to =docs/reference.org= for the full schema. The Commands section
+in README is shorter than the User Guide's Command Reference, and that difference
+is intentional.
+
+** State of the Art
+
+| Old Approach                        | Current Approach                          | When Changed     | Impact                                  |
+|-------------------------------------+-------------------------------------------+------------------+-----------------------------------------|
+| Single =USER-GUIDE.org= (mixed)     | =docs/howto.org= + =docs/reference.org=   | Phase 4          | Clear quadrant boundary per file        |
+| =references/= unclassified          | =:diataxis_primary:= on every =references/= file | Phase 4   | Consistent with all templates (Phase 2) |
+| README: mixed tutorial + reference  | README as tutorial hub, links to =docs/=  | Phase 4          | Reader finds right quadrant immediately |
+| =diataxis-audit.org=: templates only | Extended to cover =references/= and docs  | Phase 4          | Complete audit of all GMSD artifacts    |
+
+** Open Questions
+
+1. *Nav header: styling and exact placement*
+   - What we know: locked format is =/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]=/
+   - What's unclear: whether the nav line goes before or after the document
+     subtitle/intro paragraph, and whether a horizontal rule precedes it
+   - Recommendation: place immediately after =#+options:=, then =-----=, then the
+     first heading; this mirrors the existing =docs/USER-GUIDE.org= pattern which
+     uses a horizontal rule before its first heading
+
+2. *=diataxis-audit.org= update scope*
+   - What we know: CONTEXT.org says "update =diataxis-audit.org= with a new
+     section covering =references/= classification"
+   - What's unclear: whether the new section also records the =docs/= split
+     and README reclassification, or only =references/=
+   - Recommendation: extend the audit to cover all three artifacts (docs split,
+     references classification, README reclassification) — a single audit
+     update is less fragmented than three partial updates
+
+** Validation Architecture
+
+*** Test Framework
+
+| Property         | Value                               |
+|------------------+-------------------------------------|
+| Framework        | Node.js built-in test runner (node:test) |
+| Config file      | None — invoked via npm test         |
+| Quick run command | =npm test=                         |
+| Full suite command | =npm test=                        |
+
+*** Phase Requirements to Test Map
+
+| Req ID  | Behavior                                                     | Test Type   | Automated Command | File Exists? |
+|---------+--------------------------------------------------------------+-------------+-------------------+--------------|
+| DOCS-01 | =docs/howto.org= and =docs/reference.org= exist with correct quadrant properties | smoke | =node --test tests/verify.test.cjs= (manual file check) | No — Wave 0 |
+| DOCS-01 | =docs/USER-GUIDE.org= does not exist after split             | smoke       | manual file check | No — Wave 0 |
+| DOCS-02 | Every =references/= file has =:diataxis_primary:= in header  | smoke       | manual file check | No — Wave 0 |
+| DOCS-03 | =README.org= has =:diataxis_primary: tutorial= property      | smoke       | manual file check | No — Wave 0 |
+| DOCS-03 | No =[[file:docs/USER-GUIDE.org]]= links remain in any file   | smoke       | =grep -r "USER-GUIDE" docs/ README.org= | No — Wave 0 |
+
+*Note:* Phase 4 is a pure documentation restructuring phase. All behaviors are
+structural (file existence, metadata presence, link absence). The existing test
+suite tests GMSD tooling behaviour, not documentation content. Automated
+verification for this phase is best executed as shell-level smoke checks in the
+executor's =<verify>= blocks rather than as additions to the test suite.
+
+*** Sampling Rate
+
+- *Per task commit:* Manual =<verify>= step in each PLAN.org task
+- *Per wave merge:* N/A — single wave
+- *Phase gate:* =grep= checks + manual review before =/gmsd:verify-work=
+
+*** Wave 0 Gaps
+
+- [ ] No test infrastructure additions required — verification is file-system
+  smoke checks embedded in executor =<verify>= blocks, not test suite additions
+- [ ] =diataxis-audit.org= update can be verified by reading the file; no
+  automated test covers audit content
+
+** Sources
+
+*** Primary (HIGH confidence)
+
+- Direct file reads of all artifacts audited — content is first-hand
+- =references/diataxis-condensed.md= — quadrant definitions applied in classification
+- =references/org-styleguide.md= — property drawer placement rules
+- =references/diataxis-audit.org= — established classification patterns from Phase 2
+
+*** Secondary (MEDIUM confidence)
+
+- =.planning/STATE.org= — decision history confirming USER-GUIDE split intent
+- =.planning/REQUIREMENTS.org= — requirement text for DOCS-01/02/03
+
+** Metadata
+
+*Confidence breakdown:*
+- Content audit: HIGH — all files read directly; no inference
+- Quadrant classification: HIGH — applying established Phase 2 pattern; all 18
+  =references/= files are unambiguously reference quadrant
+- Pitfalls: HIGH — drawer placement and link-breaking risks are known from prior
+  phase work; not speculative
+- Validation: MEDIUM — test approach is judgment call (smoke checks vs test suite
+  additions); test suite does not cover doc content
+
+*Research date:* [2026-03-02 Sun]
+*Valid until:* Indefinite — no external dependencies; findings are structural
+
+-----
+/Phase: 04-internal-docs/
+/Research completed: [2026-03-02 Sun]/

@@ -1,3 +1,12 @@
+# Requirements Archive: v1.0 GMSD Diataxis Integration
+
+**Archived:** 2026-03-03
+**Status:** SHIPPED
+
+For current requirements, see `.planning/REQUIREMENTS.org`.
+
+---
+
 #+title: Requirements: GMSD Diataxis Integration
 #+author: GMSD
 #+date: [2026-02-27]
@@ -24,18 +33,18 @@ Requirements for Diataxis documentation framework integration.
 
 - [X] *GAPS-01*: Formal audit document maps every existing template to a Diataxis
   quadrant and identifies underserved quadrants
-- [ ] *GAPS-02*: New tutorial template(s) exist for learning-oriented deliverables
+- [X] *GAPS-02*: New tutorial template(s) exist for learning-oriented deliverables
   (guided experiences for project onboarding)
-- [ ] *GAPS-03*: New how-to template(s) exist for task-oriented deliverables
+- [X] *GAPS-03*: New how-to template(s) exist for task-oriented deliverables
   (step-by-step guides for common GMSD workflows)
 
 *** Internal Docs
 
-- [ ] *DOCS-01*: USER-GUIDE.org is split into separate Diataxis-aligned documents
+- [X] *DOCS-01*: USER-GUIDE.org is split into separate Diataxis-aligned documents
   (tutorial, how-to, reference, explanation)
-- [ ] *DOCS-02*: Files in =references/= directory are classified by Diataxis
+- [X] *DOCS-02*: Files in =references/= directory are classified by Diataxis
   quadrant and reorganized accordingly
-- [ ] *DOCS-03*: README.org sections are aligned with Diataxis (tutorial-like
+- [X] *DOCS-03*: README.org sections are aligned with Diataxis (tutorial-like
   content separated from reference-like content)
 
 ** Future Requirements
@@ -72,15 +81,15 @@ Which phases cover which requirements. Updated during roadmap creation.
 #+NAME: tab:traceability
 | Requirement | Phase | Status  |
 |-------------+-------+---------|
-| CLASS-01    |     1 | Complete |
-| CLASS-02    |     2 | Complete |
-| CLASS-03    |     2 | Complete |
-| GAPS-01     |     2 | Complete |
-| GAPS-02     |     3 | Pending |
-| GAPS-03     |     3 | Pending |
-| DOCS-01     |     4 | Pending |
-| DOCS-02     |     4 | Pending |
-| DOCS-03     |     4 | Pending |
+| CLASS-01    |   1,5 | Complete |
+| CLASS-02    |   2,5 | Complete |
+| CLASS-03    |   2,5 | Complete |
+| GAPS-01     |   2,5 | Complete |
+| GAPS-02     |     3 | Complete |
+| GAPS-03     |     3 | Complete |
+| DOCS-01     |     4 | Complete |
+| DOCS-02     |     4 | Complete |
+| DOCS-03     |     4 | Complete |
 
 *Coverage:*
 - v1.0 requirements: 9 total
@@ -89,4 +98,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 -----
 /Requirements defined: 2026-02-27/
-/Last updated: 2026-02-28 — CLASS-03 marked complete after Phase 2 plan 02-02 execution/
+/Last updated: 2026-03-02 — Phase 4 (04-01, 04-02, 04-03): DOCS-01, DOCS-02, DOCS-03 promoted to Complete; all v1.0 requirements satisfied/

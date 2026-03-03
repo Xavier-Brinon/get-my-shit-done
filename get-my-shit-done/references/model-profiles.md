@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up model names per profile tier"
+---
+
 # Model Profiles
 
 Model profiles control which Claude model each GMSD agent uses. This allows balancing quality vs token spend.

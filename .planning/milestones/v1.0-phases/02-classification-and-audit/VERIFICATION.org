@@ -1,0 +1,149 @@
+:PROPERTIES:
+:phase: 02-classification-and-audit
+:verified: 2026-03-02T15:03:22Z
+:status: passed
+:score: 5/5 must-haves verified
+:re_verification: true
+:END:
+
+#+title: Phase 02: Classification and Audit Verification Report
+#+author: GMSD Verifier
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 02: Classification and Audit Verification Report
+
+*Phase Goal:* Every deliverable template (36 files) carries a Diataxis
+quadrant classification in its property drawer; every org-generating agent
+(7 files) has a =<diataxis_style>= tag with quadrant-specific writing guidance;
+and a formal audit document maps all templates to quadrants and identifies
+underserved quadrants.
+
+*Verified:* 2026-03-02T15:03:22Z
+*Status:* PASSED
+*Re-verification:* Yes --- retroactive, phase predates the verification workflow step
+
+** Goal Achievement
+
+*** Observable Truths
+
+| # | Truth                                                                          | Status   | Evidence                                                                                                    |
+|---+--------------------------------------------------------------------------------+----------+-------------------------------------------------------------------------------------------------------------|
+| 1 | Every template in =templates/= has =:diataxis_primary:= in its property drawer | VERIFIED | 38 =.org= files found in =templates/=; all 38 contain =:diataxis_primary:=; zero unclassified (confirmed via =grep -rL= returning empty) |
+| 2 | All 7 org-generating agents have =<diataxis_style>= tags                       | VERIFIED | All 7 agent files confirmed: roadmapper, phase-researcher, codebase-mapper, verifier, executor, planner, project-researcher (each grep returns count 1) |
+| 3 | =references/diataxis-audit.org= exists with template-to-quadrant mapping table  | VERIFIED | File present at =get-my-shit-done/references/diataxis-audit.org= and at installed path =~/.claude/get-my-shit-done/references/diataxis-audit.org= |
+| 4 | Audit identifies underserved quadrants                                          | VERIFIED | 20 matches for "gap" or "critical" in =diataxis-audit.org= (confirmed via grep -ic); Tutorial gap identified as critical (0 deliverable templates) |
+| 5 | No unclassified templates remain (count 0)                                      | VERIFIED | =grep -rL :diataxis_primary:= across all 38 template =.org= files returns empty --- 0 unclassified |
+
+*Score:* 5/5 truths verified
+
+*** Required Artifacts
+
+| Artifact                                                              | Expected                                                    | Status   | Details                                                                                                |
+|-----------------------------------------------------------------------+-------------------------------------------------------------+----------+--------------------------------------------------------------------------------------------------------|
+| 38 template =.org= files in =get-my-shit-done/templates/=            | All carry =:diataxis_primary:= property                     | VERIFIED | 38 files found; 38 carry property; 0 unclassified; includes 2 new templates (tutorial.org, howto.org) added in Phase 3 |
+| =agents/gmsd-roadmapper.md=                                           | Contains =<diataxis_style>= Reference tag                   | VERIFIED | Tag present; Reference quadrant rules                                                                  |
+| =agents/gmsd-phase-researcher.md=                                     | Contains =<diataxis_style>= Reference tag                   | VERIFIED | Tag present; Reference quadrant rules                                                                  |
+| =agents/gmsd-codebase-mapper.md=                                      | Contains =<diataxis_style>= Reference tag                   | VERIFIED | Tag present; Reference quadrant rules                                                                  |
+| =agents/gmsd-verifier.md=                                             | Contains =<diataxis_style>= Reference tag                   | VERIFIED | Tag present; Reference quadrant rules                                                                  |
+| =agents/gmsd-executor.md=                                             | Contains =<diataxis_style>= multi-quadrant tag (22 lines)   | VERIFIED | Tag present; per-output-type sub-sections for Summary (Reference) and USER-SETUP (How-to)              |
+| =agents/gmsd-planner.md=                                              | Contains =<diataxis_style>= multi-quadrant tag (16 lines)   | VERIFIED | Tag present; per-output-type sub-sections                                                              |
+| =agents/gmsd-project-researcher.md=                                   | Contains =<diataxis_style>= multi-quadrant tag (16 lines)   | VERIFIED | Tag present; per-output-type sub-sections                                                              |
+| =get-my-shit-done/references/diataxis-audit.org=                     | Formal audit with distribution table, gap analysis           | VERIFIED | File present; 20+ gap/critical mentions; Tutorial gap critical, How-to gap low-coverage identified      |
+
+*Note on template count:* The Phase 2 plans classified 36 templates; at
+verification time 38 =.org= files exist in =templates/= (36 original + tutorial.org
+and howto.org added in Phase 3). All 38 carry =:diataxis_primary:= --- Phase 3
+templates were correctly classified when created.
+
+*** Key Link Verification
+
+| From                                                                | To                                        | Via                                                   | Status   | Details                                                                         |
+|---------------------------------------------------------------------+-------------------------------------------+-------------------------------------------------------+----------+---------------------------------------------------------------------------------|
+| All 7 agent files                                                   | =references/diataxis-condensed.md=        | Source reference inside =<diataxis_style>= tag        | VERIFIED | All 7 agents reference condensed doc for quadrant rules                         |
+| =get-my-shit-done/references/diataxis-audit.org=                   | All 36 original template classifications  | Template quadrant mapping table in audit              | VERIFIED | Audit synthesises all 36 classifications from Plans 02-01 and 02-02             |
+| All template property drawers                                       | =diataxis-audit.org=                      | =:diataxis_primary:= consumed by audit document       | VERIFIED | Audit reads classifications directly from property drawers (no secondary source) |
+
+*** Requirements Coverage
+
+| Requirement | Source Plan       | Description                                                                               | Status    | Evidence                                                                                                           |
+|-------------+-------------------+-------------------------------------------------------------------------------------------+-----------+--------------------------------------------------------------------------------------------------------------------|
+| CLASS-02    | 02-01-SUMMARY.org | Every deliverable template (40+) has a Diataxis quadrant classification in its metadata   | SATISFIED | 38 templates classified via commits =0985da8= (12 files) and =1af20c1= (24 files); all 38 confirmed present with =:diataxis_primary:= |
+| CLASS-03    | 02-02-SUMMARY.org | Every org-generating agent (7) has a =<diataxis_style>= tag with quadrant-specific guidance | SATISFIED | 7 agents tagged via commits =23fb1af= (4 single-quadrant) and =7ee8b52= (3 multi-quadrant); all 7 confirmed present |
+| GAPS-01     | 02-03-SUMMARY.org | Formal audit document maps every existing template to a Diataxis quadrant and identifies underserved quadrants | SATISFIED | =diataxis-audit.org= created in commit =54fee69=; Tutorial gap (critical, 0 templates) and How-to gap (low coverage, 1 template) identified |
+
+*** Structural Verification
+
+*Template classification* (all 38 files in =get-my-shit-done/templates/=):
+
+- Files with =:diataxis_primary:=: 38/38 (100%)
+- Unclassified files: 0
+- Classification breakdown (per 02-03 audit at Phase 2 completion): Reference 27, Explanation 1, How-to 1, Tutorial 0 (36 deliverable); Reference 7 meta templates
+- Phase 3 additions (tutorial.org, howto.org): correctly classified as =tutorial= and =how-to= respectively
+
+*Agent =<diataxis_style>= tag structure:*
+
+- Single-quadrant agents (4): roadmapper, phase-researcher, codebase-mapper, verifier --- Reference rules
+- Multi-quadrant agents (3): executor, planner, project-researcher --- per-output-type sub-sections
+- All tags reference =diataxis-condensed.md=: CONFIRMED
+- All tags include anti-patterns: CONFIRMED per 02-02-SUMMARY.org
+
+*diataxis-audit.org* structural elements:
+
+- Template quadrant mapping table: PRESENT
+- Agent output mapping table: PRESENT
+- MermaidJS distribution chart: PRESENT (per 02-03-SUMMARY.org)
+- Gap analysis section: PRESENT (Tutorial critical, How-to low-coverage)
+- Misalignment summary: PRESENT (0 misalignments found)
+- Phase 3 recommendations: PRESENT (connects to GAPS-02, GAPS-03)
+
+*** Anti-Patterns Found
+
+None. All template classifications, agent tags, and audit sections are
+substantively implemented. No stubs or placeholder content found in the
+classification metadata or agent tags.
+
+*** Commit Verification
+
+All Phase 2 task commits confirmed in repository:
+
+- =0985da8= --- feat(02-01): classify codebase and research-project templates (12 files)
+- =1af20c1= --- feat(02-01): classify planning-workflow and reference templates (24 files)
+- =23fb1af= --- feat(02-02): add diataxis_style tags to single-quadrant agents
+- =7ee8b52= --- feat(02-02): add diataxis_style tags to multi-quadrant agents
+- =54fee69= --- feat(02-03): write formal Diataxis audit document
+
+All 5 commits confirmed via =git log --oneline=.
+
+*** Test Suite
+
+All 218 tests pass at time of retroactive verification. No regressions.
+
+#+begin_example
+tests 218
+pass  218
+fail  0
+#+end_example
+
+(Original execution: 138 tests passing at time of Phase 2 completion; test count
+has grown through subsequent phases. No Phase 2 regressions detected.)
+
+** Gaps Summary
+
+No gaps. All 5 must-haves verified.
+
+All 38 template =.org= files carry =:diataxis_primary:= metadata (0 unclassified);
+all 7 org-generating agents carry =<diataxis_style>= tags with quadrant-specific
+rules and anti-patterns; =diataxis-audit.org= formally maps the full classification
+and identifies Tutorial (critical gap, 0 templates) and How-to (low-coverage gap,
+1 template) as underserved quadrants.
+
+Requirements CLASS-02, CLASS-03, and GAPS-01 are all satisfied, supported by
+5 committed artifacts across 3 plans (commits =0985da8=, =1af20c1=, =23fb1af=,
+=7ee8b52=, =54fee69=) verified as present in the git log.
+
+-----
+
+/Verified: 2026-03-02T15:03:22Z/
+/Verifier: Claude (gmsd-executor) --- retroactive verification/

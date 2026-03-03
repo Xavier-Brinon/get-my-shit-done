@@ -1,0 +1,348 @@
+:PROPERTIES:
+:diataxis_primary: tutorial
+:diataxis_secondary: none
+:diataxis_rationale: Reader (new GMSD user) follows the generated tutorial to learn the GMSD workflow by completing one full phase cycle — discuss, plan, and execute — building understanding through doing rather than reading about the system.
+:END:
+
+#+title: Tutorial
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Tutorial Template
+
+Template for learning-oriented onboarding documents. Use this template
+when the goal is to teach the reader how GMSD works by guiding them
+through a complete, successful first experience.
+
+#+begin_comment
+Diataxis: Tutorial quadrant.
+Purpose: The reader has no specific goal yet. They are here to learn.
+The tutorial's job is to give them a successful, complete experience so
+they leave with confidence and a mental model. The author controls the
+path entirely.
+
+Use this template (not the how-to template) when:
+- The reader is new to GMSD
+- The reader wants to understand how the workflow feels before using it
+  on a real project
+- The goal is building confidence, not solving a specific problem
+#+end_comment
+
+<template>
+
+#+begin_src org
+,* Your First Phase with GMSD
+
+# Diataxis: Tutorial. Bookend 1 — "What you'll learn" sets expectations
+# and helps the reader decide whether to continue. Mirror these bullets
+# in the "What you learned" section at the end (past tense).
+
+,** What you'll learn
+
+By the end of this tutorial you will have:
+
+- Run your first =discuss-phase= conversation to set a phase scope
+- Generated your first =PLAN.org= with =plan-phase=
+- Executed that plan with =execute-phase= and seen commits land
+- Understood how the three commands fit together as one cycle
+
+You do not need to know anything about GMSD in advance. Follow each
+step in order — the tutorial is teacher-led.
+
+,** Prerequisites
+
+Before starting, make sure you have:
+
+- GMSD installed (see [[file:./user-setup.org][User Setup]] if not)
+- A project directory you want to work on (any project is fine)
+- Claude Code running in that directory
+
+That is all. You do not need a plan, a goal, or prior experience with
+documentation frameworks.
+
+# Diataxis: Steps are unconditional. Do not add "if you want to..."
+# branching. The reader follows the path you set. Each step produces a
+# visible result.
+
+,** Step 1: Discuss your first phase
+
+Open Claude Code in your project directory and run:
+
+#+begin_src
+/gmsd:discuss-phase
+#+end_src
+
+Claude will ask you a few questions about what you want to build or
+improve in this phase. Answer naturally — there are no wrong answers.
+Claude is gathering scope, not evaluating your plan.
+
+When the conversation ends, Claude saves a =CONTEXT.org= file in
+=.planning/phases/=. That file captures the decisions from your
+conversation so the next steps can use them.
+
+,*** Milestone
+
+Great — you have just completed the first step of the GMSD cycle.
+Your phase scope is now captured and Claude can move forward without
+asking the same questions again.
+
+,** Step 2: Plan the phase
+
+With your context saved, run:
+
+#+begin_src
+/gmsd:plan-phase
+#+end_src
+
+Claude reads your =CONTEXT.org=, researches your codebase, and
+generates a =PLAN.org= file containing concrete tasks. This usually
+takes a minute or two.
+
+When it finishes, open =.planning/phases/XX-name/XX-01-PLAN.org= and
+read through the tasks. You do not need to edit anything — the plan
+is ready to execute.
+
+,*** Milestone
+
+Well done. You now have your first machine-generated plan. Every task
+in that file is something Claude can execute autonomously.
+
+,** Step 3: Execute the plan
+
+Run the execute command:
+
+#+begin_src
+/gmsd:execute-phase
+#+end_src
+
+Claude works through each task in the plan, commits each one with a
+structured message, and writes a =SUMMARY.org= when done. Watch the
+terminal output — you will see each task complete in real time.
+
+When execution finishes, run:
+
+#+begin_src bash
+git log --oneline -10
+#+end_src
+
+You will see a series of commits, each corresponding to one task from
+your plan.
+
+,*** Milestone
+
+Excellent — you have just completed a full GMSD cycle. Discuss, plan,
+execute: three commands, one phase of real work done and committed.
+
+# Diataxis: Bookend 2 — "What you learned" mirrors "What you'll learn"
+# in past tense. This gives the reader a sense of achievement and
+# confirms they got what was promised at the start.
+
+,** What you learned
+
+You have just completed your first full phase with GMSD. Specifically:
+
+- You ran =discuss-phase= to capture a phase scope in =CONTEXT.org=
+- You ran =plan-phase= to generate an executable task list in =PLAN.org=
+- You ran =execute-phase= to implement and commit each task automatically
+- You saw how the three commands connect into one repeatable cycle
+
+Every future phase uses this same pattern. The commands adapt to your
+project; the cycle stays the same.
+
+,** Where to go next
+
+- Run another phase: =/gmsd:discuss-phase= starts the next one
+- Read the how-to guides for specific tasks (e.g., how to resume a
+  paused plan, how to add a custom template)
+- Explore =.planning/= to see everything GMSD generated for you
+
+-----
+
+/Tutorial complete./
+#+end_src
+
+</template>
+
+<good_examples>
+
+*Worked example: a personal task tracker project*
+
+This is what a filled-in tutorial looks like for a real (but generic)
+project. The reader is building a simple task tracker from scratch.
+
+#+begin_src org
+,* Your First Phase with GMSD
+
+,** What you'll learn
+
+By the end of this tutorial you will have:
+
+- Run your first =discuss-phase= conversation to set a phase scope
+- Generated your first =PLAN.org= with =plan-phase=
+- Executed that plan with =execute-phase= and seen commits land
+- Understood how the three commands fit together as one cycle
+
+,** Prerequisites
+
+- GMSD installed
+- A project directory (we will use a task tracker as the example)
+- Claude Code running in that directory
+
+,** Step 1: Discuss your first phase
+
+Open Claude Code in your task tracker directory and run:
+
+#+begin_src
+/gmsd:discuss-phase
+#+end_src
+
+Claude asks: "What do you want to build or improve in this phase?"
+
+You answer: "I want to add the ability to create and list tasks from
+the command line."
+
+Claude asks a few follow-up questions — CLI output format, storage
+approach, whether you want due dates. Answer each one. When the
+conversation ends, you see:
+
+#+begin_example
+Context saved: .planning/phases/01-task-creation/01-CONTEXT.org
+#+end_example
+
+,*** Milestone
+
+Great — you have just completed the first step of the GMSD cycle.
+Your phase scope is captured and Claude will not ask the same
+questions again.
+
+,** Step 2: Plan the phase
+
+Run:
+
+#+begin_src
+/gmsd:plan-phase
+#+end_src
+
+Claude reads your context, scans your codebase, and generates
+=.planning/phases/01-task-creation/01-01-PLAN.org= with tasks like:
+
+- Task 1: Create ~task.js~ data model
+- Task 2: Implement ~task add~ command
+- Task 3: Implement ~task list~ command
+- Task 4: Write tests
+
+,*** Milestone
+
+Well done. You now have your first machine-generated plan. Every task
+is something Claude can execute without further input from you.
+
+,** Step 3: Execute the plan
+
+Run:
+
+#+begin_src
+/gmsd:execute-phase
+#+end_src
+
+You see each task complete in the terminal:
+
+#+begin_example
+feat(01-01): create task data model
+feat(01-01): implement task add command
+feat(01-01): implement task list command
+test(01-01): add task command tests
+docs(01-01): complete task-creation plan
+#+end_example
+
+Run ~git log --oneline -6~ and you see exactly those commits.
+
+,*** Milestone
+
+Excellent — you have just completed a full GMSD cycle. Three
+commands, one phase of working code committed and summarised.
+
+,** What you learned
+
+You have just completed your first full phase with GMSD:
+
+- You ran =discuss-phase= to capture phase scope in =CONTEXT.org=
+- You ran =plan-phase= to generate an executable task list
+- You ran =execute-phase= to implement and commit each task
+- You saw how the three commands connect into a repeatable cycle
+
+Every future phase uses this same pattern.
+
+,** Where to go next
+
+- Run another phase: =/gmsd:discuss-phase= starts the next one
+- Try =gmsd:resume-work= if you need to continue across sessions
+- Explore =.planning/= to see everything GMSD generated
+
+-----
+
+/Tutorial complete./
+#+end_src
+
+</good_examples>
+
+<guidelines>
+
+*Authoring guidance for agents generating tutorials.*
+
+,** Purpose of this template
+
+Use this template when generating a learning-oriented document where the
+reader has no specific task goal yet. The tutorial teaches by doing: the
+reader follows a complete, successful path and leaves with a working
+mental model.
+
+*Disambiguation test:* Does the reader know what they want to achieve
+before they start? If yes, they want a how-to guide. If no, they want
+this tutorial.
+
+| Dimension     | Tutorial (this template)       | How-to                        |
+|---------------+--------------------------------+-------------------------------|
+| Reader goal   | None yet — follows the teacher | Specific — reader knows       |
+| Competence    | None assumed                   | Competence assumed            |
+| Path control  | Author controls                | Reader controls               |
+
+,** Required structural elements
+
+Every tutorial generated from this template must contain:
+
+- *Bookend 1* — "What you'll learn" at the top with bullet list of
+  concrete outcomes
+- *Prerequisites* — short, specific, no speculative items
+- *Steps* — imperative, sequential, no branching. Each step produces a
+  visible result
+- *Milestone acknowledgements* — warm, brief, between major steps
+- *Bookend 2* — "What you learned" at the bottom mirroring bookend 1
+  in past tense
+
+,** Tone rules
+
+- Warm, encouraging, congratulatory at milestones
+- Steps are unconditional: "Run this command", not "If you want to run..."
+- Do not explain why things work inside the tutorial — defer rationale
+  to comments or Explanation documents
+- Do not mix how-to framing into the tutorial
+
+,** Org-mode conventions for tutorials
+
+- Use org-mode comments (=# single line= or =#+begin_comment= ...
+  =#+end_comment=) for guidance text that should not appear when exported
+- Use ==verbatim== for commands and paths, =~code~= for code fragments
+- Do not use backticks anywhere
+- Wrap prose at 78 characters
+- Use =-= as the bullet character
+- Title case for =*= headings; sentence case for =**= and below
+
+,** Anti-patterns
+
+- Conditional steps ("if you want to...") — replace with unconditional
+  imperatives
+- Theory or rationale inline — move to org comments or Explanation docs
+- How-to framing ("when you need to...") — keep tutorial teacher-led
+- Branching paths — tutorials are linear; edge cases go in how-to guides
+
+</guidelines>

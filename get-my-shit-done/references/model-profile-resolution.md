@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up model selection logic per profile"
+---
+
 # Model Profile Resolution
 
 Resolve model profile once at the start of orchestration, then use it for all Task spawns.

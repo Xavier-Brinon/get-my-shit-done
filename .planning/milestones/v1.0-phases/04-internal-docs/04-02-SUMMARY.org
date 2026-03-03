@@ -1,0 +1,137 @@
+:PROPERTIES:
+:phase: 04-internal-docs
+:plan: 02
+:subsystem: documentation
+:tags: [diataxis, classification, metadata, references]
+:requires: [{phase: 04-01, provides: docs-split-and-readme-reclassification}]
+:provides: [diataxis-metadata-on-all-18-references-files, extended-diataxis-audit-with-references-section]
+:affects: [04-03, any-phase-reading-references-files]
+:tech-stack.added: []
+:tech-stack.patterns: ["YAML frontmatter for markdown reference files", "PROPERTIES drawer under first heading for org reference files"]
+:key-files.created: []
+:key-files.modified: [get-my-shit-done/references/diataxis.org, get-my-shit-done/references/diataxis-audit.org, get-my-shit-done/references/org-styleguide-full.org, get-my-shit-done/references/diataxis-condensed.md, get-my-shit-done/references/org-styleguide.md, get-my-shit-done/references/checkpoints.md, get-my-shit-done/references/continuation-format.md, get-my-shit-done/references/decimal-phase-calculation.md, get-my-shit-done/references/git-integration.md, get-my-shit-done/references/git-planning-commit.md, get-my-shit-done/references/model-profile-resolution.md, get-my-shit-done/references/model-profiles.md, get-my-shit-done/references/phase-argument-parsing.md, get-my-shit-done/references/planning-config.md, get-my-shit-done/references/questioning.md, get-my-shit-done/references/tdd.md, get-my-shit-done/references/ui-brand.md, get-my-shit-done/references/verification-patterns.md]
+:key-decisions: ["All 18 references/ files classified as reference quadrant — correct by design, agent knowledge base is consulted not read", "PROPERTIES drawer placed under first * heading in org files (not file-level) — general documents, not GMSD-parsed frontmatter", "Installed copy (~/.claude) updated alongside project source to keep both in sync"]
+:patterns-established: ["reference-only content in references/ directory — no how-to/tutorial/explanation files expected", "dual-location update pattern: project source + installed copy updated together"]
+:requirements-completed: [DOCS-02]
+:duration: 5min
+:completed: 2026-03-02
+:END:
+
+#+title: Plan 04-02: Classify references/ Files by Diataxis Quadrant Summary
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Plan 04-02: Classify references/ Files by Diataxis Quadrant Summary
+
+*Diataxis =reference= metadata added to all 18 =references/= files (3 org +
+15 md) and =diataxis-audit.org= extended with references/ classification
+table and Phase 4 artifact changes section*
+
+** Performance
+
+- *Duration:* 5min
+- *Started:* 2026-03-02T19:28:00Z
+- *Completed:* 2026-03-02T19:33:42Z
+- *Tasks:* 2
+- *Files modified:* 18 references/ files + 1 audit extension
+
+** Accomplishments
+
+- All 18 =references/= files carry =diataxis_primary: reference= metadata
+- Org files (3) received =:PROPERTIES:= drawers under their first =*= heading
+- Markdown files (15) received YAML frontmatter blocks at file top
+- =diataxis-audit.org= extended with two new sections: Phase 4 artifact
+  changes and references/ directory classification table
+- No files moved or renamed — path stability maintained
+- 218 tests passing, 0 regressions
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Add Diataxis metadata to all 18 references/ files* - ~5058edc~ (feat)
+2. *Task 2: Extend diataxis-audit.org with references/ classification* - ~14225ff~ (feat)
+
+*Plan metadata:* TBD (docs: complete plan)
+
+** Files Created/Modified
+
+- =get-my-shit-done/references/diataxis.org= - PROPERTIES drawer under =* Introduction=
+- =get-my-shit-done/references/diataxis-audit.org= - PROPERTIES drawer + new audit sections
+- =get-my-shit-done/references/org-styleguide-full.org= - PROPERTIES drawer under =* Introduction=
+- =get-my-shit-done/references/diataxis-condensed.md= - YAML frontmatter added
+- =get-my-shit-done/references/org-styleguide.md= - YAML frontmatter added
+- =get-my-shit-done/references/checkpoints.md= - YAML frontmatter added
+- =get-my-shit-done/references/continuation-format.md= - YAML frontmatter added
+- =get-my-shit-done/references/decimal-phase-calculation.md= - YAML frontmatter added
+- =get-my-shit-done/references/git-integration.md= - YAML frontmatter added
+- =get-my-shit-done/references/git-planning-commit.md= - YAML frontmatter added
+- =get-my-shit-done/references/model-profile-resolution.md= - YAML frontmatter added
+- =get-my-shit-done/references/model-profiles.md= - YAML frontmatter added
+- =get-my-shit-done/references/phase-argument-parsing.md= - YAML frontmatter added
+- =get-my-shit-done/references/planning-config.md= - YAML frontmatter added
+- =get-my-shit-done/references/questioning.md= - YAML frontmatter added
+- =get-my-shit-done/references/tdd.md= - YAML frontmatter added
+- =get-my-shit-done/references/ui-brand.md= - YAML frontmatter added
+- =get-my-shit-done/references/verification-patterns.md= - YAML frontmatter added
+
+** Decisions Made
+
+- All 18 =references/= files classified as reference quadrant. This is
+  expected and intentional — =references/= is the agent knowledge base where
+  every file is consulted for specific facts, not read linearly.
+- PROPERTIES drawers placed under the first =*= heading in org files, not at
+  file level. These are general documents, not GMSD-parsed frontmatter files
+  (which place drawers before the first heading by GMSD convention).
+- Installed copy at =~/.claude/get-my-shit-done/references/= updated alongside
+  project source to keep both in sync during development.
+
+** Deviations from Plan
+
+None - plan executed exactly as written.
+
+The plan correctly anticipated that all 15 markdown files lacked existing
+YAML frontmatter and all 3 org files needed =:PROPERTIES:= drawers under
+their first headings. No structural surprises.
+
+** Issues Encountered
+
+One deviation from expected workflow: the =references/= files exist in two
+locations — the project source at =get-my-shit-done/references/= and the
+installed copy at =~/.claude/get-my-shit-done/references/=. Both required
+identical updates. The plan only mentioned the installed path, but git
+commits track the project source. Applied changes to both locations to
+maintain consistency.
+
+** Architectural Observations
+
+- *Emergent patterns:* The =reference-only= content rule for =references/= is
+  an architectural invariant: the agent knowledge base exclusively serves the
+  consulted-not-read use case. This is the Common Closure Principle applied
+  to documentation directories — files that change for the same reason
+  (agents needing lookup facts) belong together, and the directory label
+  enforces the constraint.
+- *Coupling discovered:* Two-location file management (project source +
+  installed copy) creates a synchronisation obligation. Changes to
+  =references/= files must be applied in both places. This is a known
+  trade-off of the install model; the project source is the source of truth,
+  the installed copy is the runtime copy.
+- *Boundary assessment:* The distinction between org files (PROPERTIES drawer
+  under first heading) and markdown files (YAML frontmatter at top) reflects
+  the correct format boundary — each format's metadata convention is
+  respected without forcing uniformity.
+- *ADR candidates:* None from this plan. The metadata format choices (YAML
+  for md, PROPERTIES for org) were decided in earlier phases.
+
+** Next Phase Readiness
+
+- All =references/= files now carry Diataxis metadata — DOCS-02 satisfied
+- =diataxis-audit.org= now covers all GMSD artifacts: templates, agents,
+  references, docs, and README
+- Phase 4 Plan 03 can proceed with any remaining internal doc work
+
+-----
+/Phase: 04-internal-docs/
+/Completed: 2026-03-02/

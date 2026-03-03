@@ -1,0 +1,232 @@
+:PROPERTIES:
+:phase: 04-internal-docs
+:plan: 02
+:type: execute
+:wave: 1
+:depends_on: []
+:files_modified: [references/diataxis.org, references/diataxis-audit.org, references/org-styleguide-full.org, references/diataxis-condensed.md, references/org-styleguide.md, references/checkpoints.md, references/continuation-format.md, references/decimal-phase-calculation.md, references/git-integration.md, references/git-planning-commit.md, references/model-profile-resolution.md, references/model-profiles.md, references/phase-argument-parsing.md, references/planning-config.md, references/questioning.md, references/tdd.md, references/ui-brand.md, references/verification-patterns.md]
+:autonomous: true
+:requirements: [DOCS-02]
+:must_haves.truths: [Every references/ file has diataxis_primary metadata, Org files use PROPERTIES drawers, Markdown files use YAML frontmatter, No files are moved or renamed, diataxis-audit.org is extended with references/ classification section, All 18 files classified as reference quadrant]
+:must_haves.artifacts.0.path: references/diataxis-audit.org
+:must_haves.artifacts.0.provides: Extended audit with references/ classification section
+:must_haves.artifacts.0.contains: references/ classification
+:must_haves.key_links.0.from: references/diataxis-audit.org
+:must_haves.key_links.0.to: references/diataxis-condensed.md
+:must_haves.key_links.0.via: Audit records classification of all references/ files
+:must_haves.key_links.0.pattern: diataxis_primary: reference on all 18 files
+:END:
+
+#+title: Plan 04-02: Classify references/ Files by Diataxis Quadrant
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Plan 04-02: Classify references/ Files by Diataxis Quadrant
+
+Adds =:diataxis_primary:= metadata to all 18 files in =references/=. Org files
+receive =:PROPERTIES:= drawers; markdown files receive YAML frontmatter blocks.
+No files are moved or renamed (locked decision: path stability for agent =@file=
+references). Extends =diataxis-audit.org= with a new section covering the
+=references/= classification.
+
+<objective>
+Add Diataxis quadrant classification metadata to every file in =references/=
+and extend the formal audit document to record this classification.
+
+Purpose: DOCS-02 requires all =references/= files to carry explicit Diataxis
+quadrant labels. The Phase 2 audit classified templates and agents but not the
+=references/= directory itself. This plan completes the coverage.
+
+Output: 18 files with Diataxis metadata (3 org + 15 md), 1 audit document
+extended with a new section.
+</objective>
+
+<execution_context>
+@/Users/xavierbrinon/.claude/get-my-shit-done/workflows/execute-plan.md
+@/Users/xavierbrinon/.claude/get-my-shit-done/templates/summary.org
+</execution_context>
+
+<context>
+@.planning/PROJECT.org
+@.planning/ROADMAP.org
+@.planning/STATE.org
+@.planning/phases/04-internal-docs/04-CONTEXT.org
+@.planning/phases/04-internal-docs/04-RESEARCH.org
+
+Key references (read these before writing):
+@/Users/xavierbrinon/.claude/get-my-shit-done/references/diataxis-audit.org (audit to extend)
+@/Users/xavierbrinon/.claude/get-my-shit-done/references/diataxis-condensed.md (quadrant definitions)
+@/Users/xavierbrinon/.claude/get-my-shit-done/references/org-styleguide.md (org-mode conventions)
+
+<interfaces>
+*Org files* (3 files) receive a property drawer under their first =*= heading:
+
+#+begin_src org
+* Document Title
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader looks up [what the reader looks up]
+:END:
+#+end_src
+
+*Markdown files* (15 files) receive a YAML frontmatter block at the top. If the
+file already has a YAML frontmatter block (=---= delimiters), add the Diataxis
+fields to the existing block. If no frontmatter exists, add one:
+
+#+begin_src yaml
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Reader looks up [what the reader looks up]"
+---
+#+end_src
+
+*Important:* Do NOT move, rename, or restructure any files. Metadata only.
+Agent =@file= references use absolute paths and will break if files move.
+</interfaces>
+</context>
+
+<tasks>
+
+<task type="auto">
+  <name>Task 1: Add Diataxis metadata to all 18 references/ files</name>
+  <files>references/diataxis.org, references/diataxis-audit.org, references/org-styleguide-full.org, references/diataxis-condensed.md, references/org-styleguide.md, references/checkpoints.md, references/continuation-format.md, references/decimal-phase-calculation.md, references/git-integration.md, references/git-planning-commit.md, references/model-profile-resolution.md, references/model-profiles.md, references/phase-argument-parsing.md, references/planning-config.md, references/questioning.md, references/tdd.md, references/ui-brand.md, references/verification-patterns.md</files>
+  <action>
+Add Diataxis quadrant classification to each file. All 18 files are reference
+quadrant (this is expected and correct --- =references/= is the agent knowledge
+base; all files are consulted for specific facts, not read linearly).
+
+*Important path note:* The =references/= directory is located at
+=~/.claude/get-my-shit-done/references/=, not in the project repo root. All
+file paths below are relative to that location.
+
+*3 Org files --- add =:PROPERTIES:= drawer under first heading:*
+
+1. =diataxis.org= --- add under first =*= heading:
+   - =:diataxis_primary: reference=
+   - =:diataxis_secondary: none=
+   - =:diataxis_rationale: Reader looks up quadrant definitions and writing rules=
+
+2. =diataxis-audit.org= --- add under first =*= heading:
+   - =:diataxis_primary: reference=
+   - =:diataxis_secondary: none=
+   - =:diataxis_rationale: Reader looks up template-to-quadrant mapping and audit results=
+
+3. =org-styleguide-full.org= --- add under first =*= heading:
+   - =:diataxis_primary: reference=
+   - =:diataxis_secondary: none=
+   - =:diataxis_rationale: Reader looks up org-mode syntax rules and conventions=
+
+*15 Markdown files --- add or extend YAML frontmatter:*
+
+For each file, if YAML frontmatter already exists (=---= at line 1), insert
+the three Diataxis fields before the closing =---=. If no frontmatter exists,
+add a new block at the very top.
+
+| File                          | Rationale                                                      |
+|-------------------------------+----------------------------------------------------------------|
+| =diataxis-condensed.md=       | Agent looks up quadrant rules for generating documents         |
+| =org-styleguide.md=           | Agent looks up org-mode rules for generating documents         |
+| =checkpoints.md=              | Agent looks up checkpoint rules and golden rules               |
+| =continuation-format.md=      | Agent looks up session continuation format and fields          |
+| =decimal-phase-calculation.md= | Agent looks up insert-phase decimal numbering algorithm        |
+| =git-integration.md=          | Agent looks up commit conventions and git strategy             |
+| =git-planning-commit.md=      | Agent looks up planning commit format and scope prefixes       |
+| =model-profile-resolution.md= | Agent looks up model selection logic per profile               |
+| =model-profiles.md=           | Agent looks up model names per profile tier                    |
+| =phase-argument-parsing.md=   | Agent looks up phase argument parsing rules                    |
+| =planning-config.md=          | Agent looks up config.json schema and field semantics          |
+| =questioning.md=              | Agent looks up question structure for discuss-phase            |
+| =tdd.md=                      | Agent looks up TDD patterns and test-first rules               |
+| =ui-brand.md=                 | Agent looks up brand colours, typography, and component style  |
+| =verification-patterns.md=    | Agent looks up verification rules per artifact type            |
+
+*Anti-patterns to avoid:*
+- Do NOT place org property drawers at file-level (before first heading) ---
+  these are general documents, not GMSD-parsed frontmatter files
+- Do NOT move or rename any file
+- Do NOT change existing content --- metadata additions only
+  </action>
+  <verify>
+All org files classified: =grep "diataxis_primary: reference" ~/.claude/get-my-shit-done/references/diataxis.org ~/.claude/get-my-shit-done/references/diataxis-audit.org ~/.claude/get-my-shit-done/references/org-styleguide-full.org=
+Sample md files classified: =grep "diataxis_primary: reference" ~/.claude/get-my-shit-done/references/checkpoints.md ~/.claude/get-my-shit-done/references/tdd.md ~/.claude/get-my-shit-done/references/ui-brand.md=
+Count all classified files: =grep -rl "diataxis_primary" ~/.claude/get-my-shit-done/references/= returns 18 files
+No files moved: =ls ~/.claude/get-my-shit-done/references/ | wc -l= returns 18
+No regressions: =npm test=
+  </verify>
+  <done>
+All 18 =references/= files have =diataxis_primary: reference= metadata. Org
+files use =:PROPERTIES:= drawers under their first heading. Markdown files use
+YAML frontmatter blocks. No files were moved or renamed.
+  </done>
+</task>
+
+<task type="auto">
+  <name>Task 2: Extend diataxis-audit.org with references/ classification</name>
+  <files>references/diataxis-audit.org</files>
+  <action>
+Add a new section to =~/.claude/get-my-shit-done/references/diataxis-audit.org=
+recording the =references/= file classification. This extends the Phase 2 audit
+to cover all GMSD artifacts.
+
+*New section:* Add after the existing audit content (after the Recommendations
+Status section, before the file footer). The section should include:
+
+1. A =** References directory classification= heading (or similar)
+2. A table listing all 18 files, their format (org/md), their primary quadrant
+   (all reference), and a brief rationale
+3. A note that uniform reference classification is expected and intentional ---
+   =references/= is the agent knowledge base where all files are consulted for
+   specific facts
+4. Coverage summary: 18/18 files classified, all reference quadrant, no gaps
+   (no how-to, tutorial, or explanation files expected in =references/=)
+
+Also add a brief note about the =docs/= split (howto.org and reference.org) and
+README.org reclassification from this phase, so the audit captures all Phase 4
+artifact changes in one place.
+
+*Formatting:*
+- Use org-mode table syntax with =#+CAPTION:= and =#+NAME:=
+- Follow the existing audit document's formatting conventions
+- Keep the section concise --- this is a reference lookup, not explanation
+  </action>
+  <verify>
+Section exists: =grep "references/" ~/.claude/get-my-shit-done/references/diataxis-audit.org=
+Table exists: =grep -c "diataxis_primary" ~/.claude/get-my-shit-done/references/diataxis-audit.org= returns 18+
+Phase 4 coverage noted: =grep -i "phase 4\|internal docs" ~/.claude/get-my-shit-done/references/diataxis-audit.org=
+No regressions: =npm test=
+  </verify>
+  <done>
+=diataxis-audit.org= extended with a new section covering all 18 =references/=
+files, the =docs/= split, and README.org reclassification. The audit now covers
+all GMSD artifacts: templates, agents, references, docs, and README.
+  </done>
+</task>
+
+</tasks>
+
+<verification>
+Full plan verification:
+- =grep -rl "diataxis_primary" ~/.claude/get-my-shit-done/references/= returns 18 files
+- =grep "diataxis_primary: reference" ~/.claude/get-my-shit-done/references/diataxis.org= confirms org classification
+- =grep "diataxis_primary: reference" ~/.claude/get-my-shit-done/references/checkpoints.md= confirms md classification
+- =ls ~/.claude/get-my-shit-done/references/ | wc -l= returns 18 (no files moved or added)
+- =grep "references/" ~/.claude/get-my-shit-done/references/diataxis-audit.org= confirms audit extended
+- =npm test= passes (no regressions)
+</verification>
+
+<success_criteria>
+- All 18 =references/= files have =diataxis_primary: reference= metadata
+- Org files use =:PROPERTIES:= drawers under first heading
+- Markdown files use YAML frontmatter
+- No files moved or renamed
+- =diataxis-audit.org= extended with references/ classification section
+- Existing test suite passes
+</success_criteria>
+
+<output>
+After completion, create =.planning/phases/04-internal-docs/04-02-SUMMARY.org=
+</output>

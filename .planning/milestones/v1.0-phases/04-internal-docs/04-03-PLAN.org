@@ -1,0 +1,255 @@
+:PROPERTIES:
+:phase: 04-internal-docs
+:plan: 03
+:type: execute
+:wave: 1
+:depends_on: []
+:files_modified: [README.org]
+:autonomous: true
+:requirements: [DOCS-03]
+:must_haves.truths: [README.org has diataxis_primary: tutorial property, Command tables moved to docs/reference.org, Configuration schema moved to docs/reference.org, Why Org-mode and Why ADRs sections remain in README, Getting started content remains in README, README links to docs/howto.org and docs/reference.org, No USER-GUIDE.org links remain in README]
+:must_haves.artifacts.0.path: README.org
+:must_haves.artifacts.0.provides: Tutorial-quadrant onboarding hub with links to docs/
+:must_haves.artifacts.0.contains: diataxis_primary: tutorial
+:must_haves.key_links.0.from: README.org
+:must_haves.key_links.0.to: docs/reference.org
+:must_haves.key_links.0.via: Org file link for command and configuration detail
+:must_haves.key_links.0.pattern: [[file:docs/reference.org]]
+:must_haves.key_links.1.from: README.org
+:must_haves.key_links.1.to: docs/howto.org
+:must_haves.key_links.1.via: Org file link for workflow procedures and troubleshooting
+:must_haves.key_links.1.pattern: [[file:docs/howto.org]]
+:END:
+
+#+title: Plan 04-03: Align README.org with Diataxis Quadrants
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Plan 04-03: Align README.org with Diataxis Quadrants
+
+Restructures =README.org= as a tutorial-quadrant onboarding hub. Moves dense
+reference content (full command tables, full configuration schema) to
+=docs/reference.org= and replaces them with brief summaries linking out. Retains
+"Why" explanation sections, getting-started tutorial, and all onboarding content.
+Updates the =[[file:docs/USER-GUIDE.org][User Guide]]= link to point to the new
+split files.
+
+<objective>
+Transform =README.org= from a mixed tutorial/reference document into a clean
+tutorial-quadrant onboarding hub. Move reference-heavy sections to
+=docs/reference.org=, keep tutorial and explanation content, add Diataxis
+classification, and fix the USER-GUIDE.org link.
+
+Purpose: DOCS-03 requires README.org to separate tutorial-like getting-started
+content from reference-like feature descriptions. The current README mixes both,
+making it hard for readers to find the right type of information.
+
+Output: A restructured =README.org= with =:diataxis_primary: tutorial=,
+briefer command/config sections with links to full reference.
+</objective>
+
+<execution_context>
+@/Users/xavierbrinon/.claude/get-my-shit-done/workflows/execute-plan.md
+@/Users/xavierbrinon/.claude/get-my-shit-done/templates/summary.org
+</execution_context>
+
+<context>
+@.planning/PROJECT.org
+@.planning/ROADMAP.org
+@.planning/STATE.org
+@.planning/phases/04-internal-docs/04-CONTEXT.org
+@.planning/phases/04-internal-docs/04-RESEARCH.org
+@README.org (current content to restructure)
+
+Key references:
+@/Users/xavierbrinon/.claude/get-my-shit-done/references/diataxis-condensed.md (quadrant definitions)
+@/Users/xavierbrinon/.claude/get-my-shit-done/references/org-styleguide.md (org-mode conventions)
+
+<interfaces>
+Content disposition (from RESEARCH.org README audit):
+
+*Stay in README:*
+- "What changed from upstream GSD" table (onboarding context)
+- "Why Org-mode?" and "Why ADRs?" (locked: explanation narrative for onboarding)
+- "Upstream GSD" (context)
+- "Who this is for" (onboarding)
+- "Getting started" (tutorial core: install, verify, staying updated,
+  non-interactive install, dev install, skip-permissions, granular permissions)
+- "Recommended workflow: worktrees" (onboarding concept, brief)
+- "How it works" steps 1-6 (tutorial narrative, abridged: reduce detail, link
+  to reference.org for full command tables)
+- Quick mode (brief)
+- "Why it works" (explanation, stays)
+- "Security" (brief safety note, stays)
+- "Troubleshooting" (retain minimal entry, link to howto.org)
+- Community ports, star history, license (standard footer)
+
+*Move to docs/reference.org:*
+- "Commands" section (full tables) --- replace with brief summary + link
+- "Configuration" section (full schema + tables) --- replace with brief
+  summary + link
+
+*Links to update:*
+- =[[file:docs/USER-GUIDE.org][User Guide]]= (line 579) --- replace with links
+  to =docs/reference.org= and =docs/howto.org=
+
+The property drawer goes under the first =*= heading (the document title =GET
+MY SHIT DONE (GMSD)= should become a =*= heading, or add one if none exists).
+</interfaces>
+</context>
+
+<tasks>
+
+<task type="auto">
+  <name>Task 1: Restructure README.org as tutorial-quadrant onboarding hub</name>
+  <files>README.org</files>
+  <action>
+Restructure =README.org= to achieve a clean tutorial-quadrant classification.
+
+*Step 1: Add Diataxis property drawer*
+
+The current README has no =*= level heading. Add one after the =#+options:=
+line, with a property drawer:
+
+#+begin_src org
+* GET MY SHIT DONE (GMSD)
+:PROPERTIES:
+:diataxis_primary: tutorial
+:diataxis_secondary: explanation
+:diataxis_rationale: Reader follows the README to go from zero to running GMSD; Why sections provide understanding context
+:END:
+#+end_src
+
+Move the existing introductory paragraph (fork description, badges) under this
+heading.
+
+*Step 2: Replace Commands section with brief summary*
+
+The current "Commands" section (lines 514-573) has four full command tables.
+Replace with a condensed version that:
+- Keeps only the "Core workflow" table (8 commands --- this is valuable for
+  first-time readers)
+- Removes the Navigation, Phase management, Session, and Utilities tables
+- Adds a link: "For the full command reference including navigation, phase
+  management, session, and utility commands, see
+  =[[file:docs/reference.org][User Guide --- Reference]]=."
+
+*Step 3: Replace Configuration section with brief summary*
+
+The current "Configuration" section (lines 577-643) has the full schema and
+multiple tables. Replace with a condensed version that keeps:
+- The introductory sentence about =.planning/config.json=
+- The "Core settings" table (mode + depth --- 2 rows)
+- The "Model profiles" summary table (3 rows: quality/balanced/budget)
+- The "Switch profiles" example
+- Remove: full schema JSON, planning settings, workflow toggles, execution,
+  git branching tables
+- Add a link: "For the full configuration schema, workflow toggles, git
+  branching options, and per-agent model breakdown, see
+  =[[file:docs/reference.org][User Guide --- Reference]]=."
+
+*Step 4: Update USER-GUIDE.org link*
+
+Replace the link on line 579:
+  =[[file:docs/USER-GUIDE.org][User Guide]]=
+with two links:
+  =[[file:docs/reference.org][User Guide --- Reference]]=
+  =[[file:docs/howto.org][User Guide --- How-to]]=
+
+Search the entire README for any other =USER-GUIDE= references and update them.
+
+*Step 5: Update Troubleshooting section link*
+
+The Troubleshooting section at the bottom of README should add a link to
+=docs/howto.org= for the full troubleshooting guide:
+"For the full troubleshooting guide and recovery procedures, see
+=[[file:docs/howto.org][User Guide --- How-to]]=."
+
+*Step 6: Abridge "How it works" sections*
+
+The "How it works" section (steps 1-6) should remain but be slightly condensed:
+- Keep the flow and explanation
+- Remove very dense command tables that duplicate the Commands section
+- Keep the code examples and =#+BEGIN_EXAMPLE= diagrams
+- Where detail is heavy, add "See =[[file:docs/reference.org][User Guide ---
+  Reference]]= for full details"
+
+*Content to NOT remove:*
+- "What changed from upstream GSD" table
+- "Why Org-mode?" and "Why ADRs?" sections (locked decision: stay)
+- All of "Getting started" (tutorial core)
+- "Recommended workflow: worktrees" (onboarding)
+- "Why it works" section (explanation)
+- "Security" section
+- Community ports, star history, license (footer)
+
+*Anti-patterns to avoid:*
+- Do NOT over-empty the README (Pitfall 4 in RESEARCH.org) --- keep enough
+  command/config context for first-time readers to act
+- Do NOT remove "Why" explanation sections --- they are part of the onboarding
+  narrative
+- Do NOT leave any =USER-GUIDE.org= links (Pitfall 3 in RESEARCH.org)
+
+*Formatting rules:*
+- Use =-= as bullet character, =~code~= for code fragments, ==verbatim== for
+  paths and commands
+- Wrap prose at 78 characters
+- One blank line before each heading
+- End file with a single newline
+  </action>
+  <verify>
+Has Diataxis property: =grep "diataxis_primary: tutorial" README.org=
+Links to reference.org: =grep "docs/reference.org" README.org=
+Links to howto.org: =grep "docs/howto.org" README.org=
+No USER-GUIDE.org links: test $(grep -c "USER-GUIDE" README.org) -eq 0
+Still has Getting started: =grep "Getting started" README.org=
+Still has Why Org-mode: =grep "Why Org-mode" README.org=
+Still has Why ADRs: =grep "Why ADRs" README.org=
+Still has Core workflow table: =grep "new-project" README.org=
+Still has Security: =grep "Security" README.org=
+Brief config section present: =grep "Core settings" README.org=
+Model profiles present: =grep "Model profiles" README.org=
+No regressions: =npm test=
+  </verify>
+  <done>
+=README.org= restructured as a tutorial-quadrant onboarding hub with
+=:diataxis_primary: tutorial= property. Full command tables (except core
+workflow) and full configuration schema moved out; brief summaries with links to
+=docs/reference.org= replace them. "Why" explanation sections, getting-started
+tutorial, and all onboarding content preserved. All =USER-GUIDE.org= links
+updated to point to =docs/reference.org= and =docs/howto.org=.
+  </done>
+</task>
+
+</tasks>
+
+<verification>
+Full plan verification:
+- =grep "diataxis_primary: tutorial" README.org= confirms classification
+- =grep "docs/reference.org" README.org= confirms link to reference
+- =grep "docs/howto.org" README.org= confirms link to howto
+- =grep -c "USER-GUIDE" README.org= returns 0 (no broken links)
+- =grep "Getting started" README.org= confirms tutorial content retained
+- =grep "Why Org-mode" README.org= confirms explanation content retained
+- =npm test= passes (no regressions)
+</verification>
+
+<success_criteria>
+- =README.org= has =:diataxis_primary: tutorial= property under first heading
+- Full command tables (navigation, phase management, session, utilities) are
+  removed; core workflow table remains with link to docs/reference.org
+- Full configuration schema and detailed tables are removed; core settings and
+  model profiles summary remain with link to docs/reference.org
+- "Why Org-mode?", "Why ADRs?", getting-started, and "Why it works" content
+  preserved
+- All =USER-GUIDE.org= links replaced with =docs/reference.org= and
+  =docs/howto.org= links
+- Troubleshooting section links to =docs/howto.org=
+- Existing test suite passes
+</success_criteria>
+
+<output>
+After completion, create =.planning/phases/04-internal-docs/04-03-SUMMARY.org=
+</output>

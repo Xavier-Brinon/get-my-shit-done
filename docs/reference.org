@@ -1,0 +1,307 @@
+#+title: GMSD User Guide --- Reference
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/
+
+-----
+
+* GMSD User Guide --- Reference
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader looks up commands, configuration settings, usage patterns, and file structure
+:END:
+
+This document is the technical reference for GMSD commands, configuration, and
+file structure. For workflow procedures and troubleshooting, see
+[[howto.org][docs/howto.org]].
+
+** Command reference
+
+*** Core workflow
+
+| Command                             | Purpose                                                       | When to Use                                 |
+|-------------------------------------+---------------------------------------------------------------+---------------------------------------------|
+| ~/gmsd:new-project~                 | Full project init: questions, research, requirements, roadmap | Start of a new project                      |
+| ~/gmsd:new-project --auto @idea.md~ | Automated init from document                                  | Have a PRD or idea doc ready                |
+| ~/gmsd:discuss-phase [N]~           | Capture implementation decisions                              | Before planning, to shape how it gets built |
+| ~/gmsd:plan-phase [N]~              | Research + plan + verify                                      | Before executing a phase                    |
+| ~/gmsd:execute-phase <N>~           | Execute all plans in parallel waves                           | After planning is complete                  |
+| ~/gmsd:verify-work [N]~             | Manual UAT with auto-diagnosis                                | After execution completes                   |
+| ~/gmsd:audit-milestone~             | Verify milestone met its definition of done                   | Before completing milestone                 |
+| ~/gmsd:complete-milestone~          | Archive milestone, tag release                                | All phases verified                         |
+| ~/gmsd:new-milestone [name]~        | Start next version cycle                                      | After completing a milestone                |
+
+*** Navigation
+
+| Command              | Purpose                                | When to Use              |
+|----------------------+----------------------------------------+--------------------------|
+| ~/gmsd:progress~     | Show status and next steps             | Anytime -- "where am I?" |
+| ~/gmsd:resume-work~  | Restore full context from last session | Starting a new session   |
+| ~/gmsd:pause-work~   | Save context handoff                   | Stopping mid-phase       |
+| ~/gmsd:help~         | Show all commands                      | Quick reference          |
+| ~/gmsd:update~       | Update GMSD with changelog preview     | Check for new versions   |
+| ~/gmsd:join-discord~ | Open Discord community invite          | Questions or community   |
+
+*** Phase management
+
+| Command                            | Purpose                                | When to Use                            |
+|------------------------------------+----------------------------------------+----------------------------------------|
+| ~/gmsd:add-phase~                  | Append new phase to roadmap            | Scope grows after initial planning     |
+| ~/gmsd:insert-phase [N]~           | Insert urgent work (decimal numbering) | Urgent fix mid-milestone               |
+| ~/gmsd:remove-phase [N]~           | Remove future phase and renumber       | Descoping a feature                    |
+| ~/gmsd:list-phase-assumptions [N]~ | Preview Claude's intended approach     | Before planning, to validate direction |
+| ~/gmsd:plan-milestone-gaps~        | Create phases for audit gaps           | After audit finds missing items        |
+| ~/gmsd:research-phase [N]~         | Deep ecosystem research only           | Complex or unfamiliar domain           |
+
+*** Brownfield and utilities
+
+| Command                       | Purpose                                      | When to Use                                 |
+|-------------------------------+----------------------------------------------+---------------------------------------------|
+| ~/gmsd:map-codebase~          | Analyze existing codebase                    | Before ~/gmsd:new-project~ on existing code |
+| ~/gmsd:quick~                 | Ad-hoc task with GMSD guarantees             | Bug fixes, small features, config changes   |
+| ~/gmsd:debug [desc]~          | Systematic debugging with persistent state   | When something breaks                       |
+| ~/gmsd:add-todo [desc]~       | Capture an idea for later                    | Think of something during a session         |
+| ~/gmsd:check-todos~           | List pending todos                           | Review captured ideas                       |
+| ~/gmsd:settings~              | Configure workflow toggles and model profile | Change model, toggle agents                 |
+| ~/gmsd:set-profile <profile>~ | Quick profile switch                         | Change cost/quality tradeoff                |
+| ~/gmsd:reapply-patches~       | Restore local modifications after update     | After ~/gmsd:update~ if you had local edits |
+
+** Configuration reference
+
+GMSD stores project settings in ~.planning/config.json~. Configure during
+~/gmsd:new-project~ or update later with ~/gmsd:settings~.
+
+*** Full config.json schema
+
+#+begin_src json
+{
+  "mode": "interactive",
+  "depth": "standard",
+  "model_profile": "balanced",
+  "planning": {
+    "commit_docs": true,
+    "search_gitignored": false
+  },
+  "workflow": {
+    "research": true,
+    "plan_check": true,
+    "verifier": true,
+    "nyquist_validation": true
+  },
+  "git": {
+    "branching_strategy": "none",
+    "phase_branch_template": "gmsd/phase-{phase}-{slug}",
+    "milestone_branch_template": "gmsd/{milestone}-{slug}"
+  }
+}
+#+end_src
+
+*** Core settings
+
+| Setting         | Options                              | Default       | What it Controls                                                    |
+|-----------------+--------------------------------------+---------------+---------------------------------------------------------------------|
+| ~mode~          | ~interactive~, ~yolo~                | ~interactive~ | ~yolo~ auto-approves decisions; ~interactive~ confirms at each step |
+| ~depth~         | ~quick~, ~standard~, ~comprehensive~ | ~standard~    | Planning thoroughness: 3-5, 5-8, or 8-12 phases                     |
+| ~model_profile~ | ~quality~, ~balanced~, ~budget~      | ~balanced~    | Model tier for each agent (see table below)                         |
+
+*** Planning settings
+
+| Setting                      | Options         | Default | What it Controls                                            |
+|------------------------------+-----------------+---------+-------------------------------------------------------------|
+| ~planning.commit_docs~       | ~true~, ~false~ | ~true~  | Whether ~.planning/~ files are committed to git             |
+| ~planning.search_gitignored~ | ~true~, ~false~ | ~false~ | Add ~--no-ignore~ to broad searches to include ~.planning/~ |
+
+*Note:* If ~.planning/~ is in ~.gitignore~, ~commit_docs~ is automatically ~false~
+regardless of the config value.
+
+*** Workflow toggles
+
+| Setting                       | Options         | Default | What it Controls                                                             |
+|-------------------------------+-----------------+---------+------------------------------------------------------------------------------|
+| ~workflow.research~           | ~true~, ~false~ | ~true~  | Domain investigation before planning                                         |
+| ~workflow.plan_check~         | ~true~, ~false~ | ~true~  | Plan verification loop (up to 3 iterations)                                  |
+| ~workflow.verifier~           | ~true~, ~false~ | ~true~  | Post-execution verification against phase goals                              |
+| ~workflow.nyquist_validation~ | ~true~, ~false~ | ~true~  | Validation architecture research during plan-phase; 8th plan-check dimension |
+
+Disable these to speed up phases in familiar domains or when conserving tokens.
+
+*** Git branching
+
+| Setting                         | Options                      | Default                     | What it Controls                   |
+|---------------------------------+------------------------------+-----------------------------+------------------------------------|
+| ~git.branching_strategy~        | ~none~, ~phase~, ~milestone~ | ~none~                      | When and how branches are created  |
+| ~git.phase_branch_template~     | Template string              | ~gmsd/phase-{phase}-{slug}~ | Branch name for phase strategy     |
+| ~git.milestone_branch_template~ | Template string              | ~gmsd/{milestone}-{slug}~   | Branch name for milestone strategy |
+
+*Branching strategies explained:*
+
+| Strategy    | Creates Branch           | Scope                       | Best For                                 |
+|-------------+--------------------------+-----------------------------+------------------------------------------|
+| ~none~      | Never                    | N/A                         | Solo development, simple projects        |
+| ~phase~     | At each ~execute-phase~  | One phase per branch        | Code review per phase, granular rollback |
+| ~milestone~ | At first ~execute-phase~ | All phases share one branch | Release branches, PR per version         |
+
+*Template variables:* ~{phase}~ = zero-padded number (e.g., "03"), ~{slug}~ =
+lowercase hyphenated name, ~{milestone}~ = version (e.g., "v1.0").
+
+**** Worktree-aware branching
+
+The ~phase~ strategy integrates with Claude Code's ~--worktree~ (~-w~) flag. When
+~execute-phase~ detects it is running inside a worktree or on a non-main branch,
+it skips branch creation and commits directly to the current branch.
+
+*Recommended workflow:*
+
+#+BEGIN_EXAMPLE
+# Start a worktree session for the phase
+claude -w phase-02-classification-and-audit
+
+# Inside the session — execute as normal
+/gmsd:execute-phase 2
+# → Detects worktree branch, skips branch creation, commits there
+
+# When done — create a PR from the worktree branch
+#+END_EXAMPLE
+
+*Branch discovery at milestone completion:*
+
+~/gmsd:complete-milestone~ discovers both naming patterns:
+
+| Source | Pattern | Example |
+|--------+---------+---------|
+| GMSD branch creation | ~gmsd/phase-{N}-{slug}~ | ~gmsd/phase-02-classification-and-audit~ |
+| Claude Code worktree | ~worktree-{name}~ | ~worktree-phase-02-classification-and-audit~ |
+
+No configuration change is needed -- ~branching_strategy: "phase"~ works with
+worktrees out of the box.
+
+*** Model profiles (per-agent breakdown)
+
+| Agent                     | ~quality~ | ~balanced~ | ~budget~ |
+|---------------------------+-----------+------------+----------|
+| gmsd-planner              | Opus      | Opus       | Sonnet   |
+| gmsd-roadmapper           | Opus      | Sonnet     | Sonnet   |
+| gmsd-executor             | Opus      | Sonnet     | Sonnet   |
+| gmsd-phase-researcher     | Opus      | Sonnet     | Haiku    |
+| gmsd-project-researcher   | Opus      | Sonnet     | Haiku    |
+| gmsd-research-synthesizer | Sonnet    | Sonnet     | Haiku    |
+| gmsd-debugger             | Opus      | Sonnet     | Sonnet   |
+| gmsd-codebase-mapper      | Sonnet    | Haiku      | Haiku    |
+| gmsd-verifier             | Sonnet    | Sonnet     | Haiku    |
+| gmsd-plan-checker         | Sonnet    | Sonnet     | Haiku    |
+| gmsd-integration-checker  | Sonnet    | Sonnet     | Haiku    |
+
+*Profile philosophy:*
+- *quality* -- Opus for all decision-making agents, Sonnet for read-only
+  verification. Use when quota is available and the work is critical.
+- *balanced* -- Opus only for planning (where architecture decisions happen),
+  Sonnet for everything else. The default for good reason.
+- *budget* -- Sonnet for anything that writes code, Haiku for research and
+  verification. Use for high-volume work or less critical phases.
+
+** Usage examples
+
+*** New project (full cycle)
+
+#+begin_src bash
+claude --dangerously-skip-permissions
+/gmsd:new-project            # Answer questions, configure, approve roadmap
+/clear
+/gmsd:discuss-phase 1        # Lock in your preferences
+/gmsd:plan-phase 1           # Research + plan + verify
+/gmsd:execute-phase 1        # Parallel execution
+/gmsd:verify-work 1          # Manual UAT
+/clear
+/gmsd:discuss-phase 2        # Repeat for each phase
+...
+/gmsd:audit-milestone        # Check everything shipped
+/gmsd:complete-milestone     # Archive, tag, done
+#+end_src
+
+*** New project from existing document
+
+#+begin_src bash
+/gmsd:new-project --auto @prd.md   # Auto-runs research/requirements/roadmap from your doc
+/clear
+/gmsd:discuss-phase 1               # Normal flow from here
+#+end_src
+
+*** Existing codebase
+
+#+begin_src bash
+/gmsd:map-codebase           # Analyze what exists (parallel agents)
+/gmsd:new-project            # Questions focus on what you're ADDING
+# (normal phase workflow from here)
+#+end_src
+
+*** Quick bug fix
+
+#+begin_src bash
+/gmsd:quick
+> "Fix the login button not responding on mobile Safari"
+#+end_src
+
+*** Resuming after a break
+
+#+begin_src bash
+/gmsd:progress               # See where you left off and what's next
+# or
+/gmsd:resume-work            # Full context restoration from last session
+#+end_src
+
+*** Preparing for release
+
+#+begin_src bash
+/gmsd:audit-milestone        # Check requirements coverage, detect stubs
+/gmsd:plan-milestone-gaps    # If audit found gaps, create phases to close them
+/gmsd:complete-milestone     # Archive, tag, done
+#+end_src
+
+*** Speed vs quality presets
+
+| Scenario    | Mode          | Depth           | Profile    | Research | Plan Check | Verifier |
+|-------------+---------------+-----------------+------------+----------+------------+----------|
+| Prototyping | ~yolo~        | ~quick~         | ~budget~   | off      | off        | off      |
+| Normal dev  | ~interactive~ | ~standard~      | ~balanced~ | on       | on         | on       |
+| Production  | ~interactive~ | ~comprehensive~ | ~quality~  | on       | on         | on       |
+
+*** Mid-milestone scope changes
+
+#+begin_src bash
+/gmsd:add-phase              # Append a new phase to the roadmap
+# or
+/gmsd:insert-phase 3         # Insert urgent work between phases 3 and 4
+# or
+/gmsd:remove-phase 7         # Descope phase 7 and renumber
+#+end_src
+
+** Project file structure
+
+For reference, here is what GMSD creates in your project:
+
+#+BEGIN_EXAMPLE
+.planning/
+  PROJECT.org              # Project vision and context (always loaded)
+  REQUIREMENTS.org         # Scoped v1/v2 requirements with IDs
+  ROADMAP.org              # Phase breakdown with status tracking
+  STATE.org                # Decisions, blockers, session memory
+  config.json              # Workflow configuration
+  MILESTONES.org           # Completed milestone archive
+  decisions/               # ADR files (NNN-slug.org, MADR 4.0 format)
+  research/                # Domain research from /gmsd:new-project
+  TODOS.org                # Captured ideas and tasks (* Active / * Archive)
+  debug/                   # Active debug sessions
+    resolved/              # Archived debug sessions
+  codebase/                # Brownfield codebase mapping (from /gmsd:map-codebase)
+  phases/
+    XX-phase-name/
+      XX-YY-PLAN.org       # Atomic execution plans
+      XX-YY-SUMMARY.org    # Execution outcomes and decisions
+      CONTEXT.org           # Your implementation preferences
+      RESEARCH.org          # Ecosystem research findings
+      VERIFICATION.org      # Post-execution verification results
+#+END_EXAMPLE

@@ -2,7 +2,7 @@
 
 ** What This Is
 
-A customised fork of Get Shit Done (GSD) — a meta-prompting, context engineering, and spec-driven development system for Claude Code. GMSD reshapes GSD to fit a specific workflow: Emacs/Org-mode as the documentation format, Architecture Decision Records baked into the planning process, and a "learn software architecture" lens on the existing spec-driven development system.
+A customised fork of Get Shit Done (GSD) — a meta-prompting, context engineering, and spec-driven development system for Claude Code. GMSD reshapes GSD to fit a specific workflow: Emacs/Org-mode as the documentation format, Architecture Decision Records baked into the planning process, and a "learn software architecture" lens on the existing spec-driven development system. Every document GMSD produces is classified by Diataxis quadrant (tutorial, how-to, reference, or explanation).
 
 ** Core Value
 
@@ -20,53 +20,62 @@ Shipped and confirmed valuable.
 - ✓ MermaidJS diagram templates — v0.x (5 templates)
 - ✓ Org-mode styleguide integration — v0.x (7 agents with =<org_style>= tag)
 - ✓ Upstream sync codemod pipeline — v0.x
+- ✓ Diataxis condensed reference document for agents — v1.0 (CLASS-01)
+- ✓ Diataxis framework integration for deliverable templates — v1.0 (CLASS-02: 38/38 templates classified)
+- ✓ Quadrant-specific writing guidance in agent prompts — v1.0 (CLASS-03: 7 agents with =<diataxis_style>=)
+- ✓ Gap analysis and new templates for underserved quadrants — v1.0 (GAPS-01/02/03: tutorial + how-to templates)
+- ✓ USER-GUIDE.org split into Diataxis-aligned documents — v1.0 (DOCS-01: howto.org + reference.org)
+- ✓ Diataxis framework integration for internal documentation — v1.0 (DOCS-02/03: references/ classified, README.org restructured)
 
 *** Active
 
 Current scope. Building toward these.
 
-- [ ] Diataxis framework integration for deliverable templates
-- [ ] Diataxis framework integration for internal documentation
-- [ ] Quadrant-specific writing guidance in agent prompts
-- [ ] Gap analysis and new templates for underserved quadrants
-- [ ] USER-GUIDE.org split into Diataxis-aligned documents
-- [ ] Diataxis condensed reference document for agents
+(None yet — define in next milestone)
 
 *** Out of Scope
 
 Explicit boundaries. Includes reasoning to prevent re-adding.
 
 - Restructuring =.planning/= directory layout by quadrant — adds complexity for users navigating phase dirs, low ROI vs classification
-- Automated Diataxis compliance linting — premature; get the framework integrated first, then consider tooling
+- Automated Diataxis compliance linting — premature; framework integrated, but tooling is future work (TOOL-01 deferred)
 - Upstream GSD Diataxis integration — this is a GMSD-only enhancement
+- Diataxis for non-doc artifacts (code, commits) — over-application of framework
 
 ** Context
 
 - The fork conversion (GSD → GMSD) is complete: 128/128 tests passing across 8 phases
-- 40+ org-mode templates generate deliverable docs in =.planning/= for user projects
-- 11 agent definitions, 45 commands, 43 workflows define system behavior
-- 7 agents already have =<org_style>= tags referencing the condensed org styleguide
-- The existing =docs/USER-GUIDE.org= mixes tutorial, how-to, reference, and explanation content
-- Diataxis framework (https://diataxis.fr/) defines 4 documentation quadrants:
-  - *Tutorials* — learning-oriented, practical, guided experiences
-  - *How-to guides* — task-oriented, goal-focused, for competent users
-  - *Reference* — information-oriented, austere description, mirrors code structure
-  - *Explanation* — understanding-oriented, context and background, the "why"
+- v1.0 Diataxis Integration shipped: 9/9 requirements, 5 phases, 10 plans, 18 feat commits
+- 38 org-mode templates carry =:diataxis_primary:= metadata (all 4 quadrants represented)
+- 7 org-generating agents have =<diataxis_style>= tags with per-quadrant writing rules
+- =references/diataxis.org= (389 lines) is the authoritative framework reference
+- =references/diataxis-condensed.md= (122 lines) is the agent-consumable excerpt
+- =docs/howto.org= (how-to) and =docs/reference.org= (reference) replaced monolithic USER-GUIDE.org
+- =README.org= restructured as tutorial-quadrant onboarding hub
+- All 18 =references/= files classified as =diataxis_primary: reference=
+- =references/diataxis-audit.org= tracks quadrant distribution and coverage
 
 ** Constraints
 
 - *Format*: All new docs in org-mode (=.org=) per project convention
 - *Backward compatibility*: Existing =.planning/= directory structure must not change for user projects
-- *Agent prompts*: Changes to agent =.md= files must preserve existing =<org_style>= and =<architecture_learning>= tags
-- *Tests*: 128 existing tests must continue to pass
+- *Agent prompts*: Changes to agent =.md= files must preserve existing =<org_style>=, =<architecture_learning>=, and =<diataxis_style>= tags
+- *Tests*: 218 existing tests must continue to pass
 
 ** Key Decisions
 
-| Decision | Rationale | Outcome |
-|----------+-----------+---------|
-| Diataxis as documentation framework | Well-established, maps cleanly to GMSD's two-layer doc system | — Pending |
-| Classify + enforce (not restructure dirs) | Directory restructuring adds user-facing complexity; classification in templates/agents is invisible | — Pending |
-| Split USER-GUIDE rather than rewrite | Preserves existing content; reorganizes by quadrant | — Pending |
+| Decision                                             | Rationale                                                                   | Outcome    |
+|------------------------------------------------------+-----------------------------------------------------------------------------+------------|
+| Diataxis as documentation framework                  | Well-established, maps cleanly to GMSD's two-layer doc system               | ✓ Good     |
+| Classify + enforce (not restructure dirs)            | Directory restructuring adds user-facing complexity; classification in templates/agents is invisible | ✓ Good |
+| Split USER-GUIDE rather than rewrite                 | Preserves existing content; reorganizes by quadrant                          | ✓ Good     |
+| Dual-document reference pattern (.org + condensed .md) | Full authoritative .org + compact .md for agent tags; matches org-styleguide pattern | ✓ Good |
+| Flat four-heading structure for diataxis.org         | Prioritises direct quadrant lookup over taxonomic browsing                   | ✓ Good     |
+| =<diataxis_style>= tag pattern for agents            | Place after =</org_style>=, 15-22 lines, anti-patterns, ref condensed doc   | ✓ Good     |
+| Tutorial skeleton scoped to GMSD workflow             | Concrete GMSD onboarding journey (discuss/plan/execute) over generic tutorial | ✓ Good |
+| How-to skeleton kept generic                          | Usable for any multi-step procedure, not locked to GMSD                      | ✓ Good     |
+| Retroactive verification with disk evidence           | Checks actual files and git log, not SUMMARY text alone                      | ✓ Good     |
+| README.org as tutorial hub (not reference)            | Core workflow table retained; full tables moved to docs/reference.org         | ✓ Good     |
 
 -----
-/Last updated: 2026-02-27 after milestone v1.0 initialization/
+/Last updated: 2026-03-03 after v1.0 GMSD Diataxis Integration milestone/

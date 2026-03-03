@@ -1,0 +1,361 @@
+:PROPERTIES:
+:phase: 04-internal-docs
+:plan: 01
+:type: execute
+:wave: 1
+:depends_on: []
+:files_modified: [docs/howto.org, docs/reference.org, docs/USER-GUIDE.org]
+:autonomous: true
+:requirements: [DOCS-01]
+:must_haves.truths: [USER-GUIDE.org is deleted after split, docs/howto.org exists with how-to quadrant classification, docs/reference.org exists with reference quadrant classification, Content is allocated by quadrant not by topic, Both new files have nav headers with org links, Existing docs/ files get nav headers and Diataxis classification]
+:must_haves.artifacts.0.path: docs/howto.org
+:must_haves.artifacts.0.provides: How-to quadrant document with workflows and troubleshooting and recovery
+:must_haves.artifacts.0.contains: diataxis_primary: how-to
+:must_haves.artifacts.1.path: docs/reference.org
+:must_haves.artifacts.1.provides: Reference quadrant document with commands and configuration and usage examples
+:must_haves.artifacts.1.contains: diataxis_primary: reference
+:must_haves.artifacts.2.path: docs/USER-GUIDE.org
+:must_haves.artifacts.2.provides: DELETED - must not exist after plan completion
+:must_haves.key_links.0.from: docs/howto.org
+:must_haves.key_links.0.to: docs/reference.org
+:must_haves.key_links.0.via: Nav header cross-links
+:must_haves.key_links.0.pattern: Navigation org link bar
+:must_haves.key_links.1.from: docs/reference.org
+:must_haves.key_links.1.to: docs/howto.org
+:must_haves.key_links.1.via: Nav header cross-links
+:must_haves.key_links.1.pattern: Navigation org link bar
+:END:
+
+#+title: Plan 04-01: Split USER-GUIDE.org into Diataxis-aligned Documents
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Plan 04-01: Split USER-GUIDE.org into Diataxis-aligned Documents
+
+Splits the monolithic =docs/USER-GUIDE.org= into two quadrant-aligned files:
+=docs/howto.org= (how-to quadrant) and =docs/reference.org= (reference quadrant).
+Deletes the original file after split. Also classifies and adds nav headers to
+the two existing =docs/= files (=context-monitor.org= and
+=sync-upstream-playbook.org=).
+
+<objective>
+Split =docs/USER-GUIDE.org= into =docs/howto.org= (workflows, troubleshooting,
+recovery) and =docs/reference.org= (commands, configuration, usage examples,
+project file structure). Delete the original. Classify existing =docs/= files
+with Diataxis metadata and add consistent nav headers to all =docs/= files.
+
+Purpose: DOCS-01 requires USER-GUIDE.org to be replaced by Diataxis-quadrant
+documents. The current file mixes how-to procedural content with reference
+lookup content in one monolithic document. Splitting enforces a clean quadrant
+boundary per file.
+
+Output: Two new org-mode files with Diataxis classification, four =docs/= files
+with nav headers, one deleted file.
+</objective>
+
+<execution_context>
+@/Users/xavierbrinon/.claude/get-my-shit-done/workflows/execute-plan.md
+@/Users/xavierbrinon/.claude/get-my-shit-done/templates/summary.org
+</execution_context>
+
+<context>
+@.planning/PROJECT.org
+@.planning/ROADMAP.org
+@.planning/STATE.org
+@.planning/phases/04-internal-docs/04-CONTEXT.org
+@.planning/phases/04-internal-docs/04-RESEARCH.org
+
+Key references (read these before writing):
+@docs/USER-GUIDE.org (source content to split)
+@docs/context-monitor.org (existing file — add nav header + classify)
+@docs/sync-upstream-playbook.org (existing file — add nav header + classify)
+@/Users/xavierbrinon/.claude/get-my-shit-done/references/diataxis-condensed.md (quadrant definitions)
+@/Users/xavierbrinon/.claude/get-my-shit-done/references/org-styleguide.md (org-mode conventions)
+
+<interfaces>
+Content allocation (from RESEARCH.org content audit):
+
+To =docs/howto.org= (how-to quadrant):
+- Workflow diagrams (procedural illustrations)
+- Troubleshooting (step-by-step problem resolution)
+- Recovery quick reference (step-by-step recovery scenarios)
+
+To =docs/reference.org= (reference quadrant):
+- Command reference (lookup tables)
+- Configuration reference (settings schema and tables)
+- Usage examples (companion illustrations to commands)
+- Project file structure (file tree lookup)
+
+Property drawer pattern (heading-level, NOT file-level — these are general
+documents, not GMSD-parsed frontmatter files):
+
+#+begin_src org
+* Document Title
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader looks up [what the reader looks up]
+:END:
+#+end_src
+
+Nav header pattern (immediately after =#+options:=, before first heading):
+
+#+begin_src org
+/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/
+
+-----
+#+end_src
+</interfaces>
+</context>
+
+<tasks>
+
+<task type="auto">
+  <name>Task 1: Create docs/howto.org from USER-GUIDE.org how-to content</name>
+  <files>docs/howto.org</files>
+  <action>
+Create =docs/howto.org= by extracting how-to quadrant content from
+=docs/USER-GUIDE.org=.
+
+*File header:*
+#+begin_src org
+#+title: GMSD User Guide --- How-to
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/
+
+-----
+#+end_src
+
+*First heading with property drawer:*
+#+begin_src org
+* GMSD User Guide --- How-to
+:PROPERTIES:
+:diataxis_primary: how-to
+:diataxis_secondary: none
+:diataxis_rationale: Reader follows step-by-step procedures to accomplish workflow and recovery goals
+:END:
+#+end_src
+
+*Content to extract from USER-GUIDE.org:*
+1. *Workflow diagrams* section (full project lifecycle, planning agent
+   coordination, validation architecture, execution wave coordination,
+   brownfield workflow) --- preserve =#+BEGIN_EXAMPLE= blocks exactly
+2. *Troubleshooting* section (all subsections: "Project already initialized",
+   "Context degradation", "Plans seem wrong", "Execution fails", "Lost track",
+   "Need to change something", "Model costs too high", "Working on sensitive
+   project", "GMSD update overwrote", "Subagent appears to fail")
+3. *Recovery quick reference* section (the problem/solution table)
+
+*Formatting rules:*
+- Preserve all content verbatim from USER-GUIDE.org --- do not rewrite or
+  summarize
+- Adjust heading levels if needed so the document uses =*= through =***= (max 4
+  levels)
+- Add a brief introductory paragraph after the property drawer: describe that
+  this document covers workflow procedures, troubleshooting, and recovery
+  scenarios, and link to =docs/reference.org= for command and configuration
+  lookup
+- Use =-= as bullet character, =~code~= for code fragments, ==verbatim== for
+  paths and commands
+- Wrap prose at 78 characters
+- One blank line before each heading
+- End file with a single newline
+  </action>
+  <verify>
+File exists: =ls docs/howto.org=
+Has Diataxis property: =grep "diataxis_primary: how-to" docs/howto.org=
+Has nav header: =grep "Navigation:" docs/howto.org=
+Contains workflow diagrams: =grep "Full project lifecycle" docs/howto.org=
+Contains troubleshooting: =grep "Troubleshooting" docs/howto.org=
+Contains recovery: =grep "Recovery quick reference" docs/howto.org=
+No backticks: test $(grep -c '`' docs/howto.org) -eq 0
+No regressions: =npm test=
+  </verify>
+  <done>
+=docs/howto.org= exists with =:diataxis_primary: how-to= property, nav header,
+and all how-to content from USER-GUIDE.org: workflow diagrams, troubleshooting,
+and recovery quick reference. Content preserved verbatim with correct heading
+levels.
+  </done>
+</task>
+
+<task type="auto">
+  <name>Task 2: Create docs/reference.org from USER-GUIDE.org reference content</name>
+  <files>docs/reference.org</files>
+  <action>
+Create =docs/reference.org= by extracting reference quadrant content from
+=docs/USER-GUIDE.org=.
+
+*File header:*
+#+begin_src org
+#+title: GMSD User Guide --- Reference
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/
+
+-----
+#+end_src
+
+*First heading with property drawer:*
+#+begin_src org
+* GMSD User Guide --- Reference
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader looks up commands, configuration settings, usage patterns, and file structure
+:END:
+#+end_src
+
+*Content to extract from USER-GUIDE.org:*
+1. *Command reference* section (all four command tables: core workflow,
+   navigation, phase management, brownfield and utilities)
+2. *Configuration reference* section (full =config.json= schema, core settings
+   table, planning settings table, workflow toggles table, git branching tables
+   including worktree-aware branching, model profiles table and philosophy)
+3. *Usage examples* section (all example blocks: new project full cycle, from
+   existing document, existing codebase, quick bug fix, resuming, preparing for
+   release, speed vs quality presets, mid-milestone scope changes)
+4. *Project file structure* section (the =#+BEGIN_EXAMPLE= file tree)
+
+*Formatting rules:*
+- Preserve all content verbatim from USER-GUIDE.org --- do not rewrite or
+  summarize
+- Adjust heading levels if needed so the document uses =*= through =***= (max 4
+  levels)
+- Add a brief introductory paragraph after the property drawer: describe that
+  this document is the technical reference for GMSD commands, configuration, and
+  file structure, and link to =docs/howto.org= for workflow procedures and
+  troubleshooting
+- Use =-= as bullet character, =~code~= for code fragments, ==verbatim== for
+  paths and commands
+- Wrap prose at 78 characters
+- One blank line before each heading
+- End file with a single newline
+  </action>
+  <verify>
+File exists: =ls docs/reference.org=
+Has Diataxis property: =grep "diataxis_primary: reference" docs/reference.org=
+Has nav header: =grep "Navigation:" docs/reference.org=
+Contains command reference: =grep "Command reference" docs/reference.org=
+Contains configuration: =grep "Configuration reference" docs/reference.org=
+Contains usage examples: =grep "Usage examples" docs/reference.org=
+Contains file structure: =grep "Project file structure" docs/reference.org=
+No backticks: test $(grep -c '`' docs/reference.org) -eq 0
+No regressions: =npm test=
+  </verify>
+  <done>
+=docs/reference.org= exists with =:diataxis_primary: reference= property, nav
+header, and all reference content from USER-GUIDE.org: command reference,
+configuration reference, usage examples, and project file structure. Content
+preserved verbatim with correct heading levels.
+  </done>
+</task>
+
+<task type="auto">
+  <name>Task 3: Delete USER-GUIDE.org and classify existing docs/ files</name>
+  <files>docs/USER-GUIDE.org, docs/context-monitor.org, docs/sync-upstream-playbook.org</files>
+  <action>
+Three sub-steps:
+
+*Step A: Delete =docs/USER-GUIDE.org=*
+Remove the file. No redirect stub (locked decision).
+=rm docs/USER-GUIDE.org=
+
+*Step B: Add Diataxis classification and nav header to =docs/context-monitor.org=*
+This file is a reference document (reader looks up context window thresholds and
+monitoring rules).
+
+Add nav header after =#+options:= line:
+#+begin_src org
+/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/
+
+-----
+#+end_src
+
+Add property drawer under the first =*= heading:
+#+begin_src org
+:PROPERTIES:
+:diataxis_primary: reference
+:diataxis_secondary: none
+:diataxis_rationale: Reader looks up context window thresholds and monitoring rules
+:END:
+#+end_src
+
+*Step C: Add Diataxis classification and nav header to =docs/sync-upstream-playbook.org=*
+This file is a how-to document (reader follows steps to sync with upstream GSD).
+
+Add nav header after =#+options:= line:
+#+begin_src org
+/Navigation: [[../README.org][Home]] | [[howto.org][How-to]] | [[reference.org][Reference]]/
+
+-----
+#+end_src
+
+Add property drawer under the first =*= heading (which is currently
+=* Overview= --- keep as-is or rename to =* Upstream Sync Playbook= at
+executor's discretion):
+#+begin_src org
+:PROPERTIES:
+:diataxis_primary: how-to
+:diataxis_secondary: none
+:diataxis_rationale: Reader follows steps to sync this fork with upstream GSD changes
+:END:
+#+end_src
+
+*Important:* Property drawers go under the first heading, NOT at file top.
+These are general documents, not GMSD-parsed frontmatter files (see Pitfall 2
+in RESEARCH.org).
+  </action>
+  <verify>
+USER-GUIDE.org deleted: test ! -f docs/USER-GUIDE.org
+context-monitor.org classified: =grep "diataxis_primary: reference" docs/context-monitor.org=
+context-monitor.org has nav: =grep "Navigation:" docs/context-monitor.org=
+sync-upstream-playbook.org classified: =grep "diataxis_primary: how-to" docs/sync-upstream-playbook.org=
+sync-upstream-playbook.org has nav: =grep "Navigation:" docs/sync-upstream-playbook.org=
+No USER-GUIDE.org references remain in docs/: =grep -r "USER-GUIDE" docs/= returns nothing
+No regressions: =npm test=
+  </verify>
+  <done>
+=docs/USER-GUIDE.org= is deleted. =docs/context-monitor.org= has
+=:diataxis_primary: reference= and a nav header. =docs/sync-upstream-playbook.org=
+has =:diataxis_primary: how-to= and a nav header. All four =docs/= files have
+consistent nav headers.
+  </done>
+</task>
+
+</tasks>
+
+<verification>
+Full plan verification:
+- =ls docs/howto.org docs/reference.org= lists both new files
+- =test ! -f docs/USER-GUIDE.org= confirms deletion
+- =grep "diataxis_primary" docs/howto.org docs/reference.org docs/context-monitor.org docs/sync-upstream-playbook.org= shows correct quadrant for each
+- =grep "Navigation:" docs/howto.org docs/reference.org docs/context-monitor.org docs/sync-upstream-playbook.org= shows nav headers on all four files
+- =grep -r "USER-GUIDE" docs/= returns no matches
+- =npm test= passes (no regressions)
+</verification>
+
+<success_criteria>
+- =docs/howto.org= exists with how-to classification, workflow diagrams,
+  troubleshooting, and recovery content from USER-GUIDE.org
+- =docs/reference.org= exists with reference classification, command reference,
+  configuration, usage examples, and file structure from USER-GUIDE.org
+- =docs/USER-GUIDE.org= does not exist
+- =docs/context-monitor.org= and =docs/sync-upstream-playbook.org= have Diataxis
+  properties and nav headers
+- All four =docs/= files have consistent nav headers
+- Existing test suite passes
+</success_criteria>
+
+<output>
+After completion, create =.planning/phases/04-internal-docs/04-01-SUMMARY.org=
+</output>

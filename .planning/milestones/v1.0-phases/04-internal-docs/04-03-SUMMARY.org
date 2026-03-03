@@ -1,0 +1,132 @@
+:PROPERTIES:
+:phase: 04-internal-docs
+:plan: 03
+:subsystem: documentation
+:tags: [readme, diataxis, tutorial, reference, howto, restructure]
+:requires: [{phase: 04-internal-docs, provides: [docs/reference.org, docs/howto.org]}]
+:provides: [README.org restructured as tutorial-quadrant onboarding hub, diataxis_primary: tutorial property, links to docs/reference.org and docs/howto.org]
+:affects: [all phases, onboarding, docs/reference.org, docs/howto.org]
+:tech-stack.added: []
+:tech-stack.patterns: [Diataxis tutorial quadrant for README onboarding, split reference into docs/reference.org]
+:key-files.created: []
+:key-files.modified: [README.org]
+:key-decisions: ["Kept core workflow table (8 commands) in README — sufficient onboarding without being a full reference", "Kept core settings + model profiles in README — enough config context for first-time readers", "USER-GUIDE.org links split into docs/reference.org and docs/howto.org links"]
+:patterns-established: ["README as tutorial hub: retain onboarding + explanation, link to reference.org for dense tables"]
+:requirements-completed: [DOCS-03]
+:duration: 4min
+:completed: 2026-03-02
+:END:
+
+#+title: Plan 04-03: Align README.org with Diataxis Quadrants Summary
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Plan 04-03: Align README.org with Diataxis Quadrants Summary
+
+*README.org restructured as Diataxis tutorial hub: Diataxis property added,
+full command/config tables moved to docs/reference.org with brief summaries
+retained, USER-GUIDE.org links replaced with docs/reference.org and
+docs/howto.org*
+
+** Performance
+
+- *Duration:* 4 min
+- *Started:* 2026-03-02T19:27:55Z
+- *Completed:* 2026-03-02T19:31:32Z
+- *Tasks:* 1 of 1
+- *Files modified:* 1
+
+** Accomplishments
+
+- Added =* GET MY SHIT DONE (GMSD)= heading with ~:diataxis_primary: tutorial~
+  property drawer, establishing Diataxis classification for README
+- Replaced full command tables (Navigation, Brownfield, Phase management,
+  Session, Utilities — 5 tables removed) with a single link to
+  =docs/reference.org=; Core workflow table (8 commands) retained for
+  onboarding value
+- Replaced full configuration schema (Workflow agents, Execution, Git
+  branching — 3 tables removed) with a link to =docs/reference.org=; Core
+  settings and Model profiles retained
+- Replaced =[[file:docs/USER-GUIDE.org][User Guide]]= link with two links:
+  =[[file:docs/reference.org][User Guide --- Reference]]= and
+  =[[file:docs/howto.org][User Guide --- How-to]]=
+- Added =[[file:docs/howto.org][User Guide --- How-to]]= link in Troubleshooting
+  section directing readers to full guide
+- All 218 tests pass — no regressions
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Restructure README.org as tutorial-quadrant onboarding hub* -
+   ~77423c8~ (feat)
+
+*Plan metadata:* see final commit below
+
+** Files Created/Modified
+
+- =README.org= — Restructured as tutorial-quadrant hub: heading added with
+  Diataxis property drawer, command/config sections condensed with links to
+  docs/reference.org, USER-GUIDE.org links replaced
+
+** Decisions Made
+
+- Kept Core workflow table (8 commands) in README to preserve onboarding value
+  — first-time readers need enough commands to act without consulting a separate
+  document (avoids over-emptying, Pitfall 4 in RESEARCH.org)
+- Kept Core settings + Model profiles in README — minimal config context
+  sufficient for first-time setup without requiring a reference doc visit
+- Split USER-GUIDE.org link into two separate links (reference.org for
+  commands/config, howto.org for procedures/troubleshooting) matching the
+  Diataxis quadrant split from Plan 04-01
+
+** Deviations from Plan
+
+None — plan executed exactly as written.
+
+** Issues Encountered
+
+None.
+
+** Architectural Observations
+
+- *Emergent patterns:* The README naturally fell into the tutorial/explanation
+  split that Diataxis predicts — introductory narrative (tutorial), "Why"
+  sections (explanation), and command/config tables (reference) each belong to
+  distinct quadrants. The refactor confirmed that mixed-quadrant documents are
+  the problem, not a structural limitation of the README format.
+- *Coupling discovered:* README links to both =docs/reference.org= and
+  =docs/howto.org= are forward-links to files created in Plans 04-01 and 04-02.
+  This means README depends on those files existing; the dependency is now
+  expressed as org file links rather than inline tables.
+- *Boundary assessment:* The tutorial/reference boundary in the Commands section
+  is subtle — a "core workflow table" sits at the boundary of tutorial and
+  reference. The decision to keep it in README (tutorial) is correct: first-time
+  readers need actionable commands immediately, not just narrative. Full
+  reference belongs in docs/reference.org (Reference quadrant). The retained
+  table is context, not a catalogue.
+- *ADR candidates:* None — the decision to retain core workflow table in README
+  follows the established Diataxis anti-pattern guidance already documented in
+  RESEARCH.org (Pitfall 4: over-emptying).
+
+** User Setup Required
+
+None — no external service configuration required.
+
+** Next Phase Readiness
+
+- Phase 04-internal-docs complete: all three plans executed
+  - 04-01: USER-GUIDE.org split into docs/reference.org (Reference) and
+    docs/howto.org (How-to)
+  - 04-02: docs/context-monitor.org and docs/sync-upstream-playbook.org
+    classified with Diataxis properties
+  - 04-03: README.org restructured as tutorial-quadrant onboarding hub
+- DOCS-03 requirement satisfied
+- All Diataxis classification work complete — no blockers for v1.0 milestone
+  closure
+
+-----
+/Phase: 04-internal-docs/
+/Completed: 2026-03-02/

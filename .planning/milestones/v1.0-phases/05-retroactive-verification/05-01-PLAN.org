@@ -1,0 +1,238 @@
+:PROPERTIES:
+:phase: 05-retroactive-verification
+:plan: 01
+:type: execute
+:wave: 1
+:depends_on: []
+:files_modified: [.planning/phases/01-framework-foundation/VERIFICATION.org, .planning/phases/02-classification-and-audit/VERIFICATION.org, .planning/REQUIREMENTS.org]
+:autonomous: true
+:requirements: [CLASS-01, CLASS-02, CLASS-03, GAPS-01]
+:gap_closure: true
+:must_haves.truths: ["Phase 1 VERIFICATION.org confirms CLASS-01 satisfied with artifact evidence", "Phase 2 VERIFICATION.org confirms CLASS-02 CLASS-03 GAPS-01 satisfied with artifact evidence", "All 4 partial requirements promoted to satisfied in REQUIREMENTS.org"]
+:must_haves.artifacts: [.planning/phases/01-framework-foundation/VERIFICATION.org, .planning/phases/02-classification-and-audit/VERIFICATION.org, .planning/REQUIREMENTS.org]
+:must_haves.key_links: ["Phase 1 VERIFICATION.org references 01-01-SUMMARY.org evidence and artifact paths", "Phase 2 VERIFICATION.org references 02-01 02-02 02-03 SUMMARY.org evidence and artifact paths", "REQUIREMENTS.org traceability table shows CLASS-01 CLASS-02 CLASS-03 GAPS-01 as Complete"]
+:END:
+
+#+title: Plan 05-01: Write VERIFICATION.org for Phase 1 and Phase 2
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Plan 05-01: Write VERIFICATION.org for Phase 1 and Phase 2
+
+** Objective
+
+Write retroactive verification reports for Phases 1 and 2, then promote
+their 4 partial requirements to satisfied status in REQUIREMENTS.org.
+This closes the procedural verification gap identified by the v1.0
+milestone audit --- these phases predate the verification workflow step
+but have substantive evidence of completion in their SUMMARY files and
+committed artifacts.
+
+*Purpose:* The milestone audit scored CLASS-01, CLASS-02, CLASS-03, and
+GAPS-01 as "partial" because VERIFICATION.org files were missing despite
+SUMMARY evidence confirming completion. This plan produces the missing
+verification artifacts so the audit trail is complete.
+
+*Output:* Two VERIFICATION.org files and an updated REQUIREMENTS.org.
+
+*Architectural pattern:* Retroactive Verification --- applying a
+workflow step (verification) to phases that were executed before the step
+existed. The verification reports follow the same format as
+=03-VERIFICATION.org= (the existing exemplar) but include a
+=:re_verification: true= flag to mark them as retroactive.
+
+** Execution Context
+
+@/Users/xavierbrinon/.claude/get-my-shit-done/workflows/execute-plan.md
+@/Users/xavierbrinon/.claude/get-my-shit-done/templates/summary.org
+
+** Context
+
+@.planning/ROADMAP.org
+@.planning/REQUIREMENTS.org
+@.planning/STATE.org
+@.planning/v1.0-MILESTONE-AUDIT.org
+@.planning/phases/01-framework-foundation/01-01-SUMMARY.org
+@.planning/phases/02-classification-and-audit/02-01-SUMMARY.org
+@.planning/phases/02-classification-and-audit/02-02-SUMMARY.org
+@.planning/phases/02-classification-and-audit/02-03-SUMMARY.org
+@.planning/phases/03-gap-filling/03-VERIFICATION.org
+
+<interfaces>
+From .planning/phases/03-gap-filling/03-VERIFICATION.org (format exemplar):
+
+Frontmatter schema (verification):
+- :phase: (required)
+- :verified: (required, ISO timestamp)
+- :status: (required, passed/failed)
+- :score: (required, e.g. "8/8 must-haves verified")
+- :re_verification: (required, boolean)
+
+Sections structure:
+- Phase Goal statement
+- Verified/Status/Re-verification metadata
+- Goal Achievement (Observable Truths table, Required Artifacts table,
+  Key Link Verification table, Requirements Coverage table)
+- Structural verification details
+- Anti-Patterns Found
+- Commit Verification
+- Test Suite (current test count)
+- Gaps Summary
+</interfaces>
+
+** Tasks
+
+<tasks>
+
+<task type="auto">
+  <name>Task 1: Write VERIFICATION.org for Phase 1 and Phase 2</name>
+  <files>
+    .planning/phases/01-framework-foundation/VERIFICATION.org
+    .planning/phases/02-classification-and-audit/VERIFICATION.org
+  </files>
+  <action>
+Write two VERIFICATION.org files following the exact format of the
+existing =03-VERIFICATION.org= exemplar. Both files are retroactive
+verifications (=:re_verification: true=).
+
+*Phase 1 VERIFICATION.org* (CLASS-01):
+
+Frontmatter:
+- =:phase: 01-framework-foundation=
+- =:verified:= current ISO timestamp
+- =:status: passed=
+- =:score: 4/4 must-haves verified= (derive count from truths below)
+- =:re_verification: true=
+
+Verify these observable truths by checking actual artifacts on disk:
+1. =references/diataxis.org= exists with quadrant definitions (grep for
+   all 4 quadrant heading names: Tutorial, How-to, Reference, Explanation)
+2. Each quadrant section includes at least 2 anti-patterns (count
+   "Warning" or "NOT" patterns per quadrant section)
+3. =references/diataxis-condensed.md= exists and is suitable for agent
+   =<diataxis_style>= tag consumption (check line count is under 150)
+4. Condensed reference back-references the full document
+
+Required artifacts table: =diataxis.org= and =diataxis-condensed.md=
+with line counts and key structural elements confirmed present.
+
+Key links: diataxis-condensed.md references diataxis.org; both files
+exist at repo path AND installed path (=~/.claude/get-my-shit-done/references/=).
+
+Requirements coverage: CLASS-01 satisfied, referencing 01-01-SUMMARY.org
+commit =0cfff9d= (diataxis.org) and =077a5dc= (diataxis-condensed.md).
+
+Include commit verification (confirm commits exist with =git log --oneline=).
+Run the current test suite and record pass count.
+Mark =*Re-verification:* Yes --- retroactive, phase predates verification workflow=.
+
+*Phase 2 VERIFICATION.org* (CLASS-02, CLASS-03, GAPS-01):
+
+Frontmatter:
+- =:phase: 02-classification-and-audit=
+- =:verified:= current ISO timestamp
+- =:status: passed=
+- =:score:= N/N (derive from truth count)
+- =:re_verification: true=
+
+Verify these observable truths by checking actual artifacts:
+1. Every template in =templates/= has =:diataxis_primary:= in its
+   property drawer (grep all .org files in templates/, count matches
+   vs total)
+2. All 7 org-generating agents have =<diataxis_style>= tags (grep
+   agent files for the tag)
+3. =references/diataxis-audit.org= exists with template-to-quadrant
+   mapping table
+4. Audit identifies underserved quadrants (grep for "gap" or "critical"
+   in audit)
+5. No unclassified templates remain (count templates without
+   =:diataxis_primary:=, should be 0)
+
+Required artifacts: all 36 classified template files, 7 agent files,
+=diataxis-audit.org=.
+
+Key links: templates carry =:diataxis_primary:= property consumed by
+audit; agents reference =diataxis-condensed.md=; audit document
+cross-references template classifications.
+
+Requirements coverage: CLASS-02 (02-01-SUMMARY, commits =0985da8=,
+=1af20c1=), CLASS-03 (02-02-SUMMARY, commits =23fb1af=, =7ee8b52=),
+GAPS-01 (02-03-SUMMARY, commit =54fee69=).
+
+Include commit verification and test suite results.
+
+*Important:* Actually run verification commands (grep, file checks, git
+log, test suite) during execution. Do not fabricate evidence. Record
+actual counts and outputs. If any check fails, report it honestly and
+set =:status: failed=.
+  </action>
+  <verify>
+    <automated>test -f .planning/phases/01-framework-foundation/VERIFICATION.org && test -f .planning/phases/02-classification-and-audit/VERIFICATION.org && echo "Both VERIFICATION.org files exist"</automated>
+  </verify>
+  <done>
+Both VERIFICATION.org files exist with passed status, artifact evidence
+from actual disk checks, commit hashes verified, test suite results
+recorded, and re_verification: true flag set.
+  </done>
+</task>
+
+<task type="auto">
+  <name>Task 2: Promote partial requirements to satisfied in REQUIREMENTS.org</name>
+  <files>.planning/REQUIREMENTS.org</files>
+  <action>
+Update =.planning/REQUIREMENTS.org= to reflect that CLASS-01, CLASS-02,
+CLASS-03, and GAPS-01 are now formally verified and satisfied:
+
+1. Change the 4 checkbox lines from =- [ ]= to =- [X]= for:
+   - CLASS-01 (line ~18)
+   - CLASS-02 (line ~20)
+   - CLASS-03 (line ~22)
+   - GAPS-01 (line ~27)
+
+2. Update the traceability table: change Status from "Pending" to
+   "Complete" for CLASS-01, CLASS-02, CLASS-03, GAPS-01.
+
+3. Update the "Last updated" line at the bottom to record this
+   verification closure with today's date and reason.
+
+Do NOT change any other requirements (GAPS-02, GAPS-03 are already
+[X]; DOCS-01/02/03 remain [ ]).
+  </action>
+  <verify>
+    <automated>grep -c "\- \[X\]" .planning/REQUIREMENTS.org</automated>
+  </verify>
+  <done>
+REQUIREMENTS.org shows 6 completed requirements ([X] for CLASS-01,
+CLASS-02, CLASS-03, GAPS-01, GAPS-02, GAPS-03) and 3 pending ([  ] for
+DOCS-01, DOCS-02, DOCS-03). Traceability table shows Complete for all
+Phase 1, 2, and 3 requirements.
+  </done>
+</task>
+
+</tasks>
+
+** Verification
+
+After both tasks complete:
+
+1. Both VERIFICATION.org files have =:status: passed= in frontmatter
+2. REQUIREMENTS.org has exactly 6 =[X]= checkboxes and 3 =[ ]= checkboxes
+3. Traceability table shows CLASS-01, CLASS-02, CLASS-03, GAPS-01 as Complete
+4. No test regressions (test suite passes)
+
+** Success Criteria
+
+- =.planning/phases/01-framework-foundation/VERIFICATION.org= exists and
+  confirms CLASS-01 satisfied with artifact evidence from disk
+- =.planning/phases/02-classification-and-audit/VERIFICATION.org= exists
+  and confirms CLASS-02, CLASS-03, GAPS-01 satisfied with artifact evidence
+- All 4 partial requirements promoted to satisfied (=[X]=) in
+  REQUIREMENTS.org with traceability updated
+- Verification reports include =:re_verification: true= flag marking them
+  as retroactive
+
+** Output
+
+After completion, create =.planning/phases/05-retroactive-verification/05-01-SUMMARY.org=

@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up insert-phase decimal numbering algorithm"
+---
+
 # Decimal Phase Calculation
 
 Calculate the next decimal phase number for urgent insertions.

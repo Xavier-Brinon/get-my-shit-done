@@ -1,0 +1,28 @@
+#+title: Milestones
+#+author: GMSD
+#+date: [2026-03-03]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Milestones
+
+** v1.0 GMSD Diataxis Integration (Shipped: 2026-03-03)
+
+*Phases completed:* 5 phases, 10 plans
+*Timeline:* 2026-02-28 → 2026-03-02 (3 days)
+*Git range:* =feat(01-01)= → =feat(05-01)= (18 feat commits)
+*Files:* 161 files changed, 11,071 insertions, 2,116 deletions
+
+*Key accomplishments:*
+- Diataxis reference framework: 389-line authoritative =diataxis.org= + 122-line condensed agent reference
+- All 38 deliverable templates classified by Diataxis quadrant (100% coverage, 0 unclassified)
+- 7 org-generating agents tagged with =<diataxis_style>= writing guidance per quadrant
+- Formal audit document (=diataxis-audit.org=) with gap analysis and MermaidJS distribution chart
+- New tutorial and how-to templates filling critical quadrant gaps (Tutorial: 0→1, How-to: 1→2)
+- =USER-GUIDE.org= split into =docs/howto.org= (how-to) and =docs/reference.org= (reference); =README.org= restructured as tutorial hub
+- All 18 =references/= files classified with =diataxis_primary: reference= metadata
+- Retroactive VERIFICATION.org for Phases 1–2 closing procedural verification gaps
+
+*Audit:* PASSED — 9/9 requirements, 12/12 integrations, 4/4 E2E flows
+*Tech debt:* 6 low/info items (no blockers)
+*Archive:* =.planning/milestones/v1.0-ROADMAP.org=, =v1.0-REQUIREMENTS.org=, =v1.0-MILESTONE-AUDIT.org=

@@ -1,0 +1,127 @@
+:PROPERTIES:
+:phase: 05-retroactive-verification
+:plan: 01
+:subsystem: documentation
+:tags: [diataxis, verification, requirements, retroactive, CLASS-01, CLASS-02, CLASS-03, GAPS-01]
+:requires: [{phase: 01-framework-foundation, provides: diataxis.org and diataxis-condensed.md}, {phase: 02-classification-and-audit, provides: 36 classified templates, 7 tagged agents, diataxis-audit.org}]
+:provides: [VERIFICATION.org for Phase 1 confirming CLASS-01, VERIFICATION.org for Phase 2 confirming CLASS-02 CLASS-03 GAPS-01, 4 requirements promoted to satisfied in REQUIREMENTS.org]
+:affects: [REQUIREMENTS.org traceability, v1.0 milestone audit status]
+:tech-stack.added: []
+:tech-stack.patterns: ["Retroactive Verification pattern: applying verification workflow to pre-workflow phases using SUMMARY evidence and disk artifact checks"]
+:key-files.created: [.planning/phases/01-framework-foundation/VERIFICATION.org, .planning/phases/02-classification-and-audit/VERIFICATION.org]
+:key-files.modified: [.planning/REQUIREMENTS.org]
+:key-decisions: ["Retroactive verification uses actual disk and git log evidence, not SUMMARY text alone", "Phase 2 template count updated to 38 (not 36) to reflect Phase 3 additions correctly classified"]
+:patterns-established: ["Retroactive VERIFICATION.org pattern: :re_verification: true flag marks files that apply the verification workflow after-the-fact"]
+:requirements-completed: [CLASS-01, CLASS-02, CLASS-03, GAPS-01]
+:duration: 4min
+:completed: 2026-03-02
+:END:
+
+#+title: Phase 05 Plan 01: Write VERIFICATION.org for Phase 1 and Phase 2 Summary
+#+author: GMSD
+#+date: [2026-03-02]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 05 Plan 01: Write VERIFICATION.org for Phase 1 and Phase 2 Summary
+
+*Retroactive VERIFICATION.org files for Phases 1 and 2 written with actual
+disk evidence, closing the procedural audit gap and promoting CLASS-01,
+CLASS-02, CLASS-03, and GAPS-01 to satisfied in REQUIREMENTS.org*
+
+** Performance
+
+- *Duration:* 4 min
+- *Started:* 2026-03-02T15:03:22Z
+- *Completed:* 2026-03-02T15:07:14Z
+- *Tasks:* 2
+- *Files modified:* 3
+
+** Accomplishments
+
+- Phase 1 =VERIFICATION.org= (4/4 must-haves verified): confirmed =diataxis.org=
+  (389 lines, 4 quadrant headings, 8 anti-patterns) and =diataxis-condensed.md=
+  (122 lines, back-reference to full doc) from actual disk checks; commits =0cfff9d=
+  and =077a5dc= verified in git log; =:re_verification: true= flag set
+- Phase 2 =VERIFICATION.org= (5/5 must-haves verified): confirmed all 38 templates
+  carry =:diataxis_primary:= (0 unclassified), all 7 agents carry =<diataxis_style>=
+  tags, =diataxis-audit.org= exists with 20+ gap/critical markers; 5 commits
+  verified in git log; =:re_verification: true= flag set
+- =REQUIREMENTS.org= updated: CLASS-01, CLASS-02, CLASS-03, GAPS-01 promoted
+  from =[ ]= to =[X]=; traceability table updated to Complete; now 6 satisfied,
+  3 pending (DOCS-01/02/03)
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Write VERIFICATION.org for Phase 1 and Phase 2* - ~c9e3090~ (feat)
+2. *Task 2: Promote partial requirements to satisfied in REQUIREMENTS.org* - ~788e891~ (feat)
+
+** Files Created/Modified
+
+- =.planning/phases/01-framework-foundation/VERIFICATION.org= --- Phase 1
+  retroactive verification (4/4 truths verified, CLASS-01 satisfied)
+- =.planning/phases/02-classification-and-audit/VERIFICATION.org= --- Phase 2
+  retroactive verification (5/5 truths verified, CLASS-02 CLASS-03 GAPS-01 satisfied)
+- =.planning/REQUIREMENTS.org= --- 4 requirements promoted to Complete ([X]);
+  traceability table updated; last-updated note records Phase 5 closure
+
+** Decisions Made
+
+- *Retroactive verification uses actual disk checks:* All observable truths verified
+  against live files and =git log --oneline= output, not inferred from SUMMARY text.
+  This ensures the verification reports are audit-grade, not summary summaries.
+- *Phase 2 template count recorded as 38 (not 36):* The original Phase 2 classified
+  36 templates; Phase 3 added 2 more (tutorial.org, howto.org). At verification time,
+  38 templates exist and all 38 carry =:diataxis_primary:= --- the count increase is
+  noted in the VERIFICATION.org as a factual observation, not a discrepancy.
+
+** Deviations from Plan
+
+None --- plan executed exactly as written.
+
+** Issues Encountered
+
+None.
+
+** Architectural Observations
+
+- *Emergent patterns:* The Retroactive Verification pattern (=:re_verification: true=
+  flag on VERIFICATION.org files) is now established as an explicit mechanism for
+  closing procedural gaps when workflow steps are added mid-project. The pattern
+  separates the evidence check (did the artifacts actually exist and work?) from the
+  original execution (did the plan run?). This is correct --- it applies a
+  verification contract retroactively without retroactively rewriting history.
+- *Coupling discovered:* The traceability table in REQUIREMENTS.org uses Phase
+  numbers (1,5 / 2,5 / 3) to link requirements to execution phases. Phase 5
+  appears as a co-owner of CLASS-01 through GAPS-01 because it provides the
+  procedural verification that the original phases lacked. This is a designed
+  coupling --- the table records which phases are responsible for satisfying each
+  requirement, not just which phases created the artifacts.
+- *Boundary assessment:* Verification reports correctly live in their respective
+  phase directories (not in a centralised verification directory). This keeps the
+  verification co-located with the plan evidence it references, which is the
+  correct boundary for an audit trail.
+- *ADR candidates:* The decision to use =:re_verification: true= as a flag rather
+  than a separate file format (e.g., =RETROACTIVE-VERIFICATION.org=) may warrant an
+  ADR if retroactive verifications become a recurring pattern in future milestone
+  cycles. The current approach (same format, different flag) is consistent with the
+  Open-Closed Principle --- the verification format is open for extension (new
+  flags) without modifying its structure.
+
+** User Setup Required
+
+None --- no external service configuration required.
+
+** Next Phase Readiness
+
+- All Phase 1 and Phase 2 requirements (CLASS-01, CLASS-02, CLASS-03, GAPS-01)
+  are now formally satisfied with VERIFICATION.org evidence
+- REQUIREMENTS.org shows 6/9 v1.0 requirements complete (DOCS-01/02/03 remain)
+- The v1.0 milestone audit can now be updated to reflect the verification closure
+- No blockers
+
+-----
+/Phase: 05-retroactive-verification/
+/Completed: 2026-03-02/

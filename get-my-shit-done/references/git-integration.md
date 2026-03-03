@@ -1,3 +1,9 @@
+---
+diataxis_primary: reference
+diataxis_secondary: none
+diataxis_rationale: "Agent looks up commit conventions and git strategy"
+---
+
 <overview>
 Git integration for GMSD framework.
 </overview>
