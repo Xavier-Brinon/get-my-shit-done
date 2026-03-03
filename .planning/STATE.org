@@ -61,6 +61,10 @@ Decisions logged in =PROJECT.org= Key Decisions table (10 decisions, all ✓ Goo
 
 1 pending — =.planning/TODOS.org=
 
+*** Roadmap Evolution
+
+- Phase 1 added: Integrate beautiful-mermaid ASCII rendering for Mermaid diagrams in GMSD templates — evaluate as replacement/supplement for ob-mermaid blocks, update templates and references
+
 *** Blockers/Concerns
 
 None.
@@ -68,5 +72,5 @@ None.
 ** Session Continuity
 
 Last session: 2026-03-03
-Stopped at: Milestone v1.0 shipped; ready for next milestone
-Resume file: None
+Stopped at: Phase 1 context gathered
+Resume file: .planning/phases/01-integrate-beautiful-mermaid-ascii-rendering-for-mermaid-diagrams-in-gmsd-templates-evaluate-as-replacement-supplement-for-ob-mermaid-blocks-update-templates-and-references/01-CONTEXT.org
