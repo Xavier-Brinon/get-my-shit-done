@@ -19,10 +19,20 @@ GMSD templates use ob-mermaid syntax for MermaidJS diagrams, but rendered diagra
 *** Solution
 Integrate beautiful-mermaid as a rendering option for Mermaid diagrams in GMSD templates. Evaluate whether it can replace or supplement ob-mermaid blocks. See https://github.com/lukilabs/beautiful-mermaid for API and usage.
 
-** TODO [#C] Fix #+begin_src json to #+begin_src js in org docs :docs:
+* Archive
+
+
+
+
+** DONE [#C] Fix #+begin_src json to #+begin_src js in org docs :docs:
+CLOSED: [2026-03-03 Tue 21:10]
+:LOGBOOK:
+- State "DONE" from "TODO"       [2026-03-03 Tue 21:10] \\
+  Replaced all 6 occurrences across README.org, docs/reference.org, docs/context-monitor.org
+:END:
 :PROPERTIES:
 :created: [2026-03-02 Mon]
-:files: docs/reference.org, README.org
+:files: docs/reference.org, docs/context-monitor.org, README.org
 :END:
 
 *** Problem
@@ -30,10 +40,6 @@ Some org-mode source blocks use #+begin_src json for JSON content, but Emacs org
 
 *** Solution
 Search all org files for #+begin_src json and replace with #+begin_src js. Check docs/, references/, and templates/ directories.
-
-* Archive
-
-
 
 ** DONE [#C] Suppress false exit-code-1 in resume-work shell check :tooling:
 CLOSED: [2026-03-03 Tue 20:08]

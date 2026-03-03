@@ -60,7 +60,7 @@ additionalContext -> Agent sees warning
 
 The bridge file is a simple JSON object:
 
-#+begin_src json
+#+begin_src js
 {
   "session_id": "abc123",
   "remaining_percentage": 28.5,
@@ -82,7 +82,7 @@ Both hooks are automatically registered during =npx get-my-shit-done-cc= install
 
 Manual registration in =~/.claude/settings.json=:
 
-#+begin_src json
+#+begin_src js
 {
   "statusLine": {
     "type": "command",
