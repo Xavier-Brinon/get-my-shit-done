@@ -26,3 +26,21 @@
 *Audit:* PASSED — 9/9 requirements, 12/12 integrations, 4/4 E2E flows
 *Tech debt:* 6 low/info items (no blockers)
 *Archive:* =.planning/milestones/v1.0-ROADMAP.org=, =v1.0-REQUIREMENTS.org=, =v1.0-MILESTONE-AUDIT.org=
+
+** v1.1 MermaidJS ASCII Integration (Shipped: 2026-03-04)
+
+*Phases completed:* 1 phase, 3 plans, 7 tasks
+*Timeline:* 2026-03-04 (single day)
+*Git range:* =feat(01-01)= → =fix(v1.0)= (12 commits)
+
+*Key accomplishments:*
+- =render-mermaid.cjs= Facade over beautiful-mermaid with 120-column width enforcement and paddingX fallback
+- All 9 ob-mermaid blocks across 5 template files replaced with pre-rendered ASCII + preserved Mermaid source
+- Both styleguides updated to document EXAMPLE + =:exports none= convention
+- Diataxis reference diagrams replaced with ASCII equivalents (classification tree + distribution bar chart)
+- Clean break from ob-mermaid — zero external rendering dependencies remain
+- Tech debt resolved: EXAMPLE block case standardized to lowercase, VERIFICATION.org corrected to 13/13, REQUIREMENTS.org created
+
+*Audit:* PASSED — 3/3 requirements, 4/4 integrations, 1/1 E2E flows (all tech debt resolved)
+*Archive:* =.planning/milestones/v1.1-ROADMAP.org=, =v1.1-REQUIREMENTS.org=, =v1.1-MILESTONE-AUDIT.org=
+

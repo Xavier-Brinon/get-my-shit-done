@@ -76,22 +76,88 @@
 
 -----
 
+** Milestone: v1.1 — MermaidJS ASCII Integration
+
+*Shipped:* 2026-03-04
+*Phases:* 1 | *Plans:* 3 | *Timeline:* 1 day (2026-03-04)
+
+*** What Was Built
+- =render-mermaid.cjs= Facade over beautiful-mermaid with 120-column width enforcement and paddingX fallback [2,1,0]
+- All 9 ob-mermaid blocks across 5 template files replaced with pre-rendered ASCII; Mermaid source preserved in =:exports none= blocks
+- Both styleguides (=org-styleguide.md= and =org-styleguide-full.org=) document EXAMPLE + =:exports none= convention
+- Diataxis reference diagrams (classification tree + distribution bar chart) rendered as ASCII
+- Tech debt from audit resolved: EXAMPLE case standardized, VERIFICATION.org corrected, REQUIREMENTS.org created
+
+*** What Worked
+- *Facade pattern:* Single file (render-mermaid.cjs) encapsulates all beautiful-mermaid interaction. Clean boundary — no other code touches the library directly
+- *Pre-rendered static content:* Diagrams rendered at authoring time, committed as static text. Agents read ASCII directly — zero runtime dependencies
+- *Source preservation:* =:exports none= blocks keep Mermaid source available for re-rendering without cluttering agent-visible content
+- *Plan 02 batch rendering:* Rendered all 9 diagrams in one session using the CLI, then copy-pasted results into templates. Efficient batch workflow
+- *Tech debt closure before milestone completion:* Running the audit then immediately addressing tech debt meant the milestone archived cleanly
+
+*** What Was Inefficient
+- *Template sync gap:* Plan 03 execution synced references but missed 4 of 5 template files. The verification caught it, but the gap persisted until tech debt closure. Root cause: sync step was manual (=cp= commands) with no automated diff check
+- *EXAMPLE block case divergence:* The two styleguides prescribed different cases from the start (v0.x era). This wasn't caught until the v1.1 audit. Earlier styleguide reconciliation would have prevented 20-file cleanup
+- *Audit file naming:* Created as =v1.0-MILESTONE-AUDIT.org= because the version assignment happened mid-flow. Renamed to v1.1 during archival — minor friction
+
+*** Patterns Established
+- *EXAMPLE + :exports none:* Canonical pattern for all MermaidJS diagrams in org-mode templates
+- *paddingX fallback [2,1,0]:* Width enforcement strategy for beautiful-mermaid rendering
+- *Lowercase =#+begin_example=:* Standardized case for all org-mode EXAMPLE blocks project-wide
+- *Description list syntax (=Term :: explanation=):* Replaces bold-dash pattern in org-mode documents
+
+*** Key Lessons
+1. *Automate sync steps.* Manual =cp= commands are error-prone — the 4-file sync gap was the only verification failure. A sync script or diff check would prevent this
+2. *Reconcile styleguide sources early.* Two styleguide versions with different prescriptions create silent divergence that compounds over time
+3. *Tech debt closure is cheap when done immediately.* The 3 tech debt items took ~10 minutes to resolve at milestone boundary — would have been much harder to track down later
+
+*** Architecture Retrospective
+
+*Architectural Decisions Made:*
+- *Facade pattern for ESM-only package:* ✓ Good — dynamic =import()= contained to one file; CJS project needs no migration
+- *Pre-rendered static content:* ✓ Good — zero runtime dependencies, agents see ready-to-use ASCII, source preserved for re-rendering
+- *EXAMPLE + :exports none convention:* ✓ Good — clean separation of rendered output and renderable source
+
+*Architectural Patterns That Emerged:*
+- *Render-once, read-many:* Diagrams are rendered during authoring and never re-rendered unless explicitly requested. This is a content architecture pattern — static generation at write time, not read time
+- *Dual-content blocks:* The EXAMPLE+:exports none pairing is a form of progressive disclosure — agents and readers see ASCII; authors see both ASCII and source
+
+*Architecture Lessons:*
+- *Boundary placement:* The Facade boundary at render-mermaid.cjs was exactly right. All ESM/CJS complexity is hidden behind one async function
+- *Integration points:* File copy (source → installed) remains the weakest integration point. No automated validation exists for this connection
+- *Quality attributes:* Portability drove the choice of pre-rendered ASCII over runtime rendering. Agents and terminals don't need Mermaid tooling installed
+
+*ADR Candidates:*
+- ADR-002 already captures the MermaidJS ASCII rendering decision (=accepted=)
+- "Render-once, read-many as content architecture" — potential future ADR if pattern extends beyond diagrams
+
+*** Cost Observations
+- Model mix: Sonnet for executor agents, Opus for orchestration
+- Sessions: 2 sessions in 1 day (execution + tech debt/audit/completion)
+- Notable: Single-phase milestone with tight scope executed quickly (~35min for 3 plans)
+
+-----
+
 ** Cross-Milestone Trends
 
 *** Process Evolution
 
-| Milestone | Timeline | Phases | Key Change                              |
-|-----------+----------+--------+-----------------------------------------|
-| v1.0      | 3 days   |      5 | First full audit → gap closure → re-audit cycle |
+| Milestone | Timeline | Phases | Key Change                                        |
+|-----------+----------+--------+---------------------------------------------------|
+| v1.0      | 3 days   |      5 | First full audit → gap closure → re-audit cycle   |
+| v1.1      | 1 day    |      1 | Tech debt closure before archival; Facade pattern  |
 
 *** Cumulative Quality
 
 | Milestone | Tests | Audit Score | Requirements |
 |-----------+-------+-------------+--------------|
 | v1.0      |   218 | 9/9         | 9 satisfied  |
+| v1.1      |   218 | 3/3         | 3 satisfied  |
 
 *** Top Lessons (Verified Across Milestones)
 
 1. Build verification into the workflow from the start — avoid retroactive phases
 2. Audit → Fill → Re-audit is a proven gap closure loop
 3. Metadata classification is cheaper than structural reorganization
+4. Automate sync steps — manual file copies are the weakest integration point (v1.1 sync gap)
+5. Resolve tech debt at milestone boundaries — cheaper than tracking down later

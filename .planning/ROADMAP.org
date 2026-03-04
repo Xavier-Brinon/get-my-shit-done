@@ -9,16 +9,4 @@
 ** Milestones
 
 - [X] *v1.0 GMSD Diataxis Integration* — Phases 1–5 (shipped 2026-03-03) → =milestones/v1.0-ROADMAP.org=
-
-### Phase 1: Integrate beautiful-mermaid ASCII rendering for Mermaid diagrams in GMSD templates — evaluate as replacement/supplement for ob-mermaid blocks, update templates and references
-
-**Goal:** Replace all ob-mermaid diagram blocks with pre-rendered MermaidJS ASCII art using beautiful-mermaid, creating a render script facade, updating all templates and references, and achieving a clean break from ob-mermaid with zero external rendering dependencies.
-**Origin:** TODO #1 — "Use ASCII art for Mermaid using beautiful-mermaid" (=.planning/TODOS.org=)
-**Requirements**: MERMAID-TOOL, MERMAID-TEMPLATES, MERMAID-REFS
-**Depends on:** Phase 0
-**Plans:** 3/3 plans complete
-
-Plans:
-- [ ] 01-01-PLAN.org — Create MermaidJS ASCII render script (Facade over beautiful-mermaid)
-- [ ] 01-02-PLAN.org — Replace ob-mermaid blocks in all 5 template files (9 blocks)
-- [ ] 01-03-PLAN.org — Update references, styleguides, and sync installed copies
+- [X] *v1.1 MermaidJS ASCII Integration* — Phase 1 (shipped 2026-03-04) → =milestones/v1.1-ROADMAP.org=

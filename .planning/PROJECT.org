@@ -26,6 +26,9 @@ Shipped and confirmed valuable.
 - ✓ Gap analysis and new templates for underserved quadrants — v1.0 (GAPS-01/02/03: tutorial + how-to templates)
 - ✓ USER-GUIDE.org split into Diataxis-aligned documents — v1.0 (DOCS-01: howto.org + reference.org)
 - ✓ Diataxis framework integration for internal documentation — v1.0 (DOCS-02/03: references/ classified, README.org restructured)
+- ✓ MermaidJS ASCII render script (Facade over beautiful-mermaid) — v1.1 (MERMAID-TOOL: 120-col width, paddingX fallback)
+- ✓ All ob-mermaid blocks replaced with pre-rendered ASCII in templates — v1.1 (MERMAID-TEMPLATES: 9 blocks across 5 files)
+- ✓ Styleguides and references updated for MermaidJS ASCII convention — v1.1 (MERMAID-REFS: EXAMPLE+:exports none pattern)
 
 *** Active
 
@@ -46,6 +49,7 @@ Explicit boundaries. Includes reasoning to prevent re-adding.
 
 - The fork conversion (GSD → GMSD) is complete: 128/128 tests passing across 8 phases
 - v1.0 Diataxis Integration shipped: 9/9 requirements, 5 phases, 10 plans, 18 feat commits
+- v1.1 MermaidJS ASCII Integration shipped: 3/3 requirements, 1 phase, 3 plans
 - 38 org-mode templates carry =:diataxis_primary:= metadata (all 4 quadrants represented)
 - 7 org-generating agents have =<diataxis_style>= tags with per-quadrant writing rules
 - =references/diataxis.org= (389 lines) is the authoritative framework reference
@@ -54,6 +58,9 @@ Explicit boundaries. Includes reasoning to prevent re-adding.
 - =README.org= restructured as tutorial-quadrant onboarding hub
 - All 18 =references/= files classified as =diataxis_primary: reference=
 - =references/diataxis-audit.org= tracks quadrant distribution and coverage
+- =bin/render-mermaid.cjs= Facade renders Mermaid→ASCII within 120 columns; beautiful-mermaid ^1.1.3
+- All ob-mermaid blocks replaced with EXAMPLE+:exports none pattern across templates and references
+- EXAMPLE block syntax standardized to lowercase =#+begin_example= project-wide
 
 ** Constraints
 
@@ -76,6 +83,10 @@ Explicit boundaries. Includes reasoning to prevent re-adding.
 | How-to skeleton kept generic                          | Usable for any multi-step procedure, not locked to GMSD                      | ✓ Good     |
 | Retroactive verification with disk evidence           | Checks actual files and git log, not SUMMARY text alone                      | ✓ Good     |
 | README.org as tutorial hub (not reference)            | Core workflow table retained; full tables moved to docs/reference.org         | ✓ Good     |
+| Facade pattern for beautiful-mermaid                  | Single integration point (render-mermaid.cjs); no direct library calls       | ✓ Good     |
+| Dynamic import() for ESM-only packages from CJS       | Avoids project-wide ESM migration; async but contained to Facade            | ✓ Good     |
+| EXAMPLE+:exports none as canonical diagram pattern     | Pre-rendered ASCII visible to agents; Mermaid source preserved for re-render | ✓ Good     |
+| Lowercase #+begin_example standardization              | Resolved styleguide contradiction; org-mode is case-insensitive anyway       | ✓ Good     |
 
 -----
-/Last updated: 2026-03-03 after v1.0 GMSD Diataxis Integration milestone/
+/Last updated: 2026-03-04 after v1.1 MermaidJS ASCII Integration milestone/

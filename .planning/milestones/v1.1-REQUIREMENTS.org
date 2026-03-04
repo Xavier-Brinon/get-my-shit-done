@@ -1,3 +1,12 @@
+# Requirements Archive: v1.1 MermaidJS ASCII Integration
+
+**Archived:** 2026-03-04
+**Status:** SHIPPED
+
+For current requirements, see `.planning/REQUIREMENTS.org`.
+
+---
+
 #+title: Requirements: GMSD v1.0
 #+defined: [2026-03-03]
 #+core_value: Every document GMSD produces follows a principled documentation framework so users always find the right type of doc for their need.
