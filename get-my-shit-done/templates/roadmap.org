@@ -102,11 +102,26 @@ Plans:
 
 ** Phase Dependencies (Optional)
 
-#+begin_src mermaid :file phase-dependencies.png :exports results
+#+CAPTION: Phase Dependencies (MermaidJS ASCII)
+#+BEGIN_EXAMPLE
+┌─────────────────────┐  ┌──────────────────┐  ┌─────────────────┐
+│                     │  │                  │  │                 │
+│ Phase 1: Foundation ├─►│  Phase 2: Auth   ├─►│ Phase 4: Social │
+│                     │  │                  │  │                 │
+└──────────┬──────────┘  └───user─identity──┘  └─────────────────┘
+           │                       ▼                    ▲
+           │             ┌──────────────────┐           │
+           │             │                  │           │
+           └────────────►│ Phase 3: Content ├───────────┘
+                         │                  │
+                         └──────────────────┘
+#+END_EXAMPLE
+
+#+begin_src mermaid :exports none
 flowchart LR
-    P1["Phase 1\nFoundation"] --> P2["Phase 2\nAuth"]
-    P1 --> P3["Phase 3\nContent"]
-    P2 --> P4["Phase 4\nSocial"]
+    P1["Phase 1: Foundation"] --> P2["Phase 2: Auth"]
+    P1 --> P3["Phase 3: Content"]
+    P2 --> P4["Phase 4: Social"]
     P3 --> P4
     P2 -.->|"user identity"| P3
 #+end_src

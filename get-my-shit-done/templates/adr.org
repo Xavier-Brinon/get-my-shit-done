@@ -111,26 +111,68 @@ Chosen option: "[title of option N]", because [justification. e.g., only option 
 
 *** Option Comparison
 
-#+begin_src mermaid :file adr-NNN-options.png :exports results
+#+CAPTION: Option Comparison (MermaidJS ASCII)
+#+BEGIN_EXAMPLE
+◇─────────────────────────────◇
+│                             │
+│ Decision: problem statement │
+│                             │
+◇─────────────────────────────◇
+               ▼────────────────────────────────▼───────────────────────────────▼
+┌─────────────────────────────┐  ┌────────────────────────────┐  ┌────────────────────────────┐
+│                             │  │                            │  │                            │
+│   Option A: title - chosen  │  │ Option B: title - rejected │  │ Option C: title - rejected │
+│                             │  │                            │  │                            │
+└──────────────┬──────────────┘  └──────────────┬─────────────┘  └──────────────┬─────────────┘
+               ▼                                ▼                               ▼
+┌─────────────────────────────┐  ┌────────────────────────────┐  ┌────────────────────────────┐
+│                             │  │                            │  │                            │
+│     Outcome: key benefit    │  │         Drawback B         │  │         Drawback C         │
+│                             │  │                            │  │                            │
+└─────────────────────────────┘  └────────────────────────────┘  └────────────────────────────┘
+#+END_EXAMPLE
+
+#+begin_src mermaid :exports none
 flowchart TD
-    Q{"Decision:\n[problem statement]"}
-    Q --> A["Option A\n[title]"]
-    Q --> B["Option B\n[title]"]
-    Q --> C["Option C\n[title]"]
-    A -->|"chosen"| R["Outcome:\n[key benefit]"]
-    B -.->|"rejected"| X1["[key drawback]"]
-    C -.->|"rejected"| X2["[key drawback]"]
+    Q{"Decision: problem statement"}
+    Q --> A["Option A: title - chosen"]
+    Q --> B["Option B: title - rejected"]
+    Q --> C["Option C: title - rejected"]
+    A --> R["Outcome: key benefit"]
+    B -.-> X1["Drawback B"]
+    C -.-> X2["Drawback C"]
     style A fill:#2d6,stroke:#333
     style R fill:#2d6,stroke:#333
 #+end_src
 
 *** Architecture Impact
 
-#+begin_src mermaid :file adr-NNN-impact.png :exports results
+#+CAPTION: Architecture Impact (MermaidJS ASCII)
+#+BEGIN_EXAMPLE
+┌──────────────────┐  ┌──────────────────────────┐
+│                  │  │                          │
+│ ADR-NNN decision ├─►│ Component A how affected │
+│                  │  │                          │
+└─────────┬────────┘  └──────────────────────────┘
+          │
+          │           ┌──────────────────────────┐
+          │           │                          │
+          ├──────────►│ Component B how affected │
+          │           │                          │
+          │           └──────────────────────────┘
+          │
+          │           ┌──────────────────────────┐
+          │           │                          │
+          └──────────►│ Component C how affected │
+                      │                          │
+                      └──────────────────────────┘
+#+END_EXAMPLE
+
+#+begin_src mermaid :exports none
 flowchart LR
-    D["ADR-NNN\n[decision]"] --> C1["Component A\n[how affected]"]
-    D --> C2["Component B\n[how affected]"]
-    D --> C3["Component C\n[how affected]"]
+    D["ADR-NNN decision"] --> C1["Component A how affected"]
+    D --> C2["Component B how affected"]
+    D --> C3["Component C how affected"]
 #+end_src
 
 ** More Information

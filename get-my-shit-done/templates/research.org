@@ -101,7 +101,48 @@ yarn add [packages]
 
 *** Component Interaction (Optional)
 
-#+begin_src mermaid :file research-architecture.png :exports results
+#+CAPTION: Component Interaction (MermaidJS ASCII)
+#+BEGIN_EXAMPLE
+┌───────────────────┐
+│     Frontend      │
+│                   │
+│                   │
+│ ┌───────────────┐ │
+│ │               │ │
+│ │ UI Components ├─┼───────┐
+│ │               │ │       │
+│ └───────┬───────┘ │       │
+│         │         │       │
+│         │         │       │
+│         │         │       │
+│         │         │       │
+│         ▼         │       ▼
+│ ┌───────────────┐ │┌────────────┐
+│ │               │ ││            │
+│ │  State Store  │ ││ API Routes │
+│ │               │ ││            │
+│ └───────────────┘ │└──────┬─────┘
+│                   │       │
+└─┬───────────────┬─┘       │
+  │               │         │
+┌─┼────Services───┼◄────────┼───────┐
+│ │            Backend      │       │
+│ └───────┬───────┘         │       │
+│         │                 │       │
+└─────────┼─────────────────┼───────┘
+          │                 │
+┌─────────┼─────────────────┼───────┐
+│         ▼     Data        ▼       │
+│ ┌───────────────┐  ┌────────────┐ │
+│ │               │  │            │ │
+│ │    Database   │  │   Cache    │ │
+│ │               │  │            │ │
+│ └───────────────┘  └────────────┘ │
+│                                   │
+└───────────────────────────────────┘
+#+END_EXAMPLE
+
+#+begin_src mermaid :exports none
 flowchart TD
     subgraph Frontend
         UI["UI Components"]
