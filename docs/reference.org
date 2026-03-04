@@ -156,7 +156,7 @@ it skips branch creation and commits directly to the current branch.
 
 *Recommended workflow:*
 
-#+BEGIN_EXAMPLE
+#+begin_example
 # Start a worktree session for the phase
 claude -w phase-02-classification-and-audit
 
@@ -165,7 +165,7 @@ claude -w phase-02-classification-and-audit
 # → Detects worktree branch, skips branch creation, commits there
 
 # When done — create a PR from the worktree branch
-#+END_EXAMPLE
+#+end_example
 
 *Branch discovery at milestone completion:*
 
@@ -283,7 +283,7 @@ claude --dangerously-skip-permissions
 
 For reference, here is what GMSD creates in your project:
 
-#+BEGIN_EXAMPLE
+#+begin_example
 .planning/
   PROJECT.org              # Project vision and context (always loaded)
   REQUIREMENTS.org         # Scoped v1/v2 requirements with IDs
@@ -304,4 +304,4 @@ For reference, here is what GMSD creates in your project:
       CONTEXT.org           # Your implementation preferences
       RESEARCH.org          # Ecosystem research findings
       VERIFICATION.org      # Post-execution verification results
-#+END_EXAMPLE
+#+end_example

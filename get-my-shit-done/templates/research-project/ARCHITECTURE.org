@@ -109,7 +109,7 @@ src/
 *** System Overview (MermaidJS)
 
 #+CAPTION: System Overview (MermaidJS ASCII)
-#+BEGIN_EXAMPLE
+#+begin_example
 ┌──────────────────────────────────┐
 │       Presentation Layer         │
 │                                  │
@@ -141,7 +141,7 @@ src/
 │ └─────────────┘  └─────────────┘ │
 │                                  │
 └──────────────────────────────────┘
-#+END_EXAMPLE
+#+end_example
 
 #+begin_src mermaid :exports none
 flowchart TD
@@ -165,7 +165,7 @@ flowchart TD
 *** Request Flow
 
 #+CAPTION: Request Flow (MermaidJS ASCII)
-#+BEGIN_EXAMPLE
+#+begin_example
 ┌──────┐   ┌───────────┐   ┌─────────┐    ┌─────────┐  ┌────────────┐
 │ User │   │ Component │   │ Handler │    │ Service │  │ Data Store │
 └───┬──┘   └─────┬─────┘   └────┬────┘    └────┬────┘  └──────┬─────┘
@@ -197,7 +197,7 @@ flowchart TD
 ┌───┴──┐   ┌─────┴─────┐   ┌────┴────┐    ┌────┴────┐  ┌──────┴─────┐
 │ User │   │ Component │   │ Handler │    │ Service │  │ Data Store │
 └──────┘   └───────────┘   └─────────┘    └─────────┘  └────────────┘
-#+END_EXAMPLE
+#+end_example
 
 #+begin_src mermaid :exports none
 sequenceDiagram
@@ -229,7 +229,7 @@ sequenceDiagram
 *** State Flow
 
 #+CAPTION: State Flow (MermaidJS ASCII)
-#+BEGIN_EXAMPLE
+#+begin_example
 ●───────────────●
 │               │
 ●───────────────●
@@ -251,7 +251,7 @@ sequenceDiagram
 │    Success    │  ├───────────┘       │ Error │
 │               │                      │       │
 ╰───────────────╯                      ╰───────╯
-#+END_EXAMPLE
+#+end_example
 
 #+begin_src mermaid :exports none
 stateDiagram-v2

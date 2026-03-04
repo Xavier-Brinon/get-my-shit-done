@@ -222,7 +222,7 @@ console.log(ascii);
 
 *** Pattern 2: Org-mode wrapping for ASCII diagram blocks
 
-*What:* The ASCII output is stored in an =#+BEGIN_EXAMPLE= / =#+END_EXAMPLE=
+*What:* The ASCII output is stored in an =#+begin_example= / =#+end_example=
 block (preformatted, non-code) with the Mermaid source preserved in a
 collapsed =#+begin_src mermaid= block immediately below.
 
@@ -234,11 +234,11 @@ immediately) and the diagram source (available for re-rendering).
 #+begin_src org
 ,#+NAME: phase-dependencies
 ,#+CAPTION: Phase dependency diagram
-,#+BEGIN_EXAMPLE
+,#+begin_example
   ┌────────────┐     ┌────────────┐
   │  Phase 1   │────▶│  Phase 2   │
   └────────────┘     └────────────┘
-,#+END_EXAMPLE
+,#+end_example
 
 ,#+begin_details
 ,#+begin_summary
@@ -283,7 +283,7 @@ function renderWithinWidth(diagramSource, maxCols = 120) {
   =beautiful-mermaid= at inference time. ASCII diagrams are pre-rendered
   static content in templates.
 - *Wrapping ASCII in =#+begin_src= blocks with a language tag*: Language-tagged
-  src blocks imply code that can be executed. Use =#+BEGIN_EXAMPLE= for
+  src blocks imply code that can be executed. Use =#+begin_example= for
   preformatted ASCII art output.
 - *Storing rendered ASCII without source*: Without the preserved Mermaid source,
   diagrams cannot be updated or re-rendered when =beautiful-mermaid= improves.
@@ -430,12 +430,12 @@ function renderWithinWidth(source, maxWidth = 120) {
 
 ,#+NAME: roadmap-phases
 ,#+CAPTION: Phase dependency diagram (MermaidJS ASCII)
-,#+BEGIN_EXAMPLE
+,#+begin_example
 ┌───────────┐     ┌───────────┐
 │  Phase 1  │────▶│  Phase 2  │
 │ Foundation│     │   Auth    │
 └───────────┘     └───────────┘
-,#+END_EXAMPLE
+,#+end_example
 
 ,#+begin_src mermaid :exports none
 flowchart LR
@@ -458,7 +458,7 @@ Replace the existing ob-mermaid rule:
 With the MermaidJS ASCII convention:
 
 #+begin_src org
-- Use =#+BEGIN_EXAMPLE= / =#+END_EXAMPLE= for rendered MermaidJS ASCII diagrams
+- Use =#+begin_example= / =#+end_example= for rendered MermaidJS ASCII diagrams
   (produced by =bin/render-mermaid.cjs=). Preserve Mermaid source in a
   =#+begin_src mermaid :exports none= block immediately below for re-rendering.
 #+end_src
@@ -468,7 +468,7 @@ With the MermaidJS ASCII convention:
 | Old Approach | Current Approach | When Changed | Impact |
 |--------------+------------------+--------------+--------|
 | ob-mermaid (mmdc + Chromium) | beautiful-mermaid ASCII rendering | Phase 1 (2026-03-03) | Diagrams readable in org buffers without render step; zero external deps |
-| =#+begin_src mermaid :file X.png :exports results= | =#+BEGIN_EXAMPLE= + =#+begin_src mermaid :exports none= | Phase 1 | Diagram always visible; source always preserved |
+| =#+begin_src mermaid :file X.png :exports results= | =#+begin_example= + =#+begin_src mermaid :exports none= | Phase 1 | Diagram always visible; source always preserved |
 
 *Deprecated/outdated after this phase:*
 - =#+begin_src mermaid :file name.png :exports results=: ob-mermaid syntax,

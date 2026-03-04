@@ -216,7 +216,7 @@ Or use ~/gmsd:settings~ during project setup.
 
 *** The loop
 
-#+BEGIN_EXAMPLE
+#+begin_example
 # 1. Check where you are
 claude
 > /gmsd:progress
@@ -242,7 +242,7 @@ claude -w phase-02-classification-and-audit
 # 7. After merging, start the next phase in a new worktree
 claude -w phase-03-gap-filling
 > /gmsd:plan-phase 3
-#+END_EXAMPLE
+#+end_example
 
 *** Why worktrees
 
@@ -281,9 +281,9 @@ adding, and planning automatically loads your patterns.
 
 *** 1. Initialize project
 
-#+BEGIN_EXAMPLE
+#+begin_example
 /gmsd:new-project
-#+END_EXAMPLE
+#+end_example
 
 One command, one flow. The system:
 
@@ -303,9 +303,9 @@ You approve the roadmap. Now you're ready to build.
 
 *** 2. Discuss phase
 
-#+BEGIN_EXAMPLE
+#+begin_example
 /gmsd:discuss-phase 1
-#+END_EXAMPLE
+#+end_example
 
 *This is where you shape the implementation.*
 
@@ -338,9 +338,9 @@ it and you get reasonable defaults. Use it and you get /your/ vision.
 
 *** 3. Plan phase
 
-#+BEGIN_EXAMPLE
+#+begin_example
 /gmsd:plan-phase 1
-#+END_EXAMPLE
+#+end_example
 
 The system:
 
@@ -358,9 +358,9 @@ no "I'll be more concise now."
 
 *** 4. Execute phase
 
-#+BEGIN_EXAMPLE
+#+begin_example
 /gmsd:execute-phase 1
-#+END_EXAMPLE
+#+end_example
 
 The system:
 
@@ -378,7 +378,7 @@ Walk away, come back to completed work with clean git history.
 Plans are grouped into "waves" based on dependencies. Within each wave, plans
 run in parallel. Waves run sequentially.
 
-#+BEGIN_EXAMPLE
+#+begin_example
 ┌─────────────────────────────────────────────────────────────────────┐
 │  PHASE EXECUTION                                                     │
 ├─────────────────────────────────────────────────────────────────────┤
@@ -397,7 +397,7 @@ run in parallel. Waves run sequentially.
 │                          Plan 05 needs Plans 03 + 04        │       │
 │                                                                      │
 └─────────────────────────────────────────────────────────────────────┘
-#+END_EXAMPLE
+#+end_example
 
 *Why waves matter:*
 - Independent plans → Same wave → Run in parallel
@@ -413,9 +413,9 @@ better than "horizontal layers" (Plan 01: All models, Plan 02: All APIs).
 
 *** 5. Verify work
 
-#+BEGIN_EXAMPLE
+#+begin_example
 /gmsd:verify-work 1
-#+END_EXAMPLE
+#+end_example
 
 *This is where you confirm it actually works.*
 
@@ -439,7 +439,7 @@ debug — you just run ~/gmsd:execute-phase~ again with the fix plans it created
 
 *** 6. Repeat → complete → next milestone
 
-#+BEGIN_EXAMPLE
+#+begin_example
 /gmsd:discuss-phase 2
 /gmsd:plan-phase 2
 /gmsd:execute-phase 2
@@ -447,7 +447,7 @@ debug — you just run ~/gmsd:execute-phase~ again with the fix plans it created
 ...
 /gmsd:complete-milestone
 /gmsd:new-milestone
-#+END_EXAMPLE
+#+end_example
 
 Loop *discuss → plan → execute → verify* until milestone complete.
 
@@ -467,9 +467,9 @@ roadmap. Each milestone is a clean cycle: define → build → ship.
 
 *** Quick mode
 
-#+BEGIN_EXAMPLE
+#+begin_example
 /gmsd:quick
-#+END_EXAMPLE
+#+end_example
 
 *For ad-hoc tasks that don't need full planning.*
 
@@ -482,10 +482,10 @@ faster path:
 
 Use for: bug fixes, small features, config changes, one-off tasks.
 
-#+BEGIN_EXAMPLE
+#+begin_example
 /gmsd:quick
 > What do you want to do? "Add dark mode toggle to settings"
-#+END_EXAMPLE
+#+end_example
 
 *Creates:* ~.planning/quick/001-add-dark-mode-toggle/PLAN.org~, ~SUMMARY.org~
 
@@ -629,9 +629,9 @@ Control which Claude model each agent uses. Balance quality vs token spend.
 
 Switch profiles:
 
-#+BEGIN_EXAMPLE
+#+begin_example
 /gmsd:set-profile budget
-#+END_EXAMPLE
+#+end_example
 
 Or configure via ~/gmsd:settings~.
 

@@ -56,7 +56,7 @@ Output: Updated references, synced installed copies, clean ob-mermaid grep.
   <action>
 1. Update org-styleguide.md "Source Code Blocks" section (lines 116-132):
    - Replace line 121 ob-mermaid rule with MermaidJS ASCII convention:
-     "Use #+BEGIN_EXAMPLE / #+END_EXAMPLE for rendered MermaidJS ASCII diagrams
+     "Use #+begin_example / #+end_example for rendered MermaidJS ASCII diagrams
      (produced by bin/render-mermaid.cjs). Preserve Mermaid source in a
      #+begin_src mermaid :exports none block immediately below for re-rendering."
    - Replace the code example (lines 124-132) with a MermaidJS ASCII example

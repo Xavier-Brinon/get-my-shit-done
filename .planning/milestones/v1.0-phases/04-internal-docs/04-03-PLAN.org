@@ -172,7 +172,7 @@ The Troubleshooting section at the bottom of README should add a link to
 The "How it works" section (steps 1-6) should remain but be slightly condensed:
 - Keep the flow and explanation
 - Remove very dense command tables that duplicate the Commands section
-- Keep the code examples and =#+BEGIN_EXAMPLE= diagrams
+- Keep the code examples and =#+begin_example= diagrams
 - Where detail is heavy, add "See =[[file:docs/reference.org][User Guide ---
   Reference]]= for full details"
 

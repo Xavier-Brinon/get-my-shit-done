@@ -145,7 +145,7 @@ Create =docs/howto.org= by extracting how-to quadrant content from
 *Content to extract from USER-GUIDE.org:*
 1. *Workflow diagrams* section (full project lifecycle, planning agent
    coordination, validation architecture, execution wave coordination,
-   brownfield workflow) --- preserve =#+BEGIN_EXAMPLE= blocks exactly
+   brownfield workflow) --- preserve =#+begin_example= blocks exactly
 2. *Troubleshooting* section (all subsections: "Project already initialized",
    "Context degradation", "Plans seem wrong", "Execution fails", "Lost track",
    "Need to change something", "Model costs too high", "Working on sensitive
@@ -224,7 +224,7 @@ Create =docs/reference.org= by extracting reference quadrant content from
 3. *Usage examples* section (all example blocks: new project full cycle, from
    existing document, existing codebase, quick bug fix, resuming, preparing for
    release, speed vs quality presets, mid-milestone scope changes)
-4. *Project file structure* section (the =#+BEGIN_EXAMPLE= file tree)
+4. *Project file structure* section (the =#+begin_example= file tree)
 
 *Formatting rules:*
 - Preserve all content verbatim from USER-GUIDE.org --- do not rewrite or

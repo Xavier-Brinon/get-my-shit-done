@@ -1,13 +1,13 @@
 :PROPERTIES:
 :milestone: v1.0
 :audited: 2026-03-04T17:15:00Z
-:status: tech_debt
+:status: pass
 :scores.requirements: 3/3
 :scores.phases: 1/1
 :scores.integration: 4/4
 :scores.flows: 1/1
 :gaps: []
-:tech_debt: [{phase: 01, items: ["EXAMPLE block case inconsistency between styleguide versions — org-styleguide.md prescribes lowercase #+begin_example while org-styleguide-full.org prescribes uppercase #+BEGIN_EXAMPLE; templates split accordingly", "VERIFICATION.org stale — records 11/13 truths but sync gap has been resolved post-verification; actual state is 13/13", "No REQUIREMENTS.org exists for current milestone — requirements tracked only in ROADMAP.org phase heading; 3-source cross-reference operated in degraded mode (2/3 sources)"]}]
+:tech_debt: [{phase: 01, items: [], resolved: ["EXAMPLE block case standardized to lowercase (20 files)", "VERIFICATION.org updated to 13/13", "REQUIREMENTS.org created with full traceability"]}]
 :END:
 
 #+title: Milestone v1.0 Audit Report
@@ -20,7 +20,7 @@
 
 Milestone v1.0 phase 01 (Integrate beautiful-mermaid ASCII rendering) achieves its definition of done. All 3 requirements are satisfied. No critical gaps remain. The sync gap identified during phase verification has been resolved — all installed template copies now match source.
 
-*Status:* =tech_debt= — all requirements met, no blockers, accumulated items need review.
+*Status:* =pass= — all requirements met, all tech debt resolved.
 
 * Requirements Coverage
 
@@ -70,7 +70,7 @@ Score :: 4/4 connections verified
 | Step | Action                                          | Status     |
 |------+-------------------------------------------------+------------|
 |    1 | Agent reads installed template (e.g. roadmap.org) | ✓ VERIFIED |
-|    2 | Agent sees #+BEGIN_EXAMPLE with Unicode ASCII art | ✓ VERIFIED |
+|    2 | Agent sees #+begin_example with Unicode ASCII art | ✓ VERIFIED |
 |    3 | Agent sees #+begin_src mermaid :exports none below | ✓ VERIFIED |
 |    4 | Agent can re-render via bin/render-mermaid.cjs    | ✓ VERIFIED |
 
@@ -101,11 +101,13 @@ ADR-002 (=.planning/decisions/002-mermaidjs-ascii-rendering-phase-1.org=) status
 
 ** Phase 01
 
-- EXAMPLE block case inconsistency :: =org-styleguide.md= prescribes =#+begin_example= (lowercase) while =org-styleguide-full.org= prescribes =#+BEGIN_EXAMPLE= (uppercase). Templates are split — some use lowercase, some uppercase. Functionally identical in org-mode, but will produce inconsistent agent output over time.
-- Stale VERIFICATION.org :: Records 11/13 truths verified (truths 11-12 FAILED) but the sync gap has been resolved. Current state is 13/13. The verification document is accurate as of its timestamp but does not reflect current reality.
-- No REQUIREMENTS.org :: Requirements for this milestone phase exist only in ROADMAP.org heading text. The 3-source audit cross-reference could only use 2 sources. Future milestones should create REQUIREMENTS.org for full traceability.
+All 3 tech debt items resolved (2026-03-04):
 
-** Total: 3 items across 1 phase
+- ~RESOLVED~ EXAMPLE block case inconsistency :: Standardized to lowercase =#+begin_example= across all 20 affected files. =org-styleguide-full.org= updated to prescribe lowercase (matching =org-styleguide.md=). Installed template copies synced.
+- ~RESOLVED~ Stale VERIFICATION.org :: Updated to reflect 13/13 truths verified. Truths #11-12 marked VERIFIED. Requirements MERMAID-TEMPLATES and MERMAID-REFS updated from PARTIAL to SATISFIED.
+- ~RESOLVED~ No REQUIREMENTS.org :: Created =.planning/REQUIREMENTS.org= with 3 requirements (MERMAID-TOOL, MERMAID-TEMPLATES, MERMAID-REFS), all marked Complete. 3-source traceability chain now operational.
+
+** Total: 3 items across 1 phase — all resolved
 
 * Human Verification Still Required
 

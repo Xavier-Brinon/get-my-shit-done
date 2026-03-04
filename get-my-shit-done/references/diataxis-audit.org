@@ -124,14 +124,14 @@ from deliverable statistics and shown separately.
 
 *** MermaidJS Distribution Chart
 
-#+BEGIN_EXAMPLE
+#+begin_example
 Template Quadrant Distribution (deliverable templates only)
 
   Reference   ██████████████████████████████████████████████  87% (27/31)
   How-to      ████                                             6%  ( 2/31)
   Tutorial    ██                                               3%  ( 1/31)
   Explanation ██                                               3%  ( 1/31)
-#+END_EXAMPLE
+#+end_example
 #+begin_src mermaid :exports none
 pie title Template Quadrant Distribution (deliverable templates only)
     "Reference" : 27

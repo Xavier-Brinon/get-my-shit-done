@@ -1,0 +1,39 @@
+#+title: Requirements: GMSD v1.0
+#+defined: [2026-03-03]
+#+core_value: Every document GMSD produces follows a principled documentation framework so users always find the right type of doc for their need.
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Requirements: GMSD v1.0
+
+** v1.0 Requirements
+
+*** MermaidJS ASCII Integration
+
+- [X] *MERMAID-TOOL*: Render script facade over beautiful-mermaid produces ASCII output within 120 columns
+- [X] *MERMAID-TEMPLATES*: All 9 ob-mermaid blocks in 5 source template files replaced with pre-rendered ASCII in EXAMPLE blocks, with Mermaid source preserved in =:exports none= blocks
+- [X] *MERMAID-REFS*: Styleguides updated to document MermaidJS ASCII convention; reference file diagrams replaced; all source and installed copies synced
+
+** Out of Scope
+
+| Feature                           | Reason                                                         |
+|-----------------------------------+----------------------------------------------------------------|
+| ob-mermaid rendering support      | Replaced by pre-rendered ASCII; clean break from ob-mermaid    |
+| Runtime Mermaid rendering by agents | Agents read static ASCII; re-render only via CLI script       |
+
+** Traceability
+
+| Requirement       | Phase   | Status   |
+|-------------------+---------+----------|
+| MERMAID-TOOL      | Phase 1 | Complete |
+| MERMAID-TEMPLATES | Phase 1 | Complete |
+| MERMAID-REFS      | Phase 1 | Complete |
+
+*Coverage:*
+- v1.0 requirements: 3 total
+- Mapped to phases: 3
+- Unmapped: 0
+
+-----
+/Requirements defined: 2026-03-03/
+/Last updated: 2026-03-04 after tech-debt closure (retroactive creation)/

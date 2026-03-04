@@ -75,7 +75,7 @@ Decisions from v1.0 logged in =PROJECT.org= Key Decisions table (10 decisions, a
 
 *Phase 01-03 decisions (2026-03-04):*
 - ~pie~ chart type unsupported by ~beautiful-mermaid~; replaced with ASCII bar chart for diataxis-audit.org distribution data
-- EXAMPLE+:exports none is the canonical pattern: rendered ASCII in #+BEGIN_EXAMPLE above Mermaid source in #+begin_src mermaid :exports none
+- EXAMPLE+:exports none is the canonical pattern: rendered ASCII in #+begin_example above Mermaid source in #+begin_src mermaid :exports none
 - ~research-project/ARCHITECTURE.org~ Plan 02 gap now resolved (executed 2026-03-04)
 - Bold-dash lists (~- *Bold* — explanation~) replaced with org description list syntax (~- Term :: explanation~); styleguides updated with anti-pattern documentation
 

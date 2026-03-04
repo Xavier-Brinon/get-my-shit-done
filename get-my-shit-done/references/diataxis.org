@@ -359,7 +359,7 @@ quadrant a new document should belong to.
 
 #+name: diataxis-classification-tree
 #+description: Classification decision tree for Diataxis quadrant assignment
-#+BEGIN_EXAMPLE
+#+begin_example
 ┌───────────────────────────┐
 │                           │
 │        Reader need?       │
@@ -383,7 +383,7 @@ quadrant a new document should belong to.
 │          Tutorial         │  │        How-to        │  │ Explanation │  │ Reference │
 │                           │  │                      │  │             │  │           │
 └───────────────────────────┘  └──────────────────────┘  └─────────────┘  └───────────┘
-#+END_EXAMPLE
+#+end_example
 #+begin_src mermaid :exports none
 flowchart TD
     A[Reader need?] --> B{Practical or theoretical?}

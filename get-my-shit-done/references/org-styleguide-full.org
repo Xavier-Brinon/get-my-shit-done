@@ -295,14 +295,14 @@ def hello():
 
 Render Mermaid diagrams to ASCII using =bin/render-mermaid.cjs= (a Facade
 over the =beautiful-mermaid= library). Embed the rendered output in a
-=#+BEGIN_EXAMPLE= block. Preserve the Mermaid source in a
+=#+begin_example= block. Preserve the Mermaid source in a
 =#+begin_src mermaid :exports none= block immediately below for future
 re-rendering. Maximum width: 120 columns.
 
 #+begin_src org
 ,#+name: auth-flow
 ,#+description: Authentication sequence
-,#+BEGIN_EXAMPLE
+,#+begin_example
 ┌──────┐          ┌─────┐
 │ User │          │ API │
 └───┬──┘          └──┬──┘
@@ -316,7 +316,7 @@ re-rendering. Maximum width: 120 columns.
 ┌───┴──┐          ┌──┴──┐
 │ User │          │ API │
 └──────┘          └─────┘
-,#+END_EXAMPLE
+,#+end_example
 ,#+begin_src mermaid :exports none
 sequenceDiagram
     User->>API: POST /login
@@ -349,14 +349,14 @@ printf 'sequenceDiagram\n    User->>API: POST /login\n    API-->>User: JWT token
 
 ** Example Blocks
 
-Use =#+BEGIN_EXAMPLE= for preformatted text that is not code:
+Use =#+begin_example= for preformatted text that is not code:
 
 #+begin_src org
-,#+BEGIN_EXAMPLE
+,#+begin_example
 $ ls -la
 total 42
 drwxr-xr-x  5 user group 160 Feb 24 10:00 .
-,#+END_EXAMPLE
+,#+end_example
 #+end_src
 
 ** Verse Blocks

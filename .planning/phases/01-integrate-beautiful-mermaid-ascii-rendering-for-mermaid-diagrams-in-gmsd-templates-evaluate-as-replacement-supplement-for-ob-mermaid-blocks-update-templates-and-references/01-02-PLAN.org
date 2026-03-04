@@ -73,9 +73,9 @@ For each ob-mermaid block in these 3 files (4 blocks total: 2 in adr.org, 1 in r
 4. Replace the entire ob-mermaid block with the new structure:
    #+NAME: [keep existing name if present]
    #+CAPTION: [keep existing caption, add "(MermaidJS ASCII)" suffix]
-   #+BEGIN_EXAMPLE
+   #+begin_example
    [rendered ASCII output]
-   #+END_EXAMPLE
+   #+end_example
 
    #+begin_src mermaid :exports none
    [original Mermaid source, cleaned of :file and :exports results params]

@@ -11,7 +11,7 @@
 #+phase_goal: Replace all ob-mermaid diagram blocks with pre-rendered MermaidJS ASCII art using beautiful-mermaid, creating a render script facade, updating all templates and references, and achieving a clean break from ob-mermaid with zero external rendering dependencies.
 #+verified: 2026-03-04T16:33:22Z
 #+status: passed
-#+re_verification: No — initial verification
+#+re_verification: Yes — tech-debt closure updated truths #11-12, synced templates, standardized EXAMPLE case (2026-03-04)
 #+startup: indent
 #+options: toc:2 num:nil ^:{}
 
@@ -30,12 +30,12 @@
 | 7 | No ob-mermaid syntax remains in any source template file                                | ✓ VERIFIED | =grep -r "begin_src mermaid :file\|ob-mermaid" get-my-shit-done/templates/= returns 0 results                                                                                                                           |
 | 8 | org-styleguide.md documents MermaidJS ASCII convention instead of ob-mermaid           | ✓ VERIFIED | Lines 121-122: documents =BEGIN_EXAMPLE= + =:exports none= pattern with =bin/render-mermaid.cjs= reference; no ob-mermaid references remain                                                                             |
 | 9 | org-styleguide-full.org documents MermaidJS ASCII convention instead of ob-mermaid     | ✓ VERIFIED | Section "MermaidJS diagrams" (line ~294) documents Facade, EXAMPLE block pattern, and =bin/render-mermaid.cjs= re-render command; no ob-mermaid references remain                                                      |
-|10 | diataxis.org and diataxis-audit.org ob-mermaid blocks replaced with ASCII              | ✓ VERIFIED | diataxis.org: #+BEGIN_EXAMPLE block at line 362 contains classification tree; diataxis-audit.org: #+BEGIN_EXAMPLE block at line 127 contains ASCII bar chart; both have =:exports none= source blocks                   |
-|11 | All source and installed copies are in sync                                             | ✗ FAILED   | 4 of 5 template installed copies differ from source: roadmap.org, research.org, codebase/architecture.org, research-project/ARCHITECTURE.org each retain old ob-mermaid =:file ... :exports results= blocks in install |
-|12 | No ob-mermaid references remain anywhere in the project                                 | ✗ FAILED   | Consequence of gap #11: 7 ob-mermaid blocks remain in =~/.claude/get-my-shit-done/templates/=                                                                                                                           |
+|10 | diataxis.org and diataxis-audit.org ob-mermaid blocks replaced with ASCII              | ✓ VERIFIED | diataxis.org: #+begin_example block at line 362 contains classification tree; diataxis-audit.org: #+begin_example block at line 127 contains ASCII bar chart; both have =:exports none= source blocks                   |
+|11 | All source and installed copies are in sync                                             | ✓ VERIFIED | All 5 template installed copies match source after tech-debt sync (2026-03-04). =diff= confirms IDENTICAL for all. |
+|12 | No ob-mermaid references remain anywhere in the project                                 | ✓ VERIFIED | =grep -rn "ob-mermaid\|:file.*\.png.*:exports results" ~/.claude/get-my-shit-done/templates/= returns 0 results |
 |13 | Styleguide includes 1-2 rendered ASCII diagram examples                                 | ✓ VERIFIED | org-styleguide.md contains ASCII sequence diagram in BEGIN_EXAMPLE block (lines 129-~145); org-styleguide-full.org contains rendered ASCII example in MermaidJS section                                                 |
 
-*Score:* 11/13 truths verified (10 pass / 2 fail / 0 uncertain)
+*Score:* 13/13 truths verified (13 pass / 0 fail / 0 uncertain)
 
 ** Required Artifacts
 
@@ -51,18 +51,18 @@
 | =get-my-shit-done/templates/research-project/ARCHITECTURE.org= | Research project architecture with 3 ASCII diagrams   | ✓ VERIFIED | 3 BEGIN_EXAMPLE blocks; 3 =:exports none= src blocks; max width 69 cols                |
 | =get-my-shit-done/references/org-styleguide.md=                | Updated diagram convention (condensed)                | ✓ VERIFIED | Documents EXAMPLE+=:exports none= pattern; references =bin/render-mermaid.cjs=; 3 BEGIN_EXAMPLE occurrences |
 | =get-my-shit-done/references/org-styleguide-full.org=          | Updated diagram convention (full)                     | ✓ VERIFIED | "MermaidJS diagrams" subsection; 4 BEGIN_EXAMPLE occurrences; =render-mermaid.cjs= documented |
-| =get-my-shit-done/references/diataxis.org=                     | Diataxis tree as ASCII                                | ✓ VERIFIED | #+BEGIN_EXAMPLE at line 362; =:exports none= source at line 387; classification tree rendered |
-| =get-my-shit-done/references/diataxis-audit.org=               | Distribution chart as ASCII                           | ✓ VERIFIED | #+BEGIN_EXAMPLE at line 127; ASCII bar chart representation; pie chart unsupported, replaced as planned |
+| =get-my-shit-done/references/diataxis.org=                     | Diataxis tree as ASCII                                | ✓ VERIFIED | #+begin_example at line 362; =:exports none= source at line 387; classification tree rendered |
+| =get-my-shit-done/references/diataxis-audit.org=               | Distribution chart as ASCII                           | ✓ VERIFIED | #+begin_example at line 127; ASCII bar chart representation; pie chart unsupported, replaced as planned |
 | =~/.claude/get-my-shit-done/bin/render-mermaid.cjs=            | Installed render script                               | ✓ VERIFIED | =diff= against source: IDENTICAL                                                       |
 | =~/.claude/get-my-shit-done/references/org-styleguide.md=      | Installed condensed styleguide                        | ✓ VERIFIED | =diff= against source: IDENTICAL                                                       |
 | =~/.claude/get-my-shit-done/references/org-styleguide-full.org= | Installed full styleguide                             | ✓ VERIFIED | =diff= against source: IDENTICAL                                                       |
 | =~/.claude/get-my-shit-done/references/diataxis.org=           | Installed diataxis reference                          | ✓ VERIFIED | =diff= against source: IDENTICAL                                                       |
 | =~/.claude/get-my-shit-done/references/diataxis-audit.org=     | Installed diataxis audit reference                    | ✓ VERIFIED | =diff= against source: IDENTICAL                                                       |
 | =~/.claude/get-my-shit-done/templates/adr.org=                 | Installed ADR template                                | ✓ VERIFIED | =diff= against source: IDENTICAL                                                       |
-| =~/.claude/get-my-shit-done/templates/roadmap.org=             | Installed roadmap template                            | ✗ STUB     | =diff= shows installed version retains =#+begin_src mermaid :file phase-dependencies.png :exports results= — ASCII block NOT synced |
-| =~/.claude/get-my-shit-done/templates/research.org=            | Installed research template                           | ✗ STUB     | =diff= shows installed version retains =#+begin_src mermaid :file research-architecture.png :exports results= — ASCII block NOT synced |
-| =~/.claude/get-my-shit-done/templates/codebase/architecture.org= | Installed codebase architecture template            | ✗ STUB     | =diff= shows 2 ob-mermaid blocks retained in installed copy: =architecture-layers.png=, =architecture-flow.png= |
-| =~/.claude/get-my-shit-done/templates/research-project/ARCHITECTURE.org= | Installed research-project architecture template | ✗ STUB | =diff= shows 3 ob-mermaid blocks retained: =arch-system-overview.png=, =arch-request-flow.png=, =arch-state-flow.png= |
+| =~/.claude/get-my-shit-done/templates/roadmap.org=             | Installed roadmap template                            | ✓ VERIFIED | =diff= against source: IDENTICAL (synced during tech-debt closure 2026-03-04) |
+| =~/.claude/get-my-shit-done/templates/research.org=            | Installed research template                           | ✓ VERIFIED | =diff= against source: IDENTICAL (synced during tech-debt closure 2026-03-04) |
+| =~/.claude/get-my-shit-done/templates/codebase/architecture.org= | Installed codebase architecture template            | ✓ VERIFIED | =diff= against source: IDENTICAL (synced during tech-debt closure 2026-03-04) |
+| =~/.claude/get-my-shit-done/templates/research-project/ARCHITECTURE.org= | Installed research-project architecture template | ✓ VERIFIED | =diff= against source: IDENTICAL (synced during tech-debt closure 2026-03-04) |
 
 ** Key Link Verification
 
@@ -72,7 +72,7 @@
 | =tests/render-mermaid.test.cjs=                   | =get-my-shit-done/bin/render-mermaid.cjs= | =require(path.join(..., 'render-mermaid.cjs'))= | WIRED  | Lines 13-19: =const { renderWithinWidth } = require(...)= — imported and used in 6 tests |
 | =org-styleguide.md= diagram rule                  | =bin/render-mermaid.cjs=              | Documents usage of render script             | WIRED     | Line 121: "render to ASCII with \`bin/render-mermaid.cjs\`" — explicit reference present |
 | All 5 source template files                       | =bin/render-mermaid.cjs= ASCII output | Static pre-rendered EXAMPLE block content    | WIRED     | 9 EXAMPLE blocks in source files contain ASCII produced by render script; :exports none blocks preserve source |
-| =~/.claude/get-my-shit-done/templates/= (installed) | Source template files              | File copy sync                               | NOT_WIRED | 4 of 5 installed template files do not match source; 7 ob-mermaid blocks active in installed copies |
+| =~/.claude/get-my-shit-done/templates/= (installed) | Source template files              | File copy sync                               | WIRED     | All 5 installed template files match source; 0 ob-mermaid blocks remain (synced 2026-03-04) |
 
 ** Requirements Coverage
 
@@ -83,8 +83,8 @@ No =REQUIREMENTS.org= file exists in =.planning/= — cross-reference against ca
 | Requirement     | Source Plan | Description (from plan must_haves)                                              | Status       | Evidence                                                                                                         |
 |-----------------+-------------+---------------------------------------------------------------------------------+--------------+------------------------------------------------------------------------------------------------------------------|
 | MERMAID-TOOL    | 01-01       | Render script facade over beautiful-mermaid; dependency installed; unit tests   | ✓ SATISFIED  | render-mermaid.cjs verified substantive and wired; beautiful-mermaid in package.json; 6/6 tests pass            |
-| MERMAID-TEMPLATES | 01-02     | All 9 ob-mermaid blocks replaced in source template files; :exports none preserved | PARTIAL   | Source files: all 9 blocks replaced, 0 ob-mermaid remain. Installed copies: 7 of 9 blocks remain as ob-mermaid  |
-| MERMAID-REFS    | 01-03       | Styleguides updated; reference file diagrams replaced; all copies synced        | PARTIAL      | Styleguides and diataxis files: fully updated and synced. Template sync to installed location: incomplete (4 files) |
+| MERMAID-TEMPLATES | 01-02     | All 9 ob-mermaid blocks replaced in source template files; :exports none preserved | ✓ SATISFIED | Source and installed copies: all 9 blocks replaced, 0 ob-mermaid remain. Sync confirmed after tech-debt closure. |
+| MERMAID-REFS    | 01-03       | Styleguides updated; reference file diagrams replaced; all copies synced        | ✓ SATISFIED  | All styleguides, diataxis files, and template installed copies synced. EXAMPLE blocks standardized to lowercase. |
 
 ** ADR Consistency Check
 
@@ -92,7 +92,7 @@ ADR-002 (=.planning/decisions/002-mermaidjs-ascii-rendering-phase-1.org=) declar
 
 | ADR-002 Confirmation Claim                                          | Status     | Evidence                                                                                                |
 |---------------------------------------------------------------------+------------+---------------------------------------------------------------------------------------------------------|
-| "All templates and references updated to use MermaidJS ASCII"       | PARTIAL    | Source: correct. Installed copies of 4 template files: retain ob-mermaid blocks                        |
+| "All templates and references updated to use MermaidJS ASCII"       | ✓ VERIFIED | Source and installed copies all updated; 0 ob-mermaid blocks remain after tech-debt sync               |
 | "Mermaid source syntax preserved in collapsed org blocks"           | ✓ VERIFIED | 9 =:exports none= src blocks in source templates; 4 =:exports none= blocks in reference files          |
 | "All ob-mermaid references removed from both org-styleguide versions" | ✓ VERIFIED | org-styleguide.md and org-styleguide-full.org: 0 ob-mermaid references                                 |
 | "All 9 agent architecture_learning sections updated"                | ? UNCERTAIN | Agent prompt files are not present in =~/.claude/get-my-shit-done/= — cannot verify programmatically   |
@@ -100,12 +100,7 @@ ADR-002 (=.planning/decisions/002-mermaidjs-ascii-rendering-phase-1.org=) declar
 
 ** Anti-Patterns Found
 
-| File                                                              | Line | Pattern                                  | Severity  | Impact                                                                      |
-|-------------------------------------------------------------------+------+------------------------------------------+-----------+-----------------------------------------------------------------------------|
-| =~/.claude/get-my-shit-done/templates/roadmap.org=               | 105  | =begin_src mermaid :file *.png :exports results= | Blocker | Agents using this template see raw Mermaid syntax, not ASCII art; ob-mermaid dependency remains |
-| =~/.claude/get-my-shit-done/templates/research.org=              | 104  | =begin_src mermaid :file *.png :exports results= | Blocker | Same as above — raw Mermaid syntax visible instead of ASCII                 |
-| =~/.claude/get-my-shit-done/templates/codebase/architecture.org= | ~231, ~252 | =begin_src mermaid :file *.png :exports results= (×2) | Blocker | 2 unsynced blocks — agents reading template get ob-mermaid syntax           |
-| =~/.claude/get-my-shit-done/templates/research-project/ARCHITECTURE.org= | ~111, ~132, ~161 | =begin_src mermaid :file *.png :exports results= (×3) | Blocker | 3 unsynced blocks — highest-impact file (3 diagram types: flowchart, sequence, state) |
+/All anti-patterns resolved during tech-debt closure (2026-03-04). Previous 4 blocker-severity entries (7 ob-mermaid blocks in installed templates) cleared by source→install sync./
 
 ** Human Verification Required
 
@@ -135,20 +130,10 @@ ADR-002 (=.planning/decisions/002-mermaidjs-ascii-rendering-phase-1.org=) declar
 
 ** Gaps Summary
 
-One integration gap blocks full goal achievement: the sync step in Plan 03, Task 2 did not copy 4 updated template files from source to the installed location at =~/.claude/get-my-shit-done/templates/=. The source repository is correct and complete. The installed copies agents actually read remain at the pre-phase state for these files.
-
-The root cause is documented in Plan 03 SUMMARY as "Deviation 1 — Skipped template sync for research-project/ARCHITECTURE.org." The SUMMARY records this as a scoped omission, but the diff evidence shows 3 additional files were also not synced (roadmap.org, research.org, codebase/architecture.org).
-
-This is an integration architecture gap: the components (source templates) exist and are correct, but the connective step (file copy to installed location) was incomplete. Agents reading =~/.claude/get-my-shit-done/templates/= will continue to encounter ob-mermaid blocks until the sync is executed.
-
-Files requiring sync:
-
-- =cp get-my-shit-done/templates/roadmap.org ~/.claude/get-my-shit-done/templates/roadmap.org=
-- =cp get-my-shit-done/templates/research.org ~/.claude/get-my-shit-done/templates/research.org=
-- =cp get-my-shit-done/templates/codebase/architecture.org ~/.claude/get-my-shit-done/templates/codebase/architecture.org=
-- =cp get-my-shit-done/templates/research-project/ARCHITECTURE.org ~/.claude/get-my-shit-done/templates/research-project/ARCHITECTURE.org=
+/No gaps remain./ The integration gap (4 unsynced template files) was resolved during tech-debt closure (2026-03-04). All source and installed copies now match. Additionally, =#+BEGIN_EXAMPLE= blocks were standardized to lowercase =#+begin_example= across all 20 affected files.
 
 -----
 
 /Verified: 2026-03-04T16:33:22Z/
 /Verifier: Claude (gmsd-verifier)/
+/Re-verified: 2026-03-04 (tech-debt closure — synced templates, standardized EXAMPLE case to lowercase)/

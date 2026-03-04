@@ -123,7 +123,7 @@ DOCS-01 touches =docs/=; DOCS-02 touches =references/=; DOCS-03 touches
 
 *** Recommended File Structure
 
-#+BEGIN_EXAMPLE
+#+begin_example
 docs/
   USER-GUIDE.org        <- DELETE after split
   howto.org             <- NEW: workflows, troubleshooting, recovery (how-to quadrant)
@@ -138,7 +138,7 @@ references/             <- CLASSIFY in-place, metadata only
   diataxis.org          <- .org: :PROPERTIES: drawer
   org-styleguide-full.org <- .org: :PROPERTIES: drawer
   *.md files            <- YAML frontmatter block
-#+END_EXAMPLE
+#+end_example
 
 *** Pattern 1: Diataxis property drawer (established)
 

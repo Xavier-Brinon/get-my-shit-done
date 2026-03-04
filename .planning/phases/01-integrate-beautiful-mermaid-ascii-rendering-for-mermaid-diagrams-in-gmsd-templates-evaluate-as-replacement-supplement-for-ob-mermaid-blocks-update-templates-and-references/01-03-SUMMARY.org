@@ -7,11 +7,11 @@
 :provides: [org-styleguide.md documents MermaidJS ASCII convention with EXAMPLE+:exports none pattern and rendered ASCII example, org-styleguide-full.org MermaidJS diagrams subsection with example and render command, diataxis.org classification tree as rendered ASCII (simplified flowchart), diataxis-audit.org distribution data as ASCII bar chart (pie unsupported), all reference files synced to ~/.claude/get-my-shit-done/, render-mermaid.cjs synced to installed bin/]
 :affects: [all agents reading org-styleguide.md or org-styleguide-full.org — now produce EXAMPLE+:exports none instead of ob-mermaid blocks]
 :tech-stack.added: []
-:tech-stack.patterns: [EXAMPLE+:exports none — rendered ASCII in #+BEGIN_EXAMPLE block above preserved Mermaid source in #+begin_src mermaid :exports none block]
+:tech-stack.patterns: [EXAMPLE+:exports none — rendered ASCII in #+begin_example block above preserved Mermaid source in #+begin_src mermaid :exports none block]
 :key-files.created: []
 :key-files.modified: [get-my-shit-done/references/org-styleguide.md, get-my-shit-done/references/org-styleguide-full.org, get-my-shit-done/references/diataxis.org, get-my-shit-done/references/diataxis-audit.org, get-my-shit-done/templates/howto.org, get-my-shit-done/templates/tutorial.org]
 :key-decisions: ["pie chart type unsupported by beautiful-mermaid — replaced with ASCII bar chart for diataxis-audit.org distribution data", "EXAMPLE+:exports none is the canonical pattern documented in styleguides", "bold-dash lists replaced with org description list syntax (Term :: explanation) — styleguide anti-pattern added"]
-:patterns-established: ["EXAMPLE+:exports none: rendered ASCII in #+BEGIN_EXAMPLE above Mermaid source in #+begin_src mermaid :exports none for re-rendering", "Org description lists use Term :: explanation syntax; bold-dash pattern is an explicit anti-pattern"]
+:patterns-established: ["EXAMPLE+:exports none: rendered ASCII in #+begin_example above Mermaid source in #+begin_src mermaid :exports none for re-rendering", "Org description lists use Term :: explanation syntax; bold-dash pattern is an explicit anti-pattern"]
 :requirements-completed: [MERMAID-REFS]
 :duration: ~35min
 :completed: 2026-03-04

@@ -229,7 +229,7 @@ Template for ~.planning/codebase/ARCHITECTURE.org~ - captures conceptual code or
 ### Layer Diagram
 
 #+CAPTION: Architecture Layers (MermaidJS ASCII)
-#+BEGIN_EXAMPLE
+#+begin_example
 ┌─────────────────────────────────┐
 │          Command Layer          │
 │                                 │
@@ -273,7 +273,7 @@ Template for ~.planning/codebase/ARCHITECTURE.org~ - captures conceptual code or
 │ └─────────────────────────────┘ │
 │                                 │
 └─────────────────────────────────┘
-#+END_EXAMPLE
+#+end_example
 
 #+begin_src mermaid :exports none
 flowchart TD
@@ -297,7 +297,7 @@ flowchart TD
 ### Data Flow
 
 #+CAPTION: Architecture Data Flow (MermaidJS ASCII)
-#+BEGIN_EXAMPLE
+#+begin_example
 ┌──────┐            ┌───────────┐      ┌─────────────────┐   ┌─────────┐           ┌─────────────┐
 │ User │            │ CLI Entry │      │ Command Handler │   │ Service │           │ File System │
 └───┬──┘            └─────┬─────┘      └────────┬────────┘   └────┬────┘           └──────┬──────┘
@@ -329,7 +329,7 @@ flowchart TD
 ┌───┴──┐            ┌─────┴─────┐      ┌────────┴────────┐   ┌────┴────┐           ┌──────┴──────┐
 │ User │            │ CLI Entry │      │ Command Handler │   │ Service │           │ File System │
 └──────┘            └───────────┘      └─────────────────┘   └─────────┘           └─────────────┘
-#+END_EXAMPLE
+#+end_example
 
 #+begin_src mermaid :exports none
 sequenceDiagram
