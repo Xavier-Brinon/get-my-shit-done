@@ -2,10 +2,10 @@
 :gmsd_state_version: 1.0
 :milestone: v1.1
 :milestone_name: MermaidJS ASCII Integration
-:status: in-progress
+:status: complete
 :last_updated: "2026-03-04"
 :progress.total_phases: 1
-:progress.completed_phases: 0
+:progress.completed_phases: 1
 :progress.total_plans: 3
 :progress.completed_plans: 3
 :END:
@@ -24,16 +24,15 @@ See: =.planning/PROJECT.org= (updated 2026-03-03)
 
 *Core value:* Every document GMSD produces follows a principled documentation
 framework so users always find the right type of doc for their need.
-*Current focus:* Phase 01 — Integrate MermaidJS ASCII rendering (Plans 01, 02, 03 complete — Plan 02 now executed to fill gap)
+*Current focus:* Phase 01 — COMPLETE. All 3 plans executed. Zero ob-mermaid references remain project-wide.
 
 ** Current Position
 
-Milestone: v1.1 MermaidJS ASCII Integration — IN PROGRESS 2026-03-04
-Phase 01 Plan 02 complete: all 9 ob-mermaid blocks replaced across 5 template files.
-Phase 01 Plan 03 at checkpoint: references and styleguides updated, awaiting human-verify (Task 3).
-Plan 02 gap resolved — 2 remaining ob-mermaid blocks in research-project/ARCHITECTURE.org now replaced.
+Milestone: v1.1 MermaidJS ASCII Integration — COMPLETE 2026-03-04
+Phase 01 Plan 03 complete: references and styleguides updated with EXAMPLE+:exports none pattern; description list syntax documented; all files synced to installed copies.
+All 3 plans complete — zero ob-mermaid references remain in source or installed copies.
 
-Progress: [████████████████████████████████████████] 100% (3/3 plans — Plan 02 complete, Plan 03 pending human-verify)
+Progress: [████████████████████████████████████████] 100% (3/3 plans complete)
 
 ** Performance Metrics
 
@@ -57,7 +56,7 @@ Progress: [███████████████████████
 
 | Phase                          | Plans | Total  | Avg/Plan |
 |--------------------------------+-------+--------+----------|
-| 01-integrate-beautiful-mermaid |   3/3 | ~15min | 5min     |
+| 01-integrate-beautiful-mermaid |   3/3 | ~35min | 12min    |
 
 ** Accumulated Context
 
@@ -78,6 +77,7 @@ Decisions from v1.0 logged in =PROJECT.org= Key Decisions table (10 decisions, a
 - ~pie~ chart type unsupported by ~beautiful-mermaid~; replaced with ASCII bar chart for diataxis-audit.org distribution data
 - EXAMPLE+:exports none is the canonical pattern: rendered ASCII in #+BEGIN_EXAMPLE above Mermaid source in #+begin_src mermaid :exports none
 - ~research-project/ARCHITECTURE.org~ Plan 02 gap now resolved (executed 2026-03-04)
+- Bold-dash lists (~- *Bold* — explanation~) replaced with org description list syntax (~- Term :: explanation~); styleguides updated with anti-pattern documentation
 
 *** Pending Todos
 
@@ -94,5 +94,5 @@ None.
 ** Session Continuity
 
 Last session: 2026-03-04
-Stopped at: Completed Plan 01-02 — all 9 ob-mermaid blocks replaced across 5 template files
-Resume file: .planning/phases/01-integrate-beautiful-mermaid-ascii-rendering-for-mermaid-diagrams-in-gmsd-templates-evaluate-as-replacement-supplement-for-ob-mermaid-blocks-update-templates-and-references/01-02-SUMMARY.org
+Stopped at: Completed Plan 01-03 — references and styleguides updated, description list syntax documented, phase 01 complete
+Resume file: .planning/phases/01-integrate-beautiful-mermaid-ascii-rendering-for-mermaid-diagrams-in-gmsd-templates-evaluate-as-replacement-supplement-for-ob-mermaid-blocks-update-templates-and-references/01-03-SUMMARY.org

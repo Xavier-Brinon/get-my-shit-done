@@ -26,7 +26,7 @@ Template for ~.planning/decisions/NNN-decision-title.org~ — documents signific
 
 ** File Template
 
-#+begin_src org
+# Start of the template, org file in org-mode
 :PROPERTIES:
 :adr-id: NNN
 :title: [Short title of solved problem and solution]
@@ -111,8 +111,8 @@ Chosen option: "[title of option N]", because [justification. e.g., only option 
 
 *** Option Comparison
 
-#+CAPTION: Option Comparison (MermaidJS ASCII)
-#+BEGIN_EXAMPLE
+#+caption: Option Comparison (MermaidJS ASCII)
+#+begin_example
 ◇─────────────────────────────◇
 │                             │
 │ Decision: problem statement │
@@ -130,7 +130,7 @@ Chosen option: "[title of option N]", because [justification. e.g., only option 
 │     Outcome: key benefit    │  │         Drawback B         │  │         Drawback C         │
 │                             │  │                            │  │                            │
 └─────────────────────────────┘  └────────────────────────────┘  └────────────────────────────┘
-#+END_EXAMPLE
+#+end_example
 
 #+begin_src mermaid :exports none
 flowchart TD
@@ -147,8 +147,8 @@ flowchart TD
 
 *** Architecture Impact
 
-#+CAPTION: Architecture Impact (MermaidJS ASCII)
-#+BEGIN_EXAMPLE
+#+caption: Architecture Impact (MermaidJS ASCII)
+#+begin_example
 ┌──────────────────┐  ┌──────────────────────────┐
 │                  │  │                          │
 │ ADR-NNN decision ├─►│ Component A how affected │
@@ -166,7 +166,7 @@ flowchart TD
           └──────────►│ Component C how affected │
                       │                          │
                       └──────────────────────────┘
-#+END_EXAMPLE
+#+end_example
 
 #+begin_src mermaid :exports none
 flowchart LR
@@ -178,13 +178,13 @@ flowchart LR
 ** More Information
 
 [You might want to provide additional evidence/confidence for the decision outcome here and/or document the team agreement on the decision and/or define when/how this decision should be realized and if/when it should be re-visited. Links to other decisions and resources might appear here as well.]
-#+end_src
+# End of template
 
 <good_examples>
 
 *Example 1: Data storage choice*
 
-#+begin_src org
+# Begin Example 1
 :PROPERTIES:
 :adr-id: 001
 :title: Use PostgreSQL for primary data storage
@@ -272,11 +272,11 @@ Embedded database with external search.
 ** More Information
 
 Start simple with single PostgreSQL instance. Revisit if we exceed 100K users — at that point, consider read replicas or Citus for horizontal scaling. See Phase 2 CONTEXT.org for related data modeling decisions.
-#+end_src
+# End Example 1
 
 *Example 2: Frontend framework choice*
 
-#+begin_src org
+# Begin Example 2
 :PROPERTIES:
 :adr-id: 002
 :title: Use SvelteKit for the web frontend
@@ -362,7 +362,7 @@ Vue meta-framework with SSR/SSG.
 ** More Information
 
 This decision can be revisited after Phase 3 prototype. If SvelteKit proves limiting for our real-time requirements, Next.js is the fallback. The API is framework-agnostic so switching frontend frameworks doesn't affect backend.
-#+end_src
+# End Example 2
 
 </good_examples>
 
