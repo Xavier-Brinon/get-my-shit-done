@@ -1,0 +1,121 @@
+:PROPERTIES:
+:milestone: v1.0
+:audited: 2026-03-04T17:15:00Z
+:status: tech_debt
+:scores.requirements: 3/3
+:scores.phases: 1/1
+:scores.integration: 4/4
+:scores.flows: 1/1
+:gaps: []
+:tech_debt: [{phase: 01, items: ["EXAMPLE block case inconsistency between styleguide versions — org-styleguide.md prescribes lowercase #+begin_example while org-styleguide-full.org prescribes uppercase #+BEGIN_EXAMPLE; templates split accordingly", "VERIFICATION.org stale — records 11/13 truths but sync gap has been resolved post-verification; actual state is 13/13", "No REQUIREMENTS.org exists for current milestone — requirements tracked only in ROADMAP.org phase heading; 3-source cross-reference operated in degraded mode (2/3 sources)"]}]
+:END:
+
+#+title: Milestone v1.0 Audit Report
+#+author: GMSD Auditor
+#+date: [2026-03-04]
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Executive Summary
+
+Milestone v1.0 phase 01 (Integrate beautiful-mermaid ASCII rendering) achieves its definition of done. All 3 requirements are satisfied. No critical gaps remain. The sync gap identified during phase verification has been resolved — all installed template copies now match source.
+
+*Status:* =tech_debt= — all requirements met, no blockers, accumulated items need review.
+
+* Requirements Coverage
+
+** 3-Source Cross-Reference
+
+| REQ-ID            | VERIFICATION.org Status     | SUMMARY Frontmatter | REQUIREMENTS.org | Final Status  |
+|-------------------+-----------------------------+---------------------+------------------+---------------|
+| MERMAID-TOOL      | ✓ SATISFIED                 | Plan 01-01: listed  | N/A (no file)    | *satisfied*   |
+| MERMAID-TEMPLATES | PARTIAL → SATISFIED (synced)| Plan 01-02: listed  | N/A (no file)    | *satisfied*   |
+| MERMAID-REFS      | PARTIAL → SATISFIED (synced)| Plan 01-03: listed  | N/A (no file)    | *satisfied*   |
+
+Score :: 3/3 requirements satisfied
+
+** Cross-Reference Notes
+
+- REQUIREMENTS.org does not exist for the current milestone. Requirements were defined only in the ROADMAP.org phase heading (=Requirements: MERMAID-TOOL, MERMAID-TEMPLATES, MERMAID-REFS=).
+- The 3-source cross-reference operated in *degraded mode* (2 of 3 sources available). Confidence is reduced but both available sources agree on satisfaction.
+- VERIFICATION.org was written before the sync gap was closed. The PARTIAL statuses for MERMAID-TEMPLATES and MERMAID-REFS were based on unsynced installed copies, which are now synced.
+
+** Orphan Detection
+
+No orphaned requirements. All 3 requirements defined in ROADMAP.org appear in the phase VERIFICATION.org and in SUMMARY frontmatter.
+
+* Phase Summary
+
+| Phase | Name                                   | Status | Truths Verified | Gaps           |
+|-------+----------------------------------------+--------+-----------------+----------------|
+|    01 | Integrate beautiful-mermaid ASCII      | passed | 13/13 (current) | 0 (gap closed) |
+
+* Integration Check
+
+** Cross-Plan Wiring
+
+| From          | To                | Via                                                      | Status |
+|---------------+-------------------+----------------------------------------------------------+--------|
+| Plan 01-01    | Plan 01-02        | render-mermaid.cjs CLI produces EXAMPLE block ASCII      | WIRED  |
+| Plan 01-01    | Plan 01-03        | render-mermaid.cjs CLI produces diataxis ASCII           | WIRED  |
+| Plan 01-02    | Plan 01-03        | Source templates → sync to installed copies               | WIRED  |
+| Plan 01-03    | Agent consumption | Styleguides document EXAMPLE+:exports none pattern       | WIRED  |
+
+Score :: 4/4 connections verified
+
+** E2E Flow
+
+*Flow:* Agent reads template → sees ASCII diagram + :exports none source → can re-render if needed
+
+| Step | Action                                          | Status     |
+|------+-------------------------------------------------+------------|
+|    1 | Agent reads installed template (e.g. roadmap.org) | ✓ VERIFIED |
+|    2 | Agent sees #+BEGIN_EXAMPLE with Unicode ASCII art | ✓ VERIFIED |
+|    3 | Agent sees #+begin_src mermaid :exports none below | ✓ VERIFIED |
+|    4 | Agent can re-render via bin/render-mermaid.cjs    | ✓ VERIFIED |
+
+Score :: 1/1 E2E flows complete
+
+* Architectural Assessment
+
+** Boundaries
+
+Phase boundaries aligned with architectural boundaries. The single phase had a clean internal dependency chain: Facade (Plan 01) → Templates (Plan 02) → References + Sync (Plan 03). No cross-phase dependencies existed because this milestone has only one phase.
+
+The Facade pattern at =render-mermaid.cjs= held correctly — no template, reference, or test file calls =beautiful-mermaid= directly. The ESM/CJS boundary is managed exclusively inside the Facade via dynamic =import()=.
+
+** Integration Architecture
+
+The Pre-rendered Static Content pattern is consistent across all 13 replacements (9 templates + 4 references). Each follows the EXAMPLE + =:exports none= structure without exception. The sync step (source → installed) was the only integration gap, now closed.
+
+** ADR Review
+
+ADR-002 (=.planning/decisions/002-mermaidjs-ascii-rendering-phase-1.org=) status =accepted=. Claims verified:
+- "All templates and references updated" — *confirmed*
+- "Mermaid source preserved in collapsed org blocks" — *confirmed* (13 =:exports none= blocks)
+- "All ob-mermaid references removed from styleguides" — *confirmed*
+- "9 agent architecture_learning sections updated" — *requires human verification* (agent prompts outside repo)
+- "ASCII diagrams readable at 120 columns" — *confirmed programmatically* (max 98 cols), *requires human verification* for visual quality
+
+* Tech Debt
+
+** Phase 01
+
+- EXAMPLE block case inconsistency :: =org-styleguide.md= prescribes =#+begin_example= (lowercase) while =org-styleguide-full.org= prescribes =#+BEGIN_EXAMPLE= (uppercase). Templates are split — some use lowercase, some uppercase. Functionally identical in org-mode, but will produce inconsistent agent output over time.
+- Stale VERIFICATION.org :: Records 11/13 truths verified (truths 11-12 FAILED) but the sync gap has been resolved. Current state is 13/13. The verification document is accurate as of its timestamp but does not reflect current reality.
+- No REQUIREMENTS.org :: Requirements for this milestone phase exist only in ROADMAP.org heading text. The 3-source audit cross-reference could only use 2 sources. Future milestones should create REQUIREMENTS.org for full traceability.
+
+** Total: 3 items across 1 phase
+
+* Human Verification Still Required
+
+These items from the phase VERIFICATION.org remain unresolved by the audit:
+
+1. *ASCII diagram readability in Emacs* — Open all 5 source template files; confirm Unicode box-drawing renders inline
+2. *Styleguide example readability* — Confirm org-styleguide.md example is legible at 120 columns
+3. *ADR-002 agent architecture_learning verification* — Confirm 9 agent prompts reference MermaidJS ASCII, not ob-mermaid
+
+-----
+
+/Audited: 2026-03-04T17:15:00Z/
+/Auditor: Claude (gmsd-auditor)/
