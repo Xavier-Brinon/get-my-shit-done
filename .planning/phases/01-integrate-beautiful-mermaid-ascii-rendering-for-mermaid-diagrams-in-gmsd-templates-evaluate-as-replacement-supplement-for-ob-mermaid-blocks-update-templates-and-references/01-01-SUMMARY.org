@@ -1,0 +1,107 @@
+:PROPERTIES:
+:phase: 01-integrate-beautiful-mermaid
+:plan: 01
+:subsystem: tooling
+:tags: beautiful-mermaid, mermaid, ascii, rendering, node, cjs, esm
+:requires: []
+:provides: [get-my-shit-done/bin/render-mermaid.cjs Facade over beautiful-mermaid renderMermaidASCII, renderWithinWidth async function with 120-column width enforcement via paddingX fallback, unit tests for render script covering 6 behaviors, beautiful-mermaid ^1.1.3 in package.json dependencies]
+:affects: [01-02 template ob-mermaid replacement, 01-03 reference and styleguide updates]
+:tech-stack.added: [beautiful-mermaid ^1.1.3]
+:tech-stack.patterns: [Facade pattern — render-mermaid.cjs is the single integration point for beautiful-mermaid; no other code calls the library directly, Dynamic import() — used to load ESM-only package from CJS module, paddingX fallback strategy — tries paddingX 2 then 1 then 0 to enforce 120-column width constraint]
+:key-files.created: [get-my-shit-done/bin/render-mermaid.cjs, tests/render-mermaid.test.cjs]
+:key-files.modified: [package.json, package-lock.json]
+:key-decisions: ["Use dynamic import() to load ESM-only beautiful-mermaid from CJS render script — avoids requiring ESM-only project setup", "renderWithinWidth is async due to dynamic import — callers must await the result", "useAscii: false is the correct option for Unicode box-drawing output (option name is inverted from expectations)"]
+:patterns-established: ["Facade: render-mermaid.cjs encapsulates beautiful-mermaid; no direct library calls elsewhere", "Width enforcement: paddingX fallback [2,1,0] before returning null for unrenderable diagrams"]
+:requirements-completed: [MERMAID-TOOL]
+:duration: 2min
+:completed: 2026-03-04
+:END:
+
+#+title: Phase 01 Plan 01: Create MermaidJS ASCII Render Script Summary
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 01 Plan 01: Create MermaidJS ASCII Render Script Summary
+
+*beautiful-mermaid ^1.1.3 installed as dependency; render-mermaid.cjs Facade created with async renderWithinWidth and paddingX fallback strategy enforcing 120-column width; 6 unit tests pass, 0 regressions in 224-test suite*
+
+** Performance
+
+- *Duration:* 2 min
+- *Started:* 2026-03-04T00:30:21Z
+- *Completed:* 2026-03-04T00:32:49Z
+- *Tasks:* 2
+- *Files modified:* 4
+
+** Accomplishments
+
+- ~get-my-shit-done/bin/render-mermaid.cjs~ created as Facade over ~beautiful-mermaid~; exports async ~renderWithinWidth(source, maxWidth=120)~ returning ~{ ascii, paddingX, width }~ or ~null~
+- All 3 diagram types used in GMSD templates verified to render correctly: ~flowchart LR~, ~sequenceDiagram~, ~stateDiagram-v2~
+- 6 unit tests added; full 224-test suite (218 prior + 6 new) passes with 0 failures
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Install beautiful-mermaid and create render script* - ~9dc4caa~ (feat)
+2. *Task 2: Add unit tests for render script* - ~cae1fbf~ (test)
+
+*Plan metadata:* to be added in final commit.
+
+** Files Created/Modified
+
+- ~get-my-shit-done/bin/render-mermaid.cjs~ - Facade over beautiful-mermaid; exports async ~renderWithinWidth~; CLI supports stdin and file argument modes
+- ~tests/render-mermaid.test.cjs~ - 6 unit tests for renderWithinWidth covering output validity, Unicode chars, width constraint, return shape, null for wide diagrams, custom maxWidth
+- ~package.json~ - added ~beautiful-mermaid ^1.1.3~ to ~dependencies~
+- ~package-lock.json~ - updated lockfile for new dependency
+
+** Decisions Made
+
+- Used dynamic ~import()~ inside the async function body to load ~beautiful-mermaid~, which is ESM-only (~"type": "module"~ in its ~package.json~, no CJS export). This avoids converting the entire project to ESM while keeping the render script in ~.cjs~ format consistent with the project's existing CJS modules.
+- ~renderWithinWidth~ is async as a consequence of the dynamic import. All callers must ~await~ the result. This is documented in the module JSDoc.
+- ~useAscii: false~ defaults to Unicode box-drawing characters (┌─┐│└┘►). The option name is inverted from expectations: ~false~ means "use Unicode", not "use ASCII". Documented in the script to prevent future confusion.
+
+** Deviations from Plan
+
+*** Auto-fixed Issues
+
+*1. [Rule 1 - Bug] Replaced synchronous ~require()~ with dynamic ~import()~ for ESM-only package*
+
+- *Found during:* Task 1 (render script creation and verification)
+- *Issue:* ~beautiful-mermaid~ uses ~"type": "module"~ in its ~package.json~ and exposes only an ESM export (~import~) in its exports map. ~require('beautiful-mermaid')~ from a CJS module throws ~ERR_PACKAGE_PATH_NOT_EXPORTED~ at runtime. The plan assumed CJS ~require()~ would work.
+- *Fix:* Changed ~renderWithinWidth~ to an ~async~ function using ~await import('beautiful-mermaid')~ inside the function body. This is a standard pattern for using ESM packages from CJS contexts in Node.js.
+- *Files modified:* ~get-my-shit-done/bin/render-mermaid.cjs~
+- *Verification:* Script renders flowchart, sequenceDiagram, and stateDiagram-v2 to stdout. All 6 unit tests pass. Exit code 0.
+- *Committed in:* ~9dc4caa~ (Task 1 commit)
+- *Architectural note:* The ESM-CJS boundary is a contract violation at the module system level. The plan assumed beautiful-mermaid exported a CJS-compatible interface; it does not. The Facade pattern chosen for this script correctly isolates this boundary: if beautiful-mermaid later adds a CJS export or the project migrates to ESM, only this file changes.
+
+-----
+
+*Total deviations:* 1 auto-fixed (Rule 1 - Bug)
+*Impact on plan:* Auto-fix was necessary for the script to function at all. No scope creep. The async nature of ~renderWithinWidth~ is a minor API change from the plan's implied synchronous interface but has no downstream impact at this stage (tests and CLI both handle async correctly).
+
+** Issues Encountered
+
+None beyond the deviation documented above.
+
+** Architectural Observations
+
+- *Emergent patterns:* None — the Facade pattern was planned and implemented as specified.
+- *Coupling discovered:* The ESM/CJS boundary between ~render-mermaid.cjs~ and ~beautiful-mermaid~ is a runtime coupling that the plan did not surface. Dynamic ~import()~ manages it, but it makes ~renderWithinWidth~ inherently async. Any caller of this function is infected by async — this is a latent coupling that Plans 02 and 03 must account for when using the render script.
+- *Boundary assessment:* The Facade boundary is correctly placed. ~render-mermaid.cjs~ is the only file that knows about ~beautiful-mermaid~'s API and ESM-only nature. All future template-rendering work in Plans 02 and 03 will call this script via CLI (stdin/file mode), so the async function signature is internal to this module. The boundary holds.
+- *ADR candidates:* The ESM/CJS boundary decision (dynamic import vs. project-wide ESM migration) is worth recording. The alternative — converting the project to ESM — would affect all 9 existing test files and ~bin/gmsd-tools.cjs~. Dynamic import is the lower-risk choice for this scope.
+
+** User Setup Required
+
+None — no external service configuration required.
+
+** Next Phase Readiness
+
+- ~render-mermaid.cjs~ is ready for use in Plan 02 (template ob-mermaid block replacement)
+- CLI usage: ~printf 'flowchart LR\n    A --> B' | node get-my-shit-done/bin/render-mermaid.cjs~
+- Module usage: ~const { renderWithinWidth } = require('./get-my-shit-done/bin/render-mermaid.cjs')~ (async)
+- Plans 02 and 03 must use the CLI (stdin) mode to invoke renders; they should not import the module directly since they run as shell steps, not Node.js scripts.
+
+-----
+/Phase: 01-integrate-beautiful-mermaid/
+/Completed: 2026-03-04/

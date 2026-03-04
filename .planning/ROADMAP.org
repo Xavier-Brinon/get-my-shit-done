@@ -16,7 +16,7 @@
 **Origin:** TODO #1 — "Use ASCII art for Mermaid using beautiful-mermaid" (=.planning/TODOS.org=)
 **Requirements**: MERMAID-TOOL, MERMAID-TEMPLATES, MERMAID-REFS
 **Depends on:** Phase 0
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
 - [ ] 01-01-PLAN.org — Create MermaidJS ASCII render script (Facade over beautiful-mermaid)
