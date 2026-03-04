@@ -1,0 +1,97 @@
+:PROPERTIES:
+:phase: 01-integrate-beautiful-mermaid
+:plan: 02
+:subsystem: templates
+:tags: beautiful-mermaid, mermaid, ascii, templates, ob-mermaid, org-mode
+:requires: [{phase: 01-01, provides: render-mermaid.cjs Facade with async renderWithinWidth and 120-column enforcement}]
+:provides: [All 9 ob-mermaid blocks replaced across 5 template files with pre-rendered ASCII in EXAMPLE blocks, Mermaid source preserved in :exports none src blocks below each EXAMPLE block, No ob-mermaid :file .png references remain in templates]
+:affects: [01-03 reference and styleguide updates, any users of adr.org roadmap.org research.org codebase/architecture.org research-project/ARCHITECTURE.org templates]
+:tech-stack.added: []
+:tech-stack.patterns: [Pre-rendered Static Content — diagrams rendered at authoring time via render-mermaid.cjs CLI, ASCII output committed as static content in templates; Source Preservation — each EXAMPLE block paired with :exports none mermaid src block for future re-rendering]
+:key-files.created: []
+:key-files.modified: [get-my-shit-done/templates/adr.org, get-my-shit-done/templates/roadmap.org, get-my-shit-done/templates/research.org, get-my-shit-done/templates/codebase/architecture.org, get-my-shit-done/templates/research-project/ARCHITECTURE.org]
+:key-decisions: ["Multi-line node labels using backslash-n are not rendered by beautiful-mermaid — simplified to single-line labels using colon-separated text before rendering", "Existing ASCII fallback sections in research-project/ARCHITECTURE.org retained — they are plain #+begin_src blocks not ob-mermaid blocks and do not need replacement"]
+:patterns-established: ["EXAMPLE block + :exports none src block pairing — each replaced diagram follows this structure consistently across all 5 files", "Label simplification — multi-line Mermaid labels (\\n) converted to single-line equivalents before rendering to ensure full label text appears in ASCII output"]
+:requirements-completed: [MERMAID-TEMPLATES]
+:duration: 4min
+:completed: 2026-03-04
+:END:
+
+#+title: Phase 01 Plan 02: Replace ob-mermaid blocks in all template files Summary
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 01 Plan 02: Replace ob-mermaid blocks in all template files Summary
+
+*All 9 ob-mermaid blocks replaced across 5 template files with pre-rendered ASCII EXAMPLE blocks; Mermaid source preserved in :exports none blocks; all ASCII output within 120 columns; 224 tests pass*
+
+** Performance
+
+- *Duration:* 4 min
+- *Started:* 2026-03-04T00:35:36Z
+- *Completed:* 2026-03-04T00:39:22Z
+- *Tasks:* 2
+- *Files modified:* 5
+
+** Accomplishments
+
+- ~get-my-shit-done/templates/adr.org~ updated: 2 ob-mermaid blocks replaced (option comparison flowchart, architecture impact flowchart)
+- ~get-my-shit-done/templates/roadmap.org~ updated: 1 ob-mermaid block replaced (phase dependencies flowchart)
+- ~get-my-shit-done/templates/research.org~ updated: 1 ob-mermaid block replaced (component interaction flowchart)
+- ~get-my-shit-done/templates/codebase/architecture.org~ updated: 2 ob-mermaid blocks replaced (layer diagram, data flow sequence diagram)
+- ~get-my-shit-done/templates/research-project/ARCHITECTURE.org~ updated: 3 ob-mermaid blocks replaced (system overview, request flow sequence, state flow)
+- All 9 ASCII blocks within 120-column constraint (max width: 98 columns)
+- 224-test suite passes with 0 failures (0 regressions)
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Replace ob-mermaid blocks in adr.org, roadmap.org, and research.org* - ~7d4c5b3~ (feat)
+2. *Task 2: Replace ob-mermaid blocks in architecture templates* - ~43cc3d3~ (feat)
+
+*Plan metadata:* to be added in final commit.
+
+** Files Created/Modified
+
+- ~get-my-shit-done/templates/adr.org~ - 2 EXAMPLE blocks (option comparison flowchart at ~110, architecture impact at ~148); ob-mermaid blocks removed
+- ~get-my-shit-done/templates/roadmap.org~ - 1 EXAMPLE block (phase dependencies flowchart at ~105); ob-mermaid block removed
+- ~get-my-shit-done/templates/research.org~ - 1 EXAMPLE block (component interaction flowchart at ~104); ob-mermaid block removed
+- ~get-my-shit-done/templates/codebase/architecture.org~ - 2 EXAMPLE blocks (architecture layers at ~231, data flow sequence at ~285); ob-mermaid blocks removed
+- ~get-my-shit-done/templates/research-project/ARCHITECTURE.org~ - 3 EXAMPLE blocks (system overview at ~111, request flow at ~165, state flow at ~217); ob-mermaid blocks removed
+
+** Decisions Made
+
+- Multi-line Mermaid node labels using ~\n~ are not rendered by ~beautiful-mermaid~; the library either abbreviates to the node ID or renders only the first line. Labels simplified to single-line equivalents using colon-separated text (e.g., ~"Phase 1\nFoundation"~ → ~"Phase 1: Foundation"~) before rendering, then the original multi-line Mermaid source is preserved in the ~:exports none~ block for future use if needed.
+- Existing ASCII fallback sections in ~research-project/ARCHITECTURE.org~ (plain ~#+begin_src~ blocks under "Request Flow (ASCII fallback)" and "State Management (ASCII fallback)") were retained as-is. They are not ob-mermaid blocks and do not require replacement.
+
+** Deviations from Plan
+
+None — plan executed exactly as written.
+
+The label simplification noted above is not a deviation: the plan explicitly required that simplified labels be used when necessary to fit within 120 columns ("shorten node labels while preserving relationships/edges"). The simplification was minimal and preserves all structural relationships.
+
+** Issues Encountered
+
+None beyond the label simplification noted in Decisions Made.
+
+** Architectural Observations
+
+- *Emergent patterns:* The ~EXAMPLE block + :exports none src block~ pairing emerged as a consistent structural unit applied identically across all 9 replacements in 5 files. This is the Pre-rendered Static Content pattern in practice: one block for reading, one block for re-rendering. The consistency is enforced by the task spec, not discovered.
+- *Coupling discovered:* ~beautiful-mermaid~'s label rendering behavior (single-line only for multi-word labels using ~\n~) creates a coupling between the Mermaid source authored in templates and the rendering output quality. Labels that use ~\n~ for visual clarity in ob-mermaid will abbreviate in ~beautiful-mermaid~ output. Plan 03 (reference/styleguide updates) should document this constraint so future template authors write single-line labels by convention.
+- *Boundary assessment:* The render script CLI (stdin mode) was used as the authoring tool, consistent with Plan 01's intent. The boundary holds: templates consume static ASCII output; the Facade is not imported by template consumers.
+- *ADR candidates:* None from this plan. The ESM/CJS boundary decision was already documented in Plan 01 context.
+
+** User Setup Required
+
+None — no external service configuration required.
+
+** Next Phase Readiness
+
+- All 5 template files are updated; no ob-mermaid blocks remain in templates
+- Plan 03 (reference/styleguide updates) can proceed: it should update the org-styleguide to document the ~:exports none~ pattern, the label simplification convention, and remove any ob-mermaid references from references/docs
+- Known constraint for Plan 03: document that Mermaid labels with ~\n~ (multi-line) must be written as single-line labels for ~beautiful-mermaid~ ASCII output to display full text
+
+-----
+/Phase: 01-integrate-beautiful-mermaid/
+/Completed: 2026-03-04/

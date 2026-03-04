@@ -1,0 +1,115 @@
+:PROPERTIES:
+:phase: 01-integrate-beautiful-mermaid
+:plan: 03
+:subsystem: tooling
+:tags: beautiful-mermaid, mermaid, ascii, rendering, styleguide, references, org-mode
+:requires: [{phase: 01-01, provides: [render-mermaid.cjs Facade over beautiful-mermaid]}]
+:provides: [org-styleguide.md documents MermaidJS ASCII convention with EXAMPLE+:exports none pattern and rendered ASCII example, org-styleguide-full.org MermaidJS diagrams subsection with example and render command, diataxis.org classification tree as rendered ASCII (simplified flowchart), diataxis-audit.org distribution data as ASCII bar chart (pie unsupported), all 5 files synced to ~/.claude/get-my-shit-done/, render-mermaid.cjs synced to installed bin/]
+:affects: [all agents reading org-styleguide.md or org-styleguide-full.org — now produce EXAMPLE+:exports none instead of ob-mermaid blocks]
+:tech-stack.added: []
+:tech-stack.patterns: [EXAMPLE+:exports none — rendered ASCII in #+BEGIN_EXAMPLE block above preserved Mermaid source in #+begin_src mermaid :exports none block]
+:key-files.created: []
+:key-files.modified: [get-my-shit-done/references/org-styleguide.md, get-my-shit-done/references/org-styleguide-full.org, get-my-shit-done/references/diataxis.org, get-my-shit-done/references/diataxis-audit.org]
+:key-decisions: ["pie chart type unsupported by beautiful-mermaid — replaced with ASCII bar chart for diataxis-audit.org distribution data", "EXAMPLE+:exports none is the canonical pattern documented in styleguides", "Template sync (Task 2 step 1) skipped for research-project/ARCHITECTURE.org — 2 ob-mermaid blocks remain from incomplete Plan 02 execution"]
+:patterns-established: ["EXAMPLE+:exports none: rendered ASCII in #+BEGIN_EXAMPLE above Mermaid source in #+begin_src mermaid :exports none for re-rendering"]
+:requirements-completed: [MERMAID-REFS]
+:duration: 10min
+:completed: 2026-03-04
+:END:
+
+#+title: Phase 01 Plan 03: Update References, Styleguides, and Sync Summary
+#+startup: indent
+#+options: toc:2 num:nil ^:{}
+
+* Phase 01 Plan 03: Update References, Styleguides, and Sync Summary
+
+*org-styleguide.md and org-styleguide-full.org updated with EXAMPLE+:exports none pattern; diataxis.org and diataxis-audit.org ob-mermaid blocks replaced with ASCII renders; 5 files synced to installed location; paused at human-verify checkpoint*
+
+** Performance
+
+- *Duration:* ~10 min
+- *Started:* 2026-03-04
+- *Completed:* Paused at Task 3 checkpoint
+- *Tasks:* 2/3 (awaiting human-verify at Task 3)
+- *Files modified:* 4
+
+** Accomplishments
+
+- ~org-styleguide.md~ "Source Code Blocks" rule replaced: ~ob-mermaid~ line removed; EXAMPLE+:exports none pattern documented with rendered ASCII sequence diagram as example
+- ~org-styleguide-full.org~ "MermaidJS diagrams" subsection added under Source Code Blocks with full example (rendered ASCII + re-render command)
+- ~diataxis.org~ ob-mermaid flowchart block replaced with rendered ASCII classification tree; original source preserved in ~:exports none~ block; text equivalent preserved below
+- ~diataxis-audit.org~ unsupported pie chart replaced with ASCII bar chart showing distribution percentages; original Mermaid source preserved in ~:exports none~ block
+- All 4 modified reference files plus ~render-mermaid.cjs~ synced to ~~/.claude/get-my-shit-done/~
+- 224-test suite passes with 0 failures
+
+** Task Commits
+
+Each task was committed atomically:
+
+1. *Task 1: Update both org-styleguide versions and replace reference file diagrams* - ~5ed3301~ (feat)
+2. *Task 2: Sync all changes to installed copies* - (no git commit — installed copies are outside the repo at ~~/.claude/get-my-shit-done/~)
+3. *Task 3: Verify ASCII diagrams are readable* - CHECKPOINT — awaiting human verification
+
+** Files Created/Modified
+
+- ~get-my-shit-done/references/org-styleguide.md~ - Source Code Blocks section updated: ob-mermaid rule replaced with EXAMPLE+:exports none pattern; sequence diagram ASCII example added
+- ~get-my-shit-done/references/org-styleguide-full.org~ - New "MermaidJS diagrams" subsection under Source Code Blocks; full example with rendered ASCII and re-render command
+- ~get-my-shit-done/references/diataxis.org~ - Classification decision tree ob-mermaid block (~line 362) replaced with rendered ASCII + :exports none source
+- ~get-my-shit-done/references/diataxis-audit.org~ - Pie chart ob-mermaid block replaced with ASCII bar chart (pie type unsupported) + :exports none source
+
+** Decisions Made
+
+- ~pie~ chart diagram type is not supported by ~beautiful-mermaid~. The diataxis-audit.org distribution chart was replaced with a text-based ASCII bar chart showing percentage and count for each quadrant. The original Mermaid source is preserved in a ~:exports none~ block.
+- The diataxis.org classification tree source was simplified (node labels shortened) to fit within 120 columns when rendered. The original verbose labels are preserved in the text equivalent section below the diagram.
+- Task 2 "Copy updated template files (from Plan 02)" was skipped for ~research-project/ARCHITECTURE.org~: Plan 02 left 2 ob-mermaid blocks unconverted in that file. Copying would have synced the unchanged file, which is a no-op but not a regression.
+
+** Deviations from Plan
+
+*** Auto-fixed Issues
+
+*1. [Rule 3 - Blocking] Skipped template sync for research-project/ARCHITECTURE.org*
+
+- *Found during:* Task 2 (Sync all changes to installed copies)
+- *Issue:* Plan 02 left ~research-project/ARCHITECTURE.org~ with 2 unconverted ob-mermaid blocks (~arch-request-flow.png~ and ~arch-state-flow.png~). Task 2 step 1 says to copy this file to the installed location, but copying it would sync an incomplete file. Investigating the git log confirmed commit ~7d4c5b3~ covered ~adr.org~, ~roadmap.org~, and ~research.org~ only.
+- *Fix:* The 5 files actually synced in Task 2 are: ~org-styleguide.md~, ~org-styleguide-full.org~, ~diataxis.org~, ~diataxis-audit.org~ (this plan), and ~render-mermaid.cjs~. Template files from Plan 02 that were already committed and identical in source and installed were left as-is (no-op). The 2 remaining ob-mermaid blocks in ~research-project/ARCHITECTURE.org~ are deferred to Plan 02 completion.
+- *Files modified:* None (deviation was an omission, not a code change)
+- *Committed in:* N/A — no commit needed
+
+-----
+
+*Total deviations:* 1 auto-fixed (Rule 3 - Blocking)
+*Impact on plan:* No regression. The 4 reference files this plan owns are fully converted and synced. The 2 remaining ob-mermaid blocks are in a Plan 02 template (out of scope for Plan 03).
+
+** Issues Encountered
+
+- ~pie~ chart type in ~beautiful-mermaid~ throws "Invalid mermaid header" error. Replaced with ASCII bar chart representing the same distribution data. This was anticipated by the plan: "If NOT supported or renders poorly: simplify to a text-based table."
+- Diataxis classification flowchart with full verbose node labels exceeded 120 columns. Simplified node labels to short names (Tutorial, How-to, Explanation, Reference) for the rendered version; original detailed labels retained in the preserved :exports none Mermaid source.
+
+** Architectural Observations
+
+- *Emergent patterns:* The EXAMPLE+:exports none split is now the canonical pattern across all converted diagrams. It appeared identically in Plan 02 template conversions (~7d4c5b3~) and all 4 reference file conversions in this plan. This pattern should be considered established convention — the styleguide now documents it explicitly.
+- *Coupling discovered:* The styleguide documentation (org-styleguide.md and org-styleguide-full.org) is the authority that agents read to learn diagram conventions. Both versions must stay in sync — a divergence between condensed and full versions would produce inconsistent agent behavior. This is a documentation consistency coupling.
+- *Boundary assessment:* Plan 03's boundary (references/ only) is correctly scoped. Templates are Plan 02's concern; references are Plan 03's concern. The overlap in Task 2 sync is an integration step, not a blurring of ownership.
+- *ADR candidates:* The pie chart limitation of beautiful-mermaid is worth noting. If future documents need pie/gantt/XY charts, the project will need either a different rendering tool or a policy of replacing those types with tables.
+
+** Deferred Items
+
+- ~get-my-shit-done/templates/research-project/ARCHITECTURE.org~: 2 ob-mermaid blocks remain (~arch-request-flow.png~ line 167, ~arch-state-flow.png~ line 196). These are Plan 02 scope items not completed in that plan's partial execution.
+
+** User Setup Required
+
+None — no external service configuration required.
+
+** Next Phase Readiness
+
+- Task 3 human-verify checkpoint is pending. User should:
+  1. Open ~get-my-shit-done/templates/adr.org~ in Emacs — confirm 2 ASCII diagrams visible
+  2. Open ~get-my-shit-done/references/org-styleguide.md~ — confirm MermaidJS ASCII convention and example
+  3. Open ~get-my-shit-done/references/diataxis.org~ — confirm ASCII classification tree
+  4. Run: ~grep -rn "ob-mermaid\|begin_src mermaid :file" get-my-shit-done/references/~ — confirm 0 results
+  5. Run: ~node --test tests/*.test.cjs~ — confirm all 224 tests pass
+- After human approval, the phase is complete except for ~research-project/ARCHITECTURE.org~ (2 remaining ob-mermaid blocks from incomplete Plan 02)
+
+-----
+/Phase: 01-integrate-beautiful-mermaid/
+/Completed: 2026-03-04 (pending Task 3 human-verify)/
