@@ -108,18 +108,53 @@ src/
 
 *** System Overview (MermaidJS)
 
-#+begin_src mermaid :file arch-system-overview.png :exports results
+#+CAPTION: System Overview (MermaidJS ASCII)
+#+BEGIN_EXAMPLE
+┌──────────────────────────────────┐
+│       Presentation Layer         │
+│                                  │
+│                                  │
+│ ┌─────────────┐  ┌─────────────┐ │
+│ │             │  │             │ │
+│ │ Component 1 │  │ Component 2 │ │
+│ │             │  │             │ │
+│ └──────┬──────┘  └──────┬──────┘ │
+│        │                │        │
+└────────┼────────────────┼────────┘
+         │                │
+┌────────┼────────┐       │
+│   Logic▼Layer   │       │
+│ ┌─────────────┐ │       │
+│ │             │ │       │
+│ │   Service   ├◄┼───────┤
+│ │             │ │       │
+│ └──────┬──────┘ │       │
+│        │        │       │
+└────────┼────────┘       │
+         │                │
+┌────────┼────────────────┼────────┐
+│        ▼ Storage Layer  ▼        │
+│ ┌─────────────┐  ┌─────────────┐ │
+│ │             │  │             │ │
+│ │   Store 1   │  │   Store 2   │ │
+│ │             │  │             │ │
+│ └─────────────┘  └─────────────┘ │
+│                                  │
+└──────────────────────────────────┘
+#+END_EXAMPLE
+
+#+begin_src mermaid :exports none
 flowchart TD
-    subgraph Presentation["[Layer Name]"]
-        C1["[Component]"]
-        C2["[Component]"]
+    subgraph Presentation["Presentation Layer"]
+        C1["Component 1"]
+        C2["Component 2"]
     end
-    subgraph Logic["[Layer Name]"]
-        S1["[Service]"]
+    subgraph Logic["Logic Layer"]
+        S1["Service"]
     end
-    subgraph Storage["[Layer Name]"]
-        D1["[Store]"]
-        D2["[Store]"]
+    subgraph Storage["Storage Layer"]
+        D1["Store 1"]
+        D2["Store 2"]
     end
     C1 --> S1
     C2 --> S1
@@ -129,7 +164,42 @@ flowchart TD
 
 *** Request Flow
 
-#+begin_src mermaid :file arch-request-flow.png :exports results
+#+CAPTION: Request Flow (MermaidJS ASCII)
+#+BEGIN_EXAMPLE
+┌──────┐   ┌───────────┐   ┌─────────┐    ┌─────────┐  ┌────────────┐
+│ User │   │ Component │   │ Handler │    │ Service │  │ Data Store │
+└───┬──┘   └─────┬─────┘   └────┬────┘    └────┬────┘  └──────┬─────┘
+    │            │              │              │              │
+    │  Action    │              │              │              │
+    │────────────▶              │              │              │
+    │            │              │              │              │
+    │            │   Request    │              │              │
+    │            │──────────────▶              │              │
+    │            │              │              │              │
+    │            │              │   Process    │              │
+    │            │              │──────────────▶              │
+    │            │              │              │              │
+    │            │              │              │    Query     │
+    │            │              │              │──────────────▶
+    │            │              │              │              │
+    │            │              │              │   Result     │
+    │            │              │              ◀╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+    │            │              │              │              │
+    │            │              │  Transform   │              │
+    │            │              ◀╌╌╌╌╌╌╌╌╌╌╌╌╌╌│              │
+    │            │              │              │              │
+    │            │  Response    │              │              │
+    │            ◀╌╌╌╌╌╌╌╌╌╌╌╌╌╌│              │              │
+    │            │              │              │              │
+    │  Update    │              │              │              │
+    ◀╌╌╌╌╌╌╌╌╌╌╌╌│              │              │              │
+    │            │              │              │              │
+┌───┴──┐   ┌─────┴─────┐   ┌────┴────┐    ┌────┴────┐  ┌──────┴─────┐
+│ User │   │ Component │   │ Handler │    │ Service │  │ Data Store │
+└──────┘   └───────────┘   └─────────┘    └─────────┘  └────────────┘
+#+END_EXAMPLE
+
+#+begin_src mermaid :exports none
 sequenceDiagram
     participant U as User
     participant C as Component
@@ -158,7 +228,32 @@ sequenceDiagram
 
 *** State Flow
 
-#+begin_src mermaid :file arch-state-flow.png :exports results
+#+CAPTION: State Flow (MermaidJS ASCII)
+#+BEGIN_EXAMPLE
+●───────────────●
+│               │
+●───────────────●
+        ▼
+╭───────────────╮
+│               │
+│      Idle     │   ◄──ResetDismiss────────┐
+│               │              │           │
+╰──User─Action──╯              │           │
+        ▼                      │           │
+╭───────────────╮              │           │
+│               │              │           │
+│    Loading    │  ├◄───RequesttFailed─────┤
+│               │              │           │
+╰─Data─Received─╯              │           │
+        ▼                      │           ▼
+╭───────────────╮              │       ╭───┴───╮
+│               │              │       │       │
+│    Success    │  ├───────────┘       │ Error │
+│               │                      │       │
+╰───────────────╯                      ╰───────╯
+#+END_EXAMPLE
+
+#+begin_src mermaid :exports none
 stateDiagram-v2
     [*] --> Idle
     Idle --> Loading: User Action

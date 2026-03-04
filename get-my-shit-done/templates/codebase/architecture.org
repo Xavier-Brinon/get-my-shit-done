@@ -228,17 +228,64 @@ Template for ~.planning/codebase/ARCHITECTURE.org~ - captures conceptual code or
 
 ### Layer Diagram
 
-#+begin_src mermaid :file architecture-layers.png :exports results
+#+CAPTION: Architecture Layers (MermaidJS ASCII)
+#+BEGIN_EXAMPLE
+┌─────────────────────────────────┐
+│          Command Layer          │
+│                                 │
+│                                 │
+│ ┌─────────────────────────────┐ │
+│ │                             │ │
+│ │   CLI Entry: src/index.ts   │ │
+│ │                             │ │
+│ └──────────────┬──────────────┘ │
+│                ▼                │
+│ ┌─────────────────────────────┐ │
+│ │                             │ │
+│ │ Commands: src/commands/*.ts │ │
+│ │                             │ │
+│ └──────────────┬──────────────┘ │
+│                │                │
+└────────────────┼────────────────┘
+                 │
+┌────────────────┼────────────────┐
+│          Service Layer          │
+│ ┌─────────────────────────────┐ │
+│ │                             │ │
+│ │ Services: src/services/*.ts │ │
+│ │                             │ │
+│ └──────────────┬──────────────┘ │
+│                │                │
+└────────────────┼────────────────┘
+                 │
+┌────────────────┼────────────────┐
+│          Utility Layer          │
+│ ┌─────────────────────────────┐ │
+│ │                             │ │
+│ │  Utilities: src/utils/*.ts  │ │
+│ │                             │ │
+│ └──────────────┬──────────────┘ │
+│                ▼                │
+│ ┌─────────────────────────────┐ │
+│ │                             │ │
+│ │         File System         │ │
+│ │                             │ │
+│ └─────────────────────────────┘ │
+│                                 │
+└─────────────────────────────────┘
+#+END_EXAMPLE
+
+#+begin_src mermaid :exports none
 flowchart TD
     subgraph Presentation["Command Layer"]
-        CLI["CLI Entry\nsrc/index.ts"]
-        CMD["Commands\nsrc/commands/*.ts"]
+        CLI["CLI Entry: src/index.ts"]
+        CMD["Commands: src/commands/*.ts"]
     end
     subgraph Business["Service Layer"]
-        SVC["Services\nsrc/services/*.ts"]
+        SVC["Services: src/services/*.ts"]
     end
     subgraph Infrastructure["Utility Layer"]
-        UTL["Utilities\nsrc/utils/*.ts"]
+        UTL["Utilities: src/utils/*.ts"]
         FS["File System"]
     end
     CLI --> CMD
@@ -249,7 +296,42 @@ flowchart TD
 
 ### Data Flow
 
-#+begin_src mermaid :file architecture-flow.png :exports results
+#+CAPTION: Architecture Data Flow (MermaidJS ASCII)
+#+BEGIN_EXAMPLE
+┌──────┐            ┌───────────┐      ┌─────────────────┐   ┌─────────┐           ┌─────────────┐
+│ User │            │ CLI Entry │      │ Command Handler │   │ Service │           │ File System │
+└───┬──┘            └─────┬─────┘      └────────┬────────┘   └────┬────┘           └──────┬──────┘
+    │                     │                     │                 │                       │
+    │  gmsd new-project   │                     │                 │                       │
+    │─────────────────────▶                     │                 │                       │
+    │                     │                     │                 │                       │
+    │                     │  Route to handler   │                 │                       │
+    │                     │─────────────────────▶                 │                       │
+    │                     │                     │                 │                       │
+    │                     │                     │    create()     │                       │
+    │                     │                     │─────────────────▶                       │
+    │                     │                     │                 │                       │
+    │                     │                     │                 │    Read templates     │
+    │                     │                     │                 │───────────────────────▶
+    │                     │                     │                 │                       │
+    │                     │                     │                 │   Template content    │
+    │                     │                     │                 ◀╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+    │                     │                     │                 │                       │
+    │                     │                     │                 │  Write output files   │
+    │                     │                     │                 │───────────────────────▶
+    │                     │                     │                 │                       │
+    │                     │                     │     Result      │                       │
+    │                     │                     ◀╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│                       │
+    │                     │                     │                 │                       │
+    │              Console output               │                 │                       │
+    ◀╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│                 │                       │
+    │                     │                     │                 │                       │
+┌───┴──┐            ┌─────┴─────┐      ┌────────┴────────┐   ┌────┴────┐           ┌──────┴──────┐
+│ User │            │ CLI Entry │      │ Command Handler │   │ Service │           │ File System │
+└──────┘            └───────────┘      └─────────────────┘   └─────────┘           └─────────────┘
+#+END_EXAMPLE
+
+#+begin_src mermaid :exports none
 sequenceDiagram
     participant U as User
     participant C as CLI Entry
