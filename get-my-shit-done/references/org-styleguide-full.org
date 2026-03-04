@@ -279,6 +279,46 @@ def hello():
 - Use =:noweb yes= for literate programming when composing blocks.
 - Name important code blocks with =#+NAME:= for cross-referencing.
 
+** MermaidJS diagrams
+
+Render Mermaid diagrams to ASCII using =bin/render-mermaid.cjs= (a Facade
+over the =beautiful-mermaid= library). Embed the rendered output in a
+=#+BEGIN_EXAMPLE= block. Preserve the Mermaid source in a
+=#+begin_src mermaid :exports none= block immediately below for future
+re-rendering. Maximum width: 120 columns.
+
+#+begin_src org
+,#+name: auth-flow
+,#+description: Authentication sequence
+,#+BEGIN_EXAMPLE
+┌──────┐          ┌─────┐
+│ User │          │ API │
+└───┬──┘          └──┬──┘
+    │                │
+    │  POST /login   │
+    │────────────────▶
+    │                │
+    │   JWT token    │
+    ◀╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+    │                │
+┌───┴──┐          ┌──┴──┐
+│ User │          │ API │
+└──────┘          └─────┘
+,#+END_EXAMPLE
+,#+begin_src mermaid :exports none
+sequenceDiagram
+    User->>API: POST /login
+    API-->>User: JWT token
+,#+end_src
+#+end_src
+
+Rendering command:
+
+#+begin_src org
+printf 'sequenceDiagram\n    User->>API: POST /login\n    API-->>User: JWT token' \
+  | node bin/render-mermaid.cjs
+#+end_src
+
 ** Inline Code
 
 - Use ==verbatim== or =~code~= for inline code, not backticks.

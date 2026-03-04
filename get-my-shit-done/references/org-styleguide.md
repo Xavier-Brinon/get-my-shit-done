@@ -118,13 +118,30 @@ Property drawers go immediately after the headline — no blank line between.
 - Always specify the language: `#+begin_src python`.
 - Keep blocks under 30 lines. Extract longer code to files.
 - Name important blocks with `#+name:` and `#+description:`.
-- Use `#+begin_src mermaid :file name.png :exports results` for diagrams (ob-mermaid).
+- For MermaidJS diagrams: render to ASCII with `bin/render-mermaid.cjs`, embed the
+  output in `#+BEGIN_EXAMPLE` / `#+END_EXAMPLE`, and preserve the Mermaid source in a
+  `#+begin_src mermaid :exports none` block immediately below for re-rendering.
 - Lowercase for `#+begin_src` / `#+end_src` keywords.
 
 ```org
 #+name: auth-flow
 #+description: Authentication sequence
-#+begin_src mermaid :file auth-flow.png :exports results
+#+BEGIN_EXAMPLE
+┌──────┐          ┌─────┐
+│ User │          │ API │
+└───┬──┘          └──┬──┘
+    │                │
+    │  POST /login   │
+    │────────────────▶
+    │                │
+    │   JWT token    │
+    ◀╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌│
+    │                │
+┌───┴──┐          ┌──┴──┐
+│ User │          │ API │
+└──────┘          └─────┘
+#+END_EXAMPLE
+#+begin_src mermaid :exports none
 sequenceDiagram
     User->>API: POST /login
     API-->>User: JWT token

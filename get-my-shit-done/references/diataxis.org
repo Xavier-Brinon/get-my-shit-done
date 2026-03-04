@@ -359,18 +359,43 @@ quadrant a new document should belong to.
 
 #+name: diataxis-classification-tree
 #+description: Classification decision tree for Diataxis quadrant assignment
-#+begin_src mermaid :file diataxis-tree.png :exports results
+#+BEGIN_EXAMPLE
+┌───────────────────────────┐
+│                           │
+│        Reader need?       │
+│                           │
+└─────────────┬─────────────┘
+              ▼
+◇───────────────────────────◇
+│                           │
+│ Practical or theoretical? ├──────────────┐
+│                           │         Theoretical
+◇─────────Practical─────────◇              │
+              ▼                            ▼
+◇───────────────────────────◇  ◇──────────────────────◇
+│                           │  │                      │
+│    Studying or working?   ├─┐│ Studying or working? ├──┬──────┐
+│                           │ ││                      │  │  Studying
+◇─────────Studying──────────◇ │◇────────Working───────◇  └──────┼────────────Working
+              ▼               └────────────▼                    ▼               ▼
+┌───────────────────────────┐  ┌──────────────────────┐  ┌─────────────┐  ┌───────────┐
+│                           │  │                      │  │             │  │           │
+│          Tutorial         │  │        How-to        │  │ Explanation │  │ Reference │
+│                           │  │                      │  │             │  │           │
+└───────────────────────────┘  └──────────────────────┘  └─────────────┘  └───────────┘
+#+END_EXAMPLE
+#+begin_src mermaid :exports none
 flowchart TD
-    A[What is the reader's need?] --> B{Practical or theoretical?}
-    B -->|Practical — wants to do something| C{Studying or working?}
-    B -->|Theoretical — wants to understand something| D{Studying or working?}
-    C -->|Studying — learning a new skill| E[Tutorial\nLearning-oriented\nReader follows teacher's path]
-    C -->|Working — has a specific goal| F[How-to\nTask-oriented\nReader achieves their goal]
-    D -->|Studying — building mental models| G[Explanation\nUnderstanding-oriented\nReader broadens comprehension]
-    D -->|Working — needs accurate details| H[Reference\nInformation-oriented\nReader looks up specifics]
+    A[Reader need?] --> B{Practical or theoretical?}
+    B -->|Practical| C{Studying or working?}
+    B -->|Theoretical| D{Studying or working?}
+    C -->|Studying| E[Tutorial]
+    C -->|Working| F[How-to]
+    D -->|Studying| G[Explanation]
+    D -->|Working| H[Reference]
 #+end_src
 
-If the flowchart is unavailable, use this text equivalent:
+Use this text equivalent for step-by-step classification:
 
 1. *Is the reader trying to do something or understand something?*
    - Do something → go to 2
