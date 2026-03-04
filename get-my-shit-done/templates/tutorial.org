@@ -310,14 +310,14 @@ this tutorial.
 
 Every tutorial generated from this template must contain:
 
-- *Bookend 1* — "What you'll learn" at the top with bullet list of
-  concrete outcomes
-- *Prerequisites* — short, specific, no speculative items
-- *Steps* — imperative, sequential, no branching. Each step produces a
-  visible result
-- *Milestone acknowledgements* — warm, brief, between major steps
-- *Bookend 2* — "What you learned" at the bottom mirroring bookend 1
-  in past tense
+- Bookend 1 :: "What you'll learn" at the top with bullet list of
+  concrete outcomes.
+- Prerequisites :: Short, specific, no speculative items.
+- Steps :: Imperative, sequential, no branching. Each step produces a
+  visible result.
+- Milestone acknowledgements :: Warm, brief, between major steps.
+- Bookend 2 :: "What you learned" at the bottom mirroring bookend 1
+  in past tense.
 
 ,** Tone rules
 

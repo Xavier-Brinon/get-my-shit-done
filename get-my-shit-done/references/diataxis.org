@@ -26,12 +26,12 @@ this reference.
 Diataxis organises documentation into four distinct quadrants defined
 by two axes: *practical vs theoretical* and *studying vs working*.
 
-#+CAPTION: Diataxis 2x2 quadrant map
-#+NAME: tab:diataxis-quadrants
-| Knowledge type       | Useful when studying | Useful when working |
-|----------------------+----------------------+---------------------|
-| *Practical*          | Tutorial             | How-to              |
-| *Theoretical*        | Explanation          | Reference           |
+#+caption: Diataxis 2x2 quadrant map
+#+name: tab:diataxis-quadrants
+| Knowledge type | Useful when studying | Useful when working |
+|----------------+----------------------+---------------------|
+| *Practical*    | Tutorial             | How-to              |
+| *Theoretical*  | Explanation          | Reference           |
 
 Each quadrant serves a different reader need. Mixing quadrants in a
 single document almost always reduces usefulness for every audience.
@@ -54,20 +54,20 @@ than the journey.
 
 ** Writing rules
 
-- *Start with a concrete action* — the learner should do something
+- Start with a concrete action :: The learner should do something
   real in the first few minutes. Waiting builds anxiety, not
   confidence.
-- *Let the learner do things* — hands-on experience builds capability
+- Let the learner do things :: Hands-on experience builds capability
   faster than reading. Every instruction should prompt an action.
-- *Provide a working result at each step* — the learner needs to see
+- Provide a working result at each step :: The learner needs to see
   that what they did worked before moving on. Visible progress
   sustains motivation.
-- *Explain only what is necessary to proceed* — save deeper
+- Explain only what is necessary to proceed :: Save deeper
   explanation for Explanation documents. Interrupting the flow with
   theory confuses learners about what matters right now.
-- *Repeat key actions where appropriate* — repetition reinforces
+- Repeat key actions where appropriate :: Repetition reinforces
   muscle memory. Doing something twice is not redundant in a tutorial.
-- *Set realistic expectations up front* — state what the learner will
+- Set realistic expectations up front :: State what the learner will
   build and what prior knowledge is assumed. Surprises mid-tutorial
   cause abandonment.
 
@@ -127,20 +127,20 @@ trusts the sequence and wants to reach their goal efficiently.
 
 ** Writing rules
 
-- *State the goal immediately* — the reader needs to confirm within
+- State the goal immediately :: The reader needs to confirm within
   the first sentence that this guide solves their problem. Do not
   bury the goal.
-- *Assume prior competence* — skip onboarding. The reader does not
+- Assume prior competence :: Skip onboarding. The reader does not
   need to know what a database is; they need to know how to add an
   index.
-- *Give steps, not prose* — use numbered lists or clear imperative
+- Give steps, not prose :: Use numbered lists or clear imperative
   sentences. Narrative slows the reader down.
-- *Keep steps minimal* — include only what is needed to achieve the
+- Keep steps minimal :: Include only what is needed to achieve the
   goal. Every extra word increases cognitive load.
-- *Note edge cases where they matter* — a brief "if X, do Y instead"
+- Note edge cases where they matter :: A brief "if X, do Y instead"
   is acceptable. A full explanation of why X exists belongs in an
   Explanation document.
-- *Test every step* — ensure the guide works end-to-end before
+- Test every step :: Ensure the guide works end-to-end before
   publishing. A broken step wastes the reader's time on a problem
   they did not come to solve.
 
@@ -200,19 +200,19 @@ Omitting something is a defect.
 
 ** Writing rules
 
-- *Describe, do not instruct* — reference describes what exists. It
+- Describe, do not instruct :: Reference describes what exists. It
   does not tell the reader to do things. "Returns a string" not "you
   should use this to get a string."
-- *Be consistent* — every entry at the same level must have the same
+- Be consistent :: Every entry at the same level must have the same
   structure. Readers scan reference material; inconsistency breaks
   scanning.
-- *Be complete* — document every option, even obscure ones. A reader
+- Be complete :: Document every option, even obscure ones. A reader
   who finds a gap cannot trust the reference.
-- *Be accurate above all else* — an incorrect reference is worse than
+- Be accurate above all else :: An incorrect reference is worse than
   no reference. Verify against the implementation, not your memory.
-- *Link to related how-to guides* — reference answers "what does this
+- Link to related how-to guides :: Reference answers "what does this
   do?" and links to "how do I use this?" Mixing them pollutes both.
-- *Use a machine-like, impersonal tone* — reference is not
+- Use a machine-like, impersonal tone :: Reference is not
   conversational. Avoid "you", hedging, and friendly asides.
 
 ** Anti-patterns
@@ -265,21 +265,21 @@ tutorials and how-to guides.
 
 ** Writing rules
 
-- *Discuss, do not direct* — explanation illuminates; it does not
+- Discuss, do not direct :: Explanation illuminates; it does not
   instruct. Avoid imperative sentences. "The cache exists because..."
   not "add a cache."
-- *Provide context and background* — explain history, motivation,
+- Provide context and background :: Explain history, motivation,
   alternative approaches considered, and trade-offs. This is where
   rationale lives.
-- *Connect concepts to each other* — good explanation shows how ideas
+- Connect concepts to each other :: Good explanation shows how ideas
   relate. A reader should finish the document with a richer mental
   model, not just a fact.
-- *Accept that the reader may not act* — understanding is the goal.
+- Accept that the reader may not act :: Understanding is the goal.
   If the reader reaches the end without doing anything, the document
   succeeded.
-- *Link to tutorials and how-to guides* — explanation is the place to
+- Link to tutorials and how-to guides :: Explanation is the place to
   link outward. "To put this into practice, see [Tutorial]."
-- *Avoid jargon without definition* — explanation readers may not yet
+- Avoid jargon without definition :: Explanation readers may not yet
   have the vocabulary. Define terms when they first appear.
 
 ** Anti-patterns

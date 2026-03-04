@@ -96,7 +96,7 @@ Property drawers go immediately after the headline — no blank line between.
 
 - Use `-` (hyphen) as the only bullet character. Do not mix `-`, `+`, `*`.
 - Indent continuation lines 2 spaces (aligned to item text start).
-- Description lists: `- Term :: Definition text`.
+- Description lists: `- Term :: Definition text`. Terms can be short sentences for rules/guidelines (e.g., `- Start with a concrete action :: The learner should...`). Do not use `- *Bold* —` as a substitute.
 - Checkboxes: `- [ ]`, `- [X]`, `- [-]`.
 
 ## Tables
@@ -106,8 +106,8 @@ Property drawers go immediately after the headline — no blank line between.
 - Use `#+CAPTION:` and `#+NAME:` for referenceable tables.
 
 ```org
-#+CAPTION: Phase requirements mapping
-#+NAME: tab:requirements
+#+caption: Phase requirements mapping
+#+name: tab:requirements
 | Requirement | Phase | Status   |
 |-------------+-------+----------|
 | Auth flow   |     2 | Complete |
@@ -117,16 +117,16 @@ Property drawers go immediately after the headline — no blank line between.
 
 - Always specify the language: `#+begin_src python`.
 - Keep blocks under 30 lines. Extract longer code to files.
-- Name important blocks with `#+name:` and `#+description:`.
+- Name blocks with `#+name:` and `#+description:`.
 - For MermaidJS diagrams: render to ASCII with `bin/render-mermaid.cjs`, embed the
-  output in `#+BEGIN_EXAMPLE` / `#+END_EXAMPLE`, and preserve the Mermaid source in a
+  output in `#+begin_example` / `#+end_example`, and preserve the Mermaid source in a
   `#+begin_src mermaid :exports none` block immediately below for re-rendering.
 - Lowercase for `#+begin_src` / `#+end_src` keywords.
 
 ```org
 #+name: auth-flow
 #+description: Authentication sequence
-#+BEGIN_EXAMPLE
+#+begin_example
 ┌──────┐          ┌─────┐
 │ User │          │ API │
 └───┬──┘          └──┬──┘
@@ -140,7 +140,7 @@ Property drawers go immediately after the headline — no blank line between.
 ┌───┴──┐          ┌──┴──┐
 │ User │          │ API │
 └──────┘          └─────┘
-#+END_EXAMPLE
+#+end_example
 #+begin_src mermaid :exports none
 sequenceDiagram
     User->>API: POST /login
@@ -174,8 +174,8 @@ See [[#target-section][the target section]].
 
 ## Quotes and Examples
 
-- Quote blocks: `#+BEGIN_QUOTE` / `#+END_QUOTE` (uppercase for these block types).
-- Example blocks: `#+BEGIN_EXAMPLE` / `#+END_EXAMPLE` for preformatted non-code text.
+- Quote blocks: `#+begin_quote` / `#+end_quote` (uppercase for these block types).
+- Example blocks: `#+begin_example` / `#+end_example` for preformatted non-code text.
 
 ## Common Mistakes to Avoid
 

@@ -210,13 +210,25 @@ See [[#target-heading][the target heading]].
 
 ** Description Lists
 
-- Use =term ::= syntax. Keep terms short:
+- Use =term ::= syntax for term-definition pairs:
 
 #+begin_src org
 - Term :: Definition of the term that may span multiple lines and
   is indented properly.
 - Another term :: Its definition.
 #+end_src
+
+- Terms can be short sentences when listing rules or guidelines:
+
+#+begin_src org
+- Start with a concrete action :: The learner should do something
+  real in the first few minutes.
+- Let the learner do things :: Hands-on experience builds capability
+  faster than reading.
+#+end_src
+
+- Do not use =*bold* —= as a substitute for description list syntax.
+  Convert =- *Term* — explanation= to =- Term :: explanation=.
 
 ** Checkboxes
 

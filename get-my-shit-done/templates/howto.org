@@ -226,13 +226,13 @@ comment or Explanation document.
 
 Every how-to generated from this template must contain:
 
-- *Goal statement* — one sentence in the =*= heading and repeated as a
-  sentence under =** Goal=. Reader confirms scope immediately
-- *Prerequisites* — hard blockers only, no speculative or obvious items
-- *Numbered steps* — imperative verbs, one action per step, linear
-  sequence. Inline conditionals for variations only
-- *Verification* — command and expected output confirming success
-- *Troubleshooting* — symptom-to-fix table, brief, generic placeholders
+- Goal statement :: One sentence in the =*= heading and repeated as a
+  sentence under =** Goal=. Reader confirms scope immediately.
+- Prerequisites :: Hard blockers only, no speculative or obvious items.
+- Numbered steps :: Imperative verbs, one action per step, linear
+  sequence. Inline conditionals for variations only.
+- Verification :: Command and expected output confirming success.
+- Troubleshooting :: Symptom-to-fix table, brief, generic placeholders.
 
 ,** Tone rules
 
